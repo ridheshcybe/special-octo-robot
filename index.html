@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridhesh Walavalkar — Developer · Researcher · Founder</title>
+<meta name="description" content="Ridhesh Walavalkar — AI/ML developer, researcher and founder. Ship first. Refine in public.">
+<meta name="theme-color" content="#08080a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add("js");</script>
+<style>
+/* ============================= tokens ============================= */
+:root{
+  --background:#08080a;
+  --foreground:#f3f1ea;
+  --surface:#111114;
+  --surface-2:#17171b;
+  --muted:#807f78;
+  --line:rgba(243,241,234,0.1);
+  --line-strong:rgba(243,241,234,0.22);
+  --accent:#ff3b1d;
+  --accent-2:#ff6a3d;
+
+  --gutter:2.5rem;
+  --section:9rem;
+
+  --font-display:"Anton",sans-serif;
+  --font-sans:"Onest",sans-serif;
+
+  /* type scale (rem / line-height) */
+  --hero:28rem;
+  --mega:13rem;
+  --display:7.5rem;
+  --h1:5rem;
+  --h2:3.25rem;
+  --h3:1.75rem;
+  --lead:1.375rem;
+  --body:1.0625rem;
+  --eyebrow:0.8125rem;
+
+  --ease-out:cubic-bezier(0.16,1,0.3,1);
+  --ease-wipe:cubic-bezier(0.22,1,0.36,1);
+}
+
+/* ============================= reset ============================= */
+*{margin:0;padding:0;box-sizing:border-box}
+img,video{display:block;max-width:100%}
+ul,ol{list-style:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;appearance:none}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-weight:400}
+
+/* ======================= adaptive rem grid ======================= */
+html{font-size:16px;background:#08080a}
+@media (max-width:1920px){ html{font-size:0.833333vw; } }
+@media (max-width:1440px){ html{font-size:1.111111vw; } }
+@media (max-width:1024px){ html{font-size:1.5625vw;   } }
+@media (max-width:640px){
+  html{font-size:4.444444vw}
+  :root{ --gutter:16px; }
+}
+
+/* ============================== base ============================= */
+body{
+  background:#08080a;
+  color:#f3f1ea;
+  font-family:var(--font-sans);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+::selection{background:#ff3b1d;color:#08080a}
+main{position:relative;width:100%;overflow-x:hidden}
+:focus-visible{outline:1px solid var(--accent);outline-offset:4px}
+
+/* ============================= typography ============================= */
+.eyebrow{
+  display:flex;align-items:center;gap:0.75rem;
+  font-size:var(--eyebrow);font-weight:500;text-transform:uppercase;
+  letter-spacing:0.22em;color:var(--muted);
+}
+.eyebrow .dot{width:0.5rem;height:0.5rem;border-radius:9999px;background:var(--accent);flex:none}
+
+.t-h2{
+  font-family:var(--font-display);text-transform:uppercase;
+  line-height:0.95;letter-spacing:-0.01em;font-size:var(--h2);
+}
+.t-h1-up{
+  font-family:var(--font-display);text-transform:uppercase;
+  line-height:0.95;letter-spacing:-0.01em;font-size:var(--h1);
+}
+@media (min-width:640px){
+  .t-h2{font-size:var(--h1)}
+  .t-h1-up{font-size:var(--display)}
+}
+.p-lead{margin-top:2rem;max-width:46ch;font-size:var(--lead);color:var(--muted)}
+.p-body{font-size:var(--body);color:var(--muted)}
+.label{
+  font-size:var(--eyebrow);text-transform:uppercase;
+  letter-spacing:0.22em;color:var(--muted);
+}
+
+/* ============================= reveal system ============================= */
+/* mask: clip-path lets the glyph overshoot the line box without being cut */
+.rv-mask{
+  display:inline-block;
+  /* negative insets: the mask window is wider than the line box so no glyph is
+     cropped at rest (Anton ink overshoots the 0.78/0.95 line box by ~0.16em) */
+  clip-path:inset(-0.3em -0.05em -0.3em -0.05em);
+}
+.rv-lines .rv-line{display:block}
+.rv-lines .rv-in,
+.rv-mask .rv-in{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(115%);
+  transition:
+    transform var(--rv-d,880ms) var(--ease-out) var(--rv-delay,0ms),
+    opacity   var(--rv-d,880ms) var(--ease-out) var(--rv-delay,0ms);
+}
+.rv-lines.is-in .rv-in,
+.rv-mask.is-in .rv-in{opacity:1;transform:translateY(0)}
+
+.rv-fade{
+  opacity:0;
+  transform:translateY(var(--rv-y,24px));
+  transition:
+    opacity   var(--rv-d,520ms) var(--rv-e,var(--ease-out)) var(--rv-delay,0ms),
+    transform var(--rv-d,520ms) var(--rv-e,var(--ease-out)) var(--rv-delay,0ms);
+}
+.rv-fade.is-in{opacity:1;transform:translateY(0)}
+
+.js [data-split]{visibility:hidden}
+.js [data-split].split-ready{visibility:visible}
+
+/* ============================= preloader ============================= */
+.preloader{
+  position:fixed;inset:0;z-index:100;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;
+  gap:0.75rem;padding:var(--gutter);
+}
+@media (min-width:640px){
+  .preloader{flex-direction:row;align-items:flex-end;justify-content:space-between;gap:1rem}
+}
+.preloader-bg{position:absolute;inset:0;z-index:-10;background:var(--background)}
+.preloader-brand{
+  font-family:var(--font-display);font-size:var(--h3);text-transform:uppercase;
+  line-height:1;letter-spacing:-0.01em;color:var(--foreground);
+  transition:opacity 300ms ease;
+}
+.preloader-count{
+  font-family:var(--font-display);font-size:var(--display);line-height:1;
+  font-variant-numeric:tabular-nums;color:var(--foreground);
+  transition:opacity 300ms ease;
+}
+.preloader-count .pct{color:var(--accent)}
+.preloader.is-out .preloader-brand,
+.preloader.is-out .preloader-count{opacity:0}
+.preloader.is-wipe{
+  transform:translateY(-100%);
+  transition:transform 650ms var(--ease-wipe);
+}
+.preloader.is-done{visibility:hidden;pointer-events:none}
+
+/* ============================= nav ============================= */
+.site-nav{
+  position:fixed;inset-inline:0;top:0;z-index:50;pointer-events:none;
+}
+.site-nav nav{
+  pointer-events:auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.5rem var(--gutter);
+}
+.logo{display:flex;align-items:center;gap:0.75rem}
+.logo-badge{
+  display:grid;place-items:center;width:2.5rem;height:2.5rem;flex:none;
+  border-radius:9999px;border:1px solid var(--line-strong);
+  font-weight:600;letter-spacing:-0.01em;
+}
+.logo-name{
+  display:none;font-size:var(--eyebrow);font-weight:500;text-transform:uppercase;
+  letter-spacing:0.22em;color:var(--muted);
+}
+@media (min-width:640px){ .logo-name{display:block} }
+
+.nav-links{display:none}
+@media (min-width:768px){
+  .nav-links{display:flex;align-items:center;gap:2.5rem}
+}
+.nav-links a{
+  position:relative;display:inline-block;
+  font-size:var(--eyebrow);font-weight:500;text-transform:uppercase;
+  letter-spacing:0.18em;color:var(--muted);
+  transition:color 340ms ease-out;
+}
+.nav-links a::after{
+  content:"";position:absolute;bottom:-0.25rem;left:0;
+  height:1px;width:0;background:var(--accent);
+  transition:width 340ms ease-out;
+}
+@media (hover:hover){
+  .nav-links a:hover{color:var(--foreground)}
+  .nav-links a:hover::after{width:100%}
+}
+
+.burger{
+  position:relative;z-index:60;
+  width:2.5rem;height:2.5rem;flex:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.375rem;
+}
+@media (min-width:768px){ .burger{display:none} }
+.burger span{
+  display:block;height:0.125rem;width:1.5rem;background:var(--foreground);
+  transition:transform 300ms ease,opacity 200ms ease;
+}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(0.5rem) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-0.5rem) rotate(-45deg)}
+
+.mobile-menu{
+  position:fixed;inset:0;z-index:40;background:var(--background);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding-inline:var(--gutter);
+  opacity:0;visibility:hidden;
+  transition:opacity 450ms ease-out,visibility 450ms;
+}
+@media (min-width:768px){ .mobile-menu{display:none} }
+.mobile-menu.is-open{opacity:1;visibility:visible}
+.mobile-menu ul{display:flex;flex-direction:column;gap:1.5rem;text-align:center}
+.mobile-menu a{
+  display:block;font-family:var(--font-display);font-size:var(--h2);text-transform:uppercase;
+  line-height:1;letter-spacing:-0.01em;
+  opacity:0;transform:translateY(48px);
+  transition:opacity 420ms ease-out var(--rv-delay,0ms),transform 420ms ease-out var(--rv-delay,0ms);
+}
+.mobile-menu.is-open a{opacity:1;transform:translateY(0)}
+
+/* ============================= hero ============================= */
+.hero{
+  position:relative;display:flex;flex-direction:column;
+  min-height:100svh;overflow:hidden;
+}
+.hero-top{
+  position:relative;z-index:30;
+  display:flex;flex-direction:column;gap:2rem;
+  padding:7rem var(--gutter) 0;
+}
+@media (min-width:640px){
+  .hero-top{
+    flex-direction:row;align-items:flex-start;justify-content:space-between;
+    padding-top:8rem;
+  }
+}
+.hero-roles{
+  font-family:var(--font-display);text-transform:uppercase;
+  line-height:1.05;letter-spacing:-0.01em;color:var(--foreground);
+  font-size:var(--h3);
+}
+@media (min-width:640px){ .hero-roles{font-size:var(--h2)} }
+.hero-desc{max-width:26rem;font-size:var(--body);color:var(--muted)}
+@media (min-width:640px){ .hero-desc{text-align:right} }
+
+/* Portrait sizing. The width is the design's (80/48/36vw) and it is what sets the
+   figure's scale: the cutout is 0.563 wide (360x640), so at these widths `cover` is
+   width-driven, which renders the figure ~98% of the wrapper's width, keeps the head
+   ~23% down the screen and crops the legs off the bottom edge — the composite the
+   design asks for. The height cap (86vh, but never more than ~1.65x the width) only
+   engages on tall viewports: past w/h < 0.563 the scale flips to height-driven, which
+   kills the bottom bleed and crops the figure's sides instead. At 16:9 and 16:10 the
+   cap never engages, so those viewports keep the exact spec geometry. */
+.hero-portrait{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  height:min(86vh,132vw);width:80vw;z-index:20;pointer-events:none;
+}
+@media (min-width:640px){ .hero-portrait{width:48vw;height:min(86vh,79vw)} }
+@media (min-width:1024px){ .hero-portrait{width:36vw;height:min(86vh,59vw)} }
+.hero-portrait .liquid{width:100%;height:100%;pointer-events:auto}
+/* the cutout's head sits at ~9% of the source frame and its feet at ~100%, so the
+   figure is anchored to the TOP of the wrapper: cover then crops the legs off the
+   bottom of the screen (the intended bleed) while never cropping the head */
+.hero-portrait .liquid-media{object-position:center top}
+
+.hero-fade{
+  position:absolute;inset-inline:0;bottom:0;z-index:20;height:26vh;
+  background:linear-gradient(to bottom,transparent,#08080a);
+  pointer-events:none;
+}
+/* "Walavalkar" measures 4.44em in Anton, but splitting into per-letter masks drops
+   kerning so it lays out at ~4.77em — hence the vw cap keeps the line at ~93% of the
+   viewport at every breakpoint (past 1920px the damped rem scale takes over). */
+.hero-name{
+  position:absolute;inset-inline:0;bottom:0;z-index:10;transform:translateY(6%);
+  display:flex;flex-direction:column;align-items:center;
+  font-family:var(--font-display);text-transform:uppercase;
+  line-height:0.78;letter-spacing:-0.01em;color:var(--accent);
+  font-size:min(9rem,19.5vw);
+}
+@media (min-width:640px){ .hero-name{font-size:min(17rem,19.5vw)} }
+@media (min-width:1024px){ .hero-name{font-size:min(21rem,19.5vw)} }
+.hero-name-line{display:block;white-space:nowrap}
+.hero-name-line .rv-in{--rv-d:900ms}
+
+.hero-cue{
+  position:absolute;bottom:2rem;left:var(--gutter);z-index:30;
+  display:flex;align-items:center;gap:0.75rem;
+  font-size:var(--eyebrow);text-transform:uppercase;letter-spacing:0.22em;color:var(--muted);
+}
+.hero-cue::before{content:"";width:1px;height:2.5rem;background:var(--accent);flex:none}
+
+/* Below 1025px the root font drops to 1.5625vw, so the name shrinks with the WIDTH
+   while a fixed 26vh sweep does not: on tablets the sweep ends up covering the name
+   completely (at 768x1000 the accent name measured ~1.5k vivid pixels vs ~66k on
+   desktop). Tie the sweep to the name's own size — the name's ink reaches ~31vw up
+   from the bottom edge, so 14vw leaves it a vivid band while still fading the bleed. */
+@media (max-width:1024px){
+  .hero-fade{height:min(26vh,14vw)}
+}
+
+/* Phones: the portrait goes back to the spec's composition (80vw x 86vh, bleeding off
+   the bottom) now that the asset carries alpha — the name is only hidden where the
+   figure actually is, and shows through the transparent rest. The cue still lifts out
+   of the name's band so the muted label never lands on vivid accent. */
+@media (max-width:640px){
+  .hero-cue{bottom:33vw}
+}
+
+/* ============================= marquee ============================= */
+.marquee{
+  overflow:hidden;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding-top:2rem;padding-bottom:2rem;
+}
+.marquee-track{
+  display:flex;flex-wrap:nowrap;width:max-content;
+  animation:marquee 22s linear infinite;
+}
+.marquee-item{
+  display:flex;align-items:center;white-space:nowrap;
+  font-family:var(--font-display);font-size:var(--h2);text-transform:uppercase;
+  letter-spacing:-0.01em;color:var(--foreground);
+}
+.marquee-item .marquee-dot{
+  margin-inline:2rem;width:0.625rem;height:0.625rem;border-radius:9999px;
+  background:var(--accent);flex:none;
+}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============================= liquid image ============================= */
+.liquid{
+  position:relative;overflow:hidden;background:var(--surface);isolation:isolate;
+}
+.liquid.bare{background:transparent}
+.liquid-defs{position:absolute;width:0;height:0;overflow:hidden}
+.liquid-media{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center bottom;
+}
+.liquid-ph{
+  position:absolute;inset:0;display:grid;place-items:center;text-align:center;
+  padding:1.5rem;
+  background:radial-gradient(130% 130% at 30% 15%,var(--surface-2),var(--background));
+  font-size:var(--eyebrow);text-transform:uppercase;letter-spacing:0.22em;color:var(--muted);
+}
+.liquid-veil{
+  position:absolute;inset:0;background:var(--background);
+  mix-blend-mode:color;opacity:0.88;
+  transition:opacity 380ms ease-out;
+}
+.liquid-glow{
+  position:absolute;inset:0;opacity:0;
+  background:linear-gradient(120deg,
+    transparent 30%,
+    color-mix(in srgb,var(--accent) 35%,transparent) 50%,
+    transparent 70%);
+  transition:opacity 380ms ease-out;
+}
+.liquid-vig{
+  position:absolute;inset:0;
+  background:radial-gradient(120% 120% at 50% 120%,
+    color-mix(in srgb,#08080a 70%,transparent),
+    transparent 60%);
+}
+@media (hover:hover) and (min-width:769px){
+  .liquid:hover .liquid-veil{opacity:0}
+  .liquid:hover .liquid-glow{opacity:1}
+}
+
+/* ============================= section heads ============================= */
+.story,.projects,.research,.numbers{padding:var(--section) var(--gutter)}
+.grid-12{display:grid;grid-template-columns:1fr;gap:3rem}
+@media (min-width:1024px){
+  .grid-12{grid-template-columns:repeat(12,1fr);gap:var(--gutter)}
+  .col-5{grid-column:span 5}
+  .col-6{grid-column:span 6}
+  .col-7{grid-column:span 7}
+}
+.head-h2{margin-top:1.5rem}
+
+/* ============================= story ============================= */
+.story h2{margin-top:1.5rem;max-width:16ch}
+.story .p-lead{max-width:46ch}
+@media (min-width:1024px){ .story-right{padding-top:0.5rem} }
+.principles li{
+  display:grid;grid-template-columns:auto 1fr;column-gap:1.5rem;
+  border-top:1px solid var(--line);padding:2rem 0;
+}
+.principles li:last-child{border-bottom:1px solid var(--line)}
+.principle-index{
+  font-family:var(--font-sans);font-size:var(--h3);font-weight:600;
+  font-variant-numeric:tabular-nums;color:var(--accent);
+}
+.principle-title{
+  font-family:var(--font-sans);font-size:var(--h3);font-weight:600;letter-spacing:-0.01em;
+}
+.principle-copy{margin-top:0.75rem;max-width:44ch;font-size:var(--body);color:var(--muted)}
+
+/* ============================= projects ============================= */
+.projects-head{display:flex;flex-direction:column;gap:2rem}
+@media (min-width:640px){
+  .projects-head{flex-direction:row;align-items:flex-end;justify-content:space-between}
+}
+.projects-head h2{margin-top:1.5rem;max-width:14ch}
+.project-count{flex:none}
+.project-list{
+  margin-top:4rem;display:grid;grid-template-columns:1fr;
+  column-gap:var(--gutter);row-gap:4rem;
+}
+@media (min-width:768px){
+  .project-list{grid-template-columns:repeat(2,1fr)}
+  .project-item:nth-child(even){margin-top:6rem}
+}
+.project-card{display:block}
+.project-card .liquid{aspect-ratio:16/11;width:100%;border-radius:0.125rem}
+.project-row{
+  margin-top:1.5rem;border-top:1px solid var(--line);padding-top:1.25rem;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;
+}
+.project-name{
+  font-family:var(--font-sans);font-size:var(--h3);font-weight:600;letter-spacing:-0.01em;
+  transition:color 380ms ease-out;
+}
+.project-blurb{margin-top:0.5rem;max-width:42ch;font-size:var(--body);color:var(--muted)}
+.project-meta{flex:none;text-align:right}
+.project-year{
+  font-size:var(--eyebrow);text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);
+}
+.project-outcome{
+  margin-top:0.5rem;font-size:var(--eyebrow);font-weight:500;text-transform:uppercase;
+  letter-spacing:0.18em;color:var(--accent);
+}
+.project-cat{
+  margin-top:0.75rem;font-size:var(--eyebrow);text-transform:uppercase;
+  letter-spacing:0.22em;color:var(--muted);
+}
+@media (hover:hover) and (min-width:769px){
+  .project-card:hover .project-name{color:var(--accent)}
+}
+
+/* ============================= research ============================= */
+.research h2{margin-top:1.5rem;max-width:12ch}
+.paper{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:2.5rem 0;
+}
+.paper-meta{
+  font-size:var(--eyebrow);text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);
+}
+.paper-title{
+  margin-top:1rem;max-width:28ch;
+  font-family:var(--font-sans);font-size:var(--h2);font-weight:600;
+  line-height:1.1;letter-spacing:-0.01em;
+}
+.paper-link{
+  margin-top:2rem;display:inline-flex;align-items:baseline;gap:0.75rem;
+  font-family:var(--font-sans);font-size:var(--h3);font-weight:600;letter-spacing:-0.01em;
+  transition:transform 340ms ease-out,color 340ms ease-out;
+}
+.paper-link .arr{color:var(--accent)}
+@media (hover:hover) and (min-width:769px){
+  .paper-link:hover{transform:translateX(14px);color:var(--accent)}
+}
+
+/* ============================= numbers ============================= */
+.numbers h2{
+  font-family:var(--font-display);text-transform:uppercase;
+  line-height:1;letter-spacing:-0.01em;font-size:var(--h2);
+}
+.numbers .head-h2{margin-top:1.5rem}
+.stats{
+  margin-top:4rem;display:grid;grid-template-columns:1fr;
+  border-top:1px solid var(--line);
+}
+.stat{
+  display:flex;flex-direction:column;gap:1rem;
+  border-bottom:1px solid var(--line);padding:2.5rem 0;
+}
+@media (min-width:640px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(even){border-left:1px solid var(--line);padding-left:2rem}
+}
+@media (min-width:1024px){
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .stat:not(:nth-child(4n+1)){border-left:1px solid var(--line);padding-left:2rem}
+  .stat{padding:3rem 0}
+}
+.stat-figure{
+  font-family:var(--font-display);font-size:var(--display);line-height:1;
+  letter-spacing:-0.01em;font-variant-numeric:tabular-nums;
+  transition:color 340ms ease-out;
+}
+@media (hover:hover){
+  .stat:hover .stat-figure{color:var(--accent)}
+}
+.stat-label{
+  max-width:20ch;font-size:var(--body);text-transform:uppercase;
+  letter-spacing:0.14em;color:var(--muted);
+}
+
+/* ============================= footer ============================= */
+.site-footer{padding-top:var(--section);padding-inline:var(--gutter)}
+.footer-head h2{margin-top:1.5rem;max-width:18ch}
+.footer-head .p-lead{max-width:44ch}
+.email{
+  margin-top:3rem;display:inline-flex;align-items:baseline;gap:0.75rem;
+  font-family:var(--font-sans);font-size:min(2.25rem,5.5vw);font-weight:600;
+  letter-spacing:-0.01em;word-break:break-all;
+  transition:transform 340ms ease-out,color 340ms ease-out;
+}
+.email .arr{color:var(--accent)}
+@media (min-width:768px){ .email{font-size:min(var(--h2),5.5vw);gap:1rem} }
+@media (min-width:1024px){ .email{font-size:min(var(--h1),5.5vw)} }
+@media (hover:hover) and (min-width:769px){
+  .email:hover{transform:translateX(14px);color:var(--accent)}
+}
+.footer-bar{
+  margin-top:var(--section);border-top:1px solid var(--line);
+  padding:3rem 0;display:grid;grid-template-columns:1fr;gap:2.5rem;
+}
+@media (min-width:1024px){
+  .footer-bar{grid-template-columns:repeat(12,1fr)}
+  .fb-brand{grid-column:span 6}
+  .fb-social{grid-column:span 3}
+  .fb-copy{grid-column:span 3;text-align:right}
+}
+.fb-sign{
+  font-family:var(--font-display);font-size:var(--h2);text-transform:uppercase;
+  line-height:1;letter-spacing:-0.01em;
+}
+.fb-note{
+  margin-top:1rem;font-size:var(--eyebrow);text-transform:uppercase;
+  letter-spacing:0.22em;color:var(--muted);
+}
+.social{display:flex;flex-direction:column;gap:0.75rem;margin-top:1.5rem}
+.social a{
+  display:inline-flex;align-items:center;gap:0.75rem;
+  font-size:var(--body);color:var(--muted);
+  transition:color 340ms ease-out;
+}
+.social a::before{
+  content:"";width:0;height:1px;background:var(--accent);flex:none;
+  transition:width 340ms ease-out;
+}
+@media (hover:hover){
+  .social a:hover{color:var(--foreground)}
+  .social a:hover::before{width:1.5rem}
+}
+.fb-copy p{
+  font-size:var(--eyebrow);text-transform:uppercase;
+  letter-spacing:0.18em;color:var(--muted);
+}
+
+/* ============================= reduced motion ============================= */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:0.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.001ms !important;
+    transition-delay:0ms !important;
+    scroll-behavior:auto !important;
+  }
+  .marquee-track{animation:none !important;transform:translateX(0)}
+}
+</style>
+<noscript><style>
+  .preloader{display:none}
+  .rv-fade{opacity:1 !important;transform:none !important}
+  .js [data-split]{visibility:visible !important}
+</style></noscript>
+</head>
+<body>
+
+<!-- ============================= PRELOADER ============================= -->
+<div class="preloader" id="preloader">
+  <div class="preloader-bg"></div>
+  <p class="preloader-brand">Ridhesh Walavalkar</p>
+  <p class="preloader-count"><span id="preloader-count">0</span><span class="pct">%</span></p>
+</div>
+
+<!-- ============================= NAV ============================= -->
+<header class="site-nav">
+  <nav>
+    <a class="logo" href="#top" aria-label="Ridhesh Walavalkar — back to top">
+      <span class="logo-badge">RW</span>
+      <span class="logo-name">Ridhesh Walavalkar</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#story">Story</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#numbers">Numbers</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <ul>
+    <li><a href="#story" style="--rv-delay:120ms">Story</a></li>
+    <li><a href="#projects" style="--rv-delay:200ms">Projects</a></li>
+    <li><a href="#research" style="--rv-delay:280ms">Research</a></li>
+    <li><a href="#numbers" style="--rv-delay:360ms">Numbers</a></li>
+    <li><a href="#contact" style="--rv-delay:440ms">Contact</a></li>
+  </ul>
+</div>
+
+<main>
+  <!-- ============================= HERO ============================= -->
+  <section class="hero" id="top">
+    <div class="hero-top">
+      <h2 class="hero-roles rv-lines" data-split data-split-stagger="80">
+        Developer
+        Researcher
+        Founder
+      </h2>
+      <p class="hero-desc rv-fade" style="--rv-y:16px">I start projects that shouldn't be public — and make them public.</p>
+    </div>
+
+    <div class="hero-portrait">
+      <figure class="liquid bare" role="img" aria-label="Portrait of Ridhesh Walavalkar" data-liquid-scale="30">
+        <svg class="liquid-defs" width="0" height="0" aria-hidden="true" focusable="false">
+          <filter id="liq-hero">
+            <feTurbulence type="fractalNoise" baseFrequency="0.009" numOctaves="2" result="noise"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1"></feDisplacementMap>
+          </filter>
+        </svg>
+        <!-- single alpha source; the poster is this video's own first frame at full
+             1080x1920, so a browser that can't decode VP9 alpha swaps in a still that
+             matches the video's resolution and framing exactly -->
+        <video class="liquid-media" poster="./portrait-cutout.png"
+               autoplay muted loop playsinline preload="auto"
+               style="filter:url(#liq-hero)">
+          <source src="./hero.webm" type="video/webm">
+        </video>
+      </figure>
+    </div>
+
+    <div class="hero-fade"></div>
+
+    <h1 class="hero-name" aria-label="Ridhesh Walavalkar">
+      <span class="hero-name-line" data-letters data-letter-stagger="52" data-letter-offset="0" aria-hidden="true">Ridhesh</span>
+      <span class="hero-name-line" data-letters data-letter-stagger="52" data-letter-offset="240" aria-hidden="true">Walavalkar</span>
+    </h1>
+
+    <p class="hero-cue rv-fade">Scroll to enter</p>
+  </section>
+
+  <!-- ============================= MARQUEE ============================= -->
+  <section class="marquee" aria-label="Operating principles">
+    <div class="marquee-track">
+      <!-- the 5-word list, rendered 4x: the track translates -50%, so each half
+           (10 items) must stay wider than the viewport on ultra-wide screens -->
+      <span class="marquee-item">Ship Fast<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Build With Ridhesh<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Ship Fast<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Build With Ridhesh<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Ship Fast<span class="marquee-dot"></span></span>
+
+      <span class="marquee-item">Ship Fast<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Build With Ridhesh<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Ship Fast<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Build With Ridhesh<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Ship Fast<span class="marquee-dot"></span></span>
+
+      <!-- second half — identical to the first, so -50% loops seamlessly -->
+      <span class="marquee-item">Ship Fast<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Build With Ridhesh<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Ship Fast<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Build With Ridhesh<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Ship Fast<span class="marquee-dot"></span></span>
+
+      <span class="marquee-item">Ship Fast<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Build With Ridhesh<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Ship Fast<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Build With Ridhesh<span class="marquee-dot"></span></span>
+      <span class="marquee-item">Ship Fast<span class="marquee-dot"></span></span>
+    </div>
+  </section>
+
+  <!-- ============================= STORY ============================= -->
+  <section class="story" id="story">
+    <div class="grid-12">
+      <div class="col-6">
+        <p class="eyebrow rv-fade" data-rv><span class="dot"></span>The Story</p>
+        <h2 class="t-h2 rv-lines" data-split data-rv>Ship first. Refine in public.</h2>
+        <p class="p-lead rv-fade" data-rv>I'm an AI/ML developer and researcher, studying B.Tech AI/ML at D.Y. Patil International University. I build full-stack products solo — frontend, backend, and the AI that powers them — and I've published research on crop stress detection, with more on the way. The through-line: take the idea that isn't supposed to be out yet, and put it in front of people.</p>
+      </div>
+
+      <div class="col-6 story-right">
+        <ul class="principles">
+          <li class="rv-fade" data-rv style="--rv-d:560ms;--rv-delay:0ms">
+            <span class="principle-index">01</span>
+            <div>
+              <h3 class="principle-title">Ship before it's polished</h3>
+              <p class="principle-copy">A working prototype teaches more than a perfect plan. I build in the open and fix in public.</p>
+            </div>
+          </li>
+          <li class="rv-fade" data-rv style="--rv-d:560ms;--rv-delay:90ms">
+            <span class="principle-index">02</span>
+            <div>
+              <h3 class="principle-title">Own the whole stack</h3>
+              <p class="principle-copy">Frontend, backend, and the AI in between. When I own every layer, nothing gets lost in a handoff.</p>
+            </div>
+          </li>
+          <li class="rv-fade" data-rv style="--rv-d:560ms;--rv-delay:180ms">
+            <span class="principle-index">03</span>
+            <div>
+              <h3 class="principle-title">Research has to run</h3>
+              <p class="principle-copy">A paper only matters if the idea works. I turn research into tools people can actually use.</p>
+            </div>
+          </li>
+          <li class="rv-fade" data-rv style="--rv-d:560ms;--rv-delay:270ms">
+            <span class="principle-index">04</span>
+            <div>
+              <h3 class="principle-title">Always in motion</h3>
+              <p class="principle-copy">Every project is a step toward the next one, and there's always another one coming.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= PROJECTS ============================= -->
+  <section class="projects" id="projects">
+    <div class="projects-head">
+      <div>
+        <p class="eyebrow rv-fade" data-rv><span class="dot"></span>Selected Projects</p>
+        <h2 class="t-h2 rv-lines" data-split data-rv>Built fast. Shipped anyway.</h2>
+      </div>
+      <p class="label project-count rv-fade" data-rv>04 / Projects</p>
+    </div>
+
+    <ul class="project-list">
+      <!-- TODO: swap data-href for this project's live/repo URL -->
+      <li class="project-item rv-fade" data-rv style="--rv-y:60px;--rv-d:620ms">
+        <a class="project-card" href="https://github.com/ridheshcybe" data-href="https://github.com/ridheshcybe" target="_blank" rel="noreferrer noopener">
+          <figure class="liquid" role="img" aria-label="CineMatch" data-liquid-scale="28">
+            <svg class="liquid-defs" width="0" height="0" aria-hidden="true" focusable="false">
+              <filter id="liq-1">
+                <feTurbulence type="fractalNoise" baseFrequency="0.009" numOctaves="2" result="noise"></feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="1"></feDisplacementMap>
+              </filter>
+            </svg>
+            <div class="liquid-ph">CineMatch</div>
+            <img class="liquid-media" src="./cinematch.jpg" alt="" style="filter:url(#liq-1)">
+            <div class="liquid-veil"></div>
+            <div class="liquid-glow"></div>
+            <div class="liquid-vig"></div>
+          </figure>
+          <div class="project-row">
+            <div>
+              <h3 class="project-name">CineMatch</h3>
+              <p class="project-blurb">A full-stack AI movie recommendation engine that learns what you like and finds what to watch next.</p>
+            </div>
+            <div class="project-meta">
+              <p class="project-year">Ongoing</p>
+              <p class="project-outcome">Prototype</p>
+            </div>
+          </div>
+          <p class="project-cat">AI Recommendation Engine</p>
+        </a>
+      </li>
+
+      <!-- TODO: swap data-href for this project's live/repo URL -->
+      <li class="project-item rv-fade" data-rv style="--rv-y:60px;--rv-d:620ms;--rv-delay:120ms">
+        <a class="project-card" href="https://github.com/ridheshcybe" data-href="https://github.com/ridheshcybe" target="_blank" rel="noreferrer noopener">
+          <figure class="liquid" role="img" aria-label="HIA Lite" data-liquid-scale="28">
+            <svg class="liquid-defs" width="0" height="0" aria-hidden="true" focusable="false">
+              <filter id="liq-2">
+                <feTurbulence type="fractalNoise" baseFrequency="0.009" numOctaves="2" result="noise"></feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="1"></feDisplacementMap>
+              </filter>
+            </svg>
+            <div class="liquid-ph">HIA Lite</div>
+            <img class="liquid-media" src="./hia.jpg" alt="" style="filter:url(#liq-2)">
+            <div class="liquid-veil"></div>
+            <div class="liquid-glow"></div>
+            <div class="liquid-vig"></div>
+          </figure>
+          <div class="project-row">
+            <div>
+              <h3 class="project-name">HIA Lite</h3>
+              <p class="project-blurb">An educational AI app that turns dense medical reports into plain language anyone can follow.</p>
+            </div>
+            <div class="project-meta">
+              <p class="project-year">Ongoing</p>
+              <p class="project-outcome">Prototype</p>
+            </div>
+          </div>
+          <p class="project-cat">AI Medical Report Explainer</p>
+        </a>
+      </li>
+
+      <!-- TODO: swap data-href for this project's live/repo URL -->
+      <li class="project-item rv-fade" data-rv style="--rv-y:60px;--rv-d:620ms">
+        <a class="project-card" href="https://github.com/ridheshcybe" data-href="https://github.com/ridheshcybe" target="_blank" rel="noreferrer noopener">
+          <figure class="liquid" role="img" aria-label="Queue Cure '26" data-liquid-scale="28">
+            <svg class="liquid-defs" width="0" height="0" aria-hidden="true" focusable="false">
+              <filter id="liq-3">
+                <feTurbulence type="fractalNoise" baseFrequency="0.009" numOctaves="2" result="noise"></feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="1"></feDisplacementMap>
+              </filter>
+            </svg>
+            <div class="liquid-ph">Queue Cure '26</div>
+            <img class="liquid-media" src="./queue.jpg" alt="" style="filter:url(#liq-3)">
+            <div class="liquid-veil"></div>
+            <div class="liquid-glow"></div>
+            <div class="liquid-vig"></div>
+          </figure>
+          <div class="project-row">
+            <div>
+              <h3 class="project-name">Queue Cure '26</h3>
+              <p class="project-blurb">A Next.js queue management system that keeps clinic waiting rooms moving and patients informed.</p>
+            </div>
+            <div class="project-meta">
+              <p class="project-year">2026</p>
+              <p class="project-outcome">Live</p>
+            </div>
+          </div>
+          <p class="project-cat">Clinic Queue Management</p>
+        </a>
+      </li>
+
+      <!-- TODO: swap data-href for this project's live/repo URL -->
+      <li class="project-item rv-fade" data-rv style="--rv-y:60px;--rv-d:620ms;--rv-delay:120ms">
+        <a class="project-card" href="https://github.com/ridheshcybe" data-href="https://github.com/ridheshcybe" target="_blank" rel="noreferrer noopener">
+          <figure class="liquid" role="img" aria-label="SecureOps Sync" data-liquid-scale="28">
+            <svg class="liquid-defs" width="0" height="0" aria-hidden="true" focusable="false">
+              <filter id="liq-4">
+                <feTurbulence type="fractalNoise" baseFrequency="0.009" numOctaves="2" result="noise"></feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="1"></feDisplacementMap>
+              </filter>
+            </svg>
+            <div class="liquid-ph">SecureOps Sync</div>
+            <img class="liquid-media" src="./secureops.jpg" alt="" style="filter:url(#liq-4)">
+            <div class="liquid-veil"></div>
+            <div class="liquid-glow"></div>
+            <div class="liquid-vig"></div>
+          </figure>
+          <div class="project-row">
+            <div>
+              <h3 class="project-name">SecureOps Sync</h3>
+              <p class="project-blurb">An AI-powered system that triages security incidents and drives them to remediation.</p>
+            </div>
+            <div class="project-meta">
+              <p class="project-year">2025</p>
+              <p class="project-outcome">Live</p>
+            </div>
+          </div>
+          <p class="project-cat">Incident Triage &amp; Remediation</p>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ============================= RESEARCH ============================= -->
+  <section class="research" id="research">
+    <div class="grid-12">
+      <div class="col-5">
+        <p class="eyebrow rv-fade" data-rv><span class="dot"></span>Published Research</p>
+        <h2 class="t-h2 rv-lines" data-split data-rv>Published. More to come.</h2>
+      </div>
+
+      <div class="col-7">
+        <article class="paper rv-fade" data-rv style="--rv-d:560ms">
+          <p class="paper-meta">IAEME Publication — 2026</p>
+          <h3 class="paper-title">A Unified Multi-Modal Framework for Crop Stress Detection: Combining Tabular Environmental Data and Leaf-Image Classification</h3>
+          <a class="paper-link" href="https://iaeme.com/Home/article_id/IJAIA_04_02_001" target="_blank" rel="noreferrer noopener">
+            Read the paper<span class="arr">↗</span>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= NUMBERS ============================= -->
+  <section class="numbers" id="numbers" data-rv-group>
+    <p class="eyebrow rv-fade" data-rv-child><span class="dot"></span>By The Numbers</p>
+    <h2 class="head-h2 rv-lines" data-split data-split-stagger="90" data-rv-child>Shipped, measured.</h2>
+
+    <dl class="stats">
+      <div class="stat rv-fade" data-rv-child style="--rv-d:560ms;--rv-delay:0ms">
+        <dd class="stat-figure" data-stat="repos">0</dd>
+        <dt class="stat-label">Public repositories on GitHub</dt>
+      </div>
+      <div class="stat rv-fade" data-rv-child style="--rv-d:560ms;--rv-delay:110ms">
+        <dd class="stat-figure" data-stat="stars">0</dd>
+        <dt class="stat-label">Stars earned across repos</dt>
+      </div>
+      <div class="stat rv-fade" data-rv-child style="--rv-d:560ms;--rv-delay:220ms">
+        <dd class="stat-figure" data-stat="followers">0</dd>
+        <dt class="stat-label">Followers on GitHub</dt>
+      </div>
+      <div class="stat rv-fade" data-rv-child style="--rv-d:560ms;--rv-delay:330ms">
+        <dd class="stat-figure" data-stat="papers">0</dd>
+        <dt class="stat-label">Research paper published</dt>
+      </div>
+    </dl>
+  </section>
+
+  <!-- ============================= CONTACT / FOOTER ============================= -->
+  <footer class="site-footer" id="contact">
+    <p class="eyebrow rv-fade" data-rv><span class="dot"></span>Let's Build</p>
+    <h2 class="t-h1-up rv-lines footer-head" data-split data-rv>Got an idea that shouldn't be public yet?</h2>
+    <p class="p-lead rv-fade" data-rv>Internships, research, or a project that needs shipping — send it over. I read every message.</p>
+
+    <a class="email" href="mailto:walavalkarridhesh@gmail.com">
+      walavalkarridhesh@gmail.com<span class="arr">↗</span>
+    </a>
+
+    <div class="footer-bar">
+      <div class="fb-brand">
+        <p class="fb-sign">Ridhesh Walavalkar</p>
+        <p class="fb-note">Designed &amp; built with conviction.</p>
+      </div>
+
+      <nav class="fb-social" aria-label="Social">
+        <ul class="social">
+          <li><a href="https://github.com/ridheshcybe" target="_blank" rel="noreferrer noopener">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/ridheshcybe" target="_blank" rel="noreferrer noopener">LinkedIn</a></li>
+          <li><a href="https://x.com/ridheshcybe" target="_blank" rel="noreferrer noopener">X / Twitter</a></li>
+        </ul>
+      </nav>
+
+      <div class="fb-copy">
+        <p>© 2026 Ridhesh Walavalkar. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script type="importmap">
+{ "imports": { "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.3.19/dist/lenis.mjs" } }
+</script>
+
+<script type="module">
+/* ============================================================
+   Fixed parameters
+   ============================================================ */
+const FONT_BASE = 16, BASE_W = 1920, COEF = 0.6666;
+const COUNT_MS = 2000;          // 0 -> 100
+const LABEL_FADE_MS = 300;
+const WIPE_DELAY_MS = 200;
+const WIPE_MS = 650;
+const REVEAL_DELAY = 2500;      // hero waits for the preloader
+const GH_USER = "ridheshcybe";
+const STATS_KEY = "rw-github-stats-v1";
+
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const canHover = () => window.matchMedia("(hover: hover) and (min-width: 769px)").matches;
+
+/* ============================================================
+   Adaptive rem grid (scale up, damped, above 1920px)
+   ============================================================ */
+function applyAdaptiveGrid(){
+  const w = window.innerWidth;
+  const reduction = ((BASE_W - w) / BASE_W) * 100 * COEF;
+  const size = FONT_BASE - (FONT_BASE * reduction) / 100;
+  if (size > FONT_BASE) document.documentElement.style.fontSize = size + "px";
+  else document.documentElement.style.removeProperty("font-size");
+}
+applyAdaptiveGrid();
+addEventListener("resize", applyAdaptiveGrid);
+addEventListener("orientationchange", applyAdaptiveGrid);
+
+/* ============================================================
+   Lenis smooth scroll (CDN)
+   ============================================================ */
+let loading = true;         // true while the preloader owns the page
+let lenis = null;
+
+(async () => {
+  try {
+    const mod = await import("lenis");
+    const Lenis = mod.default;
+    lenis = new Lenis({ smoothWheel: true });
+    window.lenis = lenis;
+    if (loading) lenis.stop();
+    function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+  } catch (err) {
+    console.warn("Lenis unavailable — falling back to native scroll.", err);
+  }
+})();
+
+/* ============================================================
+   Text reveals — line-by-line / letter-by-letter
+   ============================================================ */
+function maskify(text, className){
+  const mask = document.createElement("span");
+  mask.className = className;
+  const inner = document.createElement("span");
+  inner.className = "rv-in";
+  inner.textContent = text;
+  mask.appendChild(inner);
+  return { mask, inner };
+}
+
+/* split an element into measured lines, each in its own mask */
+function splitLines(el, stagger){
+  const text = el.textContent.replace(/\s+/g, " ").trim();
+  if (!text) return;
+  el.classList.add("rv-lines");
+
+  // 1. measure: lay the words out as inline-blocks and group them by row
+  el.textContent = "";
+  const words = text.split(" ");
+  const probes = [];
+  words.forEach((word, i) => {
+    const probe = document.createElement("span");
+    probe.style.cssText = "display:inline-block;white-space:pre";
+    probe.textContent = word;
+    el.appendChild(probe);
+    if (i < words.length - 1) el.appendChild(document.createTextNode(" "));
+    probes.push(probe);
+  });
+
+  const lines = [];
+  let current = null;
+  probes.forEach((probe, i) => {
+    const top = Math.round(probe.offsetTop);
+    if (!current || Math.abs(top - current.top) > 2) {
+      current = { top, words: [] };
+      lines.push(current);
+    }
+    current.words.push(words[i]);
+  });
+
+  // 2. rebuild: one mask per measured line, staggered
+  el.textContent = "";
+  lines.forEach((line, i) => {
+    const { mask, inner } = maskify(line.words.join(" "), "rv-line");
+    inner.style.setProperty("--rv-delay", i * stagger + "ms");
+    el.appendChild(mask);
+  });
+}
+
+/* split a line into per-letter masks */
+function splitLetters(line, charStagger, lineOffset){
+  const text = line.textContent.replace(/\s+/g, " ").trim();
+  line.classList.add("rv-lines");
+  line.textContent = "";
+  [...text].forEach((char, i) => {
+    const { mask, inner } = maskify(char === " " ? "\u00A0" : char, "rv-mask");
+    inner.style.setProperty("--rv-delay", lineOffset + i * charStagger + "ms");
+    line.appendChild(mask);
+  });
+}
+
+const heroNameLines = [...document.querySelectorAll("[data-letters]")];
+const heroRoles = document.querySelector(".hero-roles");
+const heroDesc = document.querySelector(".hero-desc");
+const heroCue = document.querySelector(".hero-cue");
+
+function splitAllText(){
+  document.querySelectorAll("[data-letters]").forEach((line) => {
+    splitLetters(
+      line,
+      Number(line.dataset.letterStagger) || 52,
+      Number(line.dataset.letterOffset) || 0
+    );
+  });
+  document.querySelectorAll("[data-split]").forEach((el) => {
+    splitLines(el, Number(el.dataset.splitStagger) || 90);
+  });
+  document.querySelectorAll("[data-split]").forEach((el) => el.classList.add("split-ready"));
+}
+
+/* ============================================================
+   In-view triggers ("once", threshold 0)
+   ============================================================ */
+let countsStarted = false;
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    io.unobserve(el);
+    if (el.hasAttribute("data-rv-group")) {
+      el.querySelectorAll("[data-rv-child]").forEach((child) => child.classList.add("is-in"));
+      if (el.id === "numbers") startCounts();
+    } else {
+      el.classList.add("is-in");
+    }
+  });
+}, { threshold: 0 });
+
+let observed = false;
+function observeReveals(){
+  if (observed) return;
+  observed = true;
+  document.querySelectorAll("[data-rv], [data-rv-group]").forEach((el) => io.observe(el));
+}
+
+function revealEverything(){
+  document.querySelectorAll(".rv-fade, .rv-lines").forEach((el) => el.classList.add("is-in"));
+}
+
+/* ============================================================
+   Numbers — live GitHub stats
+   ============================================================ */
+const statValues = { repos: null, stars: null, followers: null, papers: 1 };
+const statEls = [...document.querySelectorAll("[data-stat]")].map((el) => ({
+  el,
+  key: el.dataset.stat,
+}));
+
+function animateFigure(el, to, duration, from){
+  if (to === null || to === undefined) { el.textContent = "—"; return; }
+  const start = performance.now();
+  const f0 = from ?? 0;
+  if (reduceMotion || duration <= 0 || f0 === to) { el.textContent = String(to); return; }
+  function step(now){
+    const p = Math.min(1, (now - start) / duration);
+    const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);   // easeOutExpo
+    el.textContent = String(Math.round(f0 + (to - f0) * eased));
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = String(to);
+  }
+  requestAnimationFrame(step);
+}
+
+function startCounts(){
+  if (countsStarted) return;
+  countsStarted = true;
+  statEls.forEach(({ el, key }, i) => {
+    setTimeout(() => animateFigure(el, statValues[key], reduceMotion ? 0 : 1200, 0), i * 110);
+  });
+}
+
+function pushStats(){
+  if (!countsStarted) return;
+  statEls.forEach(({ el, key }) => {
+    const target = statValues[key];
+    const current = parseInt(el.textContent, 10);
+    const from = Number.isFinite(current) ? current : 0;
+    if (target === null) { el.textContent = "—"; return; }
+    if (from === target) { el.textContent = String(target); return; }
+    animateFigure(el, target, 700, from);
+  });
+}
+
+async function loadStats(){
+  let cached = null;
+  try {
+    const raw = sessionStorage.getItem(STATS_KEY);
+    if (raw) cached = JSON.parse(raw);
+  } catch (err) { /* sessionStorage unavailable */ }
+
+  if (cached && typeof cached === "object") {
+    statValues.repos = cached.repos;
+    statValues.stars = cached.stars;
+    statValues.followers = cached.followers;
+    pushStats();
+    return;
+  }
+
+  let repos = null, followers = null, stars = null;
+
+  try {
+    const res = await fetch(`https://api.github.com/users/${GH_USER}`);
+    if (res.ok) {
+      const user = await res.json();
+      repos = typeof user.public_repos === "number" ? user.public_repos : 0;
+      followers = typeof user.followers === "number" ? user.followers : 0;
+    }
+  } catch (err) { /* rate limited or offline */ }
+
+  try {
+    const res = await fetch(`https://api.github.com/users/${GH_USER}/repos?per_page=100`);
+    if (res.ok) {
+      const list = await res.json();
+      if (Array.isArray(list)) {
+        stars = list.reduce((sum, repo) => {
+          if (!repo || repo.fork) return sum;               // ignore forks
+          return sum + (Number(repo.stargazers_count) || 0);
+        }, 0);
+      }
+    }
+  } catch (err) { /* rate limited or offline */ }
+
+  statValues.repos = repos;
+  statValues.stars = stars;
+  statValues.followers = followers;
+
+  if (repos !== null || stars !== null || followers !== null) {
+    try {
+      sessionStorage.setItem(STATS_KEY, JSON.stringify({ repos, stars, followers }));
+    } catch (err) { /* ignore quota / privacy errors */ }
+  }
+  pushStats();
+}
+
+/* ============================================================
+   LiquidImage — imperative SVG filter spring on hover
+   ============================================================ */
+function initLiquid(fig){
+  const turbulence = fig.querySelector("feTurbulence");
+  const displacement = fig.querySelector("feDisplacementMap");
+  if (!turbulence || !displacement) return;
+
+  const TENSION = 140, FRICTION = 13;                       // loose + watery
+  const maxScale = Number(fig.dataset.liquidScale) || 28;
+  const BASE_FREQ = 0.009, MAX_FREQ = 0.022;
+
+  let progress = 0, velocity = 0, target = 0, rafId = null, last = 0;
+
+  function write(){
+    displacement.setAttribute("scale", (1 + progress * (maxScale - 1)).toFixed(3));
+    turbulence.setAttribute("baseFrequency", (BASE_FREQ + progress * (MAX_FREQ - BASE_FREQ)).toFixed(5));
+  }
+
+  function step(now){
+    const dt = Math.min((now - last) / 1000, 1 / 30) || 1 / 60;
+    last = now;
+    velocity += (TENSION * (target - progress) - FRICTION * velocity) * dt;
+    progress += velocity * dt;
+    write();
+    if (Math.abs(target - progress) > 0.0015 || Math.abs(velocity) > 0.0015) {
+      rafId = requestAnimationFrame(step);
+    } else {
+      progress = target; velocity = 0; rafId = null; write();
+    }
+  }
+
+  function go(to){
+    if (reduceMotion || !canHover()) return;
+    target = to;
+    last = performance.now();
+    if (!rafId) rafId = requestAnimationFrame(step);
+  }
+
+  fig.addEventListener("pointerenter", () => go(1));
+  fig.addEventListener("pointerleave", () => go(0));
+  fig.addEventListener("focusin", () => go(1));
+  fig.addEventListener("focusout", () => go(0));
+
+  // branded placeholder for missing media
+  fig.querySelectorAll("img, video").forEach((media) => {
+    media.addEventListener("error", () => {
+      fig.classList.add("is-missing");
+      media.style.display = "none";
+    });
+  });
+}
+
+/* ============================================================
+   Alpha-plane fallback
+   Browsers that decode VP9 without the alpha plane (Safari) would paint an opaque
+   black box over the hero, which is worse than no motion at all. Draw one frame and
+   look for a single transparent pixel: if the frame is fully opaque, swap the video
+   for its poster, which is the same transparent cutout as a still. The same swap covers
+   a source that errors or never starts decoding, so the hero degrades to the cutout
+   instead of an empty box.
+   ============================================================ */
+const ALPHA_TIMEOUT_MS = 4000;
+
+function fallbackToPoster(video){
+  const poster = video.getAttribute("poster");
+  if (!poster || video.dataset.swapped) return;
+  video.dataset.swapped = "1";
+  const img = document.createElement("img");
+  img.className = video.className;
+  img.src = poster;
+  img.alt = "";
+  img.setAttribute("style", video.getAttribute("style") || "");
+  video.replaceWith(img);
+}
+
+function ensureAlphaPlane(video){
+  const poster = video.getAttribute("poster");
+  if (!poster || video.dataset.swapped) return;
+
+  const test = () => {
+    try {
+      const c = document.createElement("canvas");
+      c.width = 32; c.height = 32;
+      const ctx = c.getContext("2d");
+      ctx.drawImage(video, 0, 0, 32, 32);
+      const data = ctx.getImageData(0, 0, 32, 32).data;
+      let hasAlpha = false;
+      for (let i = 3; i < data.length; i += 4){
+        if (data[i] < 250){ hasAlpha = true; break; }
+      }
+      if (!hasAlpha) fallbackToPoster(video);
+    } catch (err) {
+      /* tainted canvas or no decodable frame — leave the video as it is */
+    }
+  };
+
+  let settled = false;
+  let timer = null;
+
+  // Never draw an undecoded video: an empty canvas reads as fully transparent, which would
+  // look like "this video has an alpha plane" and leave an opaque box on screen.
+  const decideOnFrame = () => {
+    if (settled || video.readyState < 2) return;
+    settled = true;
+    stop();
+    test();
+  };
+  const giveUp = () => {
+    if (settled) return;
+    settled = true;
+    stop();
+    fallbackToPoster(video);
+  };
+  const stop = () => {
+    if (timer !== null){ clearTimeout(timer); timer = null; }
+    video.removeEventListener("loadeddata", decideOnFrame);
+    video.removeEventListener("canplay", decideOnFrame);
+    video.removeEventListener("error", giveUp);
+    video.querySelectorAll("source").forEach((s) => s.removeEventListener("error", giveUp));
+  };
+
+  if (video.readyState >= 2){ decideOnFrame(); return; }
+
+  video.addEventListener("loadeddata", decideOnFrame);
+  video.addEventListener("canplay", decideOnFrame);
+  // With <source> children the error lands on the source element, not the video.
+  video.addEventListener("error", giveUp);
+  video.querySelectorAll("source").forEach((s) => s.addEventListener("error", giveUp));
+
+  // An already-failed source fires nothing further.
+  if (video.networkState === 3){ giveUp(); return; }
+
+  // Slow network or a codec the browser cannot start: keep the still rather than a blank box.
+  timer = setTimeout(() => {
+    if (video.readyState < 2) giveUp();
+    else decideOnFrame();
+  }, ALPHA_TIMEOUT_MS);
+}
+
+/* ============================================================
+   Preloader + hero reveal sequencing
+   ============================================================ */
+const preloader = document.getElementById("preloader");
+const counterEl = document.getElementById("preloader-count");
+
+function runPreloader(){
+  const started = performance.now();
+
+  function finishCount(){
+    preloader.classList.add("is-out");                       // labels fade (~300ms)
+    setTimeout(() => preloader.classList.add("is-wipe"), LABEL_FADE_MS + WIPE_DELAY_MS);
+    setTimeout(() => {
+      preloader.classList.add("is-done");
+      preloader.setAttribute("aria-hidden", "true");
+      loading = false;
+      if (lenis) lenis.start();
+    }, LABEL_FADE_MS + WIPE_DELAY_MS + WIPE_MS);
+  }
+
+  function step(now){
+    const p = Math.min(1, (now - started) / COUNT_MS);
+    counterEl.textContent = String(Math.round(p * 100));
+    if (p < 1) requestAnimationFrame(step);
+    else { counterEl.textContent = "100"; finishCount(); }
+  }
+  requestAnimationFrame(step);
+
+  heroTimeline();
+}
+
+function heroTimeline(){
+  const add = (els, at) => {
+    if (!els) return;
+    const list = Array.isArray(els) ? els : [els];
+    setTimeout(() => list.forEach((el) => el.classList.add("is-in")), REVEAL_DELAY + at);
+  };
+  add(heroNameLines, 0);        // letters carry their own --rv-delay (52ms / line 2 +240ms)
+  add(heroRoles, 200);
+  add(heroDesc, 400);
+  add(heroCue, 900);
+}
+
+/* ============================================================
+   Nav — burger, mobile menu, smooth anchors
+   ============================================================ */
+const burger = document.getElementById("burger");
+const mobileMenu = document.getElementById("mobile-menu");
+
+function setMenu(open){
+  burger.setAttribute("aria-expanded", String(open));
+  burger.setAttribute("aria-label", open ? "Close menu" : "Menu");
+  mobileMenu.classList.toggle("is-open", open);
+  mobileMenu.setAttribute("aria-hidden", String(!open));
+  if (!lenis) return;
+  if (open || loading) lenis.stop();
+  else lenis.start();
+}
+burger.addEventListener("click", () => {
+  setMenu(burger.getAttribute("aria-expanded") !== "true");
+});
+
+document.addEventListener("click", (event) => {
+  const link = event.target.closest('a[href^="#"]');
+  if (!link) return;
+  const href = link.getAttribute("href");
+  if (!href || href.length < 2) return;
+  const target = document.querySelector(href);
+  if (!target) return;
+  event.preventDefault();
+  if (mobileMenu.classList.contains("is-open")) setMenu(false);
+  if (lenis) lenis.scrollTo(target, { duration: 1.2 });
+  else target.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+/* ============================================================
+   Boot
+   ============================================================ */
+async function boot(){
+  try { history.scrollRestoration = "manual"; } catch (err) { /* ignore */ }
+  window.scrollTo(0, 0);
+
+  try {
+    if (document.fonts && document.fonts.ready) {
+      // never let a stalled font request hold the page hostage
+      await Promise.race([
+        document.fonts.ready,
+        new Promise((resolve) => setTimeout(resolve, 2000)),
+      ]);
+    }
+  } catch (err) { /* older browsers */ }
+
+  try {
+    splitAllText();
+  } catch (err) {
+    console.error("Text splitting failed:", err);
+    document.querySelectorAll("[data-split]").forEach((el) => el.classList.add("split-ready"));
+  }
+
+  document.querySelectorAll(".liquid").forEach(initLiquid);
+  document.querySelectorAll(".liquid video").forEach(ensureAlphaPlane);
+  loadStats();
+
+  if (reduceMotion) {
+    preloader.classList.add("is-done");
+    preloader.setAttribute("aria-hidden", "true");
+    loading = false;
+    if (lenis) lenis.start();
+    revealEverything();
+    countsStarted = true;
+    statEls.forEach(({ el, key }) => { el.textContent = statValues[key] === null ? "—" : String(statValues[key]); });
+    observeReveals();
+    return;
+  }
+
+  runPreloader();
+  observeReveals();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", boot, { once: true });
+} else {
+  boot();
+}
+</script>
+</body>
+</html>
