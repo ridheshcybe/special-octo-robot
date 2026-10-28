@@ -19,6 +19,7 @@ import { LoopExecutionSim } from "../_components/python/LoopExecutionSim";
 import { CallStackSim } from "../_components/python/CallStackSim";
 import { DataStructureSim } from "../_components/python/DataStructureSim";
 import { CodeTracingSim } from "../_components/python/CodeTracingSim";
+import { AtlasSimViewer } from "../_components/AtlasSimViewer";
 
 interface SimulationPageProps {
   params: Promise<{
@@ -56,6 +57,8 @@ export default function SimulationRunnerPage({ params }: SimulationPageProps) {
         return <DataStructureSim />;
       case "CodeTracingSim":
         return <CodeTracingSim />;
+      case "AtlasSimViewer":
+        return <AtlasSimViewer slug={slug} />;
       default:
         return <div>Simulation component not registered.</div>;
     }

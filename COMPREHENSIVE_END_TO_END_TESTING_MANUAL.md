@@ -488,6 +488,29 @@
   - Stack unwinds and pops frames with return values: `1 -> 2 -> 6 -> 24`.
 - **Potential Breakage Point:** Animation frame glitching if user clicks "Step Next" too rapidly.
 
+### Test 10.3: Knowledge Atlas & Visual Engineering Lab Suite (`/prepmeup/simulations/atlas`)
+- **URLs:**
+  - Student Dashboard: [https://www.ridheshcybe.dpdns.org/prepmeup/dashboard](https://www.ridheshcybe.dpdns.org/prepmeup/dashboard)
+  - Simulations Directory: [https://www.ridheshcybe.dpdns.org/prepmeup/simulations](https://www.ridheshcybe.dpdns.org/prepmeup/simulations)
+  - Main Atlas Runner: [https://www.ridheshcybe.dpdns.org/prepmeup/simulations/atlas](https://www.ridheshcybe.dpdns.org/prepmeup/simulations/atlas)
+  - COA Pipeline Lab: [https://www.ridheshcybe.dpdns.org/prepmeup/simulations/atlas-coa](https://www.ridheshcybe.dpdns.org/prepmeup/simulations/atlas-coa)
+  - ACM Matrix Lab: [https://www.ridheshcybe.dpdns.org/prepmeup/simulations/atlas-acm](https://www.ridheshcybe.dpdns.org/prepmeup/simulations/atlas-acm)
+  - BEEE Oscilloscope Lab: [https://www.ridheshcybe.dpdns.org/prepmeup/simulations/atlas-beee](https://www.ridheshcybe.dpdns.org/prepmeup/simulations/atlas-beee)
+  - IKS Heritage Timeline: [https://www.ridheshcybe.dpdns.org/prepmeup/simulations/atlas-iks](https://www.ridheshcybe.dpdns.org/prepmeup/simulations/atlas-iks)
+- **Actions:**
+  1. On the Student Dashboard, verify the **Visual Engineering Atlas & Laboratory** spotlight banner appears with quick launch buttons for all 5 modules.
+  2. In the Simulations Directory, click the **🌌 Knowledge Atlas (5)** filter tab. Confirm Atlas simulation cards filter smoothly.
+  3. Launch `/prepmeup/simulations/atlas`:
+     - Test switching tabs: Curriculum Galaxy, ACM Matrix & Eigenfield, BEEE Oscilloscope, COA Pipeline, IKS Timeline.
+     - Click **⛶ Fullscreen** &rarr; Verify canvas expands to fill viewport with top-right exit button.
+     - In COA Pipeline: Toggle **Data Forwarding Enabled / Disabled** &rarr; Verify stall bubbles (bubbles = 2 vs 0 cycles) update clock cycle calculations dynamically.
+     - In ACM Matrix: Adjust matrix entries $a, b, c, d$ &rarr; Verify vector grid and unit circle transform in real time.
+     - In BEEE Oscilloscope: Adjust Frequency and Phase sliders &rarr; Verify dual sine waveforms compute phase shift $\Delta\phi$.
+- **Expected Result:**
+  - Zero iframe load errors or CSP frame-ancestors blocks (`X-Frame-Options: SAMEORIGIN` allows same-origin embedding).
+  - All 5 canvas tools render with crisp edges and 60 FPS interactions.
+- **Potential Breakage Point:** Fullscreen mode trapped on iOS Safari if escape/close button is obscured.
+
 ---
 
 ## Test Suite 11: Admin Command Center & Directus Headless CMS

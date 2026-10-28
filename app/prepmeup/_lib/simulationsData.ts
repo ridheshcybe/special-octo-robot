@@ -1,7 +1,7 @@
 export interface SimulationMeta {
   slug: string;
   title: string;
-  category: "bee" | "python";
+  category: "bee" | "python" | "atlas";
   componentKey: string;
   summary: string;
   difficulty: "Beginner" | "Intermediate" | "Advanced";
@@ -188,6 +188,96 @@ export const SIMULATIONS_REGISTRY: Record<string, SimulationMeta> = {
     theoryGuide: [
       "Semester exam questions often test tricky operator precedence, variable scope masking, and short-circuit evaluation.",
       "Predicting output builds mental compiler accuracy.",
+    ],
+  },
+
+  // --- Semester 1 Knowledge Atlas & Interactive Visual Labs ---
+  atlas: {
+    slug: "atlas",
+    title: "Semester 1 Engineering Visual Atlas",
+    category: "atlas",
+    componentKey: "AtlasSimViewer",
+    summary: "Full interactive visualization suite: Curriculum Galaxy, 2D Matrix Vector Fields, AC Oscilloscope, and 5-stage CPU pipeline.",
+    difficulty: "Intermediate",
+    estimatedMinutes: 20,
+    subjectCode: "SEM1-ALL",
+    subjectSlug: "engineering-atlas",
+    subjectName: "DYPIU B.Tech CSE AI/ML Semester 1 Atlas",
+    theoryFormula: "A\\mathbf{x} = \\lambda\\mathbf{x}, \\quad \\omega_0 = \\frac{1}{\\sqrt{LC}}, \\quad \\text{CPI} = \\frac{\\text{Cycles}}{\\text{Instructions}}",
+    theoryGuide: [
+      "The Visual Atlas maps governing concepts across all 6 DYPIU Semester 1 courses into interactive web canvases.",
+      "Vector fields demonstrate real-time eigenvalue scaling and determinant area deformation under linear transforms.",
+      "The virtual oscilloscope plots dual AC sine waves and computes phase shift delta phi and RLC series resonance.",
+      "The 5-stage RISC CPU pipeline lets you toggle data forwarding and observe pipeline bubble injection under RAW hazards.",
+    ],
+  },
+  "atlas-acm": {
+    slug: "atlas-acm",
+    title: "ACM Matrix Transformations & Eigen Vector Fields",
+    category: "atlas",
+    componentKey: "AtlasSimViewer",
+    summary: "Manipulate 2x2 matrix coefficients (a, b, c, d) and watch real-time grid warping, unit circle deformation, and eigenvector alignment.",
+    difficulty: "Intermediate",
+    estimatedMinutes: 15,
+    subjectCode: "CSE1001",
+    subjectSlug: "applied-computational-mathematics",
+    subjectName: "Applied Computational Mathematics",
+    theoryFormula: "\\det(A - \\lambda I) = 0, \\quad \\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix} \\begin{bmatrix} x \\\\ y \\end{bmatrix} = \\lambda \\begin{bmatrix} x \\\\ y \\end{bmatrix}",
+    theoryGuide: [
+      "Eigenvectors are vectors whose direction remains unchanged during a linear transformation, only scaling by factor lambda.",
+      "Determinant represents the signed area scaling factor of the transformed unit square: det(A) = ad - bc.",
+    ],
+  },
+  "atlas-beee": {
+    slug: "atlas-beee",
+    title: "BEEE AC Oscilloscope & RLC Resonance Lab",
+    category: "atlas",
+    componentKey: "AtlasSimViewer",
+    summary: "Virtual dual-channel cathode ray oscilloscope (CRO) with frequency, amplitude, and phase shift controls for AC circuit signals.",
+    difficulty: "Intermediate",
+    estimatedMinutes: 15,
+    subjectCode: "CSE1002",
+    subjectSlug: "basic-electrical-and-electronics-engineering",
+    subjectName: "Basic Electrical & Electronics Engineering",
+    theoryFormula: "v(t) = V_m \\sin(\\omega t + \\phi), \\quad f_r = \\frac{1}{2\\pi\\sqrt{LC}}, \\quad Q = \\frac{\\omega_0 L}{R}",
+    theoryGuide: [
+      "An oscilloscope plots instantaneous voltage versus time to measure peak voltage V_m, peak-to-peak V_pp, and frequency f = 1/T.",
+      "Phase shift phi between voltage and current indicates inductive (lagging) or capacitive (leading) circuit nature.",
+    ],
+  },
+  "atlas-coa": {
+    slug: "atlas-coa",
+    title: "COA 5-Stage CPU Pipeline & Clock Stepper",
+    category: "atlas",
+    componentKey: "AtlasSimViewer",
+    summary: "Step cycle-by-cycle through Fetch (IF), Decode (ID), Execute (EX), Memory (MEM), and Writeback (WB) with data forwarding and stall hazard controls.",
+    difficulty: "Advanced",
+    estimatedMinutes: 20,
+    subjectCode: "CSE1003",
+    subjectSlug: "computer-organization-and-architecture",
+    subjectName: "Computer Organization & Architecture",
+    theoryFormula: "\\text{Speedup} = \\frac{k \\cdot n}{k + n - 1}, \\quad \\text{Stall Penalty} = 2 \\text{ cycles without forwarding}",
+    theoryGuide: [
+      "Pipelining overlaps instruction execution phases to achieve ideal throughput of 1 instruction per clock cycle (CPI = 1).",
+      "Read-After-Write (RAW) data hazards occur when instruction I2 reads a register before instruction I1 writes to it.",
+      "Hardware data forwarding bypasses the register file, routing ALU output directly to the next cycle's execution stage.",
+    ],
+  },
+  "atlas-iks": {
+    slug: "atlas-iks",
+    title: "IKS Indian Knowledge Systems Heritage Timeline",
+    category: "atlas",
+    componentKey: "AtlasSimViewer",
+    summary: "Interactive historical timeline spanning 2500 BCE to 1500 CE across Vedic mathematics, ancient metallurgy (Wootz steel), and astronomy.",
+    difficulty: "Beginner",
+    estimatedMinutes: 10,
+    subjectCode: "CSE1006",
+    subjectSlug: "indian-knowledge-systems",
+    subjectName: "Indian Knowledge Systems",
+    theoryFormula: "(x + a)(x + b) = x(x + a + b) + ab \\quad [\\text{Nikhilam Sutra}]",
+    theoryGuide: [
+      "Vedic mathematics sutras formulate algorithmic shortcuts for mental arithmetic, polynomial factorization, and division.",
+      "Ancient Indian crucible steel (Wootz) was exported globally and produced Damascus steel blades with high carbon content.",
     ],
   },
 };

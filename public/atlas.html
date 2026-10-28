@@ -852,11 +852,17 @@
       }
     }
 
-    // Initial Render
+    // Initial Render & URL Tab Dispatcher
     window.addEventListener('load', () => {
       drawAcm();
       drawBeee();
       renderPipelineTable();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const requestedTab = urlParams.get('tab');
+      if (requestedTab && ['curriculum', 'acm', 'beee', 'coa', 'iks'].includes(requestedTab)) {
+        switchTab(requestedTab);
+      }
     });
   </script>
 </body>

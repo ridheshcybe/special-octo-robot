@@ -86,9 +86,9 @@ export default async function StudentDashboardPage() {
       {/* Quick KPI Strip */}
       <div className="pmu-grid-4">
         {[
-          { label: "Active Subjects", value: "04", sub: "16 Core Modules Unlocked" },
+          { label: "Active Subjects", value: "06", sub: "28 Core Modules Unlocked" },
           { label: "AI Doubt Quota", value: "24/7", sub: "Step-by-Step LaTeX & Code" },
-          { label: "Interactive Labs", value: "03", sub: "IEEE-754, K-Map & CPU Sim" },
+          { label: "Interactive Labs", value: "15+", sub: "Atlas Suite, BEE & Python Sims" },
           { label: "Pass Status", value: "PRO", sub: "180-Day Semester 1 Access" },
         ].map((stat) => (
           <div key={stat.label} className="pmu-card" style={{ padding: "22px" }}>
@@ -195,25 +195,111 @@ export default async function StudentDashboardPage() {
       </div>
 
       {/* Interactive Practice & AI Tools */}
-      <div>
-        <span
-          className="font-mono"
-          style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.08em", color: "#ff3b1d" }}
-        >
-          Practice & Execution
-        </span>
-        <h2
-          className="font-display"
+      <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <div>
+          <span
+            className="font-mono"
+            style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.08em", color: "#ff3b1d" }}
+          >
+            Practice & Execution
+          </span>
+          <h2
+            className="font-display"
+            style={{
+              fontSize: "28px",
+              textTransform: "uppercase",
+              color: "#f3f1ea",
+              marginTop: "4px",
+            }}
+          >
+            Interactive Study Engines &amp; Visual Labs
+          </h2>
+        </div>
+
+        {/* Featured Visual Atlas & Interactive Laboratory */}
+        <div
+          className="pmu-card-highlight"
           style={{
-            fontSize: "28px",
-            textTransform: "uppercase",
-            color: "#f3f1ea",
-            marginTop: "4px",
-            marginBottom: "18px",
+            padding: "26px 30px",
+            borderRadius: "16px",
+            border: "1px solid rgba(255, 59, 29, 0.4)",
+            backgroundColor: "#111114",
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
           }}
         >
-          Interactive Study Engines
-        </h2>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span
+                style={{
+                  width: "10px",
+                  height: "10px",
+                  borderRadius: "9999px",
+                  backgroundColor: "#ff3b1d",
+                  boxShadow: "0 0 10px #ff3b1d",
+                }}
+              />
+              <span className="font-mono" style={{ fontSize: "11px", fontWeight: 700, color: "#ff3b1d", textTransform: "uppercase" }}>
+                Visual Engineering Atlas &amp; Laboratory
+              </span>
+              <span className="pmu-badge">5 Interactive Canvas Suites</span>
+            </div>
+
+            <div style={{ display: "flex", gap: "10px" }}>
+              <Link
+                href="/prepmeup/simulations/atlas"
+                className="pmu-btn-primary"
+                style={{ padding: "8px 18px", fontSize: "11px" }}
+              >
+                Launch Atlas Lab →
+              </Link>
+              <Link
+                href="/prepmeup/simulations"
+                className="pmu-btn-secondary"
+                style={{ padding: "8px 14px", fontSize: "11px" }}
+              >
+                All 15+ Simulators →
+              </Link>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="font-display" style={{ fontSize: "24px", textTransform: "uppercase", color: "#f3f1ea", margin: "2px 0" }}>
+              Semester 1 Interactive Knowledge Atlas
+            </h3>
+            <p style={{ fontSize: "13px", color: "#a19f95", lineHeight: 1.6, maxWidth: "780px" }}>
+              Step through live vector transformations, RLC series resonance curves on a dual-channel oscilloscope, and cycle-by-cycle RISC 5-stage CPU pipeline hazard execution with hardware forwarding.
+            </p>
+          </div>
+
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", paddingTop: "8px", borderTop: "1px solid #26262c" }}>
+            {[
+              { label: "🌌 Curriculum Galaxy", href: "/prepmeup/simulations/atlas" },
+              { label: "📐 ACM Matrix Vector Field", href: "/prepmeup/simulations/atlas-acm" },
+              { label: "⚡ BEEE AC Oscilloscope", href: "/prepmeup/simulations/atlas-beee" },
+              { label: "💻 COA CPU Pipeline", href: "/prepmeup/simulations/atlas-coa" },
+              { label: "🏛️ IKS Heritage Timeline", href: "/prepmeup/simulations/atlas-iks" },
+            ].map((m, idx) => (
+              <Link
+                key={idx}
+                href={m.href}
+                style={{
+                  fontSize: "11px",
+                  padding: "5px 12px",
+                  borderRadius: "6px",
+                  border: "1px solid #26262c",
+                  backgroundColor: "#17171b",
+                  color: "#f3f1ea",
+                  textDecoration: "none",
+                  fontFamily: "monospace",
+                }}
+              >
+                {m.label} →
+              </Link>
+            ))}
+          </div>
+        </div>
 
         <div className="pmu-grid-3">
           {[
@@ -232,11 +318,11 @@ export default async function StudentDashboardPage() {
               cta: "Launch Python IDE →",
             },
             {
-              title: "Hardware & Logic Sims",
-              tag: "Interactive Labs",
-              desc: "Step through Fetch-Decode-Execute CPU cycles, simplify 4-variable K-Maps, and inspect IEEE-754 floating-point bits.",
+              title: "Hardware & Circuit Sims",
+              tag: "15+ Interactive Labs",
+              desc: "Step through Ohm's Law, Kirchhoff's loops, AC oscilloscopes, CPU pipeline stages, and Python memory visualizers.",
               href: "/prepmeup/simulations",
-              cta: "Launch Simulations →",
+              cta: "Launch Simulations Hub →",
             },
             {
               title: "Adaptive Quiz Arena",
