@@ -1,0 +1,28 @@
+# Keeps the Supabase free project from pausing after 7 days of inactivity.
+# Runs daily at 04:00 UTC and pings the REST API with the anon key (read-only,
+# harmless). Requires repo secrets: SUPABASE_URL, SUPABASE_ANON_KEY.
+name: supabase-keep-alive
+
+on:
+  schedule:
+    - cron: "0 4 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST endpoint
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          set -eu
+          code=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            "$SUPABASE_URL/rest/v1/plans?select=id&limit=1")
+          echo "Supabase responded with HTTP $code"
+          if [ "$code" = "401" ] || [ "$code" = "000" ]; then
+            echo "::warning::Unexpected response — check SUPABASE_URL / SUPABASE_ANON_KEY secrets."
+          fi
