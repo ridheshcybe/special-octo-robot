@@ -19,3 +19,7 @@ next-env.d.ts.bak
 backend/courses/supabase/.branches
 backend/courses/supabase/.temp
 hls/
+
+# Sensitive CSV credentials
+*.csv
+rzp-key.csv
