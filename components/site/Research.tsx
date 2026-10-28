@@ -19,12 +19,31 @@ export function Research({ research }: { research: SiteContent["research"] }) {
             <Reveal as="article" key={paper.id} className="paper" duration="560ms">
               <p className="paper-meta">{paper.meta}</p>
               <h3 className="paper-title">{paper.title}</h3>
-              <a className="paper-link" href={paper.url} target="_blank" rel="noreferrer noopener">
-                Read the paper
-                <span className="arr" aria-hidden="true">
-                  ↗
-                </span>
-              </a>
+              <div
+                style={{
+                  marginTop: "2rem",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.6rem",
+                  fontSize: "var(--eyebrow)",
+                  fontFamily: "var(--font-mono, monospace)",
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  color: "var(--accent)",
+                }}
+              >
+                <span
+                  style={{
+                    width: "7px",
+                    height: "7px",
+                    borderRadius: "50%",
+                    backgroundColor: "var(--accent)",
+                    display: "inline-block",
+                  }}
+                  aria-hidden="true"
+                />
+                <span>Published Research · Peer-Reviewed</span>
+              </div>
             </Reveal>
           ))}
         </div>

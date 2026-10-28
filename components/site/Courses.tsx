@@ -3,8 +3,8 @@ import { Eyebrow } from "./Eyebrow";
 import { Reveal } from "./Reveal";
 import { TextReveal } from "./TextReveal";
 
-/** The storefront points at the in-app courses section, not a separate site. */
-const COURSES_LINK = "/courses";
+/** The storefront points directly to the PrepMeUp platform, without any redirection. */
+const COURSES_LINK = "/prepmeup";
 
 type Course = {
   title: string;

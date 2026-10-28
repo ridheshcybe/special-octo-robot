@@ -1,0 +1,769 @@
+/* ============================================================================
+   prepmeup.css — Scoped styling for PrepMeUp AI.
+   Uses Tailwind v4 theme and utilities layers WITHOUT preflight to preserve
+   global portfolio typography and reset rules.
+   Also provides rock-solid explicit CSS layout & component primitives so
+   every PrepMeUp page renders with crisp brutalist spacing.
+   ========================================================================= */
+
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  --color-pmu-bg: #08080a;
+  --color-pmu-surface: #111114;
+  --color-pmu-surface-2: #17171b;
+  --color-pmu-accent: #ff3b1d;
+  --color-pmu-accent-2: #ff6a3d;
+  --color-pmu-foreground: #f3f1ea;
+  --color-pmu-muted: #807f78;
+  --color-pmu-line: rgba(243, 241, 234, 0.1);
+  --color-pmu-line-strong: rgba(243, 241, 234, 0.22);
+}
+
+/* ============================ Layout Shell ============================ */
+.pmu-root {
+  min-height: 100vh;
+  background-color: #08080a;
+  color: #f3f1ea;
+  font-family: var(--font-onest), "Onest", -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pmu-root *,
+.pmu-root *::before,
+.pmu-root *::after {
+  box-sizing: border-box;
+}
+
+.pmu-root input,
+.pmu-root select,
+.pmu-root textarea {
+  font-family: inherit;
+  color: #f3f1ea;
+}
+
+/* Consistent section container with balanced responsive gutters */
+.pmu-container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .pmu-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pmu-container {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+}
+
+/* Harmonious vertical section rhythm */
+.pmu-section {
+  position: relative;
+  border-bottom: 1px solid rgba(243, 241, 234, 0.1);
+  padding-top: 4.5rem;
+  padding-bottom: 4.5rem;
+}
+
+@media (min-width: 640px) {
+  .pmu-section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+/* ============================ Navigation ============================ */
+.pmu-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  border-bottom: 1px solid rgba(243, 241, 234, 0.1);
+  background-color: rgba(8, 8, 10, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.pmu-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4.25rem;
+}
+
+.pmu-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.pmu-back-link {
+  display: none;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #807f78;
+  transition: color 0.2s ease;
+}
+
+.pmu-back-link:hover {
+  color: #f3f1ea;
+}
+
+.pmu-brand-divider {
+  display: none;
+  width: 1px;
+  height: 1rem;
+  background-color: rgba(243, 241, 234, 0.12);
+}
+
+@media (min-width: 768px) {
+  .pmu-back-link {
+    display: inline-flex;
+  }
+  .pmu-brand-divider {
+    display: block;
+  }
+}
+
+.pmu-brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  text-decoration: none;
+}
+
+.pmu-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 0.25rem;
+  background-color: #ff3b1d;
+  color: #08080a;
+  font-family: var(--font-anton), "Anton", sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.pmu-brand-title {
+  font-family: var(--font-anton), "Anton", sans-serif;
+  font-size: 1.1875rem;
+  letter-spacing: 0.05em;
+  color: #f3f1ea;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.pmu-nav-desktop {
+  display: none;
+  align-items: center;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .pmu-nav-desktop {
+    display: flex;
+  }
+}
+
+.pmu-nav-link {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #807f78;
+  transition: color 0.2s ease;
+}
+
+.pmu-nav-link:hover {
+  color: #f3f1ea;
+}
+
+.pmu-nav-ctas {
+  display: none;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .pmu-nav-ctas {
+    display: flex;
+  }
+}
+
+.pmu-mobile-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .pmu-mobile-controls {
+    display: none;
+  }
+}
+
+.pmu-mobile-drawer {
+  border-bottom: 1px solid rgba(243, 241, 234, 0.1);
+  background-color: #08080a;
+  padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .pmu-mobile-drawer {
+    display: none;
+  }
+}
+
+/* ============================ Typography & Eyebrow ============================ */
+.pmu-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #807f78;
+}
+
+.pmu-eyebrow-dot {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 9999px;
+  background-color: #ff3b1d;
+  flex-shrink: 0;
+}
+
+.pmu-pill-accent {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 59, 29, 0.35);
+  background-color: rgba(255, 59, 29, 0.08);
+  padding: 0.4375rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ff3b1d;
+}
+
+.pmu-hero-title {
+  margin-top: 1.75rem;
+  font-family: var(--font-anton), "Anton", sans-serif;
+  font-size: clamp(2.75rem, 7vw, 5.25rem);
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #f3f1ea;
+}
+
+.pmu-section-title {
+  margin-top: 0.875rem;
+  font-family: var(--font-anton), "Anton", sans-serif;
+  font-size: clamp(1.875rem, 4vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #f3f1ea;
+}
+
+.pmu-section-lead {
+  margin-top: 0.75rem;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: #807f78;
+}
+
+/* ============================ Grids & Cards ============================ */
+.pmu-grid-4 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .pmu-grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .pmu-grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.pmu-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .pmu-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.pmu-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .pmu-grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.pmu-metrics-grid {
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(243, 241, 234, 0.1);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .pmu-metrics-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem;
+  }
+}
+
+.pmu-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(255, 59, 29, 0.15) 0%, transparent 70%);
+}
+
+.pmu-card {
+  background-color: #111114;
+  border: 1px solid rgba(243, 241, 234, 0.1);
+  border-radius: 0.75rem;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.25s ease, transform 0.25s ease, background-color 0.25s ease;
+}
+
+.pmu-card:hover {
+  border-color: rgba(255, 59, 29, 0.45);
+}
+
+.pmu-card-highlight {
+  position: relative;
+  background-color: #111114;
+  border: 1px solid #ff3b1d;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+}
+
+@media (min-width: 640px) {
+  .pmu-card-highlight {
+    padding: 2.5rem;
+  }
+}
+
+.pmu-card-pricing {
+  background-color: #111114;
+  border: 1px solid rgba(243, 241, 234, 0.1);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (min-width: 640px) {
+  .pmu-card-pricing {
+    padding: 2.5rem;
+  }
+}
+
+/* ============================ Buttons & Inputs ============================ */
+.pmu-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #ff3b1d;
+  color: #08080a;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid #ff3b1d;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+}
+
+.pmu-btn-primary:hover {
+  background-color: #ff6a3d;
+  border-color: #ff6a3d;
+  transform: translateY(-1px);
+}
+
+.pmu-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pmu-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: #f3f1ea;
+  border: 1px solid rgba(243, 241, 234, 0.22);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+}
+
+.pmu-btn-secondary:hover {
+  border-color: #ff3b1d;
+  color: #ff3b1d;
+}
+
+.pmu-btn-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff3b1d;
+  color: #08080a;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.5625rem 1.125rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+}
+
+.pmu-btn-sm:hover {
+  background-color: #ff6a3d;
+}
+
+.pmu-input {
+  width: 100%;
+  background-color: #08080a;
+  color: #f3f1ea;
+  border: 1px solid rgba(243, 241, 234, 0.16);
+  border-radius: 0.375rem;
+  padding: 0.6875rem 0.875rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.pmu-input:focus {
+  border-color: #ff3b1d;
+}
+
+.pmu-input::placeholder {
+  color: rgba(128, 127, 120, 0.5);
+}
+
+/* ============================ Student Shell ============================ */
+.pmu-student-shell {
+  display: flex;
+  min-height: 100vh;
+  background-color: #08080a;
+  color: #f3f1ea;
+}
+
+.pmu-student-sidebar {
+  display: none;
+  width: 16.5rem;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid rgba(243, 241, 234, 0.1);
+  background-color: #111114;
+  padding: 1.5rem 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .pmu-student-sidebar {
+    display: flex;
+  }
+}
+
+.pmu-student-main-wrap {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pmu-student-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  height: 3.75rem;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(243, 241, 234, 0.1);
+  background-color: rgba(8, 8, 10, 0.92);
+  backdrop-filter: blur(12px);
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .pmu-student-topbar {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.pmu-student-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.75rem 1.25rem 3.5rem;
+}
+
+@media (min-width: 640px) {
+  .pmu-student-content {
+    padding: 2.25rem 2rem 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pmu-student-content {
+    padding: 2.5rem 2.75rem 4.5rem;
+  }
+}
+
+/* ============================ Auth Centered Shell ============================ */
+.pmu-auth-shell {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.25rem;
+  background-color: #08080a;
+}
+
+.pmu-auth-card {
+  width: 100%;
+  max-width: 28rem;
+  border-radius: 0.875rem;
+  border: 1px solid rgba(243, 241, 234, 0.12);
+  background-color: #111114;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+/* ============================ Typography & Badges ============================ */
+.pmu-root .font-display {
+  font-family: "Anton", Impact, "Arial Black", sans-serif;
+}
+
+.pmu-root .font-mono {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.pmu-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(243, 241, 234, 0.12);
+  background-color: #17171b;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #b7b5ad;
+}
+
+.pmu-badge-accent {
+  border-color: rgba(255, 59, 29, 0.35);
+  background-color: rgba(255, 59, 29, 0.12);
+  color: #ff6a3d;
+}
+
+.pmu-label {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #807f78;
+}
+
+/* ============================ Simulation & Lab Utilities ============================ */
+.pmu-sim-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pmu-sim-card {
+  background-color: #111114;
+  border: 1px solid rgba(243, 241, 234, 0.12);
+  border-radius: 0.75rem;
+  padding: 1.75rem;
+}
+
+.pmu-sim-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(243, 241, 234, 0.12);
+  background-color: #111114;
+}
+
+.pmu-stack-tower {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.75rem;
+  min-height: 260px;
+  border-radius: 0.5rem;
+  background-color: #08080a;
+  padding: 1.25rem;
+  border: 1px solid rgba(243, 241, 234, 0.08);
+  justify-content: flex-start;
+}
+
+.pmu-stack-frame {
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 59, 29, 0.45);
+  background-color: #17171b;
+  padding: 0.875rem 1rem;
+  font-family: monospace;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.pmu-stack-frame:hover {
+  border-color: #ff3b1d;
+  transform: translateY(-1px);
+}
+
+/* ============================ Mathematical Typography ============================ */
+.pmu-math-frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  margin: 0 0.35rem;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.pmu-math-num {
+  border-bottom: 1.5px solid #f3f1ea;
+  padding: 0 0.35rem 0.15rem;
+  font-size: 0.92em;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.pmu-math-den {
+  padding: 0.15rem 0.35rem 0;
+  font-size: 0.92em;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* ============================ Anti-Copycat & DRM Protection ============================ */
+.pmu-secure-reader {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pmu-secure-reader::before {
+  content: "PREPMEUP AI • VERIFIED STUDENT ACCESS • STRICTLY CONFIDENTIAL";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-family: var(--font-anton), "Anton", monospace;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: rgba(255, 59, 29, 0.04);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  letter-spacing: 0.15em;
+  user-select: none;
+}
+
+/* ============================ Anti-Print / Anti-PDF Export ============================ */
+@media print {
+  body * {
+    visibility: hidden !important;
+    display: none !important;
+  }
+  body::before {
+    content: "PROTECTED ACADEMIC CONTENT — Printing and PDF exporting are strictly prohibited by PrepMeUp AI.";
+    visibility: visible !important;
+    display: block !important;
+    position: fixed;
+    top: 40%;
+    left: 10%;
+    right: 10%;
+    text-align: center;
+    font-size: 18pt;
+    font-family: sans-serif;
+    font-weight: 800;
+    color: #ff3b1d;
+  }
+}
+
+
+

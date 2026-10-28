@@ -57,8 +57,19 @@ export const SEED: SiteContent = {
 
   projects: {
     heading: "Built fast. Shipped anyway.",
-    countLabel: "04 / Projects",
+    countLabel: "05 / Projects",
     items: [
+      {
+        id: "pmu-ai",
+        name: "PrepMeUp AI",
+        category: "Full-Stack EdTech / AI Platform",
+        yearLabel: "2026",
+        outcome: "Production",
+        blurb:
+          "Autonomous exam prep engine featuring multimodal vision doubt solving, RAG grounding, in-browser circuit & state simulators, and instant OTP verification.",
+        imageUrl: localProjectImage(1),
+        href: "/projects/prepmeup-ai",
+      },
       {
         id: "c1",
         name: "CineMatch",

@@ -8,8 +8,8 @@ import { useSmoothScroll } from "../SmoothScroll";
 const NAV_LINKS = [
   { label: "Story", href: "#story" },
   { label: "Projects", href: "#projects" },
+  { label: "PrepMeUp AI", href: "/prepmeup" },
   { label: "Research", href: "#research" },
-  { label: "Courses", href: "#courses" },
   { label: "Numbers", href: "#numbers" },
   { label: "Contact", href: "#contact" },
 ];

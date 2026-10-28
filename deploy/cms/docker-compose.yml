@@ -1,0 +1,156 @@
+services:
+  # ---------------------------------------------------------------------------
+  # 1. PostgreSQL 16 Alpine Database
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: pmu_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-directus_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be provided}
+      POSTGRES_DB: ${POSTGRES_DB:-directus}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-directus_admin} -d ${POSTGRES_DB:-directus}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - pmu_network
+
+  # ---------------------------------------------------------------------------
+  # 2. Automated PostgreSQL Daily Backup
+  # ---------------------------------------------------------------------------
+  postgres_backup:
+    image: prodrigestivill/postgres-backup-local:latest
+    container_name: pmu_postgres_backup
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: ${POSTGRES_DB:-directus}
+      POSTGRES_USER: ${POSTGRES_USER:-directus_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SCHEDULE: "@daily"
+      BACKUP_KEEP_DAYS: 7
+      BACKUP_KEEP_WEEKS: 4
+      BACKUP_KEEP_MONTHS: 6
+      HEALTHCHECK_PORT: 8080
+    volumes:
+      - ./backups:/backups
+    networks:
+      - pmu_network
+
+  # ---------------------------------------------------------------------------
+  # 3. Directus Headless CMS
+  # ---------------------------------------------------------------------------
+  directus:
+    image: directus/directus:latest
+    container_name: pmu_directus
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8055:8055"
+    environment:
+      # Secrets & Public Domain
+      KEY: ${DIRECTUS_KEY:?DIRECTUS_KEY must be provided}
+      SECRET: ${DIRECTUS_SECRET:?DIRECTUS_SECRET must be provided}
+      PUBLIC_URL: https://${CMS_DOMAIN:-cms.yourdomain.com}
+
+      # Database Configuration
+      DB_CLIENT: "pg"
+      DB_HOST: "postgres"
+      DB_PORT: "5432"
+      DB_DATABASE: ${POSTGRES_DB:-directus}
+      DB_USER: ${POSTGRES_USER:-directus_admin}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+
+      # Bootstrap Admin Account
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@yourdomain.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?ADMIN_PASSWORD must be provided}
+
+      # CORS Configuration
+      CORS_ENABLED: "true"
+      CORS_ORIGIN: "http://localhost:3000,https://${PORTFOLIO_DOMAIN:-yourdomain.com},https://www.${PORTFOLIO_DOMAIN:-yourdomain.com}"
+      CORS_METHODS: "GET,POST,PATCH,DELETE,OPTIONS"
+      CORS_ALLOWED_HEADERS: "Content-Type,Authorization"
+      CORS_EXPOSED_HEADERS: "Content-Range"
+      CORS_CREDENTIALS: "true"
+
+      # Built-in Directus Rate Limiting
+      RATE_LIMITER_ENABLED: "true"
+      RATE_LIMITER_POINTS: "100"
+      RATE_LIMITER_DURATION: "60"
+
+      # Upload limits
+      FILE_SIZE_LIMIT: "104857600"
+    volumes:
+      - directus_uploads:/directus/uploads
+      - directus_extensions:/directus/extensions
+    networks:
+      - pmu_network
+
+  # ---------------------------------------------------------------------------
+  # 4. Cloudflare Tunnel Daemon (cloudflared)
+  # ---------------------------------------------------------------------------
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: pmu_cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?CLOUDFLARE_TUNNEL_TOKEN must be provided}
+    depends_on:
+      - directus
+      - web
+    networks:
+      - pmu_network
+
+  # ---------------------------------------------------------------------------
+  # 5. Next.js Production Web Server (Portfolio + PrepMeUp AI)
+  # ---------------------------------------------------------------------------
+  web:
+    image: node:22-alpine
+    container_name: pmu_web
+    restart: unless-stopped
+    working_dir: /app
+    command: ["node", "server.js"]
+    ports:
+      - "3001:3001"
+    env_file:
+      - ../../.env
+    environment:
+      NODE_ENV: "production"
+      PORT: "3001"
+      HOSTNAME: "0.0.0.0"
+      DIRECTUS_URL: "http://directus:8055"
+    volumes:
+      - ../../.next/standalone:/app
+    networks:
+      - pmu_network
+
+# -----------------------------------------------------------------------------
+# Persistent Volumes
+# -----------------------------------------------------------------------------
+volumes:
+  postgres_data:
+    name: pmu_postgres_data
+  directus_uploads:
+    name: pmu_directus_uploads
+  directus_extensions:
+    name: pmu_directus_extensions
+
+# -----------------------------------------------------------------------------
+# Dedicated Bridge Network
+# -----------------------------------------------------------------------------
+networks:
+  pmu_network:
+    name: pmu_network
+    driver: bridge

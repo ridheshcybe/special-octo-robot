@@ -12,6 +12,10 @@ const COEF = 0.6666;
  * proportionally instead.
  */
 function applyAdaptiveGrid() {
+  if (!document.documentElement.classList.contains("rem-grid")) {
+    document.documentElement.style.removeProperty("font-size");
+    return;
+  }
   const w = window.innerWidth;
   const reduction = ((BASE_W - w) / BASE_W) * 100 * COEF;
   const size = FONT_BASE - (FONT_BASE * reduction) / 100;

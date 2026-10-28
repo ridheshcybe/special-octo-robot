@@ -1,6 +1,5 @@
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { ContactFooter } from "@/components/site/ContactFooter";
-import { Courses } from "@/components/site/Courses";
 import { Hero } from "@/components/site/Hero";
 import { Marquee } from "@/components/site/Marquee";
 import { Numbers } from "@/components/site/Numbers";
@@ -46,8 +45,6 @@ export default async function Page() {
           stats={stats}
           papersCount={content.numbers.papersCount}
         />
-
-        <Courses />
 
         <ContactFooter contact={content.contact} social={content.social} />
       </main>

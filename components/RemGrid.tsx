@@ -16,7 +16,11 @@ export function RemGrid() {
   const pathname = usePathname();
 
   useEffect(() => {
-    document.documentElement.classList.toggle("rem-grid", !pathname.startsWith("/courses"));
+    const isExcluded = pathname.startsWith("/courses") || pathname.startsWith("/prepmeup");
+    document.documentElement.classList.toggle("rem-grid", !isExcluded);
+    if (isExcluded) {
+      document.documentElement.style.removeProperty("font-size");
+    }
   }, [pathname]);
 
   return null;

@@ -59,6 +59,15 @@ export function AdminShell({ children }: { children: ReactNode }) {
         </nav>
 
         <div className="admin-side-foot">
+          <a
+            className="admin-link"
+            href={process.env.NEXT_PUBLIC_CMS_URL || "https://cms.yourdomain.com/admin"}
+            target="_blank"
+            rel="noreferrer noopener"
+            style={{ color: "var(--accent)" }}
+          >
+            Open PC CMS Studio ↗
+          </a>
           <Link className="admin-link" href="/" target="_blank" rel="noreferrer">
             View site ↗
           </Link>

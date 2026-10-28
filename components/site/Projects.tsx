@@ -23,7 +23,8 @@ export function Projects({ projects }: { projects: SiteContent["projects"] }) {
         {projects.items.map((project, i) => {
           // Odd-indexed cards (2nd, 4th) sit lower and land 120ms later.
           const offset = i % 2 === 1;
-          const external = Boolean(project.href);
+          const isInternalLink = Boolean(project.href && project.href.startsWith("/"));
+          const linkHref = isInternalLink ? project.href! : "#projects";
 
           return (
             <Reveal
@@ -36,10 +37,8 @@ export function Projects({ projects }: { projects: SiteContent["projects"] }) {
             >
               <a
                 className="project-card"
-                href={project.href ?? "#projects"}
-                data-href={project.href ?? ""}
-                target={external ? "_blank" : undefined}
-                rel={external ? "noreferrer noopener" : undefined}
+                href={linkHref}
+                data-href={linkHref}
               >
                 <LiquidImage
                   src={project.imageUrl}

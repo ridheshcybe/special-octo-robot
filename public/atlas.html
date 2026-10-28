@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semester 1 Knowledge Atlas & Interactive Engineering Lab</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Custom clean styling */
+    .glass-panel {
+      background: rgba(18, 18, 24, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .neon-glow-red {
+      box-shadow: 0 0 25px rgba(255, 59, 29, 0.25);
+    }
+    .neon-border-red {
+      border-color: #ff3b1d;
+    }
+    .tab-active {
+      background: #ff3b1d !important;
+      color: #ffffff !important;
+      font-weight: 700;
+    }
+    canvas {
+      image-rendering: crisp-edges;
+    }
+  </style>
+</head>
+<body class="bg-[#08080a] text-[#f3f1ea] min-h-screen font-sans antialiased selection:bg-[#ff3b1d] selection:text-white p-4 md:p-8">
+
+  <!-- TOP HEADER BAR -->
+  <header class="max-w-7xl mx-auto mb-8 border-b border-[#26262c] pb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#ff3b1d] animate-pulse"></span>
+        <span class="text-xs font-mono font-semibold uppercase tracking-widest text-[#ff3b1d]">
+          DYPIU School of Computer Science &amp; Applications • AY 2026–27
+        </span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-black tracking-tight uppercase text-white flex items-center gap-3">
+        Semester 1 <span class="text-[#ff3b1d]">Engineering Atlas</span>
+      </h1>
+      <p class="text-sm md:text-base text-[#a19f95] mt-1 max-w-2xl">
+        Interactive visualization suite featuring real-time mathematical vector fields, circuit oscilloscopes, CPU pipeline simulation, and curriculum knowledge maps.
+      </p>
+    </div>
+
+    <!-- Quick Stats Pill -->
+    <div class="flex items-center gap-3 bg-[#111114] border border-[#26262c] rounded-xl p-3 px-5">
+      <div class="text-center pr-4 border-r border-[#26262c]">
+        <div class="text-2xl font-black text-[#ff3b1d]">6</div>
+        <div class="text-[11px] font-mono uppercase text-[#a19f95]">Courses</div>
+      </div>
+      <div class="text-center pr-4 border-r border-[#26262c]">
+        <div class="text-2xl font-black text-white">20</div>
+        <div class="text-[11px] font-mono uppercase text-[#a19f95]">Credits</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-black text-[#4ade80]">28</div>
+        <div class="text-[11px] font-mono uppercase text-[#a19f95]">Units &amp; Labs</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVIGATION TABS -->
+  <div class="max-w-7xl mx-auto mb-8">
+    <div class="flex flex-wrap gap-2 p-1.5 bg-[#111114] border border-[#26262c] rounded-xl text-xs font-mono uppercase">
+      <button onclick="switchTab('curriculum')" id="tab-curriculum" class="tab-btn tab-active px-4 py-2.5 rounded-lg transition-all flex items-center gap-2">
+        <span>🌌</span> Curriculum Galaxy
+      </button>
+      <button onclick="switchTab('acm')" id="tab-acm" class="tab-btn px-4 py-2.5 rounded-lg text-[#a19f95] hover:text-white transition-all flex items-center gap-2">
+        <span>📐</span> ACM Matrix &amp; Eigen
+      </button>
+      <button onclick="switchTab('beee')" id="tab-beee" class="tab-btn px-4 py-2.5 rounded-lg text-[#a19f95] hover:text-white transition-all flex items-center gap-2">
+        <span>⚡</span> BEEE Oscilloscope Lab
+      </button>
+      <button onclick="switchTab('coa')" id="tab-coa" class="tab-btn px-4 py-2.5 rounded-lg text-[#a19f95] hover:text-white transition-all flex items-center gap-2">
+        <span>💻</span> COA 5-Stage Pipeline
+      </button>
+      <button onclick="switchTab('iks')" id="tab-iks" class="tab-btn px-4 py-2.5 rounded-lg text-[#a19f95] hover:text-white transition-all flex items-center gap-2">
+        <span>🏛️</span> IKS Heritage Timeline
+      </button>
+    </div>
+  </div>
+
+  <main class="max-w-7xl mx-auto">
+
+    <!-- TAB 1: CURRICULUM GALAXY -->
+    <section id="view-curriculum" class="tab-view block space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Subject 1: ACM -->
+        <div class="bg-[#111114] border border-[#26262c] hover:border-[#ff3b1d] rounded-2xl p-6 transition-all group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-mono px-2.5 py-1 rounded bg-[#ff3b1d]/10 text-[#ff3b1d] font-bold border border-[#ff3b1d]/20">
+              CSE1001 • 3 Credits
+            </span>
+            <span class="text-2xl">📐</span>
+          </div>
+          <h2 class="text-xl font-bold uppercase text-white group-hover:text-[#ff3b1d] transition-colors">
+            Applied Computational Math
+          </h2>
+          <p class="text-xs text-[#a19f95] mt-2 leading-relaxed">
+            Linear algebra row echelon forms, rank &rho;(A), multivariable calculus, Euler's theorem, ODEs &amp; vector gradient/curl.
+          </p>
+          <div class="mt-4 pt-4 border-t border-[#26262c] flex items-center justify-between text-xs font-mono text-[#a19f95]">
+            <span>5 Modules</span>
+            <span class="text-[#4ade80]">3 Contact Hrs/Wk</span>
+          </div>
+        </div>
+
+        <!-- Subject 2: BEEE -->
+        <div class="bg-[#111114] border border-[#26262c] hover:border-[#ff3b1d] rounded-2xl p-6 transition-all group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-mono px-2.5 py-1 rounded bg-[#ff3b1d]/10 text-[#ff3b1d] font-bold border border-[#ff3b1d]/20">
+              CSE1002/P • 3+1 Credits
+            </span>
+            <span class="text-2xl">⚡</span>
+          </div>
+          <h2 class="text-xl font-bold uppercase text-white group-hover:text-[#ff3b1d] transition-colors">
+            Basic Electrical &amp; Electronics
+          </h2>
+          <p class="text-xs text-[#a19f95] mt-2 leading-relaxed">
+            KCL/KVL, Thevenin/Norton, PN junction diodes, bridge rectifiers, BJT/MOSFET switches, Op-Amps, plus Hardware Practicals 1–5.
+          </p>
+          <div class="mt-4 pt-4 border-t border-[#26262c] flex items-center justify-between text-xs font-mono text-[#a19f95]">
+            <span>5 Modules + Lab</span>
+            <span class="text-[#4ade80]">3+2 Contact Hrs</span>
+          </div>
+        </div>
+
+        <!-- Subject 3: COA -->
+        <div class="bg-[#111114] border border-[#26262c] hover:border-[#ff3b1d] rounded-2xl p-6 transition-all group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-mono px-2.5 py-1 rounded bg-[#ff3b1d]/10 text-[#ff3b1d] font-bold border border-[#ff3b1d]/20">
+              CSE1003 • 3 Credits
+            </span>
+            <span class="text-2xl">💻</span>
+          </div>
+          <h2 class="text-xl font-bold uppercase text-white group-hover:text-[#ff3b1d] transition-colors">
+            Computer Org &amp; Architecture
+          </h2>
+          <p class="text-xs text-[#a19f95] mt-2 leading-relaxed">
+            Von Neumann vs Harvard, 8 Great Ideas, Booth's multiplication, 5-stage RISC pipelining, cache memory hierarchy &amp; DMA.
+          </p>
+          <div class="mt-4 pt-4 border-t border-[#26262c] flex items-center justify-between text-xs font-mono text-[#a19f95]">
+            <span>5 Modules + Assg 1 &amp; 2</span>
+            <span class="text-[#4ade80]">3 Contact Hrs/Wk</span>
+          </div>
+        </div>
+
+        <!-- Subject 4: FWT -->
+        <div class="bg-[#111114] border border-[#26262c] hover:border-[#ff3b1d] rounded-2xl p-6 transition-all group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-mono px-2.5 py-1 rounded bg-[#ff3b1d]/10 text-[#ff3b1d] font-bold border border-[#ff3b1d]/20">
+              CSE1004/P • 3+1 Credits
+            </span>
+            <span class="text-2xl">🌐</span>
+          </div>
+          <h2 class="text-xl font-bold uppercase text-white group-hover:text-[#ff3b1d] transition-colors">
+            Fundamentals of Web Tech
+          </h2>
+          <p class="text-xs text-[#a19f95] mt-2 leading-relaxed">
+            ARPANET evolution, HTTP/HTTPS, DNS, Semantic HTML5, modern CSS3 Flexbox/Grid layouts, JavaScript DOM, and Practicals 1–4.
+          </p>
+          <div class="mt-4 pt-4 border-t border-[#26262c] flex items-center justify-between text-xs font-mono text-[#a19f95]">
+            <span>5 Modules + Practicals</span>
+            <span class="text-[#4ade80]">3+2 Contact Hrs</span>
+          </div>
+        </div>
+
+        <!-- Subject 5: Python -->
+        <div class="bg-[#111114] border border-[#26262c] hover:border-[#ff3b1d] rounded-2xl p-6 transition-all group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-mono px-2.5 py-1 rounded bg-[#ff3b1d]/10 text-[#ff3b1d] font-bold border border-[#ff3b1d]/20">
+              CSE1005/P • 3+1 Credits
+            </span>
+            <span class="text-2xl">🐍</span>
+          </div>
+          <h2 class="text-xl font-bold uppercase text-white group-hover:text-[#ff3b1d] transition-colors">
+            Python Programming
+          </h2>
+          <p class="text-xs text-[#a19f95] mt-2 leading-relaxed">
+            Dynamic typing, control flow, functions, sequences &amp; dicts, regex, OOP design, NumPy vectorization &amp; Pandas DataFrames.
+          </p>
+          <div class="mt-4 pt-4 border-t border-[#26262c] flex items-center justify-between text-xs font-mono text-[#a19f95]">
+            <span>5 Modules + Exercise Sheet</span>
+            <span class="text-[#4ade80]">3+2 Contact Hrs</span>
+          </div>
+        </div>
+
+        <!-- Subject 6: IKS -->
+        <div class="bg-[#111114] border border-[#26262c] hover:border-[#ff3b1d] rounded-2xl p-6 transition-all group">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-mono px-2.5 py-1 rounded bg-[#ff3b1d]/10 text-[#ff3b1d] font-bold border border-[#ff3b1d]/20">
+              CSE1006 • 1 Credit
+            </span>
+            <span class="text-2xl">🏛️</span>
+          </div>
+          <h2 class="text-xl font-bold uppercase text-white group-hover:text-[#ff3b1d] transition-colors">
+            Indian Science, Engg &amp; Tech
+          </h2>
+          <p class="text-xs text-[#a19f95] mt-2 leading-relaxed">
+            Ancient geometry in Sulba Sutras, Aryabhata zero, Panini generative linguistics, Wootz crucible steel, and historic water systems.
+          </p>
+          <div class="mt-4 pt-4 border-t border-[#26262c] flex items-center justify-between text-xs font-mono text-[#a19f95]">
+            <span>4 Modules</span>
+            <span class="text-[#4ade80]">1 Contact Hr/Wk</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- INTERDISCIPLINARY COUPLING VISUALIZER -->
+      <div class="bg-[#111114] border border-[#26262c] rounded-2xl p-6">
+        <h3 class="text-sm font-mono uppercase tracking-wider text-[#ff3b1d] mb-2">
+          Interdisciplinary Engineering Synergy
+        </h3>
+        <p class="text-xs text-[#a19f95] mb-6">
+          How foundational semester 1 disciplines connect into unified software &amp; hardware systems:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+          <div class="p-4 rounded-xl bg-[#17171c] border border-[#26262c]">
+            <div class="text-[#ff3b1d] font-bold mb-1">ACM ⇄ Python (AI Foundations)</div>
+            <p class="text-[#807f78]">
+              Linear algebra matrix rank and eigenvalues in ACM directly empower NumPy vectorized tensor dot products and PCA algorithms in Python.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-[#17171c] border border-[#26262c]">
+            <div class="text-[#4ade80] font-bold mb-1">BEEE ⇄ COA (Silicon Microarchitecture)</div>
+            <p class="text-[#807f78]">
+              MOSFET switches and CMOS inverters in BEEE form the physical building blocks for logic gates and 5-stage pipelined registers in COA.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-[#17171c] border border-[#26262c]">
+            <div class="text-[#38bdf8] font-bold mb-1">FWT ⇄ Python (Distributed Systems)</div>
+            <p class="text-[#807f78]">
+              HTTP/HTTPS request cycles and client-side Fetch APIs in FWT interface directly with Python REST microservices and backend data pipelines.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: ACM MATRIX & EIGENVECTOR VISUALIZER -->
+    <section id="view-acm" class="tab-view hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Controls -->
+        <div class="bg-[#111114] border border-[#26262c] rounded-2xl p-6 space-y-5">
+          <div>
+            <span class="text-xs font-mono text-[#ff3b1d] font-bold uppercase">ACM Module I &amp; II</span>
+            <h2 class="text-xl font-bold text-white uppercase mt-1">2D Matrix Linear Transformation</h2>
+            <p class="text-xs text-[#a19f95] mt-1">
+              Adjust entries of matrix $A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$ to observe vector grid warping and eigen axes.
+            </p>
+          </div>
+
+          <!-- Preset Matrix Buttons -->
+          <div class="flex flex-wrap gap-2 text-xs font-mono">
+            <button onclick="setMatrix(2, 0, 0, 1)" class="px-2.5 py-1 bg-[#17171b] border border-[#26262c] rounded hover:border-[#ff3b1d]">Stretch X</button>
+            <button onclick="setMatrix(1, 1, 0, 1)" class="px-2.5 py-1 bg-[#17171b] border border-[#26262c] rounded hover:border-[#ff3b1d]">Shear X</button>
+            <button onclick="setMatrix(0, -1, 1, 0)" class="px-2.5 py-1 bg-[#17171b] border border-[#26262c] rounded hover:border-[#ff3b1d]">Rotate 90°</button>
+            <button onclick="setMatrix(1.5, 0.5, 0.5, 1.5)" class="px-2.5 py-1 bg-[#17171b] border border-[#26262c] rounded hover:border-[#ff3b1d]">Symmetric</button>
+            <button onclick="setMatrix(1, 0, 0, 1)" class="px-2.5 py-1 bg-[#ff3b1d]/20 text-[#ff3b1d] border border-[#ff3b1d]/30 rounded">Identity</button>
+          </div>
+
+          <!-- Matrix Sliders -->
+          <div class="space-y-4 pt-2">
+            <div>
+              <div class="flex justify-between text-xs font-mono text-[#a19f95] mb-1">
+                <span>Entry a (Top-Left):</span>
+                <span id="val-a" class="text-white font-bold">1.0</span>
+              </div>
+              <input type="range" id="slider-a" min="-2" max="3" step="0.1" value="1.0" class="w-full accent-[#ff3b1d]" oninput="updateMatrix()">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-mono text-[#a19f95] mb-1">
+                <span>Entry b (Top-Right):</span>
+                <span id="val-b" class="text-white font-bold">0.0</span>
+              </div>
+              <input type="range" id="slider-b" min="-2" max="2" step="0.1" value="0.0" class="w-full accent-[#ff3b1d]" oninput="updateMatrix()">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-mono text-[#a19f95] mb-1">
+                <span>Entry c (Bottom-Left):</span>
+                <span id="val-c" class="text-white font-bold">0.0</span>
+              </div>
+              <input type="range" id="slider-c" min="-2" max="2" step="0.1" value="0.0" class="w-full accent-[#ff3b1d]" oninput="updateMatrix()">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-mono text-[#a19f95] mb-1">
+                <span>Entry d (Bottom-Right):</span>
+                <span id="val-d" class="text-white font-bold">1.0</span>
+              </div>
+              <input type="range" id="slider-d" min="-2" max="3" step="0.1" value="1.0" class="w-full accent-[#ff3b1d]" oninput="updateMatrix()">
+            </div>
+          </div>
+
+          <!-- Real-Time Analytical Output -->
+          <div class="p-4 bg-[#08080a] border border-[#26262c] rounded-xl font-mono text-xs space-y-2">
+            <div class="flex justify-between text-[#a19f95]">
+              <span>Determinant det(A):</span>
+              <span id="calc-det" class="text-[#4ade80] font-bold">1.00</span>
+            </div>
+            <div class="flex justify-between text-[#a19f95]">
+              <span>Matrix Trace tr(A):</span>
+              <span id="calc-trace" class="text-white font-bold">2.00</span>
+            </div>
+            <div class="flex justify-between text-[#a19f95]">
+              <span>Eigenvalues &lambda;<sub>1</sub>, &lambda;<sub>2</sub>:</span>
+              <span id="calc-eigen" class="text-[#ff3b1d] font-bold">1.00, 1.00</span>
+            </div>
+            <div class="flex justify-between text-[#a19f95]">
+              <span>Invertibility:</span>
+              <span id="calc-inv" class="text-[#4ade80] font-bold">Invertible (Rank 2)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Canvas -->
+        <div class="lg:col-span-2 bg-[#111114] border border-[#26262c] rounded-2xl p-6 flex flex-col items-center justify-center">
+          <canvas id="acmCanvas" width="560" height="420" class="rounded-xl border border-[#26262c] bg-[#08080a] max-w-full"></canvas>
+          <div class="flex flex-wrap items-center justify-center gap-6 mt-4 text-xs font-mono text-[#a19f95]">
+            <span class="flex items-center gap-2"><span class="w-3 h-0.5 bg-[#4ade80]"></span> Transformed Basis î (Col 1)</span>
+            <span class="flex items-center gap-2"><span class="w-3 h-0.5 bg-[#ff3b1d]"></span> Transformed Basis ĵ (Col 2)</span>
+            <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full border border-dashed border-[#a19f95]"></span> Unit Circle Image</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 3: BEEE OSCILLOSCOPE LAB -->
+    <section id="view-beee" class="tab-view hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Controls -->
+        <div class="bg-[#111114] border border-[#26262c] rounded-2xl p-6 space-y-5">
+          <div>
+            <span class="text-xs font-mono text-[#ff3b1d] font-bold uppercase">BEEE Module II &amp; Exp 4/5</span>
+            <h2 class="text-xl font-bold text-white uppercase mt-1">Rectifier Oscilloscope</h2>
+            <p class="text-xs text-[#a19f95] mt-1">
+              Simulate AC input conversion to pulsating DC across half-wave and full-wave bridge topologies with shunt capacitor filtering.
+            </p>
+          </div>
+
+          <!-- Mode Select -->
+          <div class="space-y-2">
+            <label class="text-xs font-mono text-[#a19f95] block">Rectifier Circuit Architecture:</label>
+            <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+              <button onclick="setRectifierMode('half')" id="btn-rect-half" class="p-2.5 rounded-lg border border-[#ff3b1d] bg-[#ff3b1d]/20 text-[#ff3b1d] font-bold">
+                Half-Wave (1 Diode)
+              </button>
+              <button onclick="setRectifierMode('bridge')" id="btn-rect-bridge" class="p-2.5 rounded-lg border border-[#26262c] bg-[#17171b] text-[#a19f95] hover:text-white">
+                Bridge (4 Diodes)
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter Slider -->
+          <div class="space-y-4 pt-2">
+            <div>
+              <div class="flex justify-between text-xs font-mono text-[#a19f95] mb-1">
+                <span>Filter Capacitance (C):</span>
+                <span id="val-cap" class="text-white font-bold">100 &mu;F</span>
+              </div>
+              <input type="range" id="slider-cap" min="0" max="470" step="10" value="100" class="w-full accent-[#ff3b1d]" oninput="updateRectifier()">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-mono text-[#a19f95] mb-1">
+                <span>AC Frequency:</span>
+                <span class="text-white font-bold">50 Hz (Standard)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calculated Metrics -->
+          <div class="p-4 bg-[#08080a] border border-[#26262c] rounded-xl font-mono text-xs space-y-2">
+            <div class="flex justify-between text-[#a19f95]">
+              <span>Ripple Factor (&gamma;):</span>
+              <span id="beee-ripple" class="text-[#ff3b1d] font-bold">0.12</span>
+            </div>
+            <div class="flex justify-between text-[#a19f95]">
+              <span>Theoretical Max Eff (&eta;):</span>
+              <span id="beee-eff" class="text-[#4ade80] font-bold">40.6%</span>
+            </div>
+            <div class="flex justify-between text-[#a19f95]">
+              <span>Peak Inverse Voltage:</span>
+              <span id="beee-piv" class="text-white font-bold">V<sub>m</sub> (15.0 V)</span>
+            </div>
+            <div class="flex justify-between text-[#a19f95]">
+              <span>Diode Drop (Si):</span>
+              <span class="text-[#807f78]">0.7 V Cut-In</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Oscilloscope Canvas -->
+        <div class="lg:col-span-2 bg-[#111114] border border-[#26262c] rounded-2xl p-6 flex flex-col items-center justify-center">
+          <canvas id="beeeCanvas" width="560" height="420" class="rounded-xl border border-[#26262c] bg-[#050508] max-w-full"></canvas>
+          <div class="flex flex-wrap items-center justify-center gap-6 mt-4 text-xs font-mono text-[#a19f95]">
+            <span class="flex items-center gap-2"><span class="w-3 h-0.5 bg-[#807f78] border-dashed"></span> AC Input (50 Hz)</span>
+            <span class="flex items-center gap-2"><span class="w-3 h-0.5 bg-[#ff3b1d]"></span> Filtered DC Output Waveform</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 4: COA 5-STAGE PIPELINE -->
+    <section id="view-coa" class="tab-view hidden space-y-6">
+      <div class="bg-[#111114] border border-[#26262c] rounded-2xl p-6 space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-mono text-[#ff3b1d] font-bold uppercase">COA Module II &amp; Unit 2</span>
+            <h2 class="text-xl font-bold text-white uppercase mt-1">5-Stage Classic RISC Pipeline Simulator</h2>
+            <p class="text-xs text-[#a19f95] mt-1">
+              Visualize Instruction-Level Parallelism, Data Hazards (RAW Dependencies), and the impact of Hardware Data Forwarding.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button onclick="stepPipeline()" class="px-4 py-2 bg-[#ff3b1d] text-white font-mono text-xs font-bold rounded-lg hover:bg-[#e03014] transition-all">
+              ▶ Step Clock Cycle (<span id="cycle-count">1</span>)
+            </button>
+            <button onclick="resetPipeline()" class="px-3 py-2 bg-[#17171b] border border-[#26262c] text-[#a19f95] font-mono text-xs rounded-lg hover:text-white">
+              ↺ Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Forwarding Toggle -->
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-[#08080a] border border-[#26262c]">
+          <span class="text-xs font-mono text-white font-bold">Data Hazard Resolution Mode:</span>
+          <label class="flex items-center gap-2 cursor-pointer text-xs font-mono">
+            <input type="checkbox" id="pipeline-forwarding" class="accent-[#ff3b1d]" checked onchange="resetPipeline()">
+            <span class="text-[#4ade80]">Hardware Data Forwarding (Bypassing) Active</span>
+          </label>
+        </div>
+
+        <!-- Pipeline Stages Flow Diagram -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs font-mono border-collapse text-center">
+            <thead>
+              <tr class="border-b border-[#26262c] text-[#a19f95]">
+                <th class="p-3 text-left">Instruction</th>
+                <th class="p-3">Cycle 1</th>
+                <th class="p-3">Cycle 2</th>
+                <th class="p-3">Cycle 3</th>
+                <th class="p-3">Cycle 4</th>
+                <th class="p-3">Cycle 5</th>
+                <th class="p-3">Cycle 6</th>
+                <th class="p-3">Cycle 7</th>
+              </tr>
+            </thead>
+            <tbody id="pipeline-body" class="divide-y divide-[#1e1e24]">
+              <!-- Dynamic Rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Hazard Explanation Box -->
+        <div class="p-4 bg-[#17171b] border border-[#26262c] rounded-xl text-xs font-mono space-y-2">
+          <div class="text-[#ff3b1d] font-bold">Microarchitectural Insight:</div>
+          <p id="pipeline-explanation" class="text-[#a19f95] leading-relaxed">
+            Instruction 1 computes <code class="text-white">R1 &larr; R2 + R3</code>. Instruction 2 immediately reads <code class="text-white">R1</code>. With Hardware Forwarding enabled, the ALU result is passed directly from EX/MEM to the EX stage of Instruction 2 with 0 stall cycles!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: IKS HERITAGE TIMELINE -->
+    <section id="view-iks" class="tab-view hidden space-y-6">
+      <div class="bg-[#111114] border border-[#26262c] rounded-2xl p-6">
+        <span class="text-xs font-mono text-[#ff3b1d] font-bold uppercase">CSE1006 Indian Knowledge Systems</span>
+        <h2 class="text-xl font-bold text-white uppercase mt-1 mb-6">Chronology of Indian Science, Math &amp; Metallurgy</h2>
+
+        <div class="relative border-l-2 border-[#26262c] ml-4 md:ml-8 pl-6 md:pl-10 space-y-8">
+
+          <!-- 800 BCE -->
+          <div class="relative group">
+            <div class="absolute -left-[31px] md:-left-[47px] top-1 w-4 h-4 rounded-full bg-[#ff3b1d] border-4 border-[#08080a]"></div>
+            <span class="text-xs font-mono text-[#ff3b1d] font-bold">~800 BCE</span>
+            <h3 class="text-lg font-bold text-white uppercase mt-0.5">Baudhayana Sulba Sutras (Geometry)</h3>
+            <p class="text-xs text-[#a19f95] mt-1 leading-relaxed">
+              Formulated geometric rules for altar construction and documented the relationship $a^2 + b^2 = c^2$ centuries before Pythagoras, alongside fractional rational approximations of $\sqrt{2}$.
+            </p>
+          </div>
+
+          <!-- 400 BCE -->
+          <div class="relative group">
+            <div class="absolute -left-[31px] md:-left-[47px] top-1 w-4 h-4 rounded-full bg-[#38bdf8] border-4 border-[#08080a]"></div>
+            <span class="text-xs font-mono text-[#38bdf8] font-bold">~4th Century BCE</span>
+            <h3 class="text-lg font-bold text-white uppercase mt-0.5">Panini's Ashtadhyayi (Generative Linguistics)</h3>
+            <p class="text-xs text-[#a19f95] mt-1 leading-relaxed">
+              Designed a formal rule-based generative grammar of 4,000 algorithmic sutras. Recognized by modern computer scientists as the foundational forerunner to Backus-Naur Form (BNF) in compiler theory.
+            </p>
+          </div>
+
+          <!-- 400 CE -->
+          <div class="relative group">
+            <div class="absolute -left-[31px] md:-left-[47px] top-1 w-4 h-4 rounded-full bg-[#4ade80] border-4 border-[#08080a]"></div>
+            <span class="text-xs font-mono text-[#4ade80] font-bold">~4th Century CE</span>
+            <h3 class="text-lg font-bold text-white uppercase mt-0.5">Delhi Iron Pillar (Corrosion-Resistant Metallurgy)</h3>
+            <p class="text-xs text-[#a19f95] mt-1 leading-relaxed">
+              A 6-tonne forged wrought iron pillar standing exposed to monsoon rains for over 1,600 years without rusting due to a high-phosphorus catalytic protective film ($\delta$-FeOOH / misawite).
+            </p>
+          </div>
+
+          <!-- 499 CE -->
+          <div class="relative group">
+            <div class="absolute -left-[31px] md:-left-[47px] top-1 w-4 h-4 rounded-full bg-[#eab308] border-4 border-[#08080a]"></div>
+            <span class="text-xs font-mono text-[#eab308] font-bold">499 CE</span>
+            <h3 class="text-lg font-bold text-white uppercase mt-0.5">Aryabhatiya by Aryabhata (Astronomy &amp; Zero)</h3>
+            <p class="text-xs text-[#a19f95] mt-1 leading-relaxed">
+              Formalized the decimal place-value system, introduced the concept of zero (*Shunya*), stated Earth rotates on its axis, and computed $\pi \approx 3.1416$.
+            </p>
+          </div>
+
+          <!-- 1200 CE -->
+          <div class="relative group">
+            <div class="absolute -left-[31px] md:-left-[47px] top-1 w-4 h-4 rounded-full bg-[#ec4899] border-4 border-[#08080a]"></div>
+            <span class="text-xs font-mono text-[#ec4899] font-bold">~12th Century CE</span>
+            <h3 class="text-lg font-bold text-white uppercase mt-0.5">Wootz Crucible Steel &amp; Zawar Zinc Smelting</h3>
+            <p class="text-xs text-[#a19f95] mt-1 leading-relaxed">
+              Southern Indian high-carbon crucible steel (*Ukku*) exported worldwide for legendary Damascus swords, while Zawar in Rajasthan operated the world's earliest industrial downward-distillation zinc smelting furnaces.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JAVASCRIPT SIMULATION LOGIC -->
+  <script>
+    // Tab Switching Logic
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(el => {
+        el.classList.remove('tab-active');
+        el.classList.add('text-[#a19f95]');
+      });
+
+      const activeView = document.getElementById('view-' + tabId);
+      const activeTabBtn = document.getElementById('tab-' + tabId);
+      if (activeView && activeTabBtn) {
+        activeView.classList.remove('hidden');
+        activeTabBtn.classList.add('tab-active');
+        activeTabBtn.classList.remove('text-[#a19f95]');
+      }
+
+      if (tabId === 'acm') drawAcm();
+      if (tabId === 'beee') drawBeee();
+    }
+
+    // ==========================================
+    // TAB 2: ACM 2D MATRIX CANVAS LOGIC
+    // ==========================================
+    let matA = 1.0, matB = 0.0, matC = 0.0, matD = 1.0;
+
+    function setMatrix(a, b, c, d) {
+      document.getElementById('slider-a').value = a;
+      document.getElementById('slider-b').value = b;
+      document.getElementById('slider-c').value = c;
+      document.getElementById('slider-d').value = d;
+      updateMatrix();
+    }
+
+    function updateMatrix() {
+      matA = parseFloat(document.getElementById('slider-a').value);
+      matB = parseFloat(document.getElementById('slider-b').value);
+      matC = parseFloat(document.getElementById('slider-c').value);
+      matD = parseFloat(document.getElementById('slider-d').value);
+
+      document.getElementById('val-a').textContent = matA.toFixed(1);
+      document.getElementById('val-b').textContent = matB.toFixed(1);
+      document.getElementById('val-c').textContent = matC.toFixed(1);
+      document.getElementById('val-d').textContent = matD.toFixed(1);
+
+      const det = (matA * matD) - (matB * matC);
+      const trace = matA + matD;
+      document.getElementById('calc-det').textContent = det.toFixed(2);
+      document.getElementById('calc-trace').textContent = trace.toFixed(2);
+
+      // Eigenvalues: lambda^2 - tr*lambda + det = 0
+      const disc = (trace * trace) - (4 * det);
+      if (disc >= 0) {
+        const l1 = (trace + Math.sqrt(disc)) / 2;
+        const l2 = (trace - Math.sqrt(disc)) / 2;
+        document.getElementById('calc-eigen').textContent = `${l1.toFixed(2)}, ${l2.toFixed(2)}`;
+      } else {
+        const real = (trace / 2).toFixed(2);
+        const imag = (Math.sqrt(-disc) / 2).toFixed(2);
+        document.getElementById('calc-eigen').textContent = `${real} ± ${imag}i`;
+      }
+
+      document.getElementById('calc-inv').textContent = Math.abs(det) > 0.001 ? "Invertible (Rank 2)" : "Singular (Rank < 2)";
+
+      drawAcm();
+    }
+
+    function drawAcm() {
+      const cvs = document.getElementById('acmCanvas');
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width, h = cvs.height;
+      const cx = w / 2, cy = h / 2;
+      const scale = 70; // 70px per unit
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Draw Background Grid
+      ctx.strokeStyle = '#1e1e24';
+      ctx.lineWidth = 1;
+      for (let x = -3; x <= 3; x++) {
+        ctx.beginPath();
+        ctx.moveTo(cx + x * scale, 0);
+        ctx.lineTo(cx + x * scale, h);
+        ctx.stroke();
+      }
+      for (let y = -3; y <= 3; y++) {
+        ctx.beginPath();
+        ctx.moveTo(0, cy + y * scale);
+        ctx.lineTo(w, cy + y * scale);
+        ctx.stroke();
+      }
+
+      // Draw Main Axes
+      ctx.strokeStyle = '#3b3b44';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+      ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
+      ctx.stroke();
+
+      // Draw Transformed Unit Circle
+      ctx.strokeStyle = 'rgba(161, 159, 149, 0.4)';
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      for (let th = 0; th <= Math.PI * 2; th += 0.05) {
+        const u = Math.cos(th), v = Math.sin(th);
+        const tx = (matA * u + matB * v) * scale;
+        const ty = (matC * u + matD * v) * scale;
+        if (th === 0) ctx.moveTo(cx + tx, cy - ty);
+        else ctx.lineTo(cx + tx, cy - ty);
+      }
+      ctx.closePath();
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw Transformed Basis Vector î = [a, c]
+      ctx.strokeStyle = '#4ade80';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + matA * scale, cy - matC * scale);
+      ctx.stroke();
+
+      // Draw Transformed Basis Vector ĵ = [b, d]
+      ctx.strokeStyle = '#ff3b1d';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + matB * scale, cy - matD * scale);
+      ctx.stroke();
+    }
+
+    // ==========================================
+    // TAB 3: BEEE OSCILLOSCOPE LOGIC
+    // ==========================================
+    let rectMode = 'half';
+    let filterCap = 100;
+
+    function setRectifierMode(mode) {
+      rectMode = mode;
+      const bHalf = document.getElementById('btn-rect-half');
+      const bBridge = document.getElementById('btn-rect-bridge');
+      if (mode === 'half') {
+        bHalf.className = "p-2.5 rounded-lg border border-[#ff3b1d] bg-[#ff3b1d]/20 text-[#ff3b1d] font-bold";
+        bBridge.className = "p-2.5 rounded-lg border border-[#26262c] bg-[#17171b] text-[#a19f95] hover:text-white";
+        document.getElementById('beee-eff').textContent = "40.6%";
+        document.getElementById('beee-piv').textContent = "Vm (15.0 V)";
+      } else {
+        bBridge.className = "p-2.5 rounded-lg border border-[#ff3b1d] bg-[#ff3b1d]/20 text-[#ff3b1d] font-bold";
+        bHalf.className = "p-2.5 rounded-lg border border-[#26262c] bg-[#17171b] text-[#a19f95] hover:text-white";
+        document.getElementById('beee-eff').textContent = "81.2%";
+        document.getElementById('beee-piv').textContent = "Vm (Bridge: 15.0 V)";
+      }
+      updateRectifier();
+    }
+
+    function updateRectifier() {
+      filterCap = parseFloat(document.getElementById('slider-cap').value);
+      document.getElementById('val-cap').textContent = filterCap + " µF";
+
+      const baseRipple = rectMode === 'half' ? 1.21 : 0.482;
+      const ripple = (baseRipple / (1 + filterCap * 0.05)).toFixed(3);
+      document.getElementById('beee-ripple').textContent = ripple;
+
+      drawBeee();
+    }
+
+    function drawBeee() {
+      const cvs = document.getElementById('beeeCanvas');
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width, h = cvs.height;
+      const cy = h / 2;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Oscilloscope Green Grid
+      ctx.strokeStyle = '#0f291e';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 40) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 40) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      // AC Input Waveform (Dashed gray)
+      ctx.strokeStyle = '#606068';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      for (let x = 0; x < w; x++) {
+        const y = cy - Math.sin(x * 0.04) * 80;
+        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Rectified & Filtered DC Output
+      ctx.strokeStyle = '#ff3b1d';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+
+      let vCap = 0;
+      const decay = Math.exp(-1 / (Math.max(10, filterCap) * 0.4));
+
+      for (let x = 0; x < w; x++) {
+        const rawAc = Math.sin(x * 0.04);
+        let rawRect = 0;
+        if (rectMode === 'half') {
+          rawRect = Math.max(0, rawAc);
+        } else {
+          rawRect = Math.abs(rawAc);
+        }
+
+        if (filterCap === 0) {
+          vCap = rawRect;
+        } else {
+          if (rawRect > vCap) {
+            vCap = rawRect;
+          } else {
+            vCap = vCap * decay;
+          }
+        }
+
+        const outY = cy - vCap * 80;
+        if (x === 0) ctx.moveTo(x, outY); else ctx.lineTo(x, outY);
+      }
+      ctx.stroke();
+    }
+
+    // ==========================================
+    // TAB 4: COA 5-STAGE PIPELINE LOGIC
+    // ==========================================
+    let currentCycle = 1;
+    const instructions = [
+      { name: "I1: ADD R1, R2, R3", start: 1, stages: ["IF", "ID", "EX", "MEM", "WB"] },
+      { name: "I2: SUB R4, R1, R5", start: 2, stages: ["IF", "ID", "EX", "MEM", "WB"] },
+      { name: "I3: AND R6, R1, R7", start: 3, stages: ["IF", "ID", "EX", "MEM", "WB"] },
+      { name: "I4: OR  R8, R4, R9", start: 4, stages: ["IF", "ID", "EX", "MEM", "WB"] }
+    ];
+
+    function stepPipeline() {
+      currentCycle = (currentCycle % 7) + 1;
+      document.getElementById('cycle-count').textContent = currentCycle;
+      renderPipelineTable();
+    }
+
+    function resetPipeline() {
+      currentCycle = 1;
+      document.getElementById('cycle-count').textContent = currentCycle;
+      renderPipelineTable();
+    }
+
+    function renderPipelineTable() {
+      const tbody = document.getElementById('pipeline-body');
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      const hasForwarding = document.getElementById('pipeline-forwarding').checked;
+
+      instructions.forEach((inst, idx) => {
+        let offset = inst.start;
+        // Without forwarding, I2 must stall 2 cycles waiting for I1 WB
+        if (!hasForwarding && idx === 1) offset += 2;
+        if (!hasForwarding && idx >= 2) offset += 2;
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-[#17171c]/50 transition-colors";
+
+        let html = `<td class="p-3 text-left font-bold text-white">${inst.name}</td>`;
+
+        for (let c = 1; c <= 7; c++) {
+          const stageIdx = c - offset;
+          let cellContent = `<span class="text-[#3b3b44]">-</span>`;
+
+          if (stageIdx >= 0 && stageIdx < 5) {
+            const st = inst.stages[stageIdx];
+            const isCurrent = c === currentCycle;
+
+            let colorBg = "bg-[#1f1f28] text-[#a19f95]";
+            if (st === "IF") colorBg = "bg-blue-500/20 text-blue-400 border border-blue-500/30";
+            if (st === "ID") colorBg = "bg-purple-500/20 text-purple-400 border border-purple-500/30";
+            if (st === "EX") colorBg = "bg-[#ff3b1d]/20 text-[#ff3b1d] border border-[#ff3b1d]/40 font-bold";
+            if (st === "MEM") colorBg = "bg-amber-500/20 text-amber-400 border border-amber-500/30";
+            if (st === "WB") colorBg = "bg-[#4ade80]/20 text-[#4ade80] border border-[#4ade80]/30 font-bold";
+
+            if (isCurrent) colorBg += " ring-2 ring-white scale-105";
+
+            cellContent = `<span class="px-2 py-1 rounded ${colorBg}">${st}</span>`;
+          } else if (!hasForwarding && idx >= 1 && c >= inst.start && c < offset) {
+            cellContent = `<span class="px-2 py-0.5 rounded bg-red-950/40 text-red-400 border border-red-800/40 font-bold">STALL</span>`;
+          }
+
+          html += `<td class="p-3">${cellContent}</td>`;
+        }
+
+        tr.innerHTML = html;
+        tbody.appendChild(tr);
+      });
+
+      const exp = document.getElementById('pipeline-explanation');
+      if (hasForwarding) {
+        exp.innerHTML = `Hardware Forwarding Active: <code class="text-white">R1</code> computed in Cycle 3 (EX stage) is forwarded directly from the ALU output bus to I2's ALU input in Cycle 4. <strong>Zero stall penalties!</strong> Total execution: 8 clock cycles.`;
+      } else {
+        exp.innerHTML = `No Forwarding: Instruction 2 requires <code class="text-white">R1</code> in its Decode/Execute stage, but <code class="text-white">R1</code> is not written into the Register File until Cycle 5 (WB). <strong>2 Pipeline Stalls (Bubbles) injected!</strong>`;
+      }
+    }
+
+    // Initial Render
+    window.addEventListener('load', () => {
+      drawAcm();
+      drawBeee();
+      renderPipelineTable();
+    });
+  </script>
+</body>
+</html>

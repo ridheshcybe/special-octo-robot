@@ -26,12 +26,9 @@ export function ContactFooter({ contact, social }: ContactFooterProps) {
         {contact.body}
       </Reveal>
 
-      <a className="email" href={`mailto:${contact.email}`}>
+      <p className="email" style={{ cursor: "default", userSelect: "all" }}>
         {contact.email}
-        <span className="arr" aria-hidden="true">
-          ↗
-        </span>
-      </a>
+      </p>
 
       <div className="footer-bar">
         <div className="fb-brand">
@@ -43,9 +40,15 @@ export function ContactFooter({ contact, social }: ContactFooterProps) {
           <ul className="social">
             {social.map((link) => (
               <li key={link.id}>
-                <a href={link.url} target="_blank" rel="noreferrer noopener">
+                <span
+                  style={{
+                    color: "var(--muted)",
+                    fontSize: "var(--body)",
+                    letterSpacing: "0.02em",
+                  }}
+                >
                   {link.label}
-                </a>
+                </span>
               </li>
             ))}
           </ul>

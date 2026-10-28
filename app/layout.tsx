@@ -39,7 +39,7 @@ export const viewport: Viewport = {
  * Motion classes start hidden only once this flag is set, so the page renders
  * complete, visible HTML without JavaScript.
  */
-const JS_FLAG = `document.documentElement.classList.add("js");if(location.pathname.indexOf("/courses")!==0)document.documentElement.classList.add("rem-grid");`;
+const JS_FLAG = `document.documentElement.classList.add("js");if(location.pathname.indexOf("/courses")!==0&&location.pathname.indexOf("/prepmeup")!==0)document.documentElement.classList.add("rem-grid");`;
 
 const NOSCRIPT_CSS = `<style>
 .preloader{display:none}
