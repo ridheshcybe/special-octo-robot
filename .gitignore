@@ -23,3 +23,10 @@ hls/
 # Sensitive CSV credentials
 *.csv
 rzp-key.csv
+
+# GCP Service Account Keys & Secrets
+*gcp*.json
+gcp-key.json
+service-account*.json
+*.key.json
+.secrets/
