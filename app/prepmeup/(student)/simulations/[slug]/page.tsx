@@ -20,6 +20,7 @@ import { CallStackSim } from "../_components/python/CallStackSim";
 import { DataStructureSim } from "../_components/python/DataStructureSim";
 import { CodeTracingSim } from "../_components/python/CodeTracingSim";
 import { AtlasSimViewer } from "../_components/AtlasSimViewer";
+import { DynamicInteractiveSim } from "../../../_components/DynamicInteractiveSim";
 
 interface SimulationPageProps {
   params: Promise<{
@@ -59,8 +60,21 @@ export default function SimulationRunnerPage({ params }: SimulationPageProps) {
         return <CodeTracingSim />;
       case "AtlasSimViewer":
         return <AtlasSimViewer slug={slug} />;
+      case "DynamicInteractiveSim":
       default:
-        return <div>Simulation component not registered.</div>;
+        return (
+          <DynamicInteractiveSim
+            title={sim.title}
+            subjectCode={sim.subjectCode}
+            theoryFormula={sim.theoryFormula}
+            theoryGuide={sim.theoryGuide}
+            simType={
+              sim.subjectCode === "CSE1004" ? "protocol" :
+              sim.subjectCode === "CSE1001" ? "matrix" :
+              sim.subjectCode === "CSE1003" ? "pipeline" : "protocol"
+            }
+          />
+        );
     }
   };
 

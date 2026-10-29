@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import katex from "katex";
 
 /**
  * Extracts balanced curly braces { ... } from a string starting at startIndex.
@@ -95,8 +96,35 @@ function replaceTwoArgCommand(
  * radical signs, and mathematical operators.
  */
 export function renderLatexToHtml(latexRaw: string, isDisplay: boolean = false): string {
-  // 1. Initial sanitization of raw input text (only raw < and > are escaped)
-  let s = latexRaw.trim();
+  if (!latexRaw) return "";
+  let clean = latexRaw.trim();
+  if (clean.startsWith("$$") && clean.endsWith("$$")) {
+    clean = clean.slice(2, -2).trim();
+  } else if (clean.startsWith("\\[") && clean.endsWith("\\]")) {
+    clean = clean.slice(2, -2).trim();
+  } else if (clean.startsWith("\\(") && clean.endsWith("\\)")) {
+    clean = clean.slice(2, -2).trim();
+  } else if (clean.startsWith("$") && clean.endsWith("$") && clean.length > 2) {
+    clean = clean.slice(1, -1).trim();
+  }
+
+  // 1. Try KaTeX standard rendering first
+  try {
+    const rendered = katex.renderToString(clean, {
+      displayMode: isDisplay,
+      throwOnError: false,
+      strict: false,
+    });
+    if (isDisplay) {
+      return `<div class="katex-display-container">${rendered}</div>`;
+    }
+    return `<span class="katex-inline-container">${rendered}</span>`;
+  } catch {
+    // Fall back to custom regex parsing below
+  }
+
+  // 2. Initial sanitization of raw input text (only raw < and > are escaped)
+  let s = clean;
   s = s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
   // 2. Parse math internal tokens without re-escaping HTML tags
@@ -433,9 +461,14 @@ function formatInlineMarkdownAndMath(line: string): string {
     return `@@CODE_${idx}@@`;
   });
 
-  // 2. Extract inline math $$...$$ or $...$ or \(...\)
+  // 2. Extract inline math $$...$$ or \[...\] or \(...\) or $...$
   const mathTokens: string[] = [];
   processed = processed.replace(/\$\$([\s\S]+?)\$\$/g, (_m, expr) => {
+    const idx = mathTokens.length;
+    mathTokens.push(renderLatexToHtml(expr, true));
+    return `@@MATH_${idx}@@`;
+  });
+  processed = processed.replace(/\\\[([\s\S]+?)\\\]/g, (_m, expr) => {
     const idx = mathTokens.length;
     mathTokens.push(renderLatexToHtml(expr, true));
     return `@@MATH_${idx}@@`;
@@ -445,7 +478,7 @@ function formatInlineMarkdownAndMath(line: string): string {
     mathTokens.push(renderLatexToHtml(expr, false));
     return `@@MATH_${idx}@@`;
   });
-  processed = processed.replace(/\$([^$]+?)\$/g, (_m, expr) => {
+  processed = processed.replace(/(?<!\\)\$([^\$\n]+?)(?<!\\)\$/g, (_m, expr) => {
     const idx = mathTokens.length;
     mathTokens.push(renderLatexToHtml(expr, false));
     return `@@MATH_${idx}@@`;

@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import fs from "fs";
 import path from "path";
+import { generateSimulationDraft } from "@/lib/prepmeup/ai";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 
 export interface PublishedContentItem {
@@ -86,6 +87,19 @@ where singular values $\\sigma_i = \\sqrt{\\lambda_i(A^T A)}$.`,
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => ({}));
+    const { action } = body;
+
+    // 1. AI Simulation Generator Action
+    if (action === "generate_simulation") {
+      const {
+        subjectCode = "CSE1004",
+        topic = "Client-Server DNS & TCP/TLS Handshake",
+        difficulty = "Intermediate",
+      } = body;
+      const simulation = await generateSimulationDraft({ subjectCode, topic, difficulty });
+      return NextResponse.json({ ok: true, simulation });
+    }
+
     const {
       id,
       contentType = "note",
@@ -96,6 +110,7 @@ export async function POST(req: NextRequest) {
       readingTimeMin = 15,
       isSample = true,
       contentMarkdown = "",
+      simConfig = null,
     } = body;
 
     if (!title.trim() || !contentMarkdown.trim()) {
@@ -167,6 +182,33 @@ export async function POST(req: NextRequest) {
         state.modules[modIdx] = modObj;
       } else {
         state.modules.push(modObj);
+      }
+    } else if (contentType === "simulation") {
+      if (!state.simulations) state.simulations = [];
+      const slug = body.slug || title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      const simObj = {
+        slug,
+        title: title.trim(),
+        category: subjectCode === "CSE1004" ? "fwt" : subjectCode === "CSE1001" ? "acm" : "bee",
+        componentKey: "DynamicInteractiveSim",
+        summary: body.summary || `Interactive simulator for ${title}`,
+        difficulty: body.difficulty || "Intermediate",
+        estimatedMinutes: Number(readingTimeMin) || 15,
+        subjectCode,
+        subjectSlug: subjectCode === "CSE1004" ? "fundamentals-of-web-technologies" : "applied-computational-mathematics",
+        subjectName: subjectTitle,
+        theoryFormula: body.theoryFormula || "\\text{Metric} = f(\\text{Input})",
+        theoryGuide: body.theoryGuide || ["Interactive parameter exploration."],
+        simType: body.simType || (subjectCode === "CSE1004" ? "protocol" : "matrix"),
+        controls: body.controls || [],
+        initialState: body.initialState || {},
+        checkpoints: body.checkpoints || [],
+      };
+      const existingSimIdx = state.simulations.findIndex((s: any) => s.slug === slug);
+      if (existingSimIdx >= 0) {
+        state.simulations[existingSimIdx] = simObj;
+      } else {
+        state.simulations.unshift(simObj);
       }
     }
 

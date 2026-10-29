@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./prepmeup.css";
+import "katex/dist/katex.min.css";
 
 export const metadata: Metadata = {
   title: "PrepMeUp AI — B.Tech CSE AI/ML Semester 1 Learning Platform",

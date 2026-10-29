@@ -280,4 +280,26 @@ export const SIMULATIONS_REGISTRY: Record<string, SimulationMeta> = {
       "Ancient Indian crucible steel (Wootz) was exported globally and produced Damascus steel blades with high carbon content.",
     ],
   },
+  "dns-tcp-handshake": {
+    slug: "dns-tcp-handshake",
+    title: "Client-Server DNS & TCP/TLS Handshake Simulator",
+    category: "atlas",
+    componentKey: "DynamicInteractiveSim",
+    summary: "Interact with network round-trip time, window size, and TLS protocols to observe packet flows and handshake latency.",
+    difficulty: "Intermediate",
+    estimatedMinutes: 15,
+    subjectCode: "CSE1004",
+    subjectSlug: "fundamentals-of-web-technologies",
+    subjectName: "Fundamentals of Web Technologies",
+    theoryFormula: "\\text{Total Latency} = T_{\\text{DNS}} + 2 \\cdot \\text{RTT}_{\\text{TCP}} + \\text{RTT}_{\\text{TLS}} + \\frac{\\text{Payload}}{\\text{Bandwidth}}",
+    theoryGuide: [
+      "DNS resolves human-readable hostnames into 32-bit IPv4 or 128-bit IPv6 addresses via hierarchical root and TLD nameservers.",
+      "TCP SYN → SYN-ACK → ACK synchronizes sequence numbers across client and origin before any application data travels.",
+      "TLS 1.3 reduces cryptographic key exchange to 1 RTT using ephemeral Diffie-Hellman keys.",
+    ],
+  },
 };
+
+export function getSimulationBySlug(slug: string): SimulationMeta | null {
+  return SIMULATIONS_REGISTRY[slug] || null;
+}

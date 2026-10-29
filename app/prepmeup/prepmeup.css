@@ -33,6 +33,62 @@
   -webkit-font-smoothing: antialiased;
 }
 
+/* ============================ KaTeX High-Contrast Dark Math ============================ */
+.katex {
+  color: #f3f1ea !important;
+  font-size: 1.05em;
+  text-rendering: geometricPrecision;
+}
+
+.katex-display {
+  margin: 0.6em 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.katex-display > .katex {
+  text-align: center;
+  color: #f3f1ea !important;
+}
+
+.katex-display-container {
+  overflow-x: auto;
+  padding: 14px 18px;
+  background: #111114;
+  border: 1px solid rgba(255, 59, 29, 0.28);
+  border-left: 3px solid #ff3b1d;
+  border-radius: 8px;
+  margin: 14px 0;
+}
+
+.katex-inline-container {
+  display: inline-block;
+  vertical-align: baseline;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 59, 29, 0.08);
+  border: 1px solid rgba(255, 59, 29, 0.18);
+}
+
+.katex .mord,
+.katex .mrel,
+.katex .mop,
+.katex .minner,
+.katex .mbin,
+.katex .mopen,
+.katex .mclose {
+  color: #f3f1ea !important;
+}
+
+.katex .mord.mathnormal {
+  color: #ffd8cc !important;
+}
+
+.katex .katex-html {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
 .pmu-root *,
 .pmu-root *::before,
 .pmu-root *::after {

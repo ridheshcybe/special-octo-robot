@@ -601,3 +601,315 @@ function getMockQuestionsBatch(
     ],
   };
 }
+
+export interface GeneratedSimulation {
+  slug: string;
+  title: string;
+  category: "fwt" | "bee" | "python" | "coa" | "acm" | "iks";
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  estimatedMinutes: number;
+  subjectCode: string;
+  subjectName: string;
+  theoryFormula: string;
+  theoryGuide: string[];
+  summary: string;
+  simType: "protocol" | "matrix" | "circuit" | "pipeline" | "algorithm" | "interactive_lab";
+  controls: Array<{
+    id: string;
+    label: string;
+    type: "slider" | "toggle" | "stepper" | "select";
+    min?: number;
+    max?: number;
+    step?: number;
+    default: any;
+    unit?: string;
+    options?: string[];
+  }>;
+  initialState: Record<string, any>;
+  checkpoints: Array<{
+    question: string;
+    options: string[];
+    correctIndex: number;
+    explanation: string;
+  }>;
+  contentMarkdown: string;
+}
+
+export async function generateSimulationDraft(params: {
+  subjectCode: string;
+  topic: string;
+  difficulty?: "Beginner" | "Intermediate" | "Advanced";
+}): Promise<GeneratedSimulation> {
+  const { subjectCode, topic, difficulty = "Intermediate" } = params;
+  const slug = topic
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+  // Subject title resolution
+  const subjectMap: Record<string, { name: string; cat: GeneratedSimulation["category"]; defaultType: GeneratedSimulation["simType"] }> = {
+    CSE1001: { name: "Applied Computational Mathematics", cat: "acm", defaultType: "matrix" },
+    CSE1002: { name: "Basic Electrical & Electronics Engineering", cat: "bee", defaultType: "circuit" },
+    CSE1003: { name: "Computer Organization & Architecture", cat: "coa", defaultType: "pipeline" },
+    CSE1004: { name: "Fundamentals of Web Technologies", cat: "fwt", defaultType: "protocol" },
+    CSE1005: { name: "Python Programming", cat: "python", defaultType: "algorithm" },
+    CSE1006: { name: "Indian Science, Engineering & Technology", cat: "iks", defaultType: "interactive_lab" },
+  };
+
+  const meta = subjectMap[subjectCode] || {
+    name: "Engineering Curriculum",
+    cat: "fwt",
+    defaultType: "interactive_lab",
+  };
+
+  // Try calling Gemini if API key is present
+  if (GEMINI_API_KEY || GROQ_API_KEY) {
+    try {
+      const systemInstruction = `You are an expert STEM Simulation Architect designing an interactive browser-based learning workbench for university engineering students.
+Output ONLY valid JSON without backticks, markdown fences, or commentary.
+Required JSON format:
+{
+  "title": "Clear concise simulation title",
+  "summary": "1-2 sentence pedagogical description of what the student will learn",
+  "difficulty": "${difficulty}",
+  "estimatedMinutes": 15,
+  "theoryFormula": "LaTeX equation like I = \\\\frac{V}{R} or A\\\\mathbf{x} = \\\\lambda\\\\mathbf{x}",
+  "theoryGuide": ["Core concept 1", "Core concept 2", "Core concept 3"],
+  "simType": "${meta.defaultType}",
+  "controls": [
+    { "id": "param1", "label": "Parameter 1", "type": "slider", "min": 1, "max": 100, "step": 1, "default": 20, "unit": "ms" }
+  ],
+  "initialState": { "param1": 20 },
+  "checkpoints": [
+    {
+      "question": "Interactive test question based on moving controls",
+      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "correctIndex": 0,
+      "explanation": "Why Option A is correct according to the formula"
+    }
+  ],
+  "contentMarkdown": "### 1. Interactive Experiment Guide\\nDescribe how to explore the model..."
+}`;
+
+      const userPrompt = `Create an interactive learning simulation for:
+Subject: ${subjectCode} (${meta.name})
+Topic: ${topic}
+Target Difficulty: ${difficulty}`;
+
+      const raw = await callGemini([{ text: userPrompt }], systemInstruction);
+      const cleanJson = raw.replace(/^```json/m, "").replace(/^```/m, "").trim();
+      const parsed = JSON.parse(cleanJson);
+
+      return {
+        slug: slug || "custom-simulation",
+        title: parsed.title || `${topic} Interactive Simulation`,
+        category: meta.cat,
+        difficulty,
+        estimatedMinutes: parsed.estimatedMinutes || 15,
+        subjectCode,
+        subjectName: meta.name,
+        theoryFormula: parsed.theoryFormula || "E = mc^2",
+        theoryGuide: parsed.theoryGuide || ["Adjust controls to observe dynamic response."],
+        summary: parsed.summary || `Interactive laboratory exploration of ${topic}.`,
+        simType: parsed.simType || meta.defaultType,
+        controls: parsed.controls || [],
+        initialState: parsed.initialState || {},
+        checkpoints: parsed.checkpoints || [],
+        contentMarkdown: parsed.contentMarkdown || `### ${topic}\nExplore the simulation parameters above.`,
+      };
+    } catch (e) {
+      console.warn("[Simulator Generator] AI generation fallback triggered:", e);
+    }
+  }
+
+  // Fallback Curriculum Presets
+  if (subjectCode === "CSE1004" || topic.toLowerCase().includes("web") || topic.toLowerCase().includes("dns") || topic.toLowerCase().includes("http")) {
+    return {
+      slug: slug || "dns-tcp-handshake-simulator",
+      title: "Client-Server DNS & TCP/TLS Handshake Simulator",
+      category: "fwt",
+      difficulty,
+      estimatedMinutes: 15,
+      subjectCode: "CSE1004",
+      subjectName: "Fundamentals of Web Technologies",
+      theoryFormula: "\\text{Total Latency} = T_{\\text{DNS}} + 2 \\cdot \\text{RTT}_{\\text{TCP}} + (1 \\text{ or } 2) \\cdot \\text{RTT}_{\\text{TLS}} + \\frac{\\text{Payload}}{\\text{Bandwidth}}",
+      theoryGuide: [
+        "DNS translates human-readable hostnames (e.g. prepmeupai.in) into routable IP addresses via recursive root, TLD, and authoritative nameservers.",
+        "TCP establishes bidirectional byte-stream synchronisation via 3-way handshake: SYN → SYN-ACK → ACK.",
+        "TLS 1.3 optimizes cryptographic key exchange into a single round trip (1-RTT) and supports 0-RTT session resumption.",
+        "Packet loss triggers TCP retransmission timers (RTO), degrading interactive web page load performance.",
+      ],
+      summary: "Adjust round-trip latency, window size, and TLS versions to visually trace client-server packet transit and calculate real-world web response time.",
+      simType: "protocol",
+      controls: [
+        { id: "rttMs", label: "Network Round-Trip Time (RTT)", type: "slider", min: 10, max: 250, step: 5, default: 45, unit: "ms" },
+        { id: "windowSize", label: "TCP Congestion Window (cwnd)", type: "slider", min: 2, max: 32, step: 2, default: 10, unit: "packets" },
+        { id: "tlsVersion", label: "TLS Encryption Protocol", type: "select", options: ["TLS 1.3 (1-RTT)", "TLS 1.2 (2-RTT)", "Cleartext HTTP (0-RTT)"], default: "TLS 1.3 (1-RTT)" },
+        { id: "packetLoss", label: "Simulate 5% Packet Drop", type: "toggle", default: false },
+      ],
+      initialState: { rttMs: 45, windowSize: 10, tlsVersion: "TLS 1.3 (1-RTT)", packetLoss: false },
+      checkpoints: [
+        {
+          question: "Under standard TCP without 0-RTT resumption, how many round trips are required before the first encrypted application HTTP GET byte can be acknowledged in TLS 1.3?",
+          options: [
+            "A) 1 RTT (SYN only)",
+            "B) 2 RTT (1 TCP handshake + 1 TLS 1.3 key exchange)",
+            "C) 3 RTT (TCP 3-way + 2 TLS handshakes)",
+            "D) 0 RTT (Direct instant transmission)"
+          ],
+          correctIndex: 1,
+          explanation: "Standard TCP connection requires 1 RTT (SYN -> SYN-ACK), followed by TLS 1.3's single RTT (ClientHello -> ServerHello), totaling 2 RTTs before HTTP request data travels."
+        },
+        {
+          question: "When Network RTT increases from 20ms to 120ms (e.g., cross-continent mobile connection), what happens to total connection establishment latency?",
+          options: [
+            "A) Latency remains constant because fiber optics travel at light speed",
+            "B) Latency scales linearly with the handshake round trips (from 40ms to 240ms)",
+            "C) Latency decreases due to automatic buffer bloat mitigation",
+            "D) Connection drops immediately"
+          ],
+          correctIndex: 1,
+          explanation: "Handshake round trips are serialized; each round trip takes exactly 1 RTT. Increasing RTT by 6x scales the cumulative handshake time by 6x."
+        }
+      ],
+      contentMarkdown: `### 1. Architectural Overview: The Web Delivery Pipeline
+In Fundamentals of Web Technologies (CSE1004), client-server communication depends on three sequential protocol layers:
+1. **Application Layer (DNS & HTTP/2):** Resolves the origin server IP and formats semantic request headers.
+2. **Transport Layer (TCP):** Guarantees in-order, loss-free byte stream delivery using sequence numbers and cumulative acknowledgments.
+3. **Security Layer (TLS 1.3):** Establishes ephemeral Diffie-Hellman key pairs ($g^{ab} \\pmod{p}$) to encrypt HTTP headers and payloads against tampering.
+
+---
+
+### 2. Governing Mathematical Latency Model
+$$\\text{Connection Latency} = T_{\\text{DNS}} + \\text{RTT}_{\\text{TCP}} + N_{\\text{TLS}} \\cdot \\text{RTT}_{\\text{TLS}} + \\frac{\\text{Transfer Size}}{\\text{Bandwidth}}$$
+
+*Interact with the controls above to observe how physical latency and TLS handshakes impact real-world perceived page load speed.*`,
+    };
+  }
+
+  // ACM: Matrix Eigenfield
+  if (subjectCode === "CSE1001" || topic.toLowerCase().includes("matrix") || topic.toLowerCase().includes("eigen") || topic.toLowerCase().includes("linear")) {
+    return {
+      slug: slug || "matrix-eigenfield-stretcher",
+      title: "2D Matrix Transformation & Eigenvector Stretcher",
+      category: "acm",
+      difficulty,
+      estimatedMinutes: 20,
+      subjectCode: "CSE1001",
+      subjectName: "Applied Computational Mathematics",
+      theoryFormula: "A \\mathbf{x} = \\lambda \\mathbf{x} \\iff \\det(A - \\lambda I) = 0",
+      theoryGuide: [
+        "A 2D square matrix $A = \\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}$ linearly transforms basis vectors $\\hat{i}$ and $\\hat{j}$.",
+        "Eigenvectors are non-zero directions along which the transformation acts purely as a scalar elongation: $\\mathbf{x} \\mapsto \\lambda \\mathbf{x}$.",
+        "The determinant $\\det(A) = ad - bc$ denotes the signed area scaling factor of unit squares under $A$.",
+      ],
+      summary: "Manipulate matrix components in real time to visualize coordinate deformation, determinant area scaling, and eigenvector alignment.",
+      simType: "matrix",
+      controls: [
+        { id: "a11", label: "Matrix Element A[0,0] (a)", type: "slider", min: -3, max: 4, step: 0.5, default: 2 },
+        { id: "a12", label: "Matrix Element A[0,1] (b)", type: "slider", min: -3, max: 4, step: 0.5, default: 1 },
+        { id: "a21", label: "Matrix Element A[1,0] (c)", type: "slider", min: -3, max: 4, step: 0.5, default: 1 },
+        { id: "a22", label: "Matrix Element A[1,1] (d)", type: "slider", min: -3, max: 4, step: 0.5, default: 2 },
+        { id: "vectorAngle", label: "Probe Vector Angle (θ)", type: "slider", min: 0, max: 360, step: 5, default: 45, unit: "°" },
+      ],
+      initialState: { a11: 2, a12: 1, a21: 1, a22: 2, vectorAngle: 45 },
+      checkpoints: [
+        {
+          question: "When matrix A is symmetric (b = c = 1, a = d = 2), what are the calculated eigenvalues?",
+          options: [
+            "A) λ1 = 1, λ2 = 3",
+            "B) λ1 = 0, λ2 = 4",
+            "C) λ1 = 2, λ2 = 2",
+            "D) λ1 = -1, λ2 = 5",
+          ],
+          correctIndex: 0,
+          explanation: "Characteristic equation: det(A - λI) = (2 - λ)^2 - 1 = λ^2 - 4λ + 3 = (λ - 1)(λ - 3) = 0, yielding λ = 1 and λ = 3."
+        }
+      ],
+      contentMarkdown: `### 1. Geometric Foundations of Linear Algebra
+Any real square matrix $A \\in \\mathbb{R}^{2 \\times 2}$ maps the unit circle into an ellipse. The principal axes of this ellipse align directly with the orthogonal eigenvectors of $A A^T$.`,
+    };
+  }
+
+  // COA: CPU Pipelining
+  if (subjectCode === "CSE1003" || topic.toLowerCase().includes("pipeline") || topic.toLowerCase().includes("hazard") || topic.toLowerCase().includes("cpu")) {
+    return {
+      slug: slug || "cpu-5stage-pipeline-hazard-simulator",
+      title: "5-Stage CPU Pipeline & Hazard Forwarding Simulator",
+      category: "coa",
+      difficulty,
+      estimatedMinutes: 20,
+      subjectCode: "CSE1003",
+      subjectName: "Computer Organization & Architecture",
+      theoryFormula: "\\text{Speedup} = \\frac{N \\cdot k}{k + N - 1 + \\text{Stalls}}, \\quad \\text{CPI} = 1 + \\frac{\\text{Stall Cycles}}{\\text{Instructions}}",
+      theoryGuide: [
+        "Classic RISC 5-stage pipeline: Instruction Fetch (IF) → Decode (ID) → Execute (EX) → Memory (MEM) → Write Back (WB).",
+        "Data Hazards (RAW: Read After Write) arise when an instruction depends on a register result before it is written back.",
+        "Hardware Forwarding paths bypass the register file by routing values directly from EX/MEM or MEM/WB pipeline registers.",
+      ],
+      summary: "Step through CPU clock cycles, enable/disable data forwarding, and observe how pipeline bubbles prevent race hazards.",
+      simType: "pipeline",
+      controls: [
+        { id: "forwarding", label: "Operand Forwarding Bypasses", type: "toggle", default: true },
+        { id: "branchPrediction", label: "Branch Prediction (Always Taken)", type: "toggle", default: false },
+        { id: "clockStep", label: "Clock Cycle", type: "slider", min: 1, max: 10, step: 1, default: 3 },
+      ],
+      initialState: { forwarding: true, branchPrediction: false, clockStep: 3 },
+      checkpoints: [
+        {
+          question: "Without forwarding, how many stall cycles (bubbles) must the CPU inject between 'ADD R1, R2, R3' and 'SUB R4, R1, R5'?",
+          options: [
+            "A) 0 cycles",
+            "B) 1 cycle",
+            "C) 2 cycles (until R1 writes back in WB stage)",
+            "D) 5 cycles"
+          ],
+          correctIndex: 2,
+          explanation: "R1 is computed in cycle 3 (EX) but written back in cycle 5 (WB). The dependent SUB instruction decoding in cycle 2 needs R1 by cycle 3, causing 2 stall cycles without forwarding."
+        }
+      ],
+      contentMarkdown: `### 1. Pipelining Principles
+Pipelining does not decrease the latency of an individual instruction; instead, it dramatically increases instruction throughput by exploiting parallelism among overlapping instruction cycles.`,
+    };
+  }
+
+  // Default Generic Engineering Interactive Lab
+  return {
+    slug: slug || "interactive-engineering-lab",
+    title: `${topic} Interactive Learning Workbench`,
+    category: meta.cat,
+    difficulty,
+    estimatedMinutes: 15,
+    subjectCode,
+    subjectName: meta.name,
+    theoryFormula: "y = f(x_1, x_2, \\dots, x_n)",
+    theoryGuide: [
+      `Interactive parameter manipulation for ${topic}.`,
+      "Dynamic real-time graphical feedback connects mathematical formulas to engineering behavior.",
+      "Comprehension checkpoints reinforce syllabus mastery.",
+    ],
+    summary: `Hands-on interactive simulator for ${topic} (${subjectCode}).`,
+    simType: meta.defaultType,
+    controls: [
+      { id: "intensity", label: "Parameter Magnitude", type: "slider", min: 1, max: 100, step: 1, default: 50 },
+      { id: "mode", label: "Operating Regime", type: "select", options: ["Nominal State", "Peak Saturation", "Optimized Mode"], default: "Nominal State" },
+      { id: "boost", label: "Active Feedback Loop", type: "toggle", default: true },
+    ],
+    initialState: { intensity: 50, mode: "Nominal State", boost: true },
+    checkpoints: [
+      {
+        question: `How does increasing Parameter Magnitude impact governing equation outcomes in ${topic}?`,
+        options: [
+          "A) Produces a proportional monotonic response",
+          "B) Induces numerical divergence beyond critical limits",
+          "C) Leaves the system unchanged",
+          "D) Inverts state polarities"
+        ],
+        correctIndex: 0,
+        explanation: "In linear and quasi-linear regimes, output variables scale proportionally with input driving parameters."
+      }
+    ],
+    contentMarkdown: `### 1. Laboratory Objective: ${topic}
+Experiment with the interactive controls above to visualize the governing mathematical and physical principles of ${topic} (${subjectCode}).`,
+  };
+}

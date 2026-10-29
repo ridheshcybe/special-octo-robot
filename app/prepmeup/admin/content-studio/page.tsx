@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { RichMathMarkdown } from "@/app/prepmeup/_components/RichMathMarkdown";
+import { DynamicInteractiveSim } from "@/app/prepmeup/_components/DynamicInteractiveSim";
+import type { GeneratedSimulation } from "@/lib/prepmeup/ai";
 import { DailyCapsuleAdminStudio } from "./_components/DailyCapsuleAdminStudio";
 
 interface PublishedItem {
@@ -41,6 +43,21 @@ A = np.array([[2, 1], [1, 2]])
 eigenvalues, eigenvectors = np.linalg.eig(A)
 print("Eigenvalues:", eigenvalues)
 \`\`\``,
+
+  simulation: `### 1. Interactive Experiment Guide
+This interactive learning simulation connects governing mathematical equations to real-time physical and protocol behaviors.
+
+---
+
+### 2. Governing Theoretical Equation
+$\\text{Total Latency} = T_{\\text{DNS}} + 2 \\cdot \\text{RTT}_{\\text{TCP}} + N_{\\text{TLS}} \\cdot \\text{RTT}_{\\text{TLS}} + \\frac{\\text{Payload}}{\\text{Bandwidth}}$
+
+---
+
+### 3. Step-by-Step Hands-On Investigation
+1. Move the network latency slider to observe how TCP 3-way handshakes and TLS 1.3 round trips scale.
+2. Toggle 5% packet drop to observe RTO retransmission timeout penalties.
+3. Solve the interactive checkpoint questions below to verify your conceptual mastery.`,
 
   fwt: `### 1. HTTP vs HTTPS & The 3-Way Handshake
 In Fundamentals of Web Technologies (CSE1004), client-server communication relies on TCP/IP:
@@ -121,7 +138,10 @@ $$\\det(A - \\lambda I) = (2 - \\lambda)^2 - 1 = \\lambda^2 - 4\\lambda + 3 = 0 
 };
 
 export default function ContentStudioPage() {
-  const [contentType, setContentType] = useState<"note" | "module" | "topic" | "pyq" | "quiz">("note");
+  const [contentType, setContentType] = useState<"note" | "simulation" | "module" | "topic" | "pyq" | "quiz">("note");
+  const [simConfig, setSimConfig] = useState<GeneratedSimulation | null>(null);
+  const [simTopicInput, setSimTopicInput] = useState("");
+  const [generatingSim, setGeneratingSim] = useState(false);
   const [subjectCode, setSubjectCode] = useState("CSE1004");
   const [subjectTitle, setSubjectTitle] = useState("Fundamentals of Web Technologies");
   const [title, setTitle] = useState("Client-Server Architecture, DNS & HTTP/HTTPS Lifecycle");
@@ -158,10 +178,15 @@ export default function ContentStudioPage() {
     fetchPublished();
   }, []);
 
-  const handleContentTypeChange = (type: "note" | "module" | "topic" | "pyq" | "quiz") => {
+  const handleContentTypeChange = (type: "note" | "simulation" | "module" | "topic" | "pyq" | "quiz") => {
     setContentType(type);
     if (type === "note" && subjectCode === "CSE1004") {
       setContentMarkdown(TEMPLATES.fwt);
+    } else if (type === "simulation") {
+      setContentMarkdown(TEMPLATES.simulation);
+      if (!title || title.includes("Singular Value")) {
+        setTitle(subjectCode === "CSE1004" ? "Client-Server DNS & TCP/TLS Handshake Simulator" : "2D Matrix Transformation & Eigenvector Stretcher");
+      }
     } else if (TEMPLATES[type]) {
       setContentMarkdown(TEMPLATES[type]);
     }
@@ -209,6 +234,41 @@ export default function ContentStudioPage() {
     setToastMsg(null);
   };
 
+  const handleGenerateSimulation = async (topicOverride?: string) => {
+    const topicToUse = topicOverride || simTopicInput || title || "Client-Server DNS & TCP/TLS Handshake";
+    setGeneratingSim(true);
+    setToastMsg(null);
+    try {
+      const res = await fetch("/api/prepmeup/admin/content-studio", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "generate_simulation",
+          subjectCode,
+          topic: topicToUse,
+          difficulty: "Intermediate",
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.ok || !json.simulation) {
+        throw new Error(json.error || "Failed to generate simulation");
+      }
+      const sim: GeneratedSimulation = json.simulation;
+      setSimConfig(sim);
+      setTitle(sim.title);
+      setContentMarkdown(sim.contentMarkdown);
+      setContentType("simulation");
+      setToastMsg({
+        type: "success",
+        text: `✨ Successfully synthesized interactive simulation for "${sim.title}"! Test it live in the preview pane.`,
+      });
+    } catch (err: any) {
+      setToastMsg({ type: "error", text: err.message || "Failed to generate simulation" });
+    } finally {
+      setGeneratingSim(false);
+    }
+  };
+
   const handlePublish = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !contentMarkdown.trim()) {
@@ -233,6 +293,13 @@ export default function ContentStudioPage() {
           readingTimeMin,
           isSample,
           contentMarkdown,
+          slug: simConfig?.slug,
+          theoryFormula: simConfig?.theoryFormula,
+          theoryGuide: simConfig?.theoryGuide,
+          simType: simConfig?.simType,
+          controls: simConfig?.controls,
+          initialState: simConfig?.initialState,
+          checkpoints: simConfig?.checkpoints,
         }),
       });
 
@@ -346,6 +413,98 @@ export default function ContentStudioPage() {
       {/* Live AI Daily Capsule Generator & Broadcast Studio */}
       <DailyCapsuleAdminStudio />
 
+      {/* AI Interactive Simulator Generator Studio */}
+      <div
+        className="pmu-card"
+        style={{
+          padding: "22px 26px",
+          border: "1px solid rgba(255,59,29,0.35)",
+          backgroundColor: "#0d0d12",
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <span className="pmu-brand-mark" style={{ width: "1.25rem", height: "1.25rem", fontSize: "0.65rem" }}>
+                AI
+              </span>
+              <span style={{ fontSize: "11px", fontWeight: 700, color: "#ff8c73", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                Interactive Simulation Synthesis Engine
+              </span>
+            </div>
+            <h3 className="font-display" style={{ fontSize: "20px", textTransform: "uppercase", color: "#f3f1ea", marginTop: "4px" }}>
+              AI Simulator Generator &amp; Interactive Workbench
+            </h3>
+            <p style={{ fontSize: "12px", color: "#807f78", marginTop: "2px" }}>
+              Generate complete browser-native simulations with dynamic sliders, vector graphics, real-time formula evaluation, and self-assessment checkpoints.
+            </p>
+          </div>
+
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <button
+              type="button"
+              disabled={generatingSim}
+              onClick={() => handleGenerateSimulation()}
+              className="pmu-btn-primary"
+              style={{ padding: "10px 18px", fontSize: "12px", display: "flex", alignItems: "center", gap: "6px" }}
+            >
+              <span>{generatingSim ? "⚙️" : "✨"}</span>
+              {generatingSim ? "Synthesizing Simulator..." : "Generate Simulator (AI)"}
+            </button>
+          </div>
+        </div>
+
+        {/* Input & Quick Subject Presets */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <input
+              type="text"
+              value={simTopicInput}
+              onChange={(e) => setSimTopicInput(e.target.value)}
+              placeholder="e.g. Client-Server DNS & TCP Handshake, 2D Matrix Eigenvector Stretcher, BJT Switch, CPU Pipeline..."
+              className="pmu-input font-mono"
+              style={{ flex: 1, padding: "10px 14px", fontSize: "12px" }}
+            />
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+            <span style={{ fontSize: "11px", color: "#807f78", fontWeight: 600 }}>Quick Presets:</span>
+            {[
+              { code: "CSE1004", topic: "Client-Server DNS & TCP 3-Way Handshake" },
+              { code: "CSE1001", topic: "2D Matrix Transformation & Eigenvalues" },
+              { code: "CSE1002", topic: "BJT Switch & DC Circuit Divider" },
+              { code: "CSE1003", topic: "5-Stage CPU Pipeline Hazard Forwarding" },
+              { code: "CSE1005", topic: "Recursive Call Stack & Memory Tracing" },
+              { code: "CSE1006", topic: "Aryabhata Planetary Orbits & Sine Table" },
+            ].map((p) => (
+              <button
+                key={p.topic}
+                type="button"
+                onClick={() => {
+                  setSubjectCode(p.code);
+                  setSimTopicInput(p.topic);
+                  handleGenerateSimulation(p.topic);
+                }}
+                style={{
+                  padding: "4px 10px",
+                  fontSize: "11px",
+                  borderRadius: "4px",
+                  backgroundColor: "#17171b",
+                  border: "1px solid #26262c",
+                  color: "#d1cfc7",
+                  cursor: "pointer",
+                }}
+              >
+                <strong style={{ color: "#ff3b1d", marginRight: "4px" }}>{p.code}</strong> {p.topic}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Main Studio Workspace: Form Controls + Split-Pane Editor */}
       <form onSubmit={handlePublish} style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
         {/* Top Control Bar: Content Type & Subject */}
@@ -364,6 +523,7 @@ export default function ContentStudioPage() {
             <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "6px" }}>
               {[
                 { id: "note" as const, label: "📝 LaTeX Study Note" },
+                { id: "simulation" as const, label: "🔬 Interactive AI Simulator" },
                 { id: "module" as const, label: "📖 Syllabus Unit / Module" },
                 { id: "pyq" as const, label: "📚 Solved Past Paper (PYQ)" },
                 { id: "quiz" as const, label: "🎯 Practice Quiz Question" },
@@ -641,6 +801,27 @@ export default function ContentStudioPage() {
                   {title || "Untitled Document"}
                 </h3>
               </div>
+
+              {/* If Simulation: Render Dynamic Interactive Simulator Workbench */}
+              {contentType === "simulation" && (
+                <div style={{ marginBottom: "20px" }}>
+                  <DynamicInteractiveSim
+                    title={title}
+                    subjectCode={subjectCode}
+                    theoryFormula={simConfig?.theoryFormula || "\\text{Latency} = T_{\\text{DNS}} + 2 \\cdot \\text{RTT}_{\\text{TCP}} + \\text{RTT}_{\\text{TLS}}"}
+                    theoryGuide={simConfig?.theoryGuide}
+                    controls={simConfig?.controls}
+                    initialState={simConfig?.initialState}
+                    checkpoints={simConfig?.checkpoints}
+                    simType={
+                      simConfig?.simType ||
+                      (subjectCode === "CSE1004" ? "protocol" :
+                       subjectCode === "CSE1001" ? "matrix" :
+                       subjectCode === "CSE1003" ? "pipeline" : "protocol")
+                    }
+                  />
+                </div>
+              )}
 
               {/* Rendered Body */}
               <RichMathMarkdown content={contentMarkdown} />
