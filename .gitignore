@@ -24,6 +24,14 @@ hls/
 *.csv
 rzp-key.csv
 
+# Archives and build artifacts
+*.zip
+*.tar.gz
+
+# Deployment scratch
+deploy_hostinger.js
+package_for_hostinger.py
+
 # GCP Service Account Keys & Secrets
 *gcp*.json
 gcp-key.json

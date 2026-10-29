@@ -28,7 +28,7 @@ export default function TermsPage() {
             <strong>Tier 0 (₹0 Free Beta Pass):</strong> Limited to the first 10 verified beta testers who commit to providing structured academic feedback.
           </li>
           <li>
-            <strong>Tier 1 (₹99 Semester Pass):</strong> Full access to all 4 Semester 1 subject notes, formula sheets, past papers, topic quizzes, and interactive simulations for 180 days.
+            <strong>Tier 1 (₹99 Semester Pass):</strong> Access to the six currently listed Semester 1 subjects and their available notes, formula sheets, past papers, topic quizzes, and interactive simulations for 180 days.
           </li>
           <li>
             <strong>Tier 2 (₹199 Premium AI + Mentorship):</strong> Everything in Tier 1 plus 24/7 Priority AI Doubt Copilot, a scheduled 30-minute 1:1 Google Meet human video mentorship session, and exclusive Internship &amp; Career Roadmap review (Resume &amp; GitHub).

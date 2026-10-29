@@ -137,7 +137,7 @@ export default function AdminDashboardPage() {
   const [newSessName, setNewSessName] = useState("");
   const [newSessPhone, setNewSessPhone] = useState("");
   const [newSessTopic, setNewSessTopic] = useState("★ Internship & Career Support (Resume, GitHub & Referrals)");
-  const [newSessSlot, setNewSessSlot] = useState("Today, 7:00 PM – 7:45 PM IST");
+  const [newSessSlot, setNewSessSlot] = useState("Today, 7:00 PM – 7:30 PM IST");
 
   const [showPyqModal, setShowPyqModal] = useState(false);
   const [newPyqSubject, setNewPyqSubject] = useState("ACM-101");
@@ -1416,9 +1416,9 @@ export default function AdminDashboardPage() {
               <div>
                 <label className="pmu-label">Time Slot</label>
                 <select value={newSessSlot} onChange={(e) => setNewSessSlot(e.target.value)} className="pmu-input" style={{ fontSize: "12px" }}>
-                  <option value="Today, 7:00 PM – 7:45 PM IST">Today, 7:00 PM – 7:45 PM IST</option>
-                  <option value="Today, 9:00 PM – 9:45 PM IST">Today, 9:00 PM – 9:45 PM IST</option>
-                  <option value="Tomorrow, 6:00 PM – 6:45 PM IST">Tomorrow, 6:00 PM – 6:45 PM IST</option>
+                  <option value="Today, 7:00 PM – 7:30 PM IST">Today, 7:00 PM – 7:30 PM IST</option>
+                  <option value="Today, 9:00 PM – 9:30 PM IST">Today, 9:00 PM – 9:30 PM IST</option>
+                  <option value="Tomorrow, 6:00 PM – 6:30 PM IST">Tomorrow, 6:00 PM – 6:30 PM IST</option>
                   <option value="Direct WhatsApp + Weekend Deep-Dive">Direct WhatsApp + Weekend Deep-Dive</option>
                 </select>
               </div>

@@ -154,7 +154,7 @@ export default function PrepMeUpLandingPage() {
   const faqs = [
     {
       q: "How does the 3-Tier Financial Model work?",
-      a: "Tier 0 gives the first 10 students 100% FREE access as our Founding Beta Testers in exchange for direct product feedback and testimonials. Tier 1 (₹99) unlocks Basic Access (all 4 subjects, LaTeX notes, PYQs, quizzes, and simulations). Tier 2 (₹199) unlocks Premium AI Help + 1:1 Human Support + Exclusive Internship & Career Support.",
+      a: "Tier 0 gives the first 10 students 100% FREE access as our Founding Beta Testers in exchange for direct product feedback and testimonials. Tier 1 (₹99) unlocks Basic Access (all six currently listed subjects, available LaTeX notes, PYQs, quizzes, and simulations). Tier 2 (₹199) unlocks Premium AI Help + 1:1 Human Support + Exclusive Internship & Career Support.",
     },
     {
       q: "Is Internship and Career Support included in all plans?",
@@ -166,7 +166,7 @@ export default function PrepMeUpLandingPage() {
     },
     {
       q: "What subjects are included in Semester 1?",
-      a: "All passes unlock all 4 core Semester 1 subjects: Applied Computational Mathematics (ACM-101), Python Programming (PYT-102), Basic Electrical Engineering (BEE-103), and Computer Organisation & Architecture (COA-104).",
+      a: "All passes cover the six currently listed Semester 1 subjects: Applied Computational Mathematics (CSE1001), Basic Electrical and Electronics Engineering (CSE1002), Computer Organization and Architecture (CSE1003), Fundamentals of Web Technologies (CSE1004), Python Programming (CSE1005), and Indian Science, Engineering and Technology (CSE1006). Access includes available materials; some topic notes are not available yet.",
     },
   ];
 
@@ -572,7 +572,7 @@ export default function PrepMeUpLandingPage() {
                 </div>
 
                 <p style={{ marginTop: "0.75rem", fontSize: "0.8125rem", lineHeight: 1.55, color: "#a19f95" }}>
-                  Complete self-paced exam preparation across all 4 Semester 1 engineering subjects.
+                  Self-paced study across all six currently listed Semester 1 subjects. Some topic notes are not available yet.
                 </p>
 
                 <ul
@@ -587,8 +587,8 @@ export default function PrepMeUpLandingPage() {
                     padding: 0,
                   }}
                 >
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> All 4 Semester 1 Core Subjects</li>
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Full LaTeX Study Notes (Sample + Non-Sample)</li>
+                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> All Six Currently Listed Semester 1 Subjects</li>
+                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Available LaTeX Study Notes (Sample + Non-Sample)</li>
                   <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Solved University Past Papers (PYQ Key)</li>
                   <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Topic-wise Practice Quizzes &amp; Grading</li>
                   <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Interactive BEE &amp; Python Simulations</li>
@@ -657,7 +657,7 @@ export default function PrepMeUpLandingPage() {
                   <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Everything in Tier 1 (₹99) Included</strong></li>
                   <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Unlimited 24/7 Premium AI Doubt Copilot</strong></li>
                   <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Python Lab + AI Line-by-Line Debugger</strong></li>
-                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>1:1 Human Support &amp; Live Video Mentorship</strong></li>
+                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>30-minute 1:1 Human Video Mentorship</strong></li>
                   <li
                     style={{
                       marginTop: "2px",

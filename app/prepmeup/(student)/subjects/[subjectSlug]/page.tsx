@@ -48,7 +48,7 @@ export default async function SubjectDetailPage({ params }: SubjectDetailPagePro
               borderRadius: "4px",
             }}
           >
-            {subject.credit_units} Credits • All Sample &amp; Full Unit Notes Unlocked
+            {subject.credit_units} Credits • Syllabus &amp; Available Notes
           </span>
         </div>
         <h1

@@ -8,7 +8,7 @@ export function VideoSessionBookingForm() {
   const router = useRouter();
   const [topic, setTopic] = useState("Internship & Career Support (Resume, GitHub & Referrals)");
   const [whatsapp, setWhatsapp] = useState("");
-  const [slot, setSlot] = useState("Today, 7:00 PM – 7:45 PM IST");
+  const [slot, setSlot] = useState("Today, 7:00 PM – 7:30 PM IST");
   const [booked, setBooked] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -113,11 +113,11 @@ export function VideoSessionBookingForm() {
       </div>
 
       <div>
-        <label className="pmu-label">Preferred 1:1 Human Mentor Slot</label>
+        <label className="pmu-label">Preferred 30-minute 1:1 Human Mentor Slot</label>
         <select value={slot} onChange={(e) => setSlot(e.target.value)} className="pmu-input" style={{ fontSize: "12px", padding: "8px 10px" }}>
-          <option value="Today, 7:00 PM – 7:45 PM IST">Today, 7:00 PM – 7:45 PM IST</option>
-          <option value="Today, 9:00 PM – 9:45 PM IST">Today, 9:00 PM – 9:45 PM IST</option>
-          <option value="Tomorrow, 6:00 PM – 6:45 PM IST">Tomorrow, 6:00 PM – 6:45 PM IST</option>
+          <option value="Today, 7:00 PM – 7:30 PM IST">Today, 7:00 PM – 7:30 PM IST</option>
+          <option value="Today, 9:00 PM – 9:30 PM IST">Today, 9:00 PM – 9:30 PM IST</option>
+          <option value="Tomorrow, 6:00 PM – 6:30 PM IST">Tomorrow, 6:00 PM – 6:30 PM IST</option>
           <option value="Direct WhatsApp + Weekend Deep-Dive">Direct WhatsApp + Weekend Deep-Dive</option>
         </select>
       </div>

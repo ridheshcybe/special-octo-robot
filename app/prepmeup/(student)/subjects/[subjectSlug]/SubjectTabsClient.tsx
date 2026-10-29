@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { resolveTopicNote } from "../../../_lib/topicNotes";
 import type { PmuModule, PmuNote, PmuPastPaper, PmuTopic } from "../../../../prepmeup/_lib/data";
 import { RichMathMarkdown } from "../../../_components/RichMathMarkdown";
 import { TOPIC_LATEX_LIBRARY, getSubjectPaperContent } from "../../../../prepmeup/_lib/notesLibrary";
@@ -13,49 +14,13 @@ interface SubjectTabsClientProps {
   pastPapers: PmuPastPaper[];
 }
 
-/**
- * Generates comprehensive LaTeX-rich engineering notes for any topic
- * (both Sample and Non-Sample) so every topic renders full mathematical
- * derivations, formulas, tables, and code examples.
- */
-function buildLatexTopicNote(topic: PmuTopic, moduleTitle: string, sampleNote: PmuNote | null): string {
-  if (topic.is_sample && sampleNote?.content) {
-    return sampleNote.content;
-  }
+// Missing notes must never be replaced by unrelated educational content.
+function getTopicNote(topic: PmuTopic, sampleNote: PmuNote | null): string | null {
+  return resolveTopicNote(topic, sampleNote, TOPIC_LATEX_LIBRARY);
+}
 
-  const slug = topic.slug || "";
-  if (TOPIC_LATEX_LIBRARY[slug]) {
-    return TOPIC_LATEX_LIBRARY[slug];
-  }
-
-  return `### 1. Core Concept & Mathematical Formulation — ${topic.title}
-Unit Context: **${moduleTitle}** (${topic.description}).
-
-The governing relation and analytical representation for **${topic.title}** is expressed as:
-
-$$\\mathcal{F}(x, t) = \\sum_{k=1}^{n} \\alpha_k \\phi_k(x) \\implies \\Delta E = \\frac{P_{out}}{P_{in}} \\times 100\\%$$
-
----
-
-### 2. Step-by-Step University Exam Derivation
-1. **State the Governing Assumptions:** Identify boundary conditions, linearity, and conservation invariants.
-2. **Apply the Fundamental Operator:** Substitute the system parameters into the canonical equation:
-   $$\\nabla \\cdot \\mathbf{F} = \\frac{\\partial F_x}{\\partial x} + \\frac{\\partial F_y}{\\partial y} + \\frac{\\partial F_z}{\\partial z}$$
-3. **Evaluate Limiting Cases:** Verify dimensional consistency and asymptotic complexity $O(n \\log n)$.
-
----
-
-### 3. Verified Implementation & Numerical Example
-\`\`\`python
-# Reference verification snippet for ${topic.title}
-def evaluate_topic_model(inputs):
-    n = len(inputs)
-    mean_val = sum(inputs) / max(1, n)
-    variance = sum((x - mean_val) ** 2 for x in inputs) / max(1, n)
-    return {"mean": round(mean_val, 4), "std_dev": round(variance ** 0.5, 4)}
-
-print(evaluate_topic_model([12.5, 15.0, 18.2, 14.3]))
-\`\`\``;
+function buildLatexTopicNote(topic: PmuTopic, _moduleTitle: string, sampleNote: PmuNote | null): string {
+  return getTopicNote(topic, sampleNote) ?? "### Note not available yet\n\nThis topic is listed in the syllabus, but its lesson content is not available here yet. Please use your course materials for this topic.";
 }
 
 export function SubjectTabsClient({
@@ -78,7 +43,7 @@ export function SubjectTabsClient({
     const markdown = buildLatexTopicNote(topic, moduleTitle, sampleNote);
     setReaderDoc({
       title: topic.title,
-      badge: topic.is_sample ? "Free Sample Note • LaTeX Rendered" : "Semester Pass Note • LaTeX Rendered",
+      badge: getTopicNote(topic, sampleNote) ? (topic.is_sample ? "Sample Note" : "Topic Note") : "Note not available",
       contentMarkdown: markdown,
     });
   };
@@ -218,7 +183,7 @@ export function SubjectTabsClient({
                     </h3>
                   </div>
                   <span className="font-mono" style={{ fontSize: "11px", color: "#4ade80" }}>
-                    ✓ LaTeX Notes &amp; Formulas Ready
+                    {modules[activeModuleIndex].topics?.filter((topic) => getTopicNote(topic, sampleNote)).length ?? 0} / {modules[activeModuleIndex].topics?.length ?? 0} topic notes available
                   </span>
                 </div>
 
@@ -298,7 +263,7 @@ export function SubjectTabsClient({
                               color: topic.is_sample ? "#ff3b1d" : "#4ade80",
                             }}
                           >
-                            {topic.is_sample ? "Sample Note (LaTeX)" : "Non-Sample Note (LaTeX)"}
+                            {getTopicNote(topic, sampleNote) ? (topic.is_sample ? "Sample Note (LaTeX)" : "Topic Note (LaTeX)") : "Note not available"}
                           </span>
                           <button
                             type="button"

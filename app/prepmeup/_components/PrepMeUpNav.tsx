@@ -39,7 +39,7 @@ export function PrepMeUpNav() {
             Features
           </Link>
           <Link href="/prepmeup#pricing" className="pmu-nav-link">
-            Pricing &amp; 1-on-1 (₹100)
+            Pricing: ₹99 Basic / ₹199 Premium
           </Link>
         </nav>
 
@@ -124,7 +124,7 @@ export function PrepMeUpNav() {
               className="pmu-nav-link"
               style={{ fontSize: "0.875rem" }}
             >
-              Pricing &amp; 1-on-1 Sessions (₹100)
+              Pricing: ₹99 Basic / ₹199 Premium
             </Link>
             <div style={{ marginTop: "0.75rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
               <Link

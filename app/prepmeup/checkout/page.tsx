@@ -20,7 +20,7 @@ export default function RazorpayCheckoutPage() {
   const [mentorTopic, setMentorTopic] = useState(
     "Internship & Career Support (Resume, GitHub & Referrals)"
   );
-  const [mentorSlot, setMentorSlot] = useState("Today, 7:00 PM – 7:45 PM IST");
+  const [mentorSlot, setMentorSlot] = useState("Today, 7:00 PM – 7:30 PM IST");
   const [paymentMethod, setPaymentMethod] = useState<"upi" | "card" | "netbanking">("upi");
   const [upiId, setUpiId] = useState("student@okaxis");
 
@@ -489,7 +489,7 @@ export default function RazorpayCheckoutPage() {
                       >
                         <li>Everything in Tier 1 (₹99) + Unlimited 24/7 AI Doubt Copilot</li>
                         <li>Python Coding Lab + AI Line-by-Line Debugger</li>
-                        <li>Direct 1:1 Human Mentor Live Video Support</li>
+                        <li>30-minute 1:1 Human Video Mentorship</li>
                         <li>Exclusive Internship &amp; Career Support (Only in ₹199)</li>
                       </ul>
                     </button>
@@ -539,7 +539,7 @@ export default function RazorpayCheckoutPage() {
                           lineHeight: 1.6,
                         }}
                       >
-                        <li>All 4 Semester 1 Core Subjects &amp; Full LaTeX Notes</li>
+                        <li>All Six Currently Listed Semester 1 Subjects &amp; Available LaTeX Notes</li>
                         <li>Solved Past Papers (PYQ Key) &amp; Topic-Wise Quizzes</li>
                         <li>Interactive BEE &amp; Python Simulations</li>
                         <li style={{ color: "#71717a" }}>Does not include 1:1 Human Mentorship or Internship &amp; Career Support</li>
@@ -720,9 +720,9 @@ export default function RazorpayCheckoutPage() {
                           className="pmu-input"
                           style={{ fontSize: "12px" }}
                         >
-                          <option value="Today, 7:00 PM – 7:45 PM IST">Today, 7:00 PM – 7:45 PM IST</option>
-                          <option value="Today, 9:00 PM – 9:45 PM IST">Today, 9:00 PM – 9:45 PM IST</option>
-                          <option value="Tomorrow, 6:00 PM – 6:45 PM IST">Tomorrow, 6:00 PM – 6:45 PM IST</option>
+                          <option value="Today, 7:00 PM – 7:30 PM IST">Today, 7:00 PM – 7:30 PM IST</option>
+                          <option value="Today, 9:00 PM – 9:30 PM IST">Today, 9:00 PM – 9:30 PM IST</option>
+                          <option value="Tomorrow, 6:00 PM – 6:30 PM IST">Tomorrow, 6:00 PM – 6:30 PM IST</option>
                           <option value="Direct WhatsApp + Weekend Deep-Dive">Direct WhatsApp + Weekend Deep-Dive</option>
                         </select>
                       </div>
