@@ -4,6 +4,7 @@ import { checkAndIncrementVerifyAttempts, resetVerifyAttempts } from "@/app/prep
 import { verifyTwilioOtp } from "@/app/prepmeup/_lib/twilioVerify";
 import { verifyEmailOtp } from "@/app/prepmeup/_lib/emailOtp";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
+import { recordUserPresence, recordGlobalActivity } from "@/app/prepmeup/_lib/studentStore";
 
 export async function POST(req: NextRequest) {
   try {
@@ -109,6 +110,27 @@ export async function POST(req: NextRequest) {
     const finalRedirect = requestedRedirect && typeof requestedRedirect === "string" && requestedRedirect.startsWith("/prepmeup")
       ? requestedRedirect
       : "/prepmeup/dashboard";
+
+    try {
+      recordUserPresence({
+        userId,
+        name: fullName,
+        target: target.value,
+        type: target.type,
+        college,
+        activity: "Signed in via " + (target.type === "email" ? "Email OTP" : "WhatsApp OTP"),
+        page: finalRedirect,
+      });
+      recordGlobalActivity({
+        userId,
+        userName: fullName,
+        userTarget: target.value,
+        actionType: "login",
+        title: "Student Sign In",
+        details: `Authenticated via ${target.type === "email" ? "Resend Email OTP" : "WhatsApp OTP"}`,
+        timestamp: new Date().toISOString(),
+      });
+    } catch {}
 
     const response = NextResponse.json({
       ok: true,

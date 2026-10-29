@@ -359,10 +359,12 @@ export default function DoubtsPage() {
                 className="pmu-input font-mono"
                 style={{ width: "auto", minWidth: "240px", padding: "8px 12px", fontSize: "12px" }}
               >
-                <option value="Applied Computational Mathematics">ACM-101: Applied Mathematics</option>
-                <option value="Python Programming">PYT-102: Python Programming</option>
-                <option value="Basic Electrical Engineering">BEE-103: Basic Electrical Engg</option>
-                <option value="Computer Organisation and Architecture">COA-104: Computer Architecture</option>
+                <option value="Applied Computational Mathematics">CSE1001: Applied Mathematics</option>
+                <option value="Python Programming">CSE1005: Python Programming</option>
+                <option value="Basic Electrical and Electronics Engineering">CSE1002: Basic Electrical & Electronics</option>
+                <option value="Computer Organization and Architecture">CSE1003: Computer Architecture</option>
+                <option value="Fundamentals of Web Technologies">CSE1004: Web Technologies</option>
+                <option value="Indian Science, Engineering and Technology">CSE1006: Indian Science & Technology</option>
               </select>
             </div>
 

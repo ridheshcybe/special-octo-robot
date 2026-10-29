@@ -13,15 +13,15 @@ const claimSchema = z.object({
 });
 
 const BETA_PAIN_POINTS = [
-  "Applied Math Derivations (ACM-101)",
-  "BEE Circuit Numericals (BEE-103)",
-  "Python Coding & Debugging (PYT-102)",
-  "COA Pipelining & Cache (COA-104)",
+  "Applied Math Derivations (CSE1001)",
+  "BEE Circuit Numericals (CSE1002)",
+  "Python Coding & Debugging (CSE1005)",
+  "COA Pipelining & Cache (CSE1003)",
 ];
 
 export function PricingClaimForm() {
   const [whatsapp, setWhatsapp] = useState("");
-  const [betaFeedback, setBetaFeedback] = useState("Applied Math Derivations (ACM-101)");
+  const [betaFeedback, setBetaFeedback] = useState("Applied Math Derivations (CSE1001)");
   const [testimonialQuote, setTestimonialQuote] = useState("");
   const [pledgedBeta, setPledgedBeta] = useState(true);
   const [error, setError] = useState<string | null>(null);

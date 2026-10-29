@@ -132,16 +132,16 @@ function loadState(): {
         settings: { ...DEFAULT_SETTINGS, ...(parsed.settings || {}) },
         subjects: parsed.subjects || FALLBACK_SUBJECTS,
         modules: parsed.modules || [
-          { id: "mod-01", subject_code: "ACM-101", module_number: 1, title: "Linear Algebra & Matrix Decompositions", description: "Vector spaces, eigenvalues, Cayley-Hamilton, SVD.", is_published: true },
-          { id: "mod-02", subject_code: "ACM-101", module_number: 2, title: "Differential Calculus & Optimisation", description: "Partial derivatives, Hessian test, Lagrange multipliers.", is_published: true },
-          { id: "mod-03", subject_code: "PYT-102", module_number: 1, title: "Control Structures & Comprehensions", description: "Memory layout, loops, generators, dictionary comprehensions.", is_published: true },
-          { id: "mod-04", subject_code: "BEE-103", module_number: 1, title: "DC Circuit Theorems", description: "Thevenin, Norton, Superposition, Maximum Power Transfer.", is_published: true },
-          { id: "mod-05", subject_code: "COA-104", module_number: 1, title: "Computer Evolution & Addressing Modes", description: "Von Neumann vs Harvard, instruction cycle.", is_published: true },
+          { id: "mod-01", subject_code: "CSE1001", module_number: 1, title: "Linear Algebra & Matrix Decompositions", description: "Vector spaces, eigenvalues, Cayley-Hamilton, SVD.", is_published: true },
+          { id: "mod-02", subject_code: "CSE1001", module_number: 2, title: "Differential Calculus & Optimisation", description: "Partial derivatives, Hessian test, Lagrange multipliers.", is_published: true },
+          { id: "mod-03", subject_code: "CSE1005", module_number: 1, title: "Control Structures & Comprehensions", description: "Memory layout, loops, generators, dictionary comprehensions.", is_published: true },
+          { id: "mod-04", subject_code: "CSE1002", module_number: 1, title: "DC Circuit Theorems", description: "Thevenin, Norton, Superposition, Maximum Power Transfer.", is_published: true },
+          { id: "mod-05", subject_code: "CSE1003", module_number: 1, title: "Computer Evolution & Addressing Modes", description: "Von Neumann vs Harvard, instruction cycle.", is_published: true },
         ],
         notes: parsed.notes || [
           {
             id: "note-01",
-            subject_code: "ACM-101",
+            subject_code: "CSE1001",
             module_number: 1,
             title: "Eigenvalues, Eigenvectors & Diagonalization",
             reading_time_min: 20,
@@ -152,7 +152,7 @@ function loadState(): {
           },
           {
             id: "note-02",
-            subject_code: "BEE-103",
+            subject_code: "CSE1002",
             module_number: 1,
             title: "Thevenin & Norton Equivalent Circuits",
             reading_time_min: 25,
@@ -165,10 +165,10 @@ function loadState(): {
         pastPapers: parsed.pastPapers || [
           {
             id: "pyq-01",
-            subject_code: "ACM-101",
+            subject_code: "CSE1001",
             exam_year: 2025,
             exam_type: "End-Semester Examination",
-            title: "Winter 2025 ACM-101 Solved End-Sem Question Paper",
+            title: "Winter 2025 CSE1001 Solved End-Sem Question Paper",
             question_paper_url: "https://example.com/acm-2025.pdf",
             solution_markdown: `### Q1 Cayley-Hamilton Verification\nGiven $A = \\begin{bmatrix} 2 & 1 \\\\ 1 & 2 \\end{bmatrix}$, $\\det(A - \\lambda I) = \\lambda^2 - 4\\lambda + 3 = 0$. Eigenvalues $\\lambda = 1, 3$.`,
             is_published: true,
@@ -194,7 +194,7 @@ function loadState(): {
             studentName: "Rohan Deshmukh",
             whatsapp: "+919833445566",
             tier: "tier2",
-            topic: "Applied Computational Mathematics (ACM-101)",
+            topic: "Applied Computational Mathematics (CSE1001)",
             slot: "Today, 9:00 PM – 9:45 PM IST",
             date: new Date().toISOString().slice(0, 10),
             time: "21:00 IST",
@@ -223,16 +223,16 @@ function loadState(): {
     settings: DEFAULT_SETTINGS,
     subjects: FALLBACK_SUBJECTS as AdminSubject[],
     modules: [
-      { id: "mod-01", subject_code: "ACM-101", module_number: 1, title: "Linear Algebra & Matrix Decompositions", description: "Vector spaces, eigenvalues, Cayley-Hamilton, SVD.", is_published: true },
-      { id: "mod-02", subject_code: "ACM-101", module_number: 2, title: "Differential Calculus & Optimisation", description: "Partial derivatives, Hessian test, Lagrange multipliers.", is_published: true },
-      { id: "mod-03", subject_code: "PYT-102", module_number: 1, title: "Control Structures & Comprehensions", description: "Memory layout, loops, generators, dictionary comprehensions.", is_published: true },
-      { id: "mod-04", subject_code: "BEE-103", module_number: 1, title: "DC Circuit Theorems", description: "Thevenin, Norton, Superposition, Maximum Power Transfer.", is_published: true },
-      { id: "mod-05", subject_code: "COA-104", module_number: 1, title: "Computer Evolution & Addressing Modes", description: "Von Neumann vs Harvard, instruction cycle.", is_published: true },
+      { id: "mod-01", subject_code: "CSE1001", module_number: 1, title: "Linear Algebra & Matrix Decompositions", description: "Vector spaces, eigenvalues, Cayley-Hamilton, SVD.", is_published: true },
+      { id: "mod-02", subject_code: "CSE1001", module_number: 2, title: "Differential Calculus & Optimisation", description: "Partial derivatives, Hessian test, Lagrange multipliers.", is_published: true },
+      { id: "mod-03", subject_code: "CSE1005", module_number: 1, title: "Control Structures & Comprehensions", description: "Memory layout, loops, generators, dictionary comprehensions.", is_published: true },
+      { id: "mod-04", subject_code: "CSE1002", module_number: 1, title: "DC Circuit Theorems", description: "Thevenin, Norton, Superposition, Maximum Power Transfer.", is_published: true },
+      { id: "mod-05", subject_code: "CSE1003", module_number: 1, title: "Computer Evolution & Addressing Modes", description: "Von Neumann vs Harvard, instruction cycle.", is_published: true },
     ],
     notes: [
       {
         id: "note-01",
-        subject_code: "ACM-101",
+        subject_code: "CSE1001",
         module_number: 1,
         title: "Eigenvalues, Eigenvectors & Diagonalization",
         reading_time_min: 20,
@@ -245,10 +245,10 @@ function loadState(): {
     pastPapers: [
       {
         id: "pyq-01",
-        subject_code: "ACM-101",
+        subject_code: "CSE1001",
         exam_year: 2025,
         exam_type: "End-Semester Examination",
-        title: "Winter 2025 ACM-101 Solved End-Sem Question Paper",
+        title: "Winter 2025 CSE1001 Solved End-Sem Question Paper",
         question_paper_url: "https://example.com/acm-2025.pdf",
         solution_markdown: `### Q1 Cayley-Hamilton Verification\nGiven $A = \\begin{bmatrix} 2 & 1 \\\\ 1 & 2 \\end{bmatrix}$, $\\det(A - \\lambda I) = \\lambda^2 - 4\\lambda + 3 = 0$. Eigenvalues $\\lambda = 1, 3$.`,
         is_published: true,
@@ -381,7 +381,7 @@ export async function POST(req: NextRequest) {
     if (action === "add_module" && payload) {
       const newMod: AdminModule = {
         id: `mod-${Date.now()}`,
-        subject_code: payload.subject_code || "ACM-101",
+        subject_code: payload.subject_code || "CSE1001",
         module_number: Number(payload.module_number) || 1,
         title: payload.title || "New Syllabus Module",
         description: payload.description || "",
@@ -406,7 +406,7 @@ export async function POST(req: NextRequest) {
     if (action === "add_note" && payload) {
       const newNote: AdminNote = {
         id: `note-${Date.now()}`,
-        subject_code: payload.subject_code || "ACM-101",
+        subject_code: payload.subject_code || "CSE1001",
         module_number: Number(payload.module_number) || 1,
         title: payload.title || "New Study Note",
         reading_time_min: Number(payload.reading_time_min) || 15,
@@ -439,7 +439,7 @@ export async function POST(req: NextRequest) {
     if (action === "add_pyq" && payload) {
       const newPyq: AdminPyq = {
         id: `pyq-${Date.now()}`,
-        subject_code: payload.subject_code || "ACM-101",
+        subject_code: payload.subject_code || "CSE1001",
         exam_year: Number(payload.exam_year) || 2025,
         exam_type: payload.exam_type || "End-Semester Examination",
         title: payload.title || "University Solved Past Paper",

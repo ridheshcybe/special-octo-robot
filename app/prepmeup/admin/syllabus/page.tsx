@@ -15,12 +15,12 @@ export default function AdminSyllabusPage() {
   const [statusMsg, setStatusMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const subjects = [
-    { id: "e4444444-4444-4444-8444-444444444444", code: "CSE1004", title: "Fundamentals of Web Technologies (FWT)" },
-    { id: "e1111111-1111-4111-8111-111111111111", code: "CSE1001", title: "Applied Computational Mathematics (ACM)" },
-    { id: "e2222222-2222-4222-8222-222222222222", code: "CSE1005", title: "Python Programming & Algorithmic Thinking" },
-    { id: "e3333333-3333-4333-8333-333333333333", code: "CSE1002", title: "Basic Electrical & Electronics Engineering" },
-    { id: "e5555555-5555-4555-8555-555555555555", code: "CSE1003", title: "Computer Organisation and Architecture (COA)" },
-    { id: "e6666666-6666-4666-8666-666666666666", code: "CSE1006", title: "Indian Science, Engineering and Technology (IKS)" },
+    { id: "e1111111-1111-4111-8111-111111111111", code: "CSE1001", title: "Applied Computational Mathematics (CSE1001)" },
+    { id: "e3333333-3333-4333-8333-333333333333", code: "CSE1002", title: "Basic Electrical and Electronics Engineering (CSE1002)" },
+    { id: "e5555555-5555-4555-8555-555555555555", code: "CSE1003", title: "Computer Organization and Architecture (CSE1003)" },
+    { id: "e4444444-4444-4444-8444-444444444444", code: "CSE1004", title: "Fundamentals of Web Technologies (CSE1004)" },
+    { id: "e2222222-2222-4222-8222-222222222222", code: "CSE1005", title: "Python Programming (CSE1005)" },
+    { id: "e6666666-6666-4666-8666-666666666666", code: "CSE1006", title: "Indian Science, Engineering and Technology (CSE1006)" },
   ];
 
   const handleExtract = async (e: React.FormEvent) => {

@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
-import { getStudentActivity } from "@/app/prepmeup/_lib/studentStore";
+import { getStudentActivity, recordUserPresence } from "@/app/prepmeup/_lib/studentStore";
 
 function formatAttemptDate(isoString: string): string {
   try {
@@ -34,7 +34,18 @@ export async function GET(req: NextRequest) {
     if (studentSession?.value) {
       try {
         const parsed = JSON.parse(studentSession.value);
-        if (parsed.userId) studentId = parsed.userId;
+        if (parsed.userId) {
+          studentId = parsed.userId;
+          recordUserPresence({
+            userId: parsed.userId,
+            name: parsed.fullName,
+            target: parsed.email || parsed.phone || parsed.userId,
+            type: parsed.email ? "email" : "phone",
+            college: parsed.college,
+            page: "/prepmeup/dashboard",
+            activity: "Viewing Student Dashboard & Progress",
+          });
+        }
       } catch {}
     }
 
@@ -139,28 +150,28 @@ export async function GET(req: NextRequest) {
 
     const defaultSubjectsProgress = [
       {
-        code: "AM101",
+        code: "CSE1001",
         title: "Applied Computational Mathematics",
         completion: totalQuizzesAttempted > 0 ? 35 : 0,
         accuracy: averageAccuracy > 0 ? averageAccuracy : 0,
         status: totalQuizzesAttempted > 0 ? "In Progress" : "Not Started",
       },
       {
-        code: "CS101",
+        code: "CSE1005",
         title: "Python Programming",
         completion: activity.codingSubmissions.length > 0 ? 50 : 0,
         accuracy: activity.codingSubmissions.length > 0 ? 100 : 0,
         status: activity.codingSubmissions.length > 0 ? "Practicing" : "Not Started",
       },
       {
-        code: "EE101",
+        code: "CSE1002",
         title: "Basic Electrical & Electronics",
         completion: 0,
         accuracy: 0,
         status: "Not Started",
       },
       {
-        code: "CS102",
+        code: "CSE1003",
         title: "Computer Organisation & Architecture",
         completion: 0,
         accuracy: 0,

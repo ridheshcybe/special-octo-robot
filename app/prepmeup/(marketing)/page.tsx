@@ -705,7 +705,7 @@ export default function PrepMeUpLandingPage() {
             <div className="pmu-grid-3">
               {[
                 {
-                  quote: "The rendered LaTeX derivations for Cayley-Hamilton and RK4 in ACM-101 saved me hours before my mid-sem exam.",
+                  quote: "The rendered LaTeX derivations for Cayley-Hamilton and RK4 in CSE1001 saved me hours before my mid-sem exam.",
                   author: "Aarav K. • Beta Seat #01",
                   meta: "B.Tech CSE AI/ML • Sem 1",
                 },

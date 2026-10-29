@@ -136,18 +136,12 @@ export default function ContentStudioPage() {
   const [toastMsg, setToastMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const subjectOptions = [
-    { code: "CSE1004", title: "Fundamentals of Web Technologies (FWT)" },
-    { code: "CSE1001", title: "Applied Computational Mathematics (ACM)" },
-    { code: "CSE1002", title: "Basic Electrical & Electronics Engineering (BEE)" },
-    { code: "CSE1003", title: "Computer Organization & Architecture (COA)" },
-    { code: "CSE1005", title: "Python Programming (PYT)" },
-    { code: "CSE1006", title: "Indian Science, Engineering & Technology (IKS)" },
-    // Code aliases for backwards compatibility
-    { code: "FWT-104", title: "Fundamentals of Web Technologies" },
-    { code: "ACM-101", title: "Applied Computational Mathematics" },
-    { code: "PYT-102", title: "Python Programming" },
-    { code: "BEE-103", title: "Basic Electrical Engineering" },
-    { code: "COA-104", title: "Computer Organisation & Architecture" },
+    { code: "CSE1001", title: "Applied Computational Mathematics (CSE1001)" },
+    { code: "CSE1002", title: "Basic Electrical & Electronics Engineering (CSE1002)" },
+    { code: "CSE1003", title: "Computer Organization & Architecture (CSE1003)" },
+    { code: "CSE1004", title: "Fundamentals of Web Technologies (CSE1004)" },
+    { code: "CSE1005", title: "Python Programming (CSE1005)" },
+    { code: "CSE1006", title: "Indian Science, Engineering & Technology (CSE1006)" },
   ];
 
   const fetchPublished = async () => {
@@ -166,7 +160,7 @@ export default function ContentStudioPage() {
 
   const handleContentTypeChange = (type: "note" | "module" | "topic" | "pyq" | "quiz") => {
     setContentType(type);
-    if (type === "note" && (subjectCode === "CSE1004" || subjectCode === "FWT-104")) {
+    if (type === "note" && subjectCode === "CSE1004") {
       setContentMarkdown(TEMPLATES.fwt);
     } else if (TEMPLATES[type]) {
       setContentMarkdown(TEMPLATES[type]);
@@ -178,7 +172,7 @@ export default function ContentStudioPage() {
     const matched = subjectOptions.find((s) => s.code === code);
     if (matched) {
       setSubjectTitle(matched.title);
-      if (code === "CSE1004" || code === "FWT-104") {
+      if (code === "CSE1004") {
         if (!title || title.includes("Singular Value")) {
           setTitle("Client-Server Architecture, DNS & HTTP/HTTPS Lifecycle");
         }

@@ -57,7 +57,7 @@ export default function AdminQuizzesPage() {
       duration_minutes: duration,
       total_marks: totalMarks,
       is_published: isPublished,
-      subject: { title: "Applied Computational Mathematics", code: "AM101" },
+      subject: { title: "Applied Computational Mathematics", code: "CSE1001" },
     };
 
     setQuizzes([newQuiz, ...quizzes]);

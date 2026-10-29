@@ -699,17 +699,17 @@ export default function RazorpayCheckoutPage() {
                           <option value="Internship & Career Support (Resume, GitHub & Referrals)">
                             ★ Internship &amp; Career Support (Resume, GitHub &amp; Referrals)
                           </option>
-                          <option value="Applied Computational Mathematics (ACM-101)">
-                            ACM-101: Applied Mathematics + Career Roadmap
+                          <option value="Applied Computational Mathematics (CSE1001)">
+                            CSE1001: Applied Mathematics + Career Roadmap
                           </option>
-                          <option value="Python Programming & Code Review (PYT-102)">
-                            PYT-102: Python Programming + AI/ML Portfolio
+                          <option value="Python Programming & Code Review (CSE1005)">
+                            CSE1005: Python Programming + AI/ML Portfolio
                           </option>
-                          <option value="Basic Electrical Engineering (BEE-103)">
-                            BEE-103: Basic Electrical Engineering 1:1
+                          <option value="Basic Electrical Engineering (CSE1002)">
+                            CSE1002: Basic Electrical Engineering 1:1
                           </option>
-                          <option value="Computer Organisation & Architecture (COA-104)">
-                            COA-104: Computer Architecture 1:1
+                          <option value="Computer Organisation & Architecture (CSE1003)">
+                            CSE1003: Computer Architecture 1:1
                           </option>
                         </select>
                       </div>

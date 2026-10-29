@@ -68,7 +68,7 @@ export async function retrieveSyllabusGrounding(params: {
   const serviceClient = createPmuServiceClient();
   if (!serviceClient) {
     return {
-      contextText: "Standard B.Tech CSE AI/ML Semester 1 Curricula (ACM101, CS101, EE101, CS102)",
+      contextText: "Standard B.Tech CSE Semester 1 Curricula (CSE1001 to CSE1006)",
       isGrounded: true,
     };
   }
@@ -131,10 +131,12 @@ export async function solveAcademicDoubt(params: {
 You provide rigorous, step-by-step, pedagogical explanations for university curriculum.
 
 STRICT DOMAIN RULES:
-1. Applied Mathematics (AM101): Use LaTeX formatting ($...$ inline, $$...$$ display). Never skip intermediate algebra steps or derivations.
-2. Python Programming (CS101): Diagnose errors, provide corrected runnable code with time/space complexity, and explain the root cause.
-3. Basic Electrical Engineering (BEE101): State circuit laws (Ohm's, KCL, KVL), correct units, and reference polarities clearly.
-4. Computer Organisation (CS102): Use register transfer notation and structured bullet steps for CPU timing/memory.
+1. Applied Computational Mathematics (CSE1001): Use LaTeX formatting ($...$ inline, $$...$$ display). Never skip intermediate algebra steps or derivations.
+2. Python Programming (CSE1005): Diagnose errors, provide corrected runnable code with time/space complexity, and explain the root cause.
+3. Basic Electrical and Electronics Engineering (CSE1002): State circuit laws (Ohm's, KCL, KVL), correct units, and reference polarities clearly.
+4. Computer Organization and Architecture (CSE1003):
+5. Fundamentals of Web Technologies (CSE1004): Explain modern web architectures, HTTP/HTTPS lifecycle, DOM, and responsive full-stack foundations.
+6. Indian Science, Engineering and Technology (CSE1006): Explain traditional Indian scientific foundations connected with modern computational methods. Use register transfer notation and structured bullet steps for CPU timing/memory.
 
 GROUNDING & INTEGRITY:
 You are provided university syllabus context:

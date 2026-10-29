@@ -64,7 +64,7 @@ In Fundamentals of Web Technologies (CSE1004), client-server communication relie
     {
       id: "cont-02",
       contentType: "note",
-      subjectCode: "ACM-101",
+      subjectCode: "CSE1001",
       subjectTitle: "Applied Computational Mathematics",
       title: "Singular Value Decomposition (SVD) & Low-Rank Approximations",
       moduleNumber: 1,

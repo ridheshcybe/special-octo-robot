@@ -246,10 +246,12 @@ export default function AdminPastPapersPage() {
                       fontSize: "13px",
                     }}
                   >
-                    <option value="e1111111-1111-4111-8111-111111111111">AM101: Applied Computational Mathematics</option>
-                    <option value="e2222222-2222-4222-8222-222222222222">CS101: Python Programming</option>
-                    <option value="e3333333-3333-4333-8333-333333333333">EE101: Basic Electrical Engineering</option>
-                    <option value="e4444444-4444-4444-8444-444444444444">CS102: Computer Organisation and Architecture</option>
+                    <option value="e1111111-1111-4111-8111-111111111111">CSE1001: Applied Computational Mathematics</option>
+                    <option value="e3333333-3333-4333-8333-333333333333">CSE1002: Basic Electrical & Electronics Engineering</option>
+                    <option value="e5555555-5555-4555-8555-555555555555">CSE1003: Computer Organization & Architecture</option>
+                    <option value="e4444444-4444-4444-8444-444444444444">CSE1004: Fundamentals of Web Technologies</option>
+                    <option value="e2222222-2222-4222-8222-222222222222">CSE1005: Python Programming</option>
+                    <option value="e6666666-6666-4666-8666-666666666666">CSE1006: Indian Science, Engineering and Technology</option>
                   </select>
                 </div>
 

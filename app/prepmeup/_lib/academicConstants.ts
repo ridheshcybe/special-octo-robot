@@ -28,9 +28,9 @@ export interface DefaultSubject {
 }
 
 export const SEMESTER_1_DEFAULT_SUBJECTS: DefaultSubject[] = [
-  { code: "ACM-101", name: "Applied Computational Mathematics", credits: 4, defaultGrade: "O" },
-  { code: "PYT-102", name: "Python Programming", credits: 4, defaultGrade: "A+" },
-  { code: "BEE-103", name: "Basic Electrical Engineering", credits: 4, defaultGrade: "A" },
-  { code: "COA-104", name: "Computer Organisation and Architecture", credits: 3, defaultGrade: "A+" },
-  { code: "LAB-105", name: "Python & BEE Laboratory", credits: 2, defaultGrade: "O" },
+  { code: "CSE1001", name: "Applied Computational Mathematics", credits: 4, defaultGrade: "O" },
+  { code: "CSE1005", name: "Python Programming", credits: 4, defaultGrade: "A+" },
+  { code: "CSE1002", name: "Basic Electrical Engineering", credits: 4, defaultGrade: "A" },
+  { code: "CSE1003", name: "Computer Organisation and Architecture", credits: 3, defaultGrade: "A+" },
+  { code: "CSE1004", name: "Python & BEE Laboratory", credits: 2, defaultGrade: "O" },
 ];

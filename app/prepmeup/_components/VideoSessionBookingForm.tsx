@@ -113,10 +113,10 @@ export function VideoSessionBookingForm() {
         <label className="pmu-label">1:1 Human &amp; Career Support Focus</label>
         <select value={topic} onChange={(e) => setTopic(e.target.value)} className="pmu-input" style={{ fontSize: "12px", padding: "8px 10px" }}>
           <option value="Internship & Career Support (Resume, GitHub & Referrals)">★ Internship &amp; Career Support (₹199 Exclusive)</option>
-          <option value="Applied Computational Mathematics (ACM-101)">ACM-101: Applied Mathematics</option>
-          <option value="Python Programming & Code Review (PYT-102)">PYT-102: Python Programming</option>
-          <option value="Basic Electrical Engineering (BEE-103)">BEE-103: Basic Electrical Engg</option>
-          <option value="Computer Organisation & Architecture (COA-104)">COA-104: Computer Architecture</option>
+          <option value="Applied Computational Mathematics (CSE1001)">CSE1001: Applied Mathematics</option>
+          <option value="Python Programming & Code Review (CSE1005)">CSE1005: Python Programming</option>
+          <option value="Basic Electrical Engineering (CSE1002)">CSE1002: Basic Electrical Engg</option>
+          <option value="Computer Organisation & Architecture (CSE1003)">CSE1003: Computer Architecture</option>
         </select>
       </div>
 

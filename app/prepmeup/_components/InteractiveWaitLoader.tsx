@@ -4,22 +4,22 @@ import React, { useState, useEffect } from "react";
 
 const TRIVIA_CARDS = [
   {
-    subject: "ACM-101 • Linear Algebra",
+    subject: "CSE1001 • Linear Algebra",
     question: "If matrix A has eigenvalues 2, 4, and 5, what is the trace and determinant of A?",
     answer: "Trace = 2 + 4 + 5 = 11 • Determinant = 2 × 4 × 5 = 40",
   },
   {
-    subject: "PYT-102 • Python Internals",
+    subject: "CSE1005 • Python Internals",
     question: "What is the time complexity of checking `x in my_set` vs `x in my_list` in Python?",
     answer: "Set lookup is O(1) average (hash table), while List lookup is O(n) linear scan.",
   },
   {
-    subject: "BEE-103 • Circuit Theorems",
+    subject: "CSE1002 • Circuit Theorems",
     question: "When does Maximum Power Transfer occur in a DC resistive network?",
     answer: "When Load Resistance equals Thevenin Resistance (R_L = R_th), giving P_max = V_th² / (4·R_th).",
   },
   {
-    subject: "COA-104 • Computer Architecture",
+    subject: "CSE1003 • Computer Architecture",
     question: "Which hazard occurs when two pipeline stages attempt to use the same hardware unit simultaneously?",
     answer: "Structural Hazard (solved by separate Instruction and Data caches — Harvard split).",
   },
