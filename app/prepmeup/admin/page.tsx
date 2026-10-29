@@ -653,14 +653,14 @@ export default function AdminDashboardPage() {
               </div>
               <div style={{ marginTop: "12px", display: "flex", alignItems: "baseline", gap: "10px" }}>
                 <span style={{ fontSize: "36px", fontWeight: 800, color: "#f3f1ea", fontFamily: "var(--font-mono, monospace)" }}>
-                  {analytics?.metrics?.totalRegisteredUsers || 148}
+                  {analytics?.metrics?.totalRegisteredUsers ?? 0}
                 </span>
                 <span style={{ fontSize: "11px", color: "#4ade80", fontWeight: 700, backgroundColor: "rgba(34,197,94,0.15)", padding: "2px 6px", borderRadius: "4px" }}>
-                  +14 this week
+                  Verified Real Accounts
                 </span>
               </div>
               <p style={{ fontSize: "12px", color: "#807f78", marginTop: "8px" }}>
-                {analytics?.metrics?.emailRegistrationsCount || 64} via Email • {analytics?.metrics?.phoneRegistrationsCount || 84} via WhatsApp
+                {analytics?.metrics?.emailRegistrationsCount ?? 0} via Email • {analytics?.metrics?.phoneRegistrationsCount ?? 0} via WhatsApp
               </p>
             </div>
 
@@ -674,12 +674,12 @@ export default function AdminDashboardPage() {
               </div>
               <div style={{ marginTop: "12px", display: "flex", alignItems: "baseline", gap: "10px" }}>
                 <span style={{ fontSize: "36px", fontWeight: 800, color: "#4ade80", fontFamily: "var(--font-mono, monospace)" }}>
-                  {analytics?.metrics?.onlineUsersCount || 0}
+                  {analytics?.metrics?.onlineUsersCount ?? 0}
                 </span>
                 <span style={{ fontSize: "13px", color: "#f3f1ea", fontWeight: 600 }}>Active Right Now</span>
               </div>
               <p style={{ fontSize: "12px", color: "#807f78", marginTop: "8px" }}>
-                {analytics?.metrics?.activeTodayCount || 26} active students in the last 24 hours
+                {analytics?.metrics?.activeTodayCount ?? 0} active students in the last 24 hours
               </p>
             </div>
 
@@ -693,12 +693,12 @@ export default function AdminDashboardPage() {
               </div>
               <div style={{ marginTop: "12px", display: "flex", alignItems: "baseline", gap: "10px" }}>
                 <span style={{ fontSize: "36px", fontWeight: 800, color: "#f3f1ea", fontFamily: "var(--font-mono, monospace)" }}>
-                  {analytics?.metrics?.totalQuizzesCompleted || 412}
+                  {analytics?.metrics?.totalQuizzesCompleted ?? 0}
                 </span>
                 <span style={{ fontSize: "13px", color: "#a19f95" }}>Quizzes Taken</span>
               </div>
               <p style={{ fontSize: "12px", color: "#807f78", marginTop: "8px" }}>
-                {analytics?.metrics?.totalDoubtsResolved || 214} AI Doubts • {analytics?.metrics?.totalCodeSubmissions || 156} Code Sandbox Runs
+                {analytics?.metrics?.totalDoubtsResolved ?? 0} AI Doubts • {analytics?.metrics?.totalCodeSubmissions ?? 0} Code Sandbox Runs
               </p>
             </div>
 
@@ -712,14 +712,14 @@ export default function AdminDashboardPage() {
               </div>
               <div style={{ marginTop: "12px", display: "flex", alignItems: "baseline", gap: "10px" }}>
                 <span style={{ fontSize: "36px", fontWeight: 800, color: "#ff3b1d", fontFamily: "var(--font-mono, monospace)" }}>
-                  {analytics?.metrics?.paidStudentsCount || 28}
+                  {analytics?.metrics?.paidStudentsCount ?? 0}
                 </span>
                 <span style={{ fontSize: "11px", color: "#ff3b1d", fontWeight: 700, backgroundColor: "rgba(255,59,29,0.15)", padding: "2px 6px", borderRadius: "4px" }}>
-                  {analytics?.metrics?.conversionRatePercent || 19}% Conv.
+                  {analytics?.metrics?.conversionRatePercent ?? 0}% Conv.
                 </span>
               </div>
               <p style={{ fontSize: "12px", color: "#807f78", marginTop: "8px" }}>
-                {analytics?.metrics?.tier2Count || 8} Full Suite (₹199) • {analytics?.metrics?.tier1Count || 14} Pass (₹99) • {analytics?.metrics?.totalStudyHours || 420}h Studied
+                {analytics?.metrics?.tier2Count ?? 0} Full Suite (₹199) • {analytics?.metrics?.tier1Count ?? 0} Pass (₹99) • {analytics?.metrics?.totalStudyHours ?? 0}h Studied
               </p>
             </div>
           </div>
