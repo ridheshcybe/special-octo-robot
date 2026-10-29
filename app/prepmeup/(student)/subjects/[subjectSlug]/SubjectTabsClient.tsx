@@ -4,7 +4,7 @@ import { useState } from "react";
 import { resolveTopicNote } from "../../../_lib/topicNotes";
 import type { PmuModule, PmuNote, PmuPastPaper, PmuTopic } from "../../../../prepmeup/_lib/data";
 import { RichMathMarkdown } from "../../../_components/RichMathMarkdown";
-import { TOPIC_LATEX_LIBRARY, getSubjectPaperContent } from "../../../../prepmeup/_lib/notesLibrary";
+import { TOPIC_LATEX_LIBRARY } from "../../../../prepmeup/_lib/notesLibrary";
 
 interface SubjectTabsClientProps {
   subjectCode?: string;
@@ -48,22 +48,6 @@ export function SubjectTabsClient({
     });
   };
 
-  const handleOpenPyq = (paper: PmuPastPaper, isSolution: boolean = false) => {
-    const contentMarkdown = getSubjectPaperContent(
-      subjectCode,
-      paper.title,
-      paper.exam_year,
-      paper.exam_type,
-      isSolution
-    );
-
-    setReaderDoc({
-      title: `${paper.title} ${isSolution ? "— Verified Model Solutions" : "— Question Paper"}`,
-      badge: `${paper.exam_year} • ${paper.exam_type}`,
-      contentMarkdown,
-    });
-  };
-
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
       {/* 1. Tab Navigation */}
@@ -79,7 +63,7 @@ export function SubjectTabsClient({
         {[
           { id: "modules" as const, label: `📖 Syllabus & Unit Notes (${modules.length} Modules)` },
           { id: "notes" as const, label: "📄 Featured Chapter Note (LaTeX)" },
-          { id: "papers" as const, label: `📚 Past Papers & Solved PYQs (${pastPapers.length})` },
+          { id: "papers" as const, label: "📚 Paper Resources" },
         ].map((tab) => {
           const active = activeTab === tab.id;
           return (
@@ -391,71 +375,18 @@ export function SubjectTabsClient({
         </div>
       )}
 
-      {/* 4. TAB CONTENT: Past Papers (PYQ Explorer) */}
+      {/* Only source-backed papers should be listed here. */}
       {activeTab === "papers" && (
         <div className="pmu-card" style={{ padding: "28px" }}>
-          <div style={{ borderBottom: "1px solid #26262c", paddingBottom: "16px", marginBottom: "20px" }}>
-            <span className="pmu-badge">Solved University Archives</span>
-            <h3
-              className="font-display"
-              style={{ marginTop: "10px", fontSize: "26px", textTransform: "uppercase", color: "#f3f1ea" }}
-            >
-              University Past Papers &amp; Step-by-Step Model Solutions
-            </h3>
-            <p style={{ marginTop: "6px", fontSize: "13px", color: "#a19f95" }}>
-              Inspect complete marking schemes and LaTeX mathematical derivations for recurrent exam questions.
-            </p>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-            {pastPapers.map((paper) => (
-              <div
-                key={paper.id}
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: "16px",
-                  padding: "18px 20px",
-                  borderRadius: "8px",
-                  border: "1px solid #26262c",
-                  backgroundColor: "#08080a",
-                }}
-              >
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <span className="pmu-badge">{paper.exam_year}</span>
-                    <span className="font-mono" style={{ fontSize: "12px", color: "#a19f95" }}>
-                      {paper.exam_type}
-                    </span>
-                  </div>
-                  <h4 style={{ marginTop: "8px", fontSize: "15px", fontWeight: 700, color: "#f3f1ea" }}>
-                    {paper.title}
-                  </h4>
-                </div>
-
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-                  <button
-                    type="button"
-                    onClick={() => handleOpenPyq(paper, false)}
-                    className="pmu-btn-secondary"
-                    style={{ padding: "8px 14px", fontSize: "11px" }}
-                  >
-                    View Question Paper
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleOpenPyq(paper, true)}
-                    className="pmu-btn-primary"
-                    style={{ padding: "8px 14px", fontSize: "11px" }}
-                  >
-                    View Solved LaTeX Key →
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+          <span className="pmu-badge">Paper resources</span>
+          <h3 className="font-display" style={{ marginTop: "10px", fontSize: "26px", color: "#f3f1ea" }}>
+            Paper and solution sources not available yet
+          </h3>
+          <p style={{ marginTop: "12px", fontSize: "14px", lineHeight: 1.65, color: "#a19f95" }}>
+            No source-backed question paper or solution is available in this view yet.
+            Please use your institution's original papers and course materials.
+            We do not generate substitute papers or present template answers as official solutions.
+          </p>
         </div>
       )}
 

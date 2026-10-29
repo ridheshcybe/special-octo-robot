@@ -82,7 +82,7 @@ export default function PrepMeUpLandingPage() {
     },
     {
       title: "Past Papers & PYQ Explorer",
-      desc: "Categorized past year questions with complete step-by-step marking scheme answers and frequent exam tags.",
+      desc: "Paper and solution sources are not available yet. Use your institution's original materials until source-backed resources are added.",
       tag: "Exam Solved",
       icon: "📚",
     },
@@ -136,8 +136,8 @@ export default function PrepMeUpLandingPage() {
     },
     {
       num: "04",
-      title: "Solve Past Papers & Quizzes",
-      desc: "Practice previous year questions unit-by-unit with step-by-step marking rubrics.",
+      title: "Practice with Available Materials",
+      desc: "Practice available quizzes. Source-backed papers and solution keys are not available yet.",
     },
     {
       num: "05",
@@ -154,7 +154,7 @@ export default function PrepMeUpLandingPage() {
   const faqs = [
     {
       q: "How does the 3-Tier Financial Model work?",
-      a: "Tier 0 gives the first 10 students 100% FREE access as our Founding Beta Testers in exchange for direct product feedback and testimonials. Tier 1 (₹99) unlocks Basic Access (all six currently listed subjects, available LaTeX notes, PYQs, quizzes, and simulations). Tier 2 (₹199) unlocks Premium AI Help + 1:1 Human Support + Exclusive Internship & Career Support.",
+      a: "Tier 0 gives the first 10 students 100% FREE access as our Founding Beta Testers in exchange for direct product feedback and testimonials. Tier 1 (₹99) unlocks Basic Access (all six currently listed subjects, available LaTeX notes, available paper resources, quizzes, and simulations). Tier 2 (₹199) unlocks Premium AI Help + 1:1 Human Support + Exclusive Internship & Career Support.",
     },
     {
       q: "Is Internship and Career Support included in all plans?",
@@ -210,7 +210,7 @@ export default function PrepMeUpLandingPage() {
               }}
             >
               The dedicated academic learning copilot for first-year engineering students.
-              LaTeX-typeset notes, solved PYQs, adaptive quizzes, interactive simulations,
+              LaTeX-typeset notes, available study materials, adaptive quizzes, interactive simulations,
               and <strong>Tier 0 Free Beta Access (First 10)</strong>, <strong>Tier 1 Basic Access (₹99)</strong>,
               or <strong>Tier 2 (₹199): Premium AI + 1:1 Human Support + Exclusive Internship &amp; Career Support</strong>.
             </p>
@@ -589,7 +589,7 @@ export default function PrepMeUpLandingPage() {
                 >
                   <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> All Six Currently Listed Semester 1 Subjects</li>
                   <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Available LaTeX Study Notes (Sample + Non-Sample)</li>
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Solved University Past Papers (PYQ Key)</li>
+                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Paper resources when source-backed materials are available</li>
                   <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Topic-wise Practice Quizzes &amp; Grading</li>
                   <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Interactive BEE &amp; Python Simulations</li>
                   <li style={{ color: "#52525b" }}><span style={{ color: "#52525b", fontWeight: 700 }}>✕</span> No 1:1 Human Mentorship (Tier 2 Only)</li>

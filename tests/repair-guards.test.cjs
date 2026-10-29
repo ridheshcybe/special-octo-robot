@@ -1,0 +1,21 @@
+const assert=require('node:assert/strict');
+const {execFileSync}=require('node:child_process');
+const {mkdtempSync,rmSync,readFileSync}=require('node:fs');
+const path=require('node:path');const dir=mkdtempSync(path.join(require('node:os').tmpdir(),'pmu-guards-'));
+(async()=>{try {
+execFileSync(process.execPath,['node_modules/typescript/bin/tsc','app/prepmeup/_lib/twilioVerify.ts','app/prepmeup/_lib/notesLibrary.ts','app/prepmeup/_components/RichMathMarkdown.tsx','--module','commonjs','--target','ES2022','--jsx','react-jsx','--esModuleInterop','--skipLibCheck','--outDir',dir]);
+const {sendTwilioOtp:s,verifyTwilioOtp:v}=require(path.join(dir,'_lib/twilioVerify.js'));
+for(const k of ['TWILIO_ACCOUNT_SID','TWILIO_AUTH_TOKEN','TWILIO_VERIFY_SERVICE_SID'])delete process.env[k];
+process.env.NODE_ENV='production';process.env.PMU_OTP_DEV_MODE='true';
+assert.equal((await s('+910000000000')).success,false);assert.equal((await v('+910000000000','123456')).success,false);
+process.env.NODE_ENV='development';delete process.env.PMU_OTP_DEV_MODE;
+assert.equal((await s('+910000000000')).success,false);assert.equal((await v('+910000000000','123456')).success,false);
+process.env.PMU_OTP_DEV_MODE='true';const x=await s('+910000000000');assert.equal(x.status,'mock_sent');assert.equal((await v('+910000000000','wrong')).success,false);assert.equal((await v('+910000000000',x.mockCode)).success,true);assert.equal((await v('+910000000000',x.mockCode)).success,false);
+const {TOPIC_LATEX_LIBRARY:L}=require(path.join(dir,'_lib/notesLibrary.js'));
+assert.ok(L['matrices-matrix-operations'].includes('\\frac'));
+assert.ok(L['matrices-matrix-operations'].includes('\\begin{bmatrix}'));
+assert.ok(!/[\u0008\u000c\u000b]/.test(Object.values(L).join('')));
+const client=readFileSync('app/prepmeup/(student)/subjects/[subjectSlug]/SubjectTabsClient.tsx','utf8');
+assert.ok(!client.includes('getSubjectPaperContent'));assert.ok(!client.includes('Verified Model Solutions'));assert.ok(client.includes('No source-backed question paper or solution'));
+console.log('14 auth, math-preservation and paper-honesty checks passed; no provider requests.');
+} finally {rmSync(dir,{recursive:true,force:true});}})().catch(e=>{console.error(e);process.exitCode=1;});

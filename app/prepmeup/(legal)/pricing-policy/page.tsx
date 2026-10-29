@@ -20,7 +20,7 @@ export default function PricingPolicyPage() {
             <strong>Tier 0 (₹0):</strong> Reserved for the first 10 students joining our Beta Tester &amp; Testimonial Program. Includes full semester access.
           </li>
           <li>
-            <strong>Tier 1 (₹99 flat):</strong> 180-day Semester 1 pass for all six currently listed academic subjects: Applied Computational Mathematics (CSE1001), Basic Electrical and Electronics Engineering (CSE1002), Computer Organization and Architecture (CSE1003), Fundamentals of Web Technologies (CSE1004), Python Programming (CSE1005), and Indian Science, Engineering and Technology (CSE1006). Includes available LaTeX notes, solved past papers, topic quizzes, and interactive simulations.
+            <strong>Tier 1 (₹99 flat):</strong> 180-day Semester 1 pass for all six currently listed academic subjects: Applied Computational Mathematics (CSE1001), Basic Electrical and Electronics Engineering (CSE1002), Computer Organization and Architecture (CSE1003), Fundamentals of Web Technologies (CSE1004), Python Programming (CSE1005), and Indian Science, Engineering and Technology (CSE1006). Includes available LaTeX notes, paper resources when source-backed materials are available, topic quizzes, and interactive simulations.
           </li>
           <li>
             <strong>Tier 2 (₹199 flat):</strong> Everything in Tier 1 plus 24/7 Priority AI Doubt Copilot, a 30-minute 1:1 Human Video Mentorship session on Google Meet, and personalized Internship &amp; Career Roadmap guidance (Resume &amp; GitHub portfolio review).

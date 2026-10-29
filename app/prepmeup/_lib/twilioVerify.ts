@@ -22,7 +22,7 @@ interface VerifyOtpResult {
 const devOtpStore = new Map<string, { code: string; expiresAt: number }>();
 
 export async function sendTwilioOtp(phone: string): Promise<SendOtpResult> {
-  const isDevMode = process.env.PMU_OTP_DEV_MODE === "true" && process.env.NODE_ENV !== "production";
+  const isDevMode = process.env.PMU_OTP_DEV_MODE === "true" && process.env.NODE_ENV === "development";
 
   // 1. If dev mode enabled, generate and log mock OTP (never in production)
   if (isDevMode) {
@@ -48,19 +48,7 @@ export async function sendTwilioOtp(phone: string): Promise<SendOtpResult> {
   const serviceSid = process.env.TWILIO_VERIFY_SERVICE_SID;
 
   if (!accountSid || !authToken || !serviceSid) {
-    // Graceful fallback for local development if Twilio keys aren't set
-    const fallbackCode = "123456";
-    devOtpStore.set(phone, {
-      code: fallbackCode,
-      expiresAt: Date.now() + 5 * 60 * 1000,
-    });
-    console.log(`[PMU OTP DEV FALLBACK] Twilio not configured. Using Mock OTP for ${phone}: ${fallbackCode}`);
-    return {
-      success: true,
-      status: "mock_sent",
-      channel: "whatsapp",
-      mockCode: fallbackCode,
-    };
+    return { success: false, status: "failed", error: "Phone verification is temporarily unavailable. Please contact support." };
   }
 
   const endpoint = `https://verify.twilio.com/v2/Services/${serviceSid}/Verifications`;
@@ -114,20 +102,24 @@ export async function sendTwilioOtp(phone: string): Promise<SendOtpResult> {
 }
 
 export async function verifyTwilioOtp(phone: string, code: string): Promise<VerifyOtpResult> {
-  const isDevMode = process.env.PMU_OTP_DEV_MODE === "true" && process.env.NODE_ENV !== "production";
+  const isDevMode = process.env.PMU_OTP_DEV_MODE === "true" && process.env.NODE_ENV === "development";
 
   // Check dev mode mock store first
-  const stored = devOtpStore.get(phone);
+  const stored = isDevMode ? devOtpStore.get(phone) : undefined;
   if (stored) {
     if (Date.now() > stored.expiresAt) {
       devOtpStore.delete(phone);
       return { success: false, status: "invalid", error: "Verification code expired. Request a new one." };
     }
-    if (stored.code === code || code === "123456") {
+    if (stored.code === code) {
       devOtpStore.delete(phone);
       return { success: true, status: "approved" };
     }
     return { success: false, status: "invalid", error: "Invalid verification code. Please check and retry." };
+  }
+
+  if (isDevMode) {
+    return { success: false, status: "invalid", error: "Request a new verification code." };
   }
 
   // Production Twilio Verification Check
@@ -136,11 +128,7 @@ export async function verifyTwilioOtp(phone: string, code: string): Promise<Veri
   const serviceSid = process.env.TWILIO_VERIFY_SERVICE_SID;
 
   if (!accountSid || !authToken || !serviceSid) {
-    // Local testing fallback if code is 123456
-    if (code === "123456") {
-      return { success: true, status: "approved" };
-    }
-    return { success: false, status: "invalid", error: "Invalid verification code." };
+    return { success: false, status: "failed", error: "Phone verification is temporarily unavailable. Please contact support." };
   }
 
   const endpoint = `https://verify.twilio.com/v2/Services/${serviceSid}/VerificationCheck`;

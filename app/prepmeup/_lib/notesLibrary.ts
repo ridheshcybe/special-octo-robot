@@ -9,7 +9,7 @@ export const TOPIC_LATEX_LIBRARY: Record<string, string> = {
   // ==========================================
   // CSE1001: APPLIED COMPUTATIONAL MATHEMATICS
   // ==========================================
-  "matrices-matrix-operations": `### 1. Matrix Algebra Fundamentals
+  "matrices-matrix-operations": String.raw`### 1. Matrix Algebra Fundamentals
 A matrix $A \in \mathbb{R}^{m \times n}$ is a rectangular array of numbers arranged in $m$ rows and $n$ columns.
 - **Matrix Multiplication:** For $A \in \mathbb{R}^{m \times k}$ and $B \in \mathbb{R}^{k \times n}$, the product $C = AB \in \mathbb{R}^{m \times n}$ has entries:
   $$c_{ij} = \sum_{p=1}^{k} a_{ip} b_{pj}$$
@@ -41,7 +41,7 @@ $$Q^T Q = Q Q^T = I_n \iff Q^{-1} = Q^T$$
    $$Q = \frac{1}{2} \left( \begin{bmatrix} 3 & 5 \\ 1 & -1 \end{bmatrix} - \begin{bmatrix} 3 & 1 \\ 5 & -1 \end{bmatrix} \right) = \begin{bmatrix} 0 & 2 \\ -2 & 0 \end{bmatrix}$$
 3. Verification: $P + Q = \begin{bmatrix} 3 & 5 \\ 1 & -1 \end{bmatrix} = A$.`,
 
-  "elementary-row-operations": `### 1. Elementary Row Operations (ERO)
+  "elementary-row-operations": String.raw`### 1. Elementary Row Operations (ERO)
 On any matrix $A \in \mathbb{R}^{m \times n}$, three elementary operations preserve row equivalence ($A \sim B$):
 1. **$R_i \leftrightarrow R_j$**: Interchange of rows $i$ and $j$.
 2. **$R_i \to k R_i$** ($k \neq 0$): Multiplication of row $i$ by a non-zero scalar $k$.
@@ -64,10 +64,10 @@ $$\text{Rank } \rho(A) = \text{Number of non-zero rows in REF}$$
 ### 3. Step-by-Step Reduction to REF
 Reduce $A = \begin{bmatrix} 1 & 2 & -1 & 3 \\ 2 & 4 & 1 & -2 \\ 3 & 6 & 3 & -7 \end{bmatrix}$ to echelon form:
 $$R_2 \to R_2 - 2R_1, \quad R_3 \to R_3 - 3R_1$$
-$$\begin{bmatrix} 1 & 2 & -1 & 3 \\ 0 & 0 & 3 & -8 \\ 0 & 0 & 6 & -16 \end{bmatrix} \\xrightarrow{R_3 \to R_3 - 2R_2} \begin{bmatrix} 1 & 2 & -1 & 3 \\ 0 & 0 & 3 & -8 \\ 0 & 0 & 0 & 0 \end{bmatrix}$$
+$$\begin{bmatrix} 1 & 2 & -1 & 3 \\ 0 & 0 & 3 & -8 \\ 0 & 0 & 6 & -16 \end{bmatrix} \xrightarrow{R_3 \to R_3 - 2R_2} \begin{bmatrix} 1 & 2 & -1 & 3 \\ 0 & 0 & 3 & -8 \\ 0 & 0 & 0 & 0 \end{bmatrix}$$
 There are $2$ non-zero rows, hence $\rho(A) = 2$.`,
 
-  "vector-spaces-subspaces": `### 1. Vector Space & Subspace Axioms
+  "vector-spaces-subspaces": String.raw`### 1. Vector Space & Subspace Axioms
 Let $V$ be a vector space over field $\mathbb{R}$. A non-empty subset $W \subseteq V$ is a **subspace** iff:
 $$\forall \mathbf{u}, \mathbf{v} \in W, \; \forall \alpha, \beta \in \mathbb{R} \implies \alpha \mathbf{u} + \beta \mathbf{v} \in W$$
 
@@ -87,7 +87,7 @@ For any linear transformation $T: \mathbb{R}^n \to \mathbb{R}^m$ represented by 
 $$\text{rank}(A) + \text{nullity}(A) = n$$
 where $\text{rank}(A) = \dim(\text{Col}(A))$ and $\text{nullity}(A) = \dim(\text{Null}(A))$.`,
 
-  "rank-and-inverse-matrix": `### 1. Rank of a Matrix $\rho(A)$
+  "rank-and-inverse-matrix": String.raw`### 1. Rank of a Matrix $\rho(A)$
 The rank of a matrix $A$ is the maximum number of linearly independent rows (or columns) in $A$:
 $$\rho(A) = \dim(\text{Col}(A)) = \dim(\text{Row}(A))$$
 
@@ -95,7 +95,7 @@ $$\rho(A) = \dim(\text{Col}(A)) = \dim(\text{Row}(A))$$
 
 ### 2. Gauss-Jordan Inversion Algorithm
 To compute $A^{-1}$, augment $A$ with the identity matrix $I_n$:
-$$[A \mid I_n] \\xrightarrow{\text{Elementary Row Operations}} [I_n \mid A^{-1}]$$
+$$[A \mid I_n] \xrightarrow{\text{Elementary Row Operations}} [I_n \mid A^{-1}]$$
 
 **Solved Numerical:** Find inverse of $A = \begin{bmatrix} 1 & 1 & 1 \\ 1 & 2 & 3 \\ 1 & 4 & 9 \end{bmatrix}$.
 $$[A \mid I] = \begin{bmatrix} 1 & 1 & 1 & \mid & 1 & 0 & 0 \\ 1 & 2 & 3 & \mid & 0 & 1 & 0 \\ 1 & 4 & 9 & \mid & 0 & 0 & 1 \end{bmatrix}$$
@@ -105,7 +105,7 @@ $$R_3 \to \frac{1}{2} R_3 \implies R_3 = \begin{bmatrix} 0 & 0 & 1 & \mid & 1 & 
 Back-clearing upper triangular entries yields:
 $$A^{-1} = \begin{bmatrix} 3 & -2.5 & 0.5 \\ -3 & 4 & -1 \\ 1 & -1.5 & 0.5 \end{bmatrix}$$`,
 
-  "system-linear-equations": `### 1. Rouché-Capelli Consistency Theorem
+  "system-linear-equations": String.raw`### 1. Rouché-Capelli Consistency Theorem
 For a non-homogeneous system of linear equations $AX = B$ with coefficient matrix $A$ and augmented matrix $[A \mid B]$:
 - **Consistent System (At least one solution):**
   $$\rho(A) = \rho([A \mid B])$$
@@ -120,7 +120,7 @@ For a non-homogeneous system of linear equations $AX = B$ with coefficient matri
 - Always consistent since $X = \mathbf{0}$ is the trivial solution.
 - Has non-trivial solutions if and only if $\rho(A) < n$, which for an $n \times n$ matrix is equivalent to $\det(A) = 0$.`,
 
-  "eigenvalues-and-diagonalization": `### 1. Characteristic Equation & Eigenvalues
+  "eigenvalues-and-diagonalization": String.raw`### 1. Characteristic Equation & Eigenvalues
 For a square matrix $A \in \mathbb{R}^{n \times n}$:
 $$A\mathbf{x} = \lambda\mathbf{x} \iff (A - \lambda I)\mathbf{x} = \mathbf{0}$$
 Since $\mathbf{x} \neq \mathbf{0}$, the characteristic equation is:
@@ -148,7 +148,7 @@ A matrix $A$ is diagonalizable iff it possesses $n$ linearly independent eigenve
 $$P^{-1} A P = D = \text{diag}(\lambda_1, \lambda_2, \dots, \lambda_n)$$
 where matrix $P = [\mathbf{x}_1 \mid \mathbf{x}_2 \mid \dots \mid \mathbf{x}_n]$.`,
 
-  "partial-derivatives": `### 1. First & Higher-Order Partial Derivatives
+  "partial-derivatives": String.raw`### 1. First & Higher-Order Partial Derivatives
 For a multivariable function $z = f(x, y)$:
 $$\frac{\partial f}{\partial x} = \lim_{h \to 0} \frac{f(x+h, y) - f(x, y)}{h}, \quad \frac{\partial f}{\partial y} = \lim_{k \to 0} \frac{f(x, y+k) - f(x, y)}{k}$$
 
@@ -162,7 +162,7 @@ If $z = f(u, v)$ where $u = g(x, y)$ and $v = h(x, y)$:
 $$\frac{\partial z}{\partial x} = \frac{\partial z}{\partial u}\frac{\partial u}{\partial x} + \frac{\partial z}{\partial v}\frac{\partial v}{\partial x}$$
 $$\frac{\partial z}{\partial y} = \frac{\partial z}{\partial u}\frac{\partial u}{\partial y} + \frac{\partial z}{\partial v}\frac{\partial v}{\partial y}$$`,
 
-  "eulers-theorem-homogeneous": `### 1. Definition of Homogeneous Function
+  "eulers-theorem-homogeneous": String.raw`### 1. Definition of Homogeneous Function
 A function $f(x, y)$ is homogeneous of degree $n$ if:
 $$f(tx, ty) = t^n f(x, y) \quad \forall t > 0$$
 
@@ -189,7 +189,7 @@ $$x^2 \frac{\partial^2 u}{\partial x^2} + 2xy \frac{\partial^2 u}{\partial x \pa
    $$\cos u \left( x \frac{\partial u}{\partial x} + y \frac{\partial u}{\partial y} \right) = \frac{1}{2} \sin u$$
    $$x \frac{\partial u}{\partial x} + y \frac{\partial u}{\partial y} = \frac{1}{2} \frac{\sin u}{\cos u} = \frac{1}{2} \tan u \quad \text{(Q.E.D.)}$$`,
 
-  "maxima-minima-2var": `### 1. Stationary Points
+  "maxima-minima-2var": String.raw`### 1. Stationary Points
 Find points $(a, b)$ satisfying the gradient condition:
 $$p = \frac{\partial f}{\partial x} = 0, \quad q = \frac{\partial f}{\partial y} = 0$$
 
@@ -206,7 +206,7 @@ $$r = \frac{\partial^2 f}{\partial x^2}, \quad s = \frac{\partial^2 f}{\partial 
 | $\Delta < 0$ | Any | **Saddle Point** (Neither max nor min) |
 | $\Delta = 0$ | Any | **Inconclusive** (Further higher tests needed) |`,
 
-  "lagrange-multipliers": `### 1. Method of Lagrange Multipliers
+  "lagrange-multipliers": String.raw`### 1. Method of Lagrange Multipliers
 To optimize $f(x, y, z)$ subject to constraint $\phi(x, y, z) = 0$:
 Construct the Lagrangian function:
 $$\mathcal{L}(x, y, z, \lambda) = f(x, y, z) + \lambda \phi(x, y, z)$$
@@ -231,7 +231,7 @@ $$\frac{\partial \mathcal{L}}{\partial x} = 0, \quad \frac{\partial \mathcal{L}}
    $$y = 6\text{ cm}, \quad z = 3\text{ cm}$$
    $$\text{Maximum Volume } V_{\max} = 6 \times 6 \times 3 = 108\text{ cm}^3.$$`,
 
-  "first-order-linear-odes": `### 1. Standard Linear Differential Equation
+  "first-order-linear-odes": String.raw`### 1. Standard Linear Differential Equation
 $$\frac{dy}{dx} + P(x) y = Q(x)$$
 where $P(x)$ and $Q(x)$ are continuous functions of $x$ alone.
 
@@ -252,7 +252,7 @@ Solve $(1+x^2)\frac{dy}{dx} + 2xy = 4x^2$:
    $$y(1+x^2) = \int \frac{4x^2}{1+x^2} (1+x^2) \, dx = \int 4x^2 \, dx = \frac{4}{3} x^3 + C$$
    $$y = \frac{4x^3}{3(1+x^2)} + \frac{C}{1+x^2}$$`,
 
-  "bernoulli-differential-equations": `### 1. Bernoulli's Non-Linear Form
+  "bernoulli-differential-equations": String.raw`### 1. Bernoulli's Non-Linear Form
 $$\frac{dy}{dx} + P(x) y = Q(x) y^n \quad (n \neq 0, 1)$$
 
 ---
@@ -264,7 +264,7 @@ Substitute $u = y^{1-n} \implies \frac{du}{dx} = (1-n) y^{-n} \frac{dy}{dx}$:
 $$\frac{du}{dx} + (1-n) P(x) u = (1-n) Q(x)$$
 Solved via standard integrating factor $I.F. = e^{\int (1-n)P(x) dx}$.`,
 
-  "exact-differential-equations": `### 1. Condition for Exactness
+  "exact-differential-equations": String.raw`### 1. Condition for Exactness
 The differential equation $M(x, y) dx + N(x, y) dy = 0$ is **exact** iff:
 $$\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}$$
 
@@ -280,7 +280,7 @@ $$\int_{y = \text{constant}} M \, dx + \int (\text{terms of } N \text{ not conta
 - If $\frac{1}{M}\left(\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}\right) = g(y)$, then $I.F. = e^{\int g(y) dy}$.
 - If $M dx + N dy = 0$ is homogeneous and $Mx + Ny \neq 0$, then $I.F. = \frac{1}{Mx + Ny}$.`,
 
-  "double-integrals": `### 1. Double Integrals over Rectangles
+  "double-integrals": String.raw`### 1. Double Integrals over Rectangles
 $$\iint_R f(x, y) \, dA = \int_a^b \left( \int_c^d f(x, y) \, dy \right) dx = \int_c^d \left( \int_a^b f(x, y) \, dx \right) dy$$
 
 ---
@@ -291,7 +291,7 @@ The integration region is $0 \le x \le y \le 1$.
 Changing order of integration:
 $$I = \int_0^1 \left( \int_0^y \frac{\sin y}{y} \, dx \right) dy = \int_0^1 \left[ \frac{\sin y}{y} x \right]_0^y dy = \int_0^1 \sin y \, dy = [-\cos y]_0^1 = 1 - \cos 1$$`,
 
-  "vector-differential-operators": `### 1. The Del Operator (∇)
+  "vector-differential-operators": String.raw`### 1. The Del Operator (∇)
 $$\nabla = \mathbf{i} \frac{\partial}{\partial x} + \mathbf{j} \frac{\partial}{\partial y} + \mathbf{k} \frac{\partial}{\partial z}$$
 
 ---
@@ -301,7 +301,7 @@ $$\nabla \phi = \mathbf{i} \frac{\partial \phi}{\partial x} + \mathbf{j} \frac{\
 - $\nabla \phi$ is a normal vector to the level surface $\phi(x, y, z) = C$.
 - The **directional derivative** in direction of unit vector $\mathbf{\hat{u}}$ is $D_{\mathbf{\hat{u}}}\phi = \nabla\phi \cdot \mathbf{\hat{u}}$.`,
 
-  "divergence-and-curl": `### 1. Divergence of Vector Field $\mathbf{V}$
+  "divergence-and-curl": String.raw`### 1. Divergence of Vector Field $\mathbf{V}$
 $$\text{div } \mathbf{V} = \nabla \cdot \mathbf{V} = \frac{\partial V_1}{\partial x} + \frac{\partial V_2}{\partial y} + \frac{\partial V_3}{\partial z}$$
 - If $\nabla \cdot \mathbf{V} = 0$, the vector field is **solenoidal** (incompressible fluid flow).
 
@@ -314,7 +314,7 @@ $$\text{curl } \mathbf{V} = \nabla \times \mathbf{V} = \begin{vmatrix} \mathbf{i
   // ==========================================
   // CSE1002: BASIC ELECTRICAL AND ELECTRONICS ENGINEERING
   // ==========================================
-  "kirchhoffs-laws": `### 1. Kirchhoff's Current Law (KCL)
+  "kirchhoffs-laws": String.raw`### 1. Kirchhoff's Current Law (KCL)
 The algebraic sum of currents entering and leaving any electrical node is strictly zero (Conservation of Electric Charge):
 $$\sum_{k=1}^n I_k = 0 \iff \sum I_{\text{in}} = \sum I_{\text{out}}$$
 
@@ -332,7 +332,7 @@ $$\sum_{k=1}^m V_k = 0 \iff \sum E - \sum IR = 0$$
    $$\begin{bmatrix} R_{11} & -R_{12} \\ -R_{21} & R_{22} \end{bmatrix} \begin{bmatrix} I_1 \\ I_2 \end{bmatrix} = \begin{bmatrix} V_1 \\ V_2 \end{bmatrix}$$
 3. Solve system using Cramer's Rule or matrix inverse.`,
 
-  "thevenin-norton-theorems": `### 1. Thevenin's Theorem
+  "thevenin-norton-theorems": String.raw`### 1. Thevenin's Theorem
 Any linear two-terminal DC network can be replaced by an equivalent circuit containing:
 - An open-circuit voltage source $V_{th}$.
 - A series internal resistance $R_{th}$.
@@ -356,7 +356,7 @@ $$I_N = \frac{V_{th}}{R_{th}}$$
    - Current sources $\to$ Open circuit ($0\text{ A}$).
 2. Compute equivalent resistance across open terminals $A-B$.`,
 
-  "superposition-and-mpt": `### 1. Superposition Theorem
+  "superposition-and-mpt": String.raw`### 1. Superposition Theorem
 In any linear bilateral network containing multiple independent sources, the response in any branch is the algebraic sum of the responses caused by each independent source acting alone:
 $$I = I^{(1)} + I^{(2)} + \dots + I^{(n)}$$
 
@@ -370,7 +370,7 @@ $$R_L = R_{th}$$
 $$P_{\max} = I_L^2 R_L = \left(\frac{V_{th}}{2 R_{th}}\right)^2 R_{th} = \frac{V_{th}^2}{4 R_{th}}$$
 Efficiency under maximum power transfer is strictly $\eta = 50\%$.`,
 
-  "pn-junction-characteristics": `### 1. PN Junction Diode V-I Characteristics
+  "pn-junction-characteristics": String.raw`### 1. PN Junction Diode V-I Characteristics
 The Shockley diode equation models current flow:
 $$I = I_0 \left( e^{\frac{q V}{\eta k T}} - 1 \right) = I_0 \left( e^{\frac{V}{\eta V_T}} - 1 \right)$$
 where $V_T = \frac{kT}{q} \approx 26\text{ mV}$ at room temperature ($300\text{ K}$), $\eta = 1$ for Ge, $\eta = 2$ for Si.
@@ -380,7 +380,7 @@ where $V_T = \frac{kT}{q} \approx 26\text{ mV}$ at room temperature ($300\text{ 
   - Germanium ($Ge$): $V_\gamma \approx 0.3\text{ V}$
 - **Reverse Bias:** Tiny reverse saturation current $I_0$ ($nA$ for Si, $\mu A$ for Ge) until reaching the Zener/Avalanche breakdown voltage.`,
 
-  "rectifiers-and-filters": `### 1. Half-Wave vs Full-Wave Rectifiers Comparison
+  "rectifiers-and-filters": String.raw`### 1. Half-Wave vs Full-Wave Rectifiers Comparison
 
 | Parameter | Half-Wave Rectifier | Full-Wave Center-Tap | Full-Wave Bridge Rectifier |
 | :--- | :--- | :--- | :--- |
@@ -398,7 +398,7 @@ where $V_T = \frac{kT}{q} \approx 26\text{ mV}$ at room temperature ($300\text{ 
 With a shunt filter capacitor $C$ across load $R_L$:
 $$\gamma = \frac{1}{2\sqrt{3} f C R_L} \quad (\text{Full-Wave Bridge})$$`,
 
-  "zener-voltage-regulator": `### 1. Zener Diode Working Principle
+  "zener-voltage-regulator": String.raw`### 1. Zener Diode Working Principle
 A Zener diode is a heavily doped PN junction diode designed to operate stably in the **reverse breakdown region** where voltage remains constant ($V_Z$) across a wide variation of current $I_Z$.
 
 ---
@@ -409,7 +409,7 @@ A Zener diode is a heavily doped PN junction diode designed to operate stably in
 - Maximum and Minimum Zener Current:
   $$I_{Z,\min} \le I_Z \le I_{Z,\max} = \frac{P_{Z,\max}}{V_Z}$$`,
 
-  "bjt-configurations": `### 1. BJT Terminals & Operation
+  "bjt-configurations": String.raw`### 1. BJT Terminals & Operation
 Bipolar Junction Transistor consists of three regions: Emitter (heavily doped), Base (lightly doped, very thin), and Collector (moderately doped, largest area).
 $$I_E = I_B + I_C$$
 
@@ -423,7 +423,7 @@ $$I_E = I_B + I_C$$
 - **Fundamental Relation:**
   $$\beta = \frac{\alpha}{1 - \alpha}, \quad \alpha = \frac{\beta}{1 + \beta}$$`,
 
-  "bjt-switch-amplifier": `### 1. BJT as an Electronic Switch
+  "bjt-switch-amplifier": String.raw`### 1. BJT as an Electronic Switch
 - **Cutoff Region (OFF state):** $V_{BE} < 0.7\text{V}, \; I_B = 0, \; I_C = 0, \; V_{CE} = V_{CC}$.
 - **Saturation Region (ON state):** Both BE and BC junctions forward biased, $V_{CE(\text{sat})} \approx 0.2\text{V}, \; I_{C(\text{sat})} = \frac{V_{CC} - 0.2}{R_C}$.
 
@@ -433,7 +433,7 @@ $$I_E = I_B + I_C$$
 - Input applied to Base, output taken from Collector.
 - Phase Inversion: 180° phase shift between input and output AC signals.`,
 
-  "mosfet-and-cmos": `### 1. MOSFET Operation
+  "mosfet-and-cmos": String.raw`### 1. MOSFET Operation
 Voltage-controlled device with near-infinite input impedance ($I_G \approx 0$).
 - **Threshold Voltage $V_{th}$:** Minimum gate voltage to create inversion channel.
 - **Drain Current in Saturation:**
@@ -447,7 +447,7 @@ Consists of complementary PMOS pull-up and NMOS pull-down transistors.
 - When $V_{\text{in}} = V_{DD}$ (Logic 1): PMOS OFF, NMOS ON $\implies V_{\text{out}} = 0$ (Logic 0).
 - Static power dissipation is zero.`,
 
-  "ideal-opamp-characteristics": `### 1. Ideal Operational Amplifier Characteristics
+  "ideal-opamp-characteristics": String.raw`### 1. Ideal Operational Amplifier Characteristics
 - **Open-Loop Gain ($A_{OL}$):** $\infty$
 - **Input Impedance ($R_{\text{in}}$):** $\infty \implies I_+ = I_- = 0$
 - **Output Impedance ($R_{\text{out}}$):** $0$
@@ -462,7 +462,7 @@ Because $A_{OL} = \infty$ and output $V_o$ is finite in negative feedback:
 $$V_+ - V_- = \frac{V_o}{A_{OL}} = 0 \implies V_+ = V_-$$
 If $V_+ = 0$ (ground), then $V_- = 0$ (**Virtual Ground**).`,
 
-  "inverting-non-inverting-opamp": `### 1. Inverting Amplifier
+  "inverting-non-inverting-opamp": String.raw`### 1. Inverting Amplifier
 $$V_o = -\frac{R_f}{R_1} V_{\text{in}}$$
 $$\text{Gain } A_v = -\frac{R_f}{R_1}$$
 
@@ -472,7 +472,7 @@ $$\text{Gain } A_v = -\frac{R_f}{R_1}$$
 $$V_o = \left( 1 + \frac{R_f}{R_1} \right) V_{\text{in}}$$
 $$\text{Gain } A_v = 1 + \frac{R_f}{R_1} \ge 1$$`,
 
-  "opamp-applications": `### 1. Summing Amplifier
+  "opamp-applications": String.raw`### 1. Summing Amplifier
 $$V_o = -R_f \left( \frac{V_1}{R_1} + \frac{V_2}{R_2} + \frac{V_3}{R_3} \right)$$
 
 ---
@@ -481,7 +481,7 @@ $$V_o = -R_f \left( \frac{V_1}{R_1} + \frac{V_2}{R_2} + \frac{V_3}{R_3} \right)$
 - **Integrator:** $V_o(t) = -\frac{1}{RC} \int_0^t V_{\text{in}}(\tau) \, d\tau$
 - **Differentiator:** $V_o(t) = -RC \frac{dV_{\text{in}}(t)}{dt}$`,
 
-  "beee-lab-exp-1": `### BEEE Lab — Experiment 1: Component Identification & DMM Testing
+  "beee-lab-exp-1": String.raw`### BEEE Lab — Experiment 1: Component Identification & DMM Testing
 **Aim:** To identify common electronic components and measure their electrical values using a Digital Multimeter (DMM).
 
 ---
@@ -498,7 +498,7 @@ Set DMM to Diode mode:
 - Forward Bias: Red probe to Anode, Black to Cathode $\implies 0.65\text{V} - 0.72\text{V}$ for Silicon.
 - Reverse Bias: Reversing probes $\implies$ Displays \`OL\` (infinite resistance).`,
 
-  "beee-lab-exp-2": `### BEEE Lab — Experiment 2: Verification of KVL and KCL
+  "beee-lab-exp-2": String.raw`### BEEE Lab — Experiment 2: Verification of KVL and KCL
 **Aim:** To experimentally verify Kirchhoff's Voltage Law (KVL) in a series circuit and Kirchhoff's Current Law (KCL) in a parallel circuit.
 
 ---
@@ -515,7 +515,7 @@ Set DMM to Diode mode:
 | :--- | :--- | :--- | :--- | :--- |
 | $12.00\text{ V}$ | $5.17\text{ V}$ | $6.83\text{ V}$ | $12.00\text{ V}$ | $0.0\%$ |`,
 
-  "beee-lab-exp-3": `### BEEE Lab — Experiment 3: PN Junction Diode V-I Characteristics
+  "beee-lab-exp-3": String.raw`### BEEE Lab — Experiment 3: PN Junction Diode V-I Characteristics
 **Aim:** To plot the forward and reverse bias V-I characteristics of a Silicon PN junction diode (1N4007) and determine cut-in voltage and dynamic resistance.
 
 ---
@@ -525,7 +525,7 @@ Set DMM to Diode mode:
 - Dynamic (AC) Forward Resistance:
   $$r_d = \frac{\Delta V_F}{\Delta I_F} \approx \frac{0.75 - 0.70}{(25 - 10) \times 10^{-3}} = \frac{0.05}{15 \times 10^{-3}} \approx 3.33\,\Omega$$`,
 
-  "beee-lab-exp-4": `### BEEE Lab — Experiment 4: Half-Wave Rectifier with Capacitor Filter
+  "beee-lab-exp-4": String.raw`### BEEE Lab — Experiment 4: Half-Wave Rectifier with Capacitor Filter
 **Aim:** To construct a half-wave rectifier, observe input/output waveforms on CRO, and calculate DC voltage, RMS voltage, and ripple factor.
 
 ---
@@ -536,7 +536,7 @@ $$V_{dc} = \frac{V_m}{\pi} = 4.77\text{ V}, \quad V_{rms} = \frac{V_m}{2} = 7.50
 $$\text{Ripple Factor } \gamma = \sqrt{\left(\frac{7.50}{4.77}\right)^2 - 1} = 1.21$$
 Adding filter capacitor $C = 100\,\mu\text{F}$ reduces ripple factor to $\gamma < 0.1$.`,
 
-  "beee-lab-exp-5": `### BEEE Lab — Experiment 5: Center-Tap & Bridge Full-Wave Rectifiers
+  "beee-lab-exp-5": String.raw`### BEEE Lab — Experiment 5: Center-Tap & Bridge Full-Wave Rectifiers
 **Aim:** To construct and compare center-tap and bridge full-wave rectifiers with a half-wave rectifier.
 
 ---
@@ -549,7 +549,7 @@ Adding filter capacitor $C = 100\,\mu\text{F}$ reduces ripple factor to $\gamma 
   // ==========================================
   // CSE1003: COMPUTER ORGANIZATION AND ARCHITECTURE
   // ==========================================
-  "von-neumann-vs-harvard": `### 1. Architecture Comparison (COA Assignment 1, Q2)
+  "von-neumann-vs-harvard": String.raw`### 1. Architecture Comparison (COA Assignment 1, Q2)
 
 | Feature | Von Neumann Architecture | Harvard Architecture |
 | :--- | :--- | :--- |
@@ -559,7 +559,7 @@ Adding filter capacitor $C = 100\,\mu\text{F}$ reduces ripple factor to $\gamma 
 | **Hardware** | Simpler CPU layout, lower pin count | Complex routing, higher pin count and separate cache controllers |
 | **Usage** | General desktop CPUs (Intel x86, AMD64) | DSP processors, microcontrollers (AVR, PIC, ARM Cortex-M) |`,
 
-  "eight-great-ideas-architecture": `### Eight Great Ideas in Computer Architecture (COA Assignment 1, Q3)
+  "eight-great-ideas-architecture": String.raw`### Eight Great Ideas in Computer Architecture (COA Assignment 1, Q3)
 1. **Design for Moore's Law:** Anticipate future transistor counts during long design cycles.
 2. **Use Abstraction to Simplify Design:** Modular hardware hierarchy hiding lower circuit gates.
 3. **Make the Common Case Fast:** Optimize instructions executed >80% of time (Amdahl's Law).
@@ -569,7 +569,7 @@ Adding filter capacitor $C = 100\,\mu\text{F}$ reduces ripple factor to $\gamma 
 7. **Hierarchy of Memories:** Fast small L1/L2 caches backing larger slower DRAM.
 8. **Dependability via Redundancy:** ECC memory and RAID disks to prevent catastrophic system crash.`,
 
-  "booths-multiplication-algorithm": `### 1. Booth's Multiplication Algorithm
+  "booths-multiplication-algorithm": String.raw`### 1. Booth's Multiplication Algorithm
 Multiplies signed binary integers in 2's complement representation.
 - Let multiplicand be $M$, multiplier be $Q$.
 - Extra 1-bit register $Q_{-1} = 0$, Accumulator $A = 0$.
@@ -603,7 +603,7 @@ Multiplies signed binary integers in 2's complement representation.
 
 Result in $A Q = 1111101011_2 = -21_{10}$ (Verified Correct!).`,
 
-  "ieee-754-floating-point": `### 1. Single-Precision Format (32-bit Standard)
+  "ieee-754-floating-point": String.raw`### 1. Single-Precision Format (32-bit Standard)
 $$V = (-1)^S \times (1.M) \times 2^{E - 127}$$
 - **Sign Bit ($S$):** 1 bit ($0 = \text{positive}, 1 = \text{negative}$).
 - **Biased Exponent ($E$):** 8 bits, Bias $= 2^{8-1} - 1 = 127$.
@@ -619,7 +619,7 @@ $$V = (-1)^S \times (1.M) \times 2^{E - 127}$$
 5. Mantissa: $11011010100000000000000_2$.
 6. Final 32-bit pattern: \`1 10000101 11011010100000000000000\` = \`0xC2ECB400\`.`,
 
-  "isa-and-instruction-types": `### 1. Instruction Set Architecture (COA Assignment 2, Q1 & Q2)
+  "isa-and-instruction-types": String.raw`### 1. Instruction Set Architecture (COA Assignment 2, Q1 & Q2)
 ISA defines the programmer-visible interface to hardware: registers, instructions, addressing modes, and exception mechanisms.
 
 ---
@@ -630,7 +630,7 @@ ISA defines the programmer-visible interface to hardware: registers, instruction
 - **1-Address (Accumulator):** \`ADD X\` ($AC \leftarrow AC + M[X]$).
 - **0-Address (Stack Architecture):** \`ADD\` (Pops top two operands from stack and pushes sum).`,
 
-  "addressing-modes-and-rtl": `### 1. Register Transfer Language (RTL) (COA Assignment 2, Q3)
+  "addressing-modes-and-rtl": String.raw`### 1. Register Transfer Language (RTL) (COA Assignment 2, Q3)
 Symbolic notation describing micro-operations between CPU registers:
 - \`R2 <- R1\`: Direct register transfer.
 - \`DR <- M[AR]\`: Memory read operation.
@@ -645,7 +645,7 @@ Symbolic notation describing micro-operations between CPU registers:
 - **Register Direct / Indirect:** Operand in register / Register holds memory address pointer.
 - **Displacement:** $EA = A + (R)$.`,
 
-  "risc-vs-cisc-architecture": `### RISC vs CISC Architecture Comparison (COA Assignment 2, Q9)
+  "risc-vs-cisc-architecture": String.raw`### RISC vs CISC Architecture Comparison (COA Assignment 2, Q9)
 
 | Characteristic | RISC (Reduced Instruction Set Computer) | CISC (Complex Instruction Set Computer) |
 | :--- | :--- | :--- |
@@ -656,7 +656,7 @@ Symbolic notation describing micro-operations between CPU registers:
 | **Registers** | Large register file ($32-128$ GPRs) | Fewer general-purpose registers ($8-16$) |
 | **Examples** | ARM, RISC-V, MIPS | Intel x86, AMD64 |`,
 
-  "pipelining-and-hazards": `### 1. Classic 5-Stage RISC Instruction Pipeline
+  "pipelining-and-hazards": String.raw`### 1. Classic 5-Stage RISC Instruction Pipeline
 1. **IF (Instruction Fetch):** Fetch instruction from cache into IR.
 2. **ID (Instruction Decode / Register Read):** Decode opcode and read register file.
 3. **EX (Execute / ALU):** Perform ALU calculation or memory effective address.
@@ -670,7 +670,7 @@ Symbolic notation describing micro-operations between CPU registers:
 - **Data Hazards (RAW, WAR, WAW):** Operand dependency. Solved via **Hardware Data Forwarding (Bypassing)** or pipeline stalls (bubbles).
 - **Control Hazards:** Branch instructions alter PC. Solved via dynamic branch prediction.`,
 
-  "memory-hierarchy-design": `### 1. Memory Hierarchy Triangle
+  "memory-hierarchy-design": String.raw`### 1. Memory Hierarchy Triangle
 1. **CPU Registers:** $0.5\text{ ns}$, $< 1\text{ KB}$, on-chip.
 2. **L1 Cache (Split I/D):** $1\text{ ns}$, $32-64\text{ KB}$, on-chip SRAM.
 3. **L2 Cache:** $3-5\text{ ns}$, $512\text{ KB}-2\text{ MB}$, SRAM.
@@ -683,7 +683,7 @@ Symbolic notation describing micro-operations between CPU registers:
 ### 2. Average Memory Access Time (AMAT)
 $$\text{AMAT} = \text{Hit Time} + (\text{Miss Rate} \times \text{Miss Penalty})$$`,
 
-  "cache-mapping-techniques": `### 1. Cache Mapping Mechanisms
+  "cache-mapping-techniques": String.raw`### 1. Cache Mapping Mechanisms
 - **Direct Mapping:** Each memory block maps to exactly one cache line:
   $$\text{Line Number} = \text{Block Address} \pmod{\text{Number of Cache Lines}}$$
 - **Fully Associative:** A memory block can reside in any cache line. Minimal conflict misses, requires expensive associative comparators.
@@ -699,7 +699,7 @@ For a 32-bit byte-addressable system with a 64 KB 4-way set-associative cache an
 - **Number of Sets:** $\frac{1024}{4} = 256 \implies \text{Set Index} = \log_2(256) = 8$ bits.
 - **Tag Bits:** $32 - (8 + 6) = 18$ bits.`,
 
-  "cache-replacement-and-write-policies": `### 1. Cache Replacement Policies
+  "cache-replacement-and-write-policies": String.raw`### 1. Cache Replacement Policies
 - **LRU (Least Recently Used):** Evicts line that has not been referenced for the longest time.
 - **FIFO (First-In, First-Out):** Evicts oldest line loaded.
 - **LFU (Least Frequently Used):** Evicts line with smallest access count.
@@ -713,14 +713,14 @@ For a 32-bit byte-addressable system with a 64 KB 4-way set-associative cache an
   // ==========================================
   // CSE1004: FUNDAMENTALS OF WEB TECHNOLOGIES
   // ==========================================
-  "web-evolution-and-arpanet": `### 1. Milestones of Web Evolution
+  "web-evolution-and-arpanet": String.raw`### 1. Milestones of Web Evolution
 - **1969 — ARPANET:** First packet-switching network utilizing Interface Message Processors (IMPs).
 - **1989 — CERN & Tim Berners-Lee:** Invention of HTML, HTTP, and URLs to link scientific documents.
 - **Web 1.0 (1991–2004):** Static HTML read-only web.
 - **Web 2.0 (2004–Present):** Participatory, user-generated content, AJAX, Web APIs, single page applications.
 - **Web 3.0:** Semantic data graphs, decentralization, cryptographic verification.`,
 
-  "client-server-and-dns": `### 1. Client-Server Architecture
+  "client-server-and-dns": String.raw`### 1. Client-Server Architecture
 - **Client (User Agent):** Requests resources (Web Browser, Mobile App).
 - **Server:** Listens on specific ports (Port 80 HTTP, Port 443 HTTPS) and serves resources.
 
@@ -734,7 +734,7 @@ For a 32-bit byte-addressable system with a 64 KB 4-way set-associative cache an
 5. TLD nameserver directs to Authoritative Nameserver.
 6. Authoritative server returns A/AAAA IP address.`,
 
-  "http-https-status-codes": `### 1. HTTP Methods
+  "http-https-status-codes": String.raw`### 1. HTTP Methods
 - **GET:** Retrieve representation of resource (idempotent, safe).
 - **POST:** Submit data to server to create new entity.
 - **PUT:** Replace target resource entirely (idempotent).
@@ -748,7 +748,7 @@ For a 32-bit byte-addressable system with a 64 KB 4-way set-associative cache an
 - **4xx Client Errors:** \`400 Bad Request\`, \`401 Unauthorized\`, \`403 Forbidden\`, \`404 Not Found\`.
 - **5xx Server Errors:** \`500 Internal Server Error\`, \`502 Bad Gateway\`, \`503 Service Unavailable\`.`,
 
-  "html5-semantic-elements": `### 1. Semantic HTML5 Elements
+  "html5-semantic-elements": String.raw`### 1. Semantic HTML5 Elements
 Semantic tags convey meaning to browsers, search engines, and screen readers:
 - \`<header>\`: Introductory content or navigational links.
 - \`<nav>\`: Set of primary site navigation links.
@@ -758,7 +758,7 @@ Semantic tags convey meaning to browsers, search engines, and screen readers:
 - \`<aside>\`: Tangentially related content.
 - \`<footer>\`: Author, copyright, legal disclaimer.`,
 
-  "html-lists-tables-forms": `### 1. HTML Lists (Practical 2)
+  "html-lists-tables-forms": String.raw`### 1. HTML Lists (Practical 2)
 - Ordered: \`<ol type="1">\` with \`<li>\`.
 - Unordered: \`<ul>\` with \`<li>\`.
 - Description List: \`<dl>\`, \`<dt>\` (term), \`<dd>\` (description).
@@ -783,7 +783,7 @@ Semantic tags convey meaning to browsers, search engines, and screen readers:
 ### 3. Forms & HTML5 Validation
 Attributes: \`required\`, \`type="email"\`, \`pattern="[0-9]{10}"\`, \`min\`, \`max\`.`,
 
-  "css-box-model-selectors": `### 1. CSS Box Model
+  "css-box-model-selectors": String.raw`### 1. CSS Box Model
 $$\text{Total Width} = \text{Content Width} + \text{Padding} + \text{Border} + \text{Margin}$$
 Using \`box-sizing: border-box\` causes specified width and height to include content, padding, and border.
 
@@ -792,7 +792,7 @@ Using \`box-sizing: border-box\` causes specified width and height to include co
 ### 2. Specificity Hierarchy
 $$\text{Inline Styles } (1000) > \text{IDs } (100) > \text{Classes, Attributes, Pseudo-classes } (10) > \text{Elements } (1)$$`,
 
-  "css-flexbox-and-grid": `### 1. CSS Flexbox (1-Dimensional Layout)
+  "css-flexbox-and-grid": String.raw`### 1. CSS Flexbox (1-Dimensional Layout)
 - Container: \`display: flex; flex-direction: row | column;\`
 - Alignment along main axis: \`justify-content: center | space-between;\`
 - Alignment along cross axis: \`align-items: center | flex-start;\`
@@ -811,13 +811,13 @@ $$\text{Inline Styles } (1000) > \text{IDs } (100) > \text{Classes, Attributes, 
   // ==========================================
   // CSE1005: PYTHON PROGRAMMING
   // ==========================================
-  "python-architecture-features": `### 1. Key Features of Python
+  "python-architecture-features": String.raw`### 1. Key Features of Python
 - **High-Level & Interpreted:** Executes via bytecode on the Python Virtual Machine (PVM).
 - **Dynamically Typed:** Variable types are bound at runtime without explicit declarations.
 - **Automatic Garbage Collection:** Reference counting augmented with cyclic garbage collector.
 - **Multi-Paradigm:** Supports procedural, object-oriented, and functional programming.`,
 
-  "conditional-statements-ternary": `### 1. Control Flow & Branching
+  "conditional-statements-ternary": String.raw`### 1. Control Flow & Branching
 \`\`\`python
 score = 85
 if score >= 90:
@@ -831,7 +831,7 @@ else:
 status = "Pass" if score >= 40 else "Fail"
 \`\`\``,
 
-  "loops-and-control-flow": `### 1. Loop Control Statements
+  "loops-and-control-flow": String.raw`### 1. Loop Control Statements
 - \`break\`: Immediately terminates loop execution.
 - \`continue\`: Skips remainder of current iteration and proceeds to next loop test.
 - \`pass\`: Syntactic placeholder null statement.
@@ -846,7 +846,7 @@ for n in range(2, 10):
         print(f"{n} is prime!")
 \`\`\``,
 
-  "functions-args-kwargs-recursion": `### 1. Arbitrary Arguments (*args, **kwargs)
+  "functions-args-kwargs-recursion": String.raw`### 1. Arbitrary Arguments (*args, **kwargs)
 - \`*args\`: Collects positional arguments into a \`tuple\`.
 - \`**kwargs\`: Collects keyword arguments into a \`dict\`.
 
@@ -864,7 +864,7 @@ print(compute_stats(88, 92, 79, course="Python"))
 ### 2. LEGB Scope Rule
 Python resolves variable names in strict order: **L**ocal $\to$ **E**nclosing $\to$ **G**lobal $\to$ **B**uilt-in.`,
 
-  "strings-and-string-methods": `### 1. String Slicing & Immutability
+  "strings-and-string-methods": String.raw`### 1. String Slicing & Immutability
 Strings are immutable ordered sequences of Unicode characters:
 - Slicing syntax: \`s[start : stop : step]\`
 - Reverse string idiom: \`s[::-1]\`
@@ -876,7 +876,7 @@ print(s.split(" "))      # ['DYPIU', 'University']
 print("-".join(["2026", "Sem1"]))  # 2026-Sem1
 \`\`\``,
 
-  "lists-tuples-comprehensions": `### 1. Lists vs Tuples
+  "lists-tuples-comprehensions": String.raw`### 1. Lists vs Tuples
 - **List:** Mutable sequence defined with \`[ ]\`. Methods: \`append()\`, \`extend()\`, \`insert()\`, \`pop()\`, \`sort()\`.
 - **Tuple:** Immutable sequence defined with \`( )\`. Supports tuple packing and unpacking.
 
@@ -890,7 +890,7 @@ squares = [x**2 for x in range(1, 11) if x % 2 == 0]
 # [4, 16, 36, 64, 100]
 \`\`\``,
 
-  "dictionaries-and-sets": `### 1. Dictionary Hash Tables
+  "dictionaries-and-sets": String.raw`### 1. Dictionary Hash Tables
 Key-value mappings with $O(1)$ average time complexity for lookups, insertions, and deletions:
 \`\`\`python
 student = {"prn": "2026CSE001", "name": "Rahul", "cgpa": 9.2}
@@ -907,7 +907,7 @@ Unordered collections of unique hashable elements:
 - Intersection: \`A & B\`
 - Difference: \`A - B\``,
 
-  "numpy-basics-vectorization": `### 1. NumPy ndarrays & Vectorized Operations
+  "numpy-basics-vectorization": String.raw`### 1. NumPy ndarrays & Vectorized Operations
 NumPy stores data in contiguous C-order memory buffers, executing element-wise operations at native speed without Python loop overhead:
 
 \`\`\`python
@@ -922,7 +922,7 @@ C = np.dot(A, B)   # or A @ B
 eigenvals, eigenvecs = np.linalg.eig(A)
 \`\`\``,
 
-  "pandas-dataframes-operations": `### 1. Pandas Series & DataFrames
+  "pandas-dataframes-operations": String.raw`### 1. Pandas Series & DataFrames
 \`\`\`python
 import pandas as pd
 
@@ -939,18 +939,18 @@ mean_score = df["Score"].mean()
   // ==========================================
   // CSE1006: INDIAN KNOWLEDGE SYSTEMS (IKS)
   // ==========================================
-  "iks-framework-foundations": `### 1. 14 Vidyasthanas of Ancient India
+  "iks-framework-foundations": String.raw`### 1. 14 Vidyasthanas of Ancient India
 The Indian Knowledge System is historically structured into **14 Vidyasthanas**:
 - **4 Vedas:** Rigveda, Yajurveda, Samaveda, Atharvaveda.
 - **6 Vedangas:** Shiksha (Phonetics), Kalpa (Ritual/Geometry), Vyakarana (Grammar), Nirukta (Etymology), Chandas (Metre), Jyotisha (Astronomy/Mathematics).
 - **4 Upangas:** Mimamsa (Interpretation), Nyaya (Epistemology & Logic), Purana (History/Cosmology), Dharma Shastra (Jurisprudence).`,
 
-  "panini-ashtadhyayi-linguistics": `### 1. Panini's Formal Grammar System
+  "panini-ashtadhyayi-linguistics": String.raw`### 1. Panini's Formal Grammar System
 Composed in 4th century BCE, the *Ashtadhyayi* contains ~4,000 algorithmic sutras formalizing Sanskrit phonology and syntax.
 - **Anticipation of BNF:** Noam Chomsky and Leonard Bloomfield recognized Panini's meta-rules as the precursor to **Backus-Naur Form (BNF)** used in modern compiler grammars.
 - **Sivasutras:** 14 aphorisms organizing sounds into sound classes using auxiliary markers (*it* symbols) analogous to modern regular expressions.`,
 
-  "sulba-sutras-and-aryabhata": `### 1. Baudhayana's Theorem in Sulba Sutras (800 BCE)
+  "sulba-sutras-and-aryabhata": String.raw`### 1. Baudhayana's Theorem in Sulba Sutras (800 BCE)
 $$a^2 + b^2 = c^2$$
 *The diagonal of a rectangle produces by itself both the areas which the length and breadth produce separately.* (Pre-dates Pythagoras by centuries).
 
@@ -961,106 +961,8 @@ $$a^2 + b^2 = c^2$$
 - **Approximation of Pi:** $\pi \approx \frac{62832}{20000} = 3.1416$.
 - **Astronomy:** Identified that the Earth rotates on its axis and planetary orbits are elliptical.`,
 
-  "indian-metallurgy-wootz-steel": `### 1. Ancient Metallurgy Achievements
+  "indian-metallurgy-wootz-steel": String.raw`### 1. Ancient Metallurgy Achievements
 - **Wootz Steel (Ukku):** High-carbon crucible steel manufactured in Southern India, exported worldwide to make Damascus blades.
 - **Delhi Iron Pillar (4th Century CE):** 6-tonne forged wrought iron column standing rust-free for >1600 years due to protective *misawite* ($\delta$-FeOOH) catalytic layer formed from high phosphorus slag.
 - **Zinc Smelting at Zawar (Rajasthan):** First industrial distillation process using downward retorts (12th Century).`,
 };
-
-/**
- * Returns dynamic question paper and marking schemes customized per subject.
- */
-export function getSubjectPaperContent(
-  subjectCode: string,
-  paperTitle: string,
-  examYear: number,
-  examType: string,
-  isSolution: boolean
-): string {
-  if (isSolution) {
-    if (subjectCode === "CSE1003") {
-      return `### Official Model Solution & Evaluation Scheme — ${paperTitle}
-**Subject Code:** ${subjectCode} | **Academic Year:** ${examYear} | **Type:** ${examType}
-
----
-
-#### Q1: Evolution of Computing Systems [5 Marks]
-- **First Generation (1940–1956):** Vacuum tubes, magnetic drums, machine language.
-- **Second Generation (1956–1963):** Transistors, magnetic core memory, FORTRAN/COBOL.
-- **Third Generation (1964–1971):** Integrated Circuits (ICs), semiconductor memory.
-- **Fourth Generation (1971–Present):** VLSI/ULSI microprocessors (Intel 4004 to modern multi-core).
-
----
-
-#### Q2: Von Neumann vs Harvard Architecture Comparison [5 Marks]
-- Von Neumann uses unified bus and shared memory space $\implies$ **Von Neumann Bottleneck**.
-- Harvard uses separate physical buses for instructions and data $\implies$ simultaneous fetch and operand access.
-
----
-
-#### Q3: Booth's Multiplication Numerical [10 Marks]
-Multiply $(+7) \times (-3)$ using 5-bit Booth's Algorithm:
-Multiplicand $M = +7 = 00111_2$, $-M = 11001_2$. Multiplier $Q = -3 = 11101_2$. Accumulator $A = 00000_2, Q_{-1} = 0$.
-Result: $A Q = 1111101011_2 = -21_{10}$ (Verified Correct).`;
-    }
-
-    if (subjectCode === "CSE1002") {
-      return `### Official Model Solution & Evaluation Scheme — ${paperTitle}
-**Subject Code:** ${subjectCode} | **Academic Year:** ${examYear} | **Type:** ${examType}
-
----
-
-#### Q1: Mesh Analysis Solution [10 Marks]
-Applying KVL around the two independent loops:
-$$Loop 1: \; 10 - 2 I_1 - 4(I_1 - I_2) = 0 \implies 6 I_1 - 4 I_2 = 10$$
-$$Loop 2: \; -4(I_2 - I_1) - 6 I_2 - 5 = 0 \implies -4 I_1 + 10 I_2 = -5$$
-Solving simultaneously:
-$$I_1 = 1.818\text{ A}, \quad I_2 = 0.227\text{ A}$$
-Current through shared $4\,\Omega$ resistor: $I = I_1 - I_2 = 1.591\text{ A}$.
-
----
-
-#### Q2: Full-Wave Bridge Rectifier Ripple Factor [5 Marks]
-$$\gamma = \sqrt{\left(\frac{V_{rms}}{V_{dc}}\right)^2 - 1} = \sqrt{\left(\frac{0.707 V_m}{0.637 V_m}\right)^2 - 1} = \sqrt{1.233 - 1} = 0.482$$`;
-    }
-
-    return `### Model Solution & Faculty Marking Scheme — ${paperTitle}
-**Subject Code:** ${subjectCode} | **Academic Year:** ${examYear} | **Type:** ${examType}
-
----
-
-#### Question 1 (10 Marks): Analytical Derivation
-1. State the governing system equation:
-   $$\mathcal{L} \{ f(t) \} = \int_0^\infty e^{-st} f(t) \, dt \implies \det(A - \lambda I) = 0$$
-2. Compute step-by-step substitutions according to university examination rubric.
-3. Validate final numerical dimensions and boundary conditions.`;
-  }
-
-  // Question Paper View
-  return `### University Examination Question Paper — ${paperTitle}
-**Course Code:** ${subjectCode} | **Academic Year:** ${examYear} | **Examination:** ${examType}
-**Time Allowed:** 2.5 Hours | **Maximum Marks:** 60 Marks
-
----
-
-### Section A: Short Answer Questions (5 × 2 = 10 Marks)
-1. Define the fundamental governing law for **${subjectCode}** and write its standard formula.
-2. State the key differences between theoretical vs practical implementation constraints.
-3. What is the time complexity or physical significance of system equilibrium?
-4. Explain the primary role of boundary conditions in system stability.
-5. Write down the canonical matrix representation or block diagram.
-
----
-
-### Section B: Analytical Derivations & Numericals (4 × 10 = 40 Marks)
-1. **(a)** Formulate the step-by-step analytical proof for the principal theorem of Module 1.
-   **(b)** Solve the accompanying numerical with given boundary parameters.
-2. Evaluate the performance metrics and compute the efficiency or convergence rate.
-3. Draw neat circuit / architectural diagrams and explain component interconnections.
-4. Contrast the trade-offs between speed, cost, and complexity for this architecture.
-
----
-
-### Section C: Comprehensive Application Case Study (1 × 10 = 10 Marks)
-Design a real-world engineering solution using the principles covered in Modules 1 through 5, highlighting failure modes and fault-tolerant mitigation strategies.`;
-}

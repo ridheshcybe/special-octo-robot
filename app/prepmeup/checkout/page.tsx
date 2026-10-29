@@ -540,7 +540,7 @@ export default function RazorpayCheckoutPage() {
                         }}
                       >
                         <li>All Six Currently Listed Semester 1 Subjects &amp; Available LaTeX Notes</li>
-                        <li>Solved Past Papers (PYQ Key) &amp; Topic-Wise Quizzes</li>
+                        <li>Available paper resources &amp; topic-wise quizzes</li>
                         <li>Interactive BEE &amp; Python Simulations</li>
                         <li style={{ color: "#71717a" }}>Does not include 1:1 Human Mentorship or Internship &amp; Career Support</li>
                       </ul>

@@ -31,6 +31,7 @@ rzp-key.csv
 # Deployment scratch
 deploy_hostinger.js
 package_for_hostinger.py
+*.patch
 
 # GCP Service Account Keys & Secrets
 *gcp*.json
