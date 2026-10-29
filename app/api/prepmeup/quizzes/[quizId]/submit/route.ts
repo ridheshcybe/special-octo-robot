@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 import { MOCK_QUIZZES } from "@/app/prepmeup/_lib/quizData";
+import { recordQuizAttempt } from "@/app/prepmeup/_lib/studentStore";
 
 export async function POST(
   req: NextRequest,
@@ -107,7 +108,26 @@ export async function POST(
     const percentage = quiz.total_marks > 0 ? (score / quiz.total_marks) * 100 : 0;
     const passed = score >= (quiz.passing_marks || 3);
 
-    // 2. Persist in Database
+    // Save in student activity store so progress metrics immediately reflect real attempts
+    recordQuizAttempt(studentId, {
+      id: attemptId || `attempt-${Date.now()}`,
+      quizId: quiz.id,
+      quizTitle: quiz.title,
+      score,
+      totalMarks: quiz.total_marks,
+      percentage: parseFloat(percentage.toFixed(1)),
+      breakdown: breakdown.map((b) => ({
+        questionId: b.questionId,
+        questionText: b.questionText,
+        studentAnswer: b.studentAnswer,
+        isCorrect: b.isCorrect,
+        marksAwarded: b.marksAwarded,
+        explanation: b.explanation,
+      })),
+      submittedAt: new Date().toISOString(),
+    });
+
+    // 2. Persist in Database if configured
     if (serviceClient && attemptId && !attemptId.startsWith("attempt-")) {
       await serviceClient
         .from("pmu_quiz_attempts")

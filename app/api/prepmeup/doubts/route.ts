@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 import { retrieveSyllabusGrounding, solveAcademicDoubt } from "@/lib/prepmeup/ai-tutor";
+import { recordDoubt, getStudentActivity } from "@/app/prepmeup/_lib/studentStore";
 
 // In-memory sliding window for AI doubt rate limiting (max 15 queries per hour per user)
 const doubtRateLimitMap = new Map<string, number[]>();
@@ -35,6 +36,33 @@ export async function GET(req: NextRequest) {
       if (!error && threads) {
         return NextResponse.json({ ok: true, threads });
       }
+    }
+
+    // Check in-memory activity store for student's doubts
+    const activity = getStudentActivity(studentId);
+    if (activity.doubts.length > 0) {
+      const activeThreads = activity.doubts.map((d) => ({
+        id: d.id,
+        title: d.title,
+        status: "answered",
+        created_at: d.createdAt,
+        messages: [
+          {
+            id: `msg-q-${d.id}`,
+            sender_type: "student",
+            message_text: d.queryText,
+            created_at: d.createdAt,
+          },
+          {
+            id: `msg-a-${d.id}`,
+            sender_type: "ai",
+            message_text: d.answerText,
+            is_grounded_in_syllabus: d.isGrounded,
+            created_at: d.createdAt,
+          },
+        ],
+      }));
+      return NextResponse.json({ ok: true, threads: activeThreads });
     }
 
     // Default mock thread
@@ -161,6 +189,16 @@ export async function POST(req: NextRequest) {
         });
       }
     }
+
+    recordDoubt(studentId, {
+      id: doubtId,
+      title: queryText.slice(0, 60),
+      queryText,
+      answerText: solution.responseText,
+      subjectName,
+      isGrounded: solution.isGrounded,
+      createdAt: new Date().toISOString(),
+    });
 
     return NextResponse.json({
       ok: true,

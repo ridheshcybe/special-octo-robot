@@ -129,6 +129,50 @@ export function renderLatexToHtml(latexRaw: string, isDisplay: boolean = false):
       return `<span style="display:inline-flex;align-items:center;vertical-align:middle;margin:2px 6px;"><span style="font-size:1.6em;font-weight:300;color:#ff6a3d;">${leftDelim}</span><table style="border-collapse:collapse;display:inline-table;"><tbody>${cellsHtml}</tbody></table><span style="font-size:1.6em;font-weight:300;color:#ff6a3d;">${rightDelim}</span></span>`;
     });
 
+    // Aligned equations: \begin{aligned} ... \end{aligned} or \begin{align*} ... \end{align*}
+    text = text.replace(/\\begin\{(aligned|align\*?)\}([\s\S]*?)\\end\{\1\}/g, (_match, _type, body) => {
+      const rows = body
+        .trim()
+        .split(/\\\\/)
+        .map((r: string) => r.trim())
+        .filter(Boolean);
+      const rowsHtml = rows
+        .map((row: string) => {
+          const parts = row.split("&amp;");
+          if (parts.length > 1) {
+            return `<div style="display:flex;align-items:center;justify-content:center;gap:6px;margin:3px 0;">
+              <div style="text-align:right;flex:1;">${parseMathTokens(parts[0])}</div>
+              <div style="text-align:left;flex:1;">${parseMathTokens(parts.slice(1).join(" "))}</div>
+            </div>`;
+          }
+          return `<div style="text-align:center;margin:3px 0;">${parseMathTokens(row)}</div>`;
+        })
+        .join("");
+      return `<div style="display:flex;flex-direction:column;width:100%;margin:4px 0;">${rowsHtml}</div>`;
+    });
+
+    // Cases: \begin{cases} ... \end{cases}
+    text = text.replace(/\\begin\{cases\}([\s\S]*?)\\end\{cases\}/g, (_match, body) => {
+      const rows = body
+        .trim()
+        .split(/\\\\/)
+        .map((r: string) => r.trim())
+        .filter(Boolean);
+      const rowsHtml = rows
+        .map((row: string) => {
+          const parts = row.split("&amp;");
+          return `<div style="display:flex;align-items:center;gap:12px;margin:2px 0;">
+            <span>${parseMathTokens(parts[0])}</span>
+            ${parts[1] ? `<span style="color:#a19f95;">${parseMathTokens(parts[1])}</span>` : ""}
+          </div>`;
+        })
+        .join("");
+      return `<span style="display:inline-flex;align-items:center;vertical-align:middle;margin:2px 6px;"><span style="font-size:2.2em;font-weight:100;color:#ff6a3d;line-height:0.8;margin-right:4px;">{</span><span style="display:inline-flex;flex-direction:column;text-align:left;">${rowsHtml}</span></span>`;
+    });
+
+    // Multiline line breaks in display math: \\
+    text = text.replace(/\\\\/g, "<br/>");
+
     // Nested Fractions: \frac{num}{den} with recursive balanced brace parsing
     text = replaceTwoArgCommand(text, "frac", (num, den) => {
       const numHtml = parseMathTokens(num);
@@ -147,6 +191,10 @@ export function renderLatexToHtml(latexRaw: string, isDisplay: boolean = false):
     text = replaceOneArgCommand(text, "overline", (content) => `<span style="text-decoration:overline;">${content}</span>`);
     text = replaceOneArgCommand(text, "bar", (content) => `<span style="text-decoration:overline;">${content}</span>`);
     text = replaceOneArgCommand(text, "hat", (content) => `<span style="position:relative;display:inline-block;">${content}<span style="position:absolute;top:-0.5em;left:0;right:0;text-align:center;font-size:0.8em;">^</span></span>`);
+    text = replaceOneArgCommand(text, "xrightarrow", (label) => {
+      const labelHtml = parseMathTokens(label);
+      return `<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 6px;"><span style="font-size:0.75em;border-bottom:1px solid #ff6a3d;padding:0 4px;color:#ffd8cc;">${labelHtml}</span><span style="font-size:1.1em;line-height:0.8;">⟶</span></span>`;
+    });
 
     // Text & formatting commands
     text = replaceOneArgCommand(text, "text", (content) => `<span style="font-family:var(--font-onest),sans-serif;font-style:normal;color:#e5e3dc;">${content}</span>`);
@@ -154,6 +202,8 @@ export function renderLatexToHtml(latexRaw: string, isDisplay: boolean = false):
     text = replaceOneArgCommand(text, "textbf", (content) => `<strong>${content}</strong>`);
     text = replaceOneArgCommand(text, "mathbf", (content) => `<strong style="font-weight:700;color:#f3f1ea;">${content}</strong>`);
     text = replaceOneArgCommand(text, "boldsymbol", (content) => `<strong style="font-weight:700;color:#ff6a3d;">${content}</strong>`);
+    text = replaceOneArgCommand(text, "operatorname", (content) => `<span style="font-style:normal;font-weight:600;">${content}</span>`);
+    text = replaceOneArgCommand(text, "underline", (content) => `<span style="text-decoration:underline;">${content}</span>`);
 
     // Norms: \| ... \|
     text = text.replace(/\\\|/g, "‖");
@@ -162,6 +212,9 @@ export function renderLatexToHtml(latexRaw: string, isDisplay: boolean = false):
     const symbols: Record<string, string> = {
       // Delimiters & Percentages
       "\\%": "%",
+      "\\mid": "|",
+      "\\blacksquare": "■",
+      "\\qed": "■",
       "\\lceil": "⌈",
       "\\rceil": "⌉",
       "\\lfloor": "⌊",
@@ -248,13 +301,25 @@ export function renderLatexToHtml(latexRaw: string, isDisplay: boolean = false):
       "\\geq": "≥",
       "\\ge": "≥",
       "\\approx": "≈",
+      "\\cong": "≅",
       "\\equiv": "≡",
       "\\sim": "∼",
+      "\\propto": "∝",
       "\\pm": "±",
       "\\mp": "∓",
       "\\times": "×",
       "\\cdot": "⋅",
+      "\\bullet": "•",
+      "\\circ": "°",
+      "\\degree": "°",
       "\\div": "÷",
+      "\\oplus": "⊕",
+      "\\otimes": "⊗",
+      "\\odot": "⊙",
+      "\\perp": "⟂",
+      "\\parallel": "∥",
+      "\\angle": "∠",
+      "\\hbar": "ℏ",
       "\\in": "∈",
       "\\notin": "∉",
       "\\subset": "⊂",
@@ -275,6 +340,16 @@ export function renderLatexToHtml(latexRaw: string, isDisplay: boolean = false):
       "\\sin": '<span style="font-style:normal;">sin</span>',
       "\\cos": '<span style="font-style:normal;">cos</span>',
       "\\tan": '<span style="font-style:normal;">tan</span>',
+      "\\csc": '<span style="font-style:normal;">csc</span>',
+      "\\sec": '<span style="font-style:normal;">sec</span>',
+      "\\cot": '<span style="font-style:normal;">cot</span>',
+      "\\sinh": '<span style="font-style:normal;">sinh</span>',
+      "\\cosh": '<span style="font-style:normal;">cosh</span>',
+      "\\tanh": '<span style="font-style:normal;">tanh</span>',
+      "\\arcsin": '<span style="font-style:normal;">arcsin</span>',
+      "\\arccos": '<span style="font-style:normal;">arccos</span>',
+      "\\arctan": '<span style="font-style:normal;">arctan</span>',
+      "\\exp": '<span style="font-style:normal;">exp</span>',
       "\\log": '<span style="font-style:normal;">log</span>',
       "\\ln": '<span style="font-style:normal;">ln</span>',
       "\\lim": '<span style="font-style:normal;">lim</span>',
@@ -370,7 +445,7 @@ function formatInlineMarkdownAndMath(line: string): string {
     mathTokens.push(renderLatexToHtml(expr, false));
     return `@@MATH_${idx}@@`;
   });
-  processed = processed.replace(/\$([^$\n]+?)\$/g, (_m, expr) => {
+  processed = processed.replace(/\$([^$]+?)\$/g, (_m, expr) => {
     const idx = mathTokens.length;
     mathTokens.push(renderLatexToHtml(expr, false));
     return `@@MATH_${idx}@@`;
@@ -400,6 +475,8 @@ export function RichMathMarkdown({ content, className }: RichMathMarkdownProps) 
 
   if (!content) return null;
 
+  const normalized = content.replace(/\\`/g, "`").replace(/\r\n/g, "\n");
+
   // Split content into high-level blocks: fenced code blocks ```...```, display math blocks $$...$$, and text blocks
   const blocks: Array<
     | { type: "code"; lang: string; code: string }
@@ -407,13 +484,13 @@ export function RichMathMarkdown({ content, className }: RichMathMarkdownProps) 
     | { type: "text"; text: string }
   > = [];
 
-  const regex = /```([a-zA-Z0-9_-]*)\n([\s\S]*?)```|\$\$([\s\S]*?)\$\$|\\\[([\s\S]*?)\\\]/g;
+  const regex = /```([a-zA-Z0-9_-]*)[ \t]*\n([\s\S]*?)```|\$\$([\s\S]*?)\$\$|\\\[([\s\S]*?)\\\]/g;
   let lastIndex = 0;
   let match: RegExpExecArray | null;
 
-  while ((match = regex.exec(content)) !== null) {
+  while ((match = regex.exec(normalized)) !== null) {
     if (match.index > lastIndex) {
-      blocks.push({ type: "text", text: content.slice(lastIndex, match.index) });
+      blocks.push({ type: "text", text: normalized.slice(lastIndex, match.index) });
     }
     if (match[2] !== undefined) {
       blocks.push({ type: "code", lang: match[1] || "python", code: match[2].trim() });
@@ -424,8 +501,8 @@ export function RichMathMarkdown({ content, className }: RichMathMarkdownProps) 
     }
     lastIndex = regex.lastIndex;
   }
-  if (lastIndex < content.length) {
-    blocks.push({ type: "text", text: content.slice(lastIndex) });
+  if (lastIndex < normalized.length) {
+    blocks.push({ type: "text", text: normalized.slice(lastIndex) });
   }
 
   const renderTextSegment = (text: string, segIdx: number) => {

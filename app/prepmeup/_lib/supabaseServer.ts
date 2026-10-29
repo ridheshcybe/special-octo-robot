@@ -7,9 +7,9 @@ import { cookies } from "next/headers";
  * falling back safely to root NEXT_PUBLIC_SUPABASE_* if PMU-specific ones are unset.
  */
 export function getPmuSupabaseConfig() {
-  const url = process.env.NEXT_PUBLIC_PMU_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_PMU_SUPABASE_ANON_KEY;
-  const serviceKey = process.env.PMU_SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.NEXT_PUBLIC_PMU_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_PMU_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const serviceKey = process.env.PMU_SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
   return { url, anonKey, serviceKey };
 }
 

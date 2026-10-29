@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 import { debugPythonCode } from "@/lib/prepmeup/ai-tutor";
+import { recordCodingSubmission } from "@/app/prepmeup/_lib/studentStore";
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,6 +12,14 @@ export async function POST(req: NextRequest) {
 
     if (!studentSession?.value && !adminSession?.value) {
       return NextResponse.json({ ok: false, error: "Please log in to use Coding Helper." }, { status: 401 });
+    }
+
+    let studentId = "mock-student-id";
+    if (studentSession?.value) {
+      try {
+        const parsed = JSON.parse(studentSession.value);
+        if (parsed.userId) studentId = parsed.userId;
+      } catch {}
     }
 
     const body = await req.json().catch(() => ({}));
@@ -25,6 +34,16 @@ export async function POST(req: NextRequest) {
       code,
       errorOutput,
       requestType,
+    });
+
+    recordCodingSubmission(studentId, {
+      id: "code-" + Date.now(),
+      problemId: body.problemId || "python-lab",
+      problemTitle: body.problemTitle || "Python Coding Exercise",
+      code,
+      language: "python",
+      status: errorOutput ? "runtime_error" : "accepted",
+      submittedAt: new Date().toISOString(),
     });
 
     return NextResponse.json({

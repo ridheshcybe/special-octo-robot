@@ -10,6 +10,8 @@ interface ProgressStats {
   averageAccuracy: number;
   totalQuizzesAttempted: number;
   studyHours: number;
+  codingSubmissionsCount?: number;
+  doubtsCount?: number;
   subjectsProgress: {
     code: string;
     title: string;
@@ -35,50 +37,15 @@ interface ProgressStats {
     totalMarks: number;
     percentage: number;
     date: string;
+    errorsDetected?: string[];
+    explanationMarkdown?: string;
   }[];
 }
-
-const SUBMISSION_REVIEW_DETAILS: Record<
-  string,
-  {
-    statusText: string;
-    errorsDetected: string[];
-    explanationMarkdown: string;
-  }
-> = {
-  "att-1": {
-    statusText: "✓ 5/5 Correct • Zero Submission Errors",
-    errorsDetected: [],
-    explanationMarkdown: `### Verified Solution Key — Eigenvalues & Spectral Theorem
-All 5 items were answered accurately. Key derivation verified:
-$$\\det(A - \\lambda I) = 0 \\implies \\sum_{i=1}^{n} \\lambda_i = \\text{Tr}(A), \\quad \\prod_{i=1}^{n} \\lambda_i = \\det(A)$$`,
-  },
-  "att-2": {
-    statusText: "⚠️ 1 Error Flagged (Q4: Shallow vs Deep Copy)",
-    errorsDetected: [
-      "Q4 Error: Selected `list.copy() performs a recursive deep copy` instead of `copy.deepcopy()`. Remember that `list.copy()` or `arr[:]` only copies the outer list container, leaving nested inner lists shared in heap memory.",
-    ],
-    explanationMarkdown: `### Faculty Explanation for Missed Question (Q4)
-In Python, a **shallow copy** creates a new outer list object but copies references to nested mutable objects in $O(n)$ time. To recursively clone nested matrices, use \`copy.deepcopy(matrix)\`.`,
-  },
-  "att-3": {
-    statusText: "⚠️ 2 Errors Flagged (Q2: RMS Phasor & Q5: Resonance Quality Factor)",
-    errorsDetected: [
-      "Q2 Error: Used peak voltage $V_m$ directly instead of RMS voltage $V_{rms} = V_m / \\sqrt{2}$ when computing average AC power.",
-      "Q5 Error: Inverted the inductance and capacitance ratio in the series RLC Quality Factor formula.",
-    ],
-    explanationMarkdown: `### Faculty Step-by-Step Correction (AC Circuits)
-1. **RMS Voltage & Real Power:**
-   $$V_{rms} = \\frac{V_m}{\\sqrt{2}} \\approx 0.707 V_m, \\qquad P_{avg} = V_{rms} I_{rms} \\cos(\\phi)$$
-2. **Series RLC Resonance & Quality Factor ($Q$):**
-   $$\\omega_0 = \\frac{1}{\\sqrt{LC}}, \\qquad Q = \\frac{\\omega_0 L}{R} = \\frac{1}{R}\\sqrt{\\frac{L}{C}}$$`,
-  },
-};
 
 export default function StudentProgressDashboard() {
   const [stats, setStats] = useState<ProgressStats | null>(null);
   const [loading, setLoading] = useState(true);
-  const [expandedAttemptId, setExpandedAttemptId] = useState<string | null>("att-3");
+  const [expandedAttemptId, setExpandedAttemptId] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/prepmeup/progress")
@@ -86,6 +53,9 @@ export default function StudentProgressDashboard() {
       .then((data) => {
         if (data.ok) {
           setStats(data.stats);
+          if (data.stats.recentAttempts?.length > 0) {
+            setExpandedAttemptId(data.stats.recentAttempts[0].id);
+          }
         }
       })
       .catch(() => {})
@@ -161,7 +131,7 @@ export default function StudentProgressDashboard() {
             Quizzes Completed
           </span>
           <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#f3f1ea", marginTop: "8px" }}>
-            0{stats.totalQuizzesAttempted}
+            {stats.totalQuizzesAttempted < 10 ? `0${stats.totalQuizzesAttempted}` : stats.totalQuizzesAttempted}
           </div>
           <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "6px", display: "block" }}>
             Graded &amp; archived
@@ -227,31 +197,37 @@ export default function StudentProgressDashboard() {
           </p>
 
           <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "10px" }}>
-            {stats.weakTopics.map((item, idx) => (
-              <div
-                key={idx}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: "12px",
-                  padding: "14px",
-                  borderRadius: "8px",
-                  border: "1px solid rgba(239,68,68,0.3)",
-                  backgroundColor: "#08080a",
-                }}
-              >
-                <div>
-                  <div style={{ fontSize: "13.5px", fontWeight: 700, color: "#f3f1ea" }}>{item.topic}</div>
-                  <div className="font-mono" style={{ fontSize: "11px", color: "#f87171", marginTop: "2px" }}>
-                    {item.subject} • {item.accuracy}% Accuracy
-                  </div>
-                </div>
-                <Link href={item.reviewUrl} className="pmu-btn-secondary" style={{ padding: "7px 12px", fontSize: "11px" }}>
-                  Review Notes →
-                </Link>
+            {stats.weakTopics.length === 0 ? (
+              <div style={{ padding: "16px", borderRadius: "8px", border: "1px solid #26262c", backgroundColor: "#08080a", color: "#807f78", fontSize: "13px" }}>
+                ✓ No critical error hotspots detected. Continue practicing topic quizzes!
               </div>
-            ))}
+            ) : (
+              stats.weakTopics.map((item, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "12px",
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid rgba(239,68,68,0.3)",
+                    backgroundColor: "#08080a",
+                  }}
+                >
+                  <div>
+                    <div style={{ fontSize: "13.5px", fontWeight: 700, color: "#f3f1ea" }}>{item.topic}</div>
+                    <div className="font-mono" style={{ fontSize: "11px", color: "#f87171", marginTop: "2px" }}>
+                      {item.subject} • {item.accuracy}% Accuracy
+                    </div>
+                  </div>
+                  <Link href={item.reviewUrl} className="pmu-btn-secondary" style={{ padding: "7px 12px", fontSize: "11px" }}>
+                    Review Notes →
+                  </Link>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -267,31 +243,37 @@ export default function StudentProgressDashboard() {
           </p>
 
           <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "10px" }}>
-            {stats.strongTopics.map((item, idx) => (
-              <div
-                key={idx}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: "12px",
-                  padding: "14px",
-                  borderRadius: "8px",
-                  border: "1px solid rgba(34,197,94,0.3)",
-                  backgroundColor: "#08080a",
-                }}
-              >
-                <div>
-                  <div style={{ fontSize: "13.5px", fontWeight: 700, color: "#f3f1ea" }}>{item.topic}</div>
-                  <div className="font-mono" style={{ fontSize: "11px", color: "#4ade80", marginTop: "2px" }}>
-                    {item.subject}
-                  </div>
-                </div>
-                <span className="font-mono" style={{ fontSize: "13px", fontWeight: 700, color: "#4ade80" }}>
-                  {item.accuracy}%
-                </span>
+            {stats.strongTopics.length === 0 ? (
+              <div style={{ padding: "16px", borderRadius: "8px", border: "1px solid #26262c", backgroundColor: "#08080a", color: "#807f78", fontSize: "13px" }}>
+                Complete topic quizzes to certify high-yield mastery areas.
               </div>
-            ))}
+            ) : (
+              stats.strongTopics.map((item, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "12px",
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid rgba(34,197,94,0.3)",
+                    backgroundColor: "#08080a",
+                  }}
+                >
+                  <div>
+                    <div style={{ fontSize: "13.5px", fontWeight: 700, color: "#f3f1ea" }}>{item.topic}</div>
+                    <div className="font-mono" style={{ fontSize: "11px", color: "#4ade80", marginTop: "2px" }}>
+                      {item.subject}
+                    </div>
+                  </div>
+                  <span className="font-mono" style={{ fontSize: "13px", fontWeight: 700, color: "#4ade80" }}>
+                    {item.accuracy}%
+                  </span>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -307,107 +289,127 @@ export default function StudentProgressDashboard() {
         </p>
 
         <div style={{ marginTop: "18px", display: "flex", flexDirection: "column", gap: "14px" }}>
-          {stats.recentAttempts.map((a) => {
-            const detail = SUBMISSION_REVIEW_DETAILS[a.id] || SUBMISSION_REVIEW_DETAILS["att-3"];
-            const isExpanded = expandedAttemptId === a.id;
+          {stats.recentAttempts.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "40px 20px", color: "#a19f95" }}>
+              <p style={{ fontSize: "15px", marginBottom: "16px" }}>
+                No quiz attempts recorded yet. Attempt a quiz or coding lab to unlock automated error diagnostics and performance analytics!
+              </p>
+              <Link href="/prepmeup/quizzes" className="pmu-btn-primary" style={{ display: "inline-block", textDecoration: "none" }}>
+                Browse Quizzes &amp; Begin Practice →
+              </Link>
+            </div>
+          ) : (
+            stats.recentAttempts.map((a) => {
+              const errorsDetected = a.errorsDetected || [];
+              const explanationMarkdown =
+                a.explanationMarkdown ||
+                (errorsDetected.length === 0
+                  ? `### Verified Accurate Solution\n\nAll questions in **${a.quizTitle}** were answered correctly!`
+                  : `### Solution Review\n\nReview the topic notes and practice questions to strengthen these concepts.`);
+              const statusText =
+                errorsDetected.length === 0
+                  ? `✓ ${a.score}/${a.totalMarks} Correct • Zero Mistakes`
+                  : `⚠️ ${errorsDetected.length} Error${errorsDetected.length > 1 ? "s" : ""} Flagged`;
+              const isExpanded = expandedAttemptId === a.id;
 
-            return (
-              <div
-                key={a.id}
-                style={{
-                  borderRadius: "10px",
-                  border: isExpanded ? "1px solid #ff3b1d" : "1px solid #26262c",
-                  backgroundColor: "#08080a",
-                  overflow: "hidden",
-                }}
-              >
+              return (
                 <div
+                  key={a.id}
                   style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "12px",
-                    padding: "16px 20px",
-                    backgroundColor: "#141418",
+                    borderRadius: "10px",
+                    border: isExpanded ? "1px solid #ff3b1d" : "1px solid #26262c",
+                    backgroundColor: "#08080a",
+                    overflow: "hidden",
                   }}
                 >
-                  <div>
-                    <div style={{ fontSize: "15px", fontWeight: 700, color: "#f3f1ea" }}>{a.quizTitle}</div>
-                    <div className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "4px" }}>
-                      {a.date} • {detail.statusText}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: "12px",
+                      padding: "16px 20px",
+                      backgroundColor: "#141418",
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontSize: "15px", fontWeight: 700, color: "#f3f1ea" }}>{a.quizTitle}</div>
+                      <div className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "4px" }}>
+                        {a.date} • {statusText}
+                      </div>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      <span className="font-mono" style={{ fontSize: "13px", fontWeight: 700, color: "#f3f1ea" }}>
+                        {a.score} / {a.totalMarks} Marks ({a.percentage}%)
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setExpandedAttemptId(isExpanded ? null : a.id)}
+                        className={isExpanded ? "pmu-btn-primary" : "pmu-btn-secondary"}
+                        style={{ padding: "7px 12px", fontSize: "11px" }}
+                      >
+                        {isExpanded ? "Hide Review ▲" : "View Errors & Explanation ▼"}
+                      </button>
                     </div>
                   </div>
 
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <span className="font-mono" style={{ fontSize: "13px", fontWeight: 700, color: "#f3f1ea" }}>
-                      {a.score} / {a.totalMarks} Marks ({a.percentage}%)
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setExpandedAttemptId(isExpanded ? null : a.id)}
-                      className={isExpanded ? "pmu-btn-primary" : "pmu-btn-secondary"}
-                      style={{ padding: "7px 12px", fontSize: "11px" }}
-                    >
-                      {isExpanded ? "Hide Review ▲" : "View Errors & Explanation ▼"}
-                    </button>
-                  </div>
+                  {isExpanded && (
+                    <div style={{ padding: "20px", borderTop: "1px solid #26262c", display: "flex", flexDirection: "column", gap: "14px" }}>
+                      {errorsDetected.length > 0 ? (
+                        <div
+                          style={{
+                            padding: "14px 16px",
+                            borderRadius: "8px",
+                            border: "1px solid rgba(239,68,68,0.4)",
+                            backgroundColor: "rgba(70,8,9,0.28)",
+                            color: "#fca5a5",
+                            fontSize: "12.5px",
+                            lineHeight: 1.6,
+                          }}
+                        >
+                          <strong style={{ display: "block", marginBottom: "6px", color: "#f87171" }}>
+                            ⚠️ Submission Errors Detected:
+                          </strong>
+                          <ul style={{ margin: 0, paddingLeft: "18px", display: "flex", flexDirection: "column", gap: "6px" }}>
+                            {errorsDetected.map((err, i) => (
+                              <li key={i}>{err}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            padding: "12px 16px",
+                            borderRadius: "8px",
+                            border: "1px solid rgba(34,197,94,0.35)",
+                            backgroundColor: "rgba(34,197,94,0.1)",
+                            color: "#86efac",
+                            fontSize: "12.5px",
+                          }}
+                        >
+                          ✓ Zero mistakes detected in this submission! All analytical steps verified.
+                        </div>
+                      )}
+
+                      <div
+                        style={{
+                          padding: "16px 18px",
+                          borderRadius: "8px",
+                          border: "1px solid #26262c",
+                          borderLeft: "3px solid #ff3b1d",
+                          backgroundColor: "#111114",
+                        }}
+                      >
+                        <RichMathMarkdown content={explanationMarkdown} />
+                      </div>
+                    </div>
+                  )}
                 </div>
-
-                {isExpanded && (
-                  <div style={{ padding: "20px", borderTop: "1px solid #26262c", display: "flex", flexDirection: "column", gap: "14px" }}>
-                    {detail.errorsDetected.length > 0 ? (
-                      <div
-                        style={{
-                          padding: "14px 16px",
-                          borderRadius: "8px",
-                          border: "1px solid rgba(239,68,68,0.4)",
-                          backgroundColor: "rgba(70,8,9,0.28)",
-                          color: "#fca5a5",
-                          fontSize: "12.5px",
-                          lineHeight: 1.6,
-                        }}
-                      >
-                        <strong style={{ display: "block", marginBottom: "6px", color: "#f87171" }}>
-                          ⚠️ Submission Errors Detected:
-                        </strong>
-                        <ul style={{ margin: 0, paddingLeft: "18px", display: "flex", flexDirection: "column", gap: "6px" }}>
-                          {detail.errorsDetected.map((err, i) => (
-                            <li key={i}>{err}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          padding: "12px 16px",
-                          borderRadius: "8px",
-                          border: "1px solid rgba(34,197,94,0.35)",
-                          backgroundColor: "rgba(34,197,94,0.1)",
-                          color: "#86efac",
-                          fontSize: "12.5px",
-                        }}
-                      >
-                        ✓ Zero mistakes detected in this submission! All analytical steps verified.
-                      </div>
-                    )}
-
-                    <div
-                      style={{
-                        padding: "16px 18px",
-                        borderRadius: "8px",
-                        border: "1px solid #26262c",
-                        borderLeft: "3px solid #ff3b1d",
-                        backgroundColor: "#111114",
-                      }}
-                    >
-                      <RichMathMarkdown content={detail.explanationMarkdown} />
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
     </div>
