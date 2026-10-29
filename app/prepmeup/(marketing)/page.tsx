@@ -121,8 +121,8 @@ export default function PrepMeUpLandingPage() {
   const steps = [
     {
       num: "01",
-      title: "WhatsApp Number Signup",
-      desc: "One-click OTP login via your Indian WhatsApp number. No passwords, no verification link delays.",
+      title: "Student Email OTP Signup",
+      desc: "One-click 6-digit access code sent directly to your student email. Fast, secure, and passwordless.",
     },
     {
       num: "02",

@@ -15,16 +15,24 @@ export function VideoSessionBookingForm() {
   const handleBook = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    const cleaned = whatsapp.replace(/\D/g, "").slice(-10);
-    if (!/^[6-9]\d{9}$/.test(cleaned)) {
-      setError("Enter a valid 10-digit WhatsApp number to proceed to Razorpay Checkout.");
+    const trimmed = whatsapp.trim();
+    if (!trimmed) {
+      setError("Please enter your student email or mobile number to proceed.");
       return;
     }
+    const isEmail = trimmed.includes("@");
+    const cleanedPhone = trimmed.replace(/\D/g, "").slice(-10);
+
+    if (!isEmail && !/^[6-9]\d{9}$/.test(cleanedPhone)) {
+      setError("Enter a valid student email address or 10-digit mobile number.");
+      return;
+    }
+
     const qs = new URLSearchParams({
       tier: "tier2",
       topic,
       slot,
-      phone: cleaned,
+      ...(isEmail ? { email: trimmed } : { phone: cleanedPhone }),
     });
     router.push(`/prepmeup/checkout?${qs.toString()}`);
   };
@@ -123,16 +131,16 @@ export function VideoSessionBookingForm() {
       </div>
 
       <div>
-        <label className="pmu-label">WhatsApp Number (for 1:1 Mentor &amp; Pass)</label>
+        <label className="pmu-label">Student Email or WhatsApp Number</label>
         <input
-          type="tel"
-          inputMode="numeric"
-          maxLength={10}
-          placeholder="9876543210"
+          type="text"
+          placeholder="student@dypiu.ac.in or 9876543210"
           value={whatsapp}
           onChange={(e) => setWhatsapp(e.target.value)}
           className="pmu-input font-mono"
           style={{ fontSize: "12px", padding: "8px 10px" }}
+          autoCapitalize="none"
+          autoCorrect="off"
         />
       </div>
 

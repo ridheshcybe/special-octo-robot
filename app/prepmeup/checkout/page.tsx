@@ -59,6 +59,8 @@ export default function RazorpayCheckoutPage() {
     if (paramSlot) setMentorSlot(paramSlot);
     const paramPhone = params.get("phone");
     if (paramPhone) setWhatsapp(paramPhone);
+    const paramEmail = params.get("email");
+    if (paramEmail) setEmail(paramEmail);
   }, []);
 
   const priceRupees = tier === "tier2" ? 199 : 99;
@@ -660,10 +662,10 @@ export default function RazorpayCheckoutPage() {
                   </div>
 
                   <div>
-                    <label className="pmu-label">Email Address (Optional — For Invoice)</label>
+                    <label className="pmu-label">Student Email Address (For Instant Pass &amp; Invoice)</label>
                     <input
                       type="email"
-                      placeholder="student@college.edu"
+                      placeholder="student@dypiu.ac.in or name@gmail.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="pmu-input"

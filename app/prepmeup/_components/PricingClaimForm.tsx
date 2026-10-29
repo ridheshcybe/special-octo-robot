@@ -5,10 +5,11 @@ import { useState } from "react";
 import { z } from "zod";
 
 const claimSchema = z.object({
-  whatsappNumber: z
-    .string()
-    .trim()
-    .regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit Indian WhatsApp mobile number"),
+  contact: z.string().trim().refine((val) => {
+    if (val.includes("@")) return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    const cleaned = val.replace(/\D/g, "");
+    return cleaned.length === 10 && /^[6-9]\d{9}$/.test(cleaned);
+  }, "Please enter a valid student email address or 10-digit mobile number"),
 });
 
 const BETA_PAIN_POINTS = [
@@ -35,7 +36,7 @@ export function PricingClaimForm() {
     setError(null);
 
     const result = claimSchema.safeParse({
-      whatsappNumber: whatsapp,
+      contact: whatsapp,
     });
 
     if (!result.success) {
@@ -48,13 +49,16 @@ export function PricingClaimForm() {
       return;
     }
 
+    const isEmail = whatsapp.includes("@");
     setLoading(true);
     try {
       const res = await fetch("/api/prepmeup/payments/claim-free", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          whatsappNumber: whatsapp,
+          whatsappNumber: !isEmail ? whatsapp.replace(/\D/g, "").slice(-10) : "",
+          email: isEmail ? whatsapp.trim().toLowerCase() : "",
+          contact: whatsapp.trim(),
           betaFeedback,
           testimonialQuote,
           pledgedBeta: true,
@@ -232,38 +236,18 @@ export function PricingClaimForm() {
             color: "#807f78",
           }}
         >
-          WhatsApp Number (For Instant Beta Seat)
+          Student Email or Mobile Number (For Instant Beta Seat)
         </label>
-        <div style={{ display: "flex" }}>
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              borderTopLeftRadius: "0.375rem",
-              borderBottomLeftRadius: "0.375rem",
-              border: "1px solid rgba(243,241,234,0.16)",
-              borderRight: "none",
-              backgroundColor: "#17171b",
-              padding: "0 0.75rem",
-              fontSize: "0.75rem",
-              fontWeight: 600,
-              color: "#807f78",
-            }}
-          >
-            +91
-          </span>
-          <input
-            id="whatsapp"
-            type="tel"
-            inputMode="numeric"
-            maxLength={10}
-            placeholder="9876543210"
-            value={whatsapp}
-            onChange={(e) => setWhatsapp(e.target.value)}
-            className="pmu-input"
-            style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
-          />
-        </div>
+        <input
+          id="whatsapp"
+          type="text"
+          placeholder="student@dypiu.ac.in or 9876543210"
+          value={whatsapp}
+          onChange={(e) => setWhatsapp(e.target.value)}
+          className="pmu-input"
+          autoCapitalize="none"
+          autoCorrect="off"
+        />
       </div>
 
       {/* Aggressive Feedback Extraction Field */}

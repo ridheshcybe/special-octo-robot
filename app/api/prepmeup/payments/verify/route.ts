@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 import { verifyRazorpaySignature } from "@/lib/prepmeup/razorpay";
 import { logger } from "@/lib/logger";
+import { sendAccessConfirmationEmail } from "@/app/prepmeup/_lib/emailOtp";
 
 export async function POST(req: NextRequest) {
   try {
@@ -73,9 +74,14 @@ export async function POST(req: NextRequest) {
     });
 
     const cleanedPhone = String(whatsappNumber).replace(/\D/g, "").slice(-10);
-    let studentId = cleanedPhone ? `wa-${cleanedPhone}` : "paid-student-id";
+    let studentId = email
+      ? `em-${email.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, "_").slice(0, 28)}`
+      : cleanedPhone
+      ? `wa-${cleanedPhone}`
+      : "paid-student-id";
     let resolvedName = fullName?.trim() || "Engineering Student";
     let resolvedPhone = cleanedPhone ? `+91${cleanedPhone}` : "+919820743178";
+    let resolvedEmail = email?.trim().toLowerCase() || "";
 
     if (studentSession?.value) {
       try {
@@ -83,6 +89,7 @@ export async function POST(req: NextRequest) {
         if (parsed.userId) studentId = parsed.userId;
         if (parsed.fullName && !fullName?.trim()) resolvedName = parsed.fullName;
         if (parsed.phone && !cleanedPhone) resolvedPhone = parsed.phone;
+        if (parsed.email && !resolvedEmail) resolvedEmail = parsed.email;
       } catch {}
     }
 
@@ -114,6 +121,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // 3. Send Access Confirmation & Receipt Email to Student (Non-blocking)
+    if (resolvedEmail) {
+      sendAccessConfirmationEmail({
+        email: resolvedEmail,
+        fullName: resolvedName,
+        tier: tier === "tier2" ? "tier2" : "tier1",
+        orderId: razorpay_order_id,
+        paymentId: razorpay_payment_id,
+        mentorTopic: tier === "tier2" ? mentorTopic : undefined,
+        mentorSlot: tier === "tier2" ? mentorSlot : undefined,
+      }).catch((err) => {
+        console.warn("[Email Notification] Could not deliver receipt email:", err?.message || err);
+      });
+    }
+
     const response = NextResponse.json({
       ok: true,
       verified: true,
@@ -139,7 +161,7 @@ export async function POST(req: NextRequest) {
       JSON.stringify({
         userId: studentId,
         phone: resolvedPhone,
-        email: email || "",
+        email: resolvedEmail || "",
         role: "student",
         isProfileComplete: true,
         fullName: resolvedName,

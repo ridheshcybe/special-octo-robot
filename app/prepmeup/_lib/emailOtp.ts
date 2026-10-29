@@ -150,6 +150,7 @@ export async function sendEmailOtp(email: string): Promise<SendEmailOtpResult> {
 
   // 2. Option A: Resend REST API (100% free, 3,000 emails/mo)
   const resendApiKey = process.env.RESEND_API_KEY;
+  let lastResendError = "";
   if (resendApiKey) {
     try {
       const fromEmail = process.env.EMAIL_FROM || "PrepMeUp AI <onboarding@resend.dev>";
@@ -172,8 +173,10 @@ export async function sendEmailOtp(email: string): Promise<SendEmailOtpResult> {
       }
 
       const errorData = await res.json().catch(() => ({}));
+      lastResendError = errorData?.message || errorData?.name || `Resend HTTP ${res.status}`;
       console.error("[Resend Error]:", errorData);
-    } catch (err) {
+    } catch (err: any) {
+      lastResendError = err?.message || "Resend connection error";
       console.error("[Resend Network Error]:", err);
     }
   }
@@ -214,6 +217,15 @@ export async function sendEmailOtp(email: string): Promise<SendEmailOtpResult> {
         error: "Failed to dispatch email via SMTP. Please try again or contact support.",
       };
     }
+  }
+
+  if (lastResendError) {
+    return {
+      success: false,
+      status: "failed",
+      channel: "email",
+      error: `Resend error: ${lastResendError}`,
+    };
   }
 
   // If no email delivery provider is configured:
@@ -272,4 +284,114 @@ export async function verifyEmailOtp(
     status: "invalid",
     error: "Invalid verification code. Please check your inbox and try again.",
   };
+}
+
+export interface AccessConfirmationParams {
+  email: string;
+  fullName: string;
+  tier: "tier1" | "tier2";
+  orderId: string;
+  paymentId: string;
+  mentorTopic?: string;
+  mentorSlot?: string;
+}
+
+/**
+ * Sends order & access pass confirmation email to student.
+ */
+export async function sendAccessConfirmationEmail(
+  params: AccessConfirmationParams
+): Promise<{ success: boolean; error?: string }> {
+  const { email, fullName, tier, orderId, paymentId, mentorTopic, mentorSlot } = params;
+  if (!email || !email.includes("@")) {
+    return { success: false, error: "Invalid email" };
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+  const planLabel = tier === "tier2" ? "Tier 2 Premium AI + 1:1 Human Support (₹199)" : "Tier 1 Basic Pass (₹99)";
+  const subject = `PrepMeUp AI: Your ${tier === "tier2" ? "Premium" : "Basic"} Access Pass is Active`;
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>${subject}</title></head>
+<body style="margin: 0; padding: 0; background-color: #08080a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #f3f1ea;">
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #08080a; padding: 40px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 540px; background-color: #111114; border: 1px solid #26262c; border-radius: 12px; overflow: hidden;">
+          <tr>
+            <td style="padding: 28px 32px 20px; border-bottom: 1px solid #1f1f24; text-align: center;">
+              <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #4ade80; text-transform: uppercase;">Payment Confirmed • Access Granted</span>
+              <h1 style="margin: 10px 0 0; font-size: 22px; color: #ffffff;">Welcome to PrepMeUp AI</h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 28px 32px;">
+              <p style="margin: 0 0 16px; font-size: 14px; color: #a19f95;">Hi <strong style="color: #f3f1ea;">${fullName || "Student"}</strong>,</p>
+              <p style="margin: 0 0 20px; font-size: 14px; color: #a19f95;">Your payment has been verified and your Semester 1 access is now fully active.</p>
+              <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background: #08080a; border: 1px solid #26262c; border-radius: 8px; margin-bottom: 24px; padding: 16px;">
+                <tr><td style="padding: 6px 0; font-size: 12px; color: #807f78;">Plan:</td><td style="padding: 6px 0; font-size: 12px; font-weight: 700; color: #f3f1ea; text-align: right;">${planLabel}</td></tr>
+                <tr><td style="padding: 6px 0; font-size: 12px; color: #807f78;">Order ID:</td><td style="padding: 6px 0; font-size: 11px; font-family: monospace; color: #a19f95; text-align: right;">${orderId}</td></tr>
+                <tr><td style="padding: 6px 0; font-size: 12px; color: #807f78;">Payment ID:</td><td style="padding: 6px 0; font-size: 11px; font-family: monospace; color: #a19f95; text-align: right;">${paymentId}</td></tr>
+                ${mentorSlot ? `<tr><td style="padding: 6px 0; font-size: 12px; color: #807f78;">Mentor Slot:</td><td style="padding: 6px 0; font-size: 12px; color: #ff3b1d; text-align: right;">${mentorSlot}</td></tr>` : ""}
+                ${mentorTopic ? `<tr><td style="padding: 6px 0; font-size: 12px; color: #807f78;">Topic:</td><td style="padding: 6px 0; font-size: 12px; color: #f3f1ea; text-align: right;">${mentorTopic}</td></tr>` : ""}
+              </table>
+              <div style="text-align: center; margin: 28px 0 16px;">
+                <a href="https://prepmeupai.in/prepmeup/dashboard" style="display: inline-block; background-color: #ff3b1d; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 13px; padding: 12px 28px; border-radius: 6px; letter-spacing: 0.04em; text-transform: uppercase;">
+                  Open Student Hub →
+                </a>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+
+  // Try Resend
+  const resendApiKey = process.env.RESEND_API_KEY;
+  if (resendApiKey) {
+    try {
+      const fromEmail = process.env.EMAIL_FROM || "PrepMeUp AI <onboarding@resend.dev>";
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${resendApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: fromEmail,
+          to: [normalizedEmail],
+          subject,
+          html,
+        }),
+      });
+      if (res.ok) return { success: true };
+    } catch {}
+  }
+
+  // Try SMTP fallback
+  const smtpUser = process.env.SMTP_USER || process.env.HOSTINGER_EMAIL_USER;
+  const smtpPass = process.env.SMTP_PASS || process.env.HOSTINGER_EMAIL_PASS;
+  if (smtpUser && smtpPass) {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST || "smtp.hostinger.com",
+        port: parseInt(process.env.SMTP_PORT || "465", 10),
+        secure: true,
+        auth: { user: smtpUser, pass: smtpPass },
+      });
+      await transporter.sendMail({
+        from: process.env.EMAIL_FROM || `"PrepMeUp AI" <${smtpUser}>`,
+        to: normalizedEmail,
+        subject,
+        html,
+      });
+      return { success: true };
+    } catch {}
+  }
+
+  return { success: false, error: "Email delivery skipped." };
 }

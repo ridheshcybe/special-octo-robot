@@ -13,22 +13,37 @@ export async function POST(req: NextRequest) {
       typeof body?.whatsappNumber === "string"
         ? body.whatsappNumber.replace(/\D/g, "").slice(-10)
         : "";
+    const rawEmail =
+      typeof body?.email === "string" && body.email.includes("@")
+        ? body.email.trim().toLowerCase()
+        : typeof body?.contact === "string" && body.contact.includes("@")
+        ? body.contact.trim().toLowerCase()
+        : "";
 
-    if (!studentSession?.value && !adminSession?.value && !/^[6-9]\d{9}$/.test(rawWhatsapp)) {
+    const hasValidPhone = /^[6-9]\d{9}$/.test(rawWhatsapp);
+    const hasValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rawEmail);
+
+    if (!studentSession?.value && !adminSession?.value && !hasValidPhone && !hasValidEmail) {
       return NextResponse.json(
-        { ok: false, error: "Please enter a valid 10-digit WhatsApp number to claim early adopter seat." },
+        { ok: false, error: "Please enter a valid student email or 10-digit mobile number to claim early adopter seat." },
         { status: 400 }
       );
     }
 
-    let studentId = rawWhatsapp ? `wa-${rawWhatsapp}` : "mock-student-id";
-    let phone = rawWhatsapp ? `+91${rawWhatsapp}` : "+919820743178";
+    let studentId = rawEmail
+      ? `em-${rawEmail.replace(/[^a-zA-Z0-9]/g, "_").slice(0, 28)}`
+      : rawWhatsapp
+      ? `wa-${rawWhatsapp}`
+      : "mock-student-id";
+    let phone = rawWhatsapp ? `+91${rawWhatsapp}` : undefined;
+    let email = rawEmail || undefined;
 
     if (studentSession?.value) {
       try {
         const parsed = JSON.parse(studentSession.value);
         if (parsed.userId) studentId = parsed.userId;
         if (parsed.phone) phone = parsed.phone;
+        if (parsed.email) email = parsed.email;
       } catch {}
     }
 
@@ -73,12 +88,13 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (!studentSession?.value && rawWhatsapp) {
+    if (!studentSession?.value && (rawWhatsapp || rawEmail)) {
       response.cookies.set(
         "pmu-session",
         JSON.stringify({
           userId: studentId,
-          phone,
+          phone: phone || undefined,
+          email: email || undefined,
           role: "student",
           isProfileComplete: true,
           fullName: "Early Adopter Student",
