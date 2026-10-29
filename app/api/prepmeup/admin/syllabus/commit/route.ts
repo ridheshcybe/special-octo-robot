@@ -1,5 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from "next/headers";
+import fs from "fs";
+import path from "path";
 import { structuredSyllabusSchema } from "@/app/prepmeup/_lib/validation";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 import { z } from "zod";
@@ -8,6 +10,29 @@ const commitPayloadSchema = z.object({
   subjectId: z.string().uuid("Invalid subject ID"),
   structure: structuredSyllabusSchema,
 });
+
+function getStateFilePath(): string {
+  return path.join(process.cwd(), "deploy", "cms", "admin_state.json");
+}
+
+function loadAdminState(): any {
+  try {
+    const p = getStateFilePath();
+    if (fs.existsSync(p)) {
+      return JSON.parse(fs.readFileSync(p, "utf-8"));
+    }
+  } catch {}
+  return { sessions: [], activities: [], publishedContent: [], committedSyllabi: {} };
+}
+
+function saveAdminState(data: any) {
+  try {
+    const p = getStateFilePath();
+    const dir = path.dirname(p);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(p, JSON.stringify(data, null, 2), "utf-8");
+  } catch {}
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -27,8 +52,32 @@ export async function POST(req: NextRequest) {
     }
 
     const { subjectId, structure } = parseResult.data;
-    const serviceClient = createPmuServiceClient();
 
+    // 1. Persist committed structure into admin_state.json for immediate local/edge availability
+    const state = loadAdminState();
+    if (!state.committedSyllabi) state.committedSyllabi = {};
+    if (!state.activities) state.activities = [];
+
+    state.committedSyllabi[subjectId] = structure;
+    if (subjectId === "e4444444-4444-4444-8444-444444444444") {
+      state.committedSyllabi["fundamentals-of-web-technologies"] = structure;
+      state.committedSyllabi["CSE1004"] = structure;
+    }
+
+    state.activities.unshift({
+      id: `act-${Date.now()}`,
+      timestamp: "Just now",
+      collection: "Syllabus Curriculum",
+      itemTitle: `Subject Curriculum (${structure.modules.length} Modules)`,
+      action: "updated",
+      details: `Admin committed syllabus breakdown: ${structure.modules.length} modules, ${structure.modules.reduce((a, m) => a + m.topics.length, 0)} topics.`,
+      author: "admin@ridheshcybe.dpdns.org",
+    });
+
+    saveAdminState(state);
+
+    // 2. Persist to Supabase when service role credentials are configured
+    const serviceClient = createPmuServiceClient();
     if (serviceClient) {
       for (const mod of structure.modules) {
         // Upsert Module

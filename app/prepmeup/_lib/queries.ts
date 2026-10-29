@@ -1,4 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
+import fs from "fs";
+import path from "path";
 import {
   FALLBACK_SUBJECTS,
   FALLBACK_SUBJECT_DETAILS,
@@ -9,12 +11,42 @@ import {
 } from "./data";
 
 function getSupabaseClient() {
-  const url = process.env.NEXT_PUBLIC_PMU_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_PMU_SUPABASE_ANON_KEY;
+  const url = process.env.NEXT_PUBLIC_PMU_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_PMU_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) return null;
   return createClient(url, key, {
     auth: { persistSession: false },
   });
+}
+
+function getAdminStateCustomContent(slug: string, subjectCode: string) {
+  try {
+    const p = path.join(process.cwd(), "deploy", "cms", "admin_state.json");
+    if (fs.existsSync(p)) {
+      const state = JSON.parse(fs.readFileSync(p, "utf-8"));
+      const isMatch = (c: string) => {
+        if (!c) return false;
+        const normalized = c.toUpperCase().replace(/[^A-Z0-9]/g, "");
+        const codeNormalized = (subjectCode || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+        return (
+          normalized.includes(codeNormalized) ||
+          codeNormalized.includes(normalized) ||
+          (slug.includes("web") && (normalized.includes("FWT") || normalized.includes("CSE1004") || normalized.includes("WEB")))
+        );
+      };
+
+      const customNotes = (state.publishedContent || []).filter(
+        (x: any) => x.contentType === "note" && isMatch(x.subjectCode)
+      );
+      const customModules = (state.publishedContent || []).filter(
+        (x: any) => x.contentType === "module" && isMatch(x.subjectCode)
+      );
+      const syllabusCommitted = state.committedSyllabi?.[slug] || state.committedSyllabi?.[subjectCode];
+
+      return { customNotes, customModules, syllabusCommitted };
+    }
+  } catch {}
+  return { customNotes: [], customModules: [], syllabusCommitted: null };
 }
 
 /**
@@ -52,6 +84,66 @@ export async function getPmuSubjects(): Promise<PmuSubject[]> {
   }
 }
 
+function applyCustomContentOverlay(
+  detail: {
+    subject: PmuSubject;
+    modules: PmuModule[];
+    sampleNote: PmuNote | null;
+    pastPapers: PmuPastPaper[];
+  },
+  slug: string
+) {
+  const { customNotes, customModules, syllabusCommitted } = getAdminStateCustomContent(slug, detail.subject.code);
+
+  let updatedSampleNote = detail.sampleNote;
+  if (customNotes.length > 0) {
+    const latest = customNotes[0];
+    updatedSampleNote = {
+      id: latest.id,
+      topic_id: `t-${latest.id}`,
+      title: latest.title,
+      reading_time_min: latest.readingTimeMin || 15,
+      status: "published" as const,
+      is_sample: latest.isSample,
+      pdf_url: null,
+      content: latest.contentMarkdown,
+    };
+  }
+
+  let updatedModules = [...detail.modules];
+  if (syllabusCommitted?.modules?.length > 0) {
+    updatedModules = syllabusCommitted.modules.map((m: any, idx: number) => ({
+      id: `comm-mod-${idx + 1}`,
+      subject_id: detail.subject.id,
+      module_number: m.moduleNumber || idx + 1,
+      title: m.title,
+      description: m.description || "",
+      is_published: true,
+      topics: (m.topics || []).map((t: any, tIdx: number) => ({
+        id: `comm-top-${idx + 1}-${tIdx + 1}`,
+        module_id: `comm-mod-${idx + 1}`,
+        topic_number: t.topicNumber || tIdx + 1,
+        title: t.title,
+        slug: t.slug,
+        description: "",
+        estimated_reading_minutes: t.estimatedReadingMinutes || 20,
+        is_sample: Boolean(t.isSample),
+        is_published: true,
+      })),
+    }));
+  }
+
+  return {
+    ...detail,
+    modules: updatedModules,
+    sampleNote: updatedSampleNote,
+    subject: {
+      ...detail.subject,
+      module_count: updatedModules.length,
+    },
+  };
+}
+
 /**
  * Returns subject details, modules, sample notes, and past papers.
  */
@@ -65,7 +157,7 @@ export async function getPmuSubjectDetail(slug: string): Promise<{
 
   const supabase = getSupabaseClient();
   if (!supabase) {
-    return fallback ?? null;
+    return fallback ? applyCustomContentOverlay(fallback, slug) : null;
   }
 
   try {
@@ -77,7 +169,7 @@ export async function getPmuSubjectDetail(slug: string): Promise<{
       .maybeSingle();
 
     if (subError || !subData) {
-      return fallback ?? null;
+      return fallback ? applyCustomContentOverlay(fallback, slug) : null;
     }
 
     const [modulesRes, papersRes] = await Promise.all([
@@ -111,7 +203,7 @@ export async function getPmuSubjectDetail(slug: string): Promise<{
       ? papersRes.data
       : fallback?.pastPapers ?? [];
 
-    return {
+    const baseResult = {
       subject: {
         id: subData.id,
         code: subData.code,
@@ -127,7 +219,9 @@ export async function getPmuSubjectDetail(slug: string): Promise<{
       sampleNote: fallback?.sampleNote ?? null,
       pastPapers,
     };
+
+    return applyCustomContentOverlay(baseResult, slug);
   } catch {
-    return fallback ?? null;
+    return fallback ? applyCustomContentOverlay(fallback, slug) : null;
   }
 }

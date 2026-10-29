@@ -15,6 +15,16 @@ const SUBJECTS = [
 
 const PRESET_TOPICS = [
   {
+    topic: "HTTP vs HTTPS Protocols, TLS Handshake & 3-Way TCP Exchange",
+    code: "CSE1004",
+    title: "Fundamental Web Technologies",
+  },
+  {
+    topic: "CSS Box Model, Modern Flexbox vs CSS Grid & Responsive Layouts",
+    code: "CSE1004",
+    title: "Fundamental Web Technologies",
+  },
+  {
     topic: "Booth's Multiplication Algorithm with Step-by-Step Register Trace",
     code: "CSE1003",
     title: "Computer Organization & Architecture",

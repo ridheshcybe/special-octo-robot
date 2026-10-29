@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function AdminSyllabusPage() {
   const router = useRouter();
-  const [selectedSubject, setSelectedSubject] = useState("am101");
+  const [selectedSubject, setSelectedSubject] = useState("e4444444-4444-4444-8444-444444444444");
   const [file, setFile] = useState<File | null>(null);
   const [syllabusText, setSyllabusText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,10 +15,12 @@ export default function AdminSyllabusPage() {
   const [statusMsg, setStatusMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const subjects = [
-    { id: "e1111111-1111-4111-8111-111111111111", code: "AM101", title: "Applied Computational Mathematics" },
-    { id: "e2222222-2222-4222-8222-222222222222", code: "CS101", title: "Python Programming & Algorithmic Thinking" },
-    { id: "e3333333-3333-4333-8333-333333333333", code: "EE101", title: "Basic Electrical & Electronics Engineering" },
-    { id: "e4444444-4444-4444-8444-444444444444", code: "CS102", title: "Computer Organisation and Architecture" },
+    { id: "e4444444-4444-4444-8444-444444444444", code: "CSE1004", title: "Fundamentals of Web Technologies (FWT)" },
+    { id: "e1111111-1111-4111-8111-111111111111", code: "CSE1001", title: "Applied Computational Mathematics (ACM)" },
+    { id: "e2222222-2222-4222-8222-222222222222", code: "CSE1005", title: "Python Programming & Algorithmic Thinking" },
+    { id: "e3333333-3333-4333-8333-333333333333", code: "CSE1002", title: "Basic Electrical & Electronics Engineering" },
+    { id: "e5555555-5555-4555-8555-555555555555", code: "CSE1003", title: "Computer Organisation and Architecture (COA)" },
+    { id: "e6666666-6666-4666-8666-666666666666", code: "CSE1006", title: "Indian Science, Engineering and Technology (IKS)" },
   ];
 
   const handleExtract = async (e: React.FormEvent) => {

@@ -42,14 +42,56 @@ eigenvalues, eigenvectors = np.linalg.eig(A)
 print("Eigenvalues:", eigenvalues)
 \`\`\``,
 
-  module: `### Module Overview & Syllabus Structure
-Unit Focus: **Linear Algebra, Matrix Decompositions & Vector Calculus**.
+  fwt: `### 1. HTTP vs HTTPS & The 3-Way Handshake
+In Fundamentals of Web Technologies (CSE1004), client-server communication relies on TCP/IP:
+- **SYN $\\to$ SYN-ACK $\\to$ ACK** establishes the transport session.
+- **TLS 1.3 Cryptographic Handshake** establishes symmetric session keys using ECDHE (Elliptic Curve Diffie-Hellman Ephemeral).
 
-| Week | Lecture Topic | Key Mathematical Focus |
+---
+
+### 2. Semantic HTML5 & Modern CSS Layout
+\`\`\`html
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/prepmeup/subjects/fundamentals-of-web-technologies">FWT Notes</a>
+  </nav>
+</header>
+\`\`\`
+
+\`\`\`css
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+\`\`\`
+
+---
+
+### 3. Asynchronous JavaScript & Fetch API
+\`\`\`javascript
+async function loadSyllabusData(endpoint) {
+  try {
+    const res = await fetch(endpoint);
+    if (!res.ok) throw new Error(\`HTTP error! status: \${res.status}\`);
+    return await res.json();
+  } catch (err) {
+    console.error("Fetch failed:", err);
+  }
+}
+\`\`\``,
+
+  module: `### Module Overview & Syllabus Structure
+Unit Focus: **Web Architecture, HTTP/HTTPS Protocols & Modern Front-End**.
+
+| Week | Lecture Topic | Key Technical Focus |
 | :--- | :--- | :--- |
-| **01** | Vector Spaces & Linear Independence | $\\text{rank}(A) + \\text{nullity}(A) = n$ |
-| **02** | Eigenvalues & Diagonalization | $A\\mathbf{x} = \\lambda\\mathbf{x}$ |
-| **03** | Singular Value Decomposition (SVD) | $A = U \\Sigma V^T$ |`,
+| **01** | Evolution of Web & ARPANET | Packet switching, Tim Berners-Lee, Web 1.0 vs 2.0 vs 3.0 |
+| **02** | DNS & HTTP/HTTPS Protocols | 3-way TCP handshake, TLS cryptographic handshake, status codes |
+| **03** | Semantic HTML5 & DOM | Accessibility, semantic tags, querySelector, event bubbling |
+| **04** | CSS3 Box Model & Modern Flexbox | Box-sizing: border-box, flex-direction, justify-content |
+| **05** | Asynchronous JavaScript | Callback queue, Promises, async/await, Fetch API |`,
 
   pyq: `### University Question Paper & Step-by-Step Model Solutions
 **Assessment:** Winter 2025 End-Semester Examination • Max Marks: 60
@@ -80,19 +122,28 @@ $$\\det(A - \\lambda I) = (2 - \\lambda)^2 - 1 = \\lambda^2 - 4\\lambda + 3 = 0 
 
 export default function ContentStudioPage() {
   const [contentType, setContentType] = useState<"note" | "module" | "topic" | "pyq" | "quiz">("note");
-  const [subjectCode, setSubjectCode] = useState("ACM-101");
-  const [subjectTitle, setSubjectTitle] = useState("Applied Computational Mathematics");
-  const [title, setTitle] = useState("Singular Value Decomposition (SVD) & Matrix Decompositions");
+  const [subjectCode, setSubjectCode] = useState("CSE1004");
+  const [subjectTitle, setSubjectTitle] = useState("Fundamentals of Web Technologies");
+  const [title, setTitle] = useState("Client-Server Architecture, DNS & HTTP/HTTPS Lifecycle");
   const [moduleNumber, setModuleNumber] = useState(1);
   const [readingTimeMin, setReadingTimeMin] = useState(20);
   const [isSample, setIsSample] = useState(true);
-  const [contentMarkdown, setContentMarkdown] = useState(TEMPLATES.note);
+  const [contentMarkdown, setContentMarkdown] = useState(TEMPLATES.fwt);
 
+  const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [publishing, setPublishing] = useState(false);
   const [publishedItems, setPublishedItems] = useState<PublishedItem[]>([]);
   const [toastMsg, setToastMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const subjectOptions = [
+    { code: "CSE1004", title: "Fundamentals of Web Technologies (FWT)" },
+    { code: "CSE1001", title: "Applied Computational Mathematics (ACM)" },
+    { code: "CSE1002", title: "Basic Electrical & Electronics Engineering (BEE)" },
+    { code: "CSE1003", title: "Computer Organization & Architecture (COA)" },
+    { code: "CSE1005", title: "Python Programming (PYT)" },
+    { code: "CSE1006", title: "Indian Science, Engineering & Technology (IKS)" },
+    // Code aliases for backwards compatibility
+    { code: "FWT-104", title: "Fundamentals of Web Technologies" },
     { code: "ACM-101", title: "Applied Computational Mathematics" },
     { code: "PYT-102", title: "Python Programming" },
     { code: "BEE-103", title: "Basic Electrical Engineering" },
@@ -115,7 +166,9 @@ export default function ContentStudioPage() {
 
   const handleContentTypeChange = (type: "note" | "module" | "topic" | "pyq" | "quiz") => {
     setContentType(type);
-    if (TEMPLATES[type]) {
+    if (type === "note" && (subjectCode === "CSE1004" || subjectCode === "FWT-104")) {
+      setContentMarkdown(TEMPLATES.fwt);
+    } else if (TEMPLATES[type]) {
       setContentMarkdown(TEMPLATES[type]);
     }
   };
@@ -123,11 +176,43 @@ export default function ContentStudioPage() {
   const handleSubjectChange = (code: string) => {
     setSubjectCode(code);
     const matched = subjectOptions.find((s) => s.code === code);
-    if (matched) setSubjectTitle(matched.title);
+    if (matched) {
+      setSubjectTitle(matched.title);
+      if (code === "CSE1004" || code === "FWT-104") {
+        if (!title || title.includes("Singular Value")) {
+          setTitle("Client-Server Architecture, DNS & HTTP/HTTPS Lifecycle");
+        }
+        setContentMarkdown(TEMPLATES.fwt);
+      }
+    }
   };
 
   const handleInsertSnippet = (snippet: string) => {
     setContentMarkdown((prev) => prev + "\n\n" + snippet);
+  };
+
+  const handleEditItem = (item: PublishedItem) => {
+    setEditingItemId(item.id);
+    setContentType(item.contentType);
+    setSubjectCode(item.subjectCode);
+    setSubjectTitle(item.subjectTitle);
+    setTitle(item.title);
+    setModuleNumber(item.moduleNumber || 1);
+    setReadingTimeMin(item.readingTimeMin || 15);
+    setIsSample(item.isSample);
+    setContentMarkdown(item.contentMarkdown);
+    setToastMsg({
+      type: "success",
+      text: `Loaded "${item.title}" into Studio editor. Make your edits and click Save Update below.`,
+    });
+    window.scrollTo({ top: 350, behavior: "smooth" });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingItemId(null);
+    setTitle("");
+    setContentMarkdown(TEMPLATES.note);
+    setToastMsg(null);
   };
 
   const handlePublish = async (e: React.FormEvent) => {
@@ -145,6 +230,7 @@ export default function ContentStudioPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          id: editingItemId || undefined,
           contentType,
           subjectCode,
           subjectTitle,
@@ -163,9 +249,12 @@ export default function ContentStudioPage() {
 
       setToastMsg({
         type: "success",
-        text: `✓ "${title}" uploaded and published live! Directus CMS cache revalidated.`,
+        text: editingItemId
+          ? `✓ "${title}" successfully updated and synchronized across student portal & Directus CMS!`
+          : `✓ "${title}" uploaded and published live! Directus CMS cache revalidated.`,
       });
 
+      setEditingItemId(null);
       fetchPublished();
     } catch (err: any) {
       setToastMsg({ type: "error", text: err.message || "Failed to publish." });
@@ -178,6 +267,7 @@ export default function ContentStudioPage() {
     try {
       await fetch(`/api/prepmeup/admin/content-studio?id=${id}`, { method: "DELETE" });
       setPublishedItems((prev) => prev.filter((x) => x.id !== id));
+      if (editingItemId === id) setEditingItemId(null);
       setToastMsg({ type: "success", text: "Item removed from published live stream." });
     } catch {}
   };
@@ -568,16 +658,37 @@ export default function ContentStudioPage() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "16px", paddingTop: "12px" }}>
           <div style={{ fontSize: "12px", color: "#807f78" }}>
             🔒 Upon publishing, this content is synchronized directly into Directus CMS and deployed live to student viewers immediately.
+            {editingItemId && (
+              <span style={{ display: "block", color: "#ff6a3d", marginTop: "4px", fontWeight: 700 }}>
+                ✎ Currently editing existing record ({editingItemId}). Saving will update this item live.
+              </span>
+            )}
           </div>
 
-          <button
-            type="submit"
-            disabled={publishing}
-            className="pmu-btn-primary"
-            style={{ padding: "14px 28px", fontSize: "13px" }}
-          >
-            {publishing ? "Uploading & Revalidating Directus CMS…" : "🚀 Publish to Live Site & Sync Directus CMS →"}
-          </button>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            {editingItemId && (
+              <button
+                type="button"
+                onClick={handleCancelEdit}
+                className="pmu-btn-secondary"
+                style={{ padding: "14px 20px", fontSize: "13px" }}
+              >
+                Cancel Editing
+              </button>
+            )}
+            <button
+              type="submit"
+              disabled={publishing}
+              className="pmu-btn-primary"
+              style={{ padding: "14px 28px", fontSize: "13px" }}
+            >
+              {publishing
+                ? "Uploading & Revalidating Directus CMS…"
+                : editingItemId
+                ? "💾 Update & Save Content →"
+                : "🚀 Publish to Live Site & Sync Directus CMS →"}
+            </button>
+          </div>
         </div>
       </form>
 
@@ -604,8 +715,8 @@ export default function ContentStudioPage() {
                 gap: "14px",
                 padding: "16px 20px",
                 borderRadius: "8px",
-                border: "1px solid #26262c",
-                backgroundColor: "#08080a",
+                border: editingItemId === item.id ? "1px solid #ff3b1d" : "1px solid #26262c",
+                backgroundColor: editingItemId === item.id ? "rgba(255,59,29,0.06)" : "#08080a",
               }}
             >
               <div>
@@ -634,6 +745,14 @@ export default function ContentStudioPage() {
               </div>
 
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <button
+                  type="button"
+                  onClick={() => handleEditItem(item)}
+                  className="pmu-btn-secondary"
+                  style={{ padding: "6px 12px", fontSize: "11px", borderColor: "#ff6a3d", color: "#ff6a3d" }}
+                >
+                  ✏️ Edit in Studio
+                </button>
                 <Link
                   href="/prepmeup/subjects"
                   className="pmu-btn-secondary"

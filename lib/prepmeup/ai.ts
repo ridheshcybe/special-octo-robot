@@ -268,6 +268,169 @@ Allowed question types: ${types.join(", ")}.`;
 // ============================================================================
 
 function getMockSyllabusStructure(text: string) {
+  const lower = (text || "").toLowerCase();
+  const isWebTech =
+    lower.includes("web") ||
+    lower.includes("fwt") ||
+    lower.includes("html") ||
+    lower.includes("css") ||
+    lower.includes("javascript") ||
+    lower.includes("cse1004") ||
+    lower.includes("http") ||
+    lower.includes("internet");
+
+  if (isWebTech) {
+    return {
+      modules: [
+        {
+          moduleNumber: 1,
+          title: "Module I: Introduction to Web & Internet Protocols",
+          description: "Packet switching, ARPANET, client-server models, HTTP/HTTPS lifecycle, and recursive DNS resolution.",
+          topics: [
+            {
+              topicNumber: 1,
+              title: "Evolution of Web & ARPANET",
+              slug: "web-evolution-and-arpanet",
+              estimatedReadingMinutes: 20,
+              isSample: true,
+            },
+            {
+              topicNumber: 2,
+              title: "Client-Server Architecture & DNS Resolution",
+              slug: "client-server-and-dns",
+              estimatedReadingMinutes: 25,
+              isSample: false,
+            },
+            {
+              topicNumber: 3,
+              title: "HTTP/HTTPS Protocols & Status Codes",
+              slug: "http-https-status-codes",
+              estimatedReadingMinutes: 25,
+              isSample: false,
+            },
+          ],
+        },
+        {
+          moduleNumber: 2,
+          title: "Module II: Semantic HTML5 Structure & Web Forms",
+          description: "HTML5 semantic page elements, accessible navigation, form input validation, and media canvas tags.",
+          topics: [
+            {
+              topicNumber: 1,
+              title: "Semantic HTML5 Page Structure",
+              slug: "html5-semantic-elements",
+              estimatedReadingMinutes: 20,
+              isSample: false,
+            },
+            {
+              topicNumber: 2,
+              title: "HTML Lists, Tables & Form Controls",
+              slug: "html-lists-tables-forms",
+              estimatedReadingMinutes: 25,
+              isSample: false,
+            },
+            {
+              topicNumber: 3,
+              title: "HTML5 Multimedia & 2D Canvas Graphics",
+              slug: "html5-multimedia-elements",
+              estimatedReadingMinutes: 20,
+              isSample: false,
+            },
+          ],
+        },
+        {
+          moduleNumber: 3,
+          title: "Module III: CSS3 Styling, Flexbox & Responsive Layouts",
+          description: "Box model (content, padding, border, margin), specificity hierarchy, modern Flexbox, and CSS Grid.",
+          topics: [
+            {
+              topicNumber: 1,
+              title: "CSS Box Model & Specificity Hierarchy",
+              slug: "css-box-model-selectors",
+              estimatedReadingMinutes: 20,
+              isSample: false,
+            },
+            {
+              topicNumber: 2,
+              title: "Modern Flexbox & CSS Grid Layouts",
+              slug: "css-flexbox-and-grid",
+              estimatedReadingMinutes: 25,
+              isSample: false,
+            },
+            {
+              topicNumber: 3,
+              title: "Responsive Web Design & Mobile-First Media Queries",
+              slug: "responsive-css-media-queries",
+              estimatedReadingMinutes: 25,
+              isSample: false,
+            },
+          ],
+        },
+        {
+          moduleNumber: 4,
+          title: "Module IV: Client-Side JavaScript, DOM & Async Operations",
+          description: "ES6+ syntax (let/const, arrow functions, destructuring), DOM API, event delegation, and asynchronous Promises.",
+          topics: [
+            {
+              topicNumber: 1,
+              title: "JavaScript Fundamentals & ES6+ Features",
+              slug: "javascript-es6-fundamentals",
+              estimatedReadingMinutes: 25,
+              isSample: false,
+            },
+            {
+              topicNumber: 2,
+              title: "DOM Manipulation & Event Handling",
+              slug: "dom-manipulation-events",
+              estimatedReadingMinutes: 25,
+              isSample: false,
+            },
+            {
+              topicNumber: 3,
+              title: "Asynchronous JavaScript, Promises & Fetch API",
+              slug: "async-javascript-fetch-api",
+              estimatedReadingMinutes: 30,
+              isSample: false,
+            },
+          ],
+        },
+        {
+          moduleNumber: 5,
+          title: "Module V: Server-Side Node.js, REST APIs & Production Deployment",
+          description: "V8 JavaScript runtime, Express request routing, JSON payloads, Git collaboration, and cloud tunnels.",
+          topics: [
+            {
+              topicNumber: 1,
+              title: "Introduction to Node.js & REST APIs",
+              slug: "nodejs-rest-apis",
+              estimatedReadingMinutes: 25,
+              isSample: false,
+            },
+            {
+              topicNumber: 2,
+              title: "Git, GitHub & Version Control Workflows",
+              slug: "git-github-workflows",
+              estimatedReadingMinutes: 20,
+              isSample: false,
+            },
+            {
+              topicNumber: 3,
+              title: "Production Web Deployment & Cloudflare Tunnels",
+              slug: "web-deployment-cloudflare",
+              estimatedReadingMinutes: 25,
+              isSample: false,
+            },
+          ],
+        },
+      ],
+      suggestedReferences: [
+        "Jon Duckett, 'HTML and CSS: Design and Build Websites', Wiley Publishing",
+        "David Flanagan, 'JavaScript: The Definitive Guide', 7th Edition, O'Reilly Media",
+        "MDN Web Docs (Mozilla Developer Network) Curated Curriculum",
+      ],
+    };
+  }
+
   return {
     modules: [
       {
