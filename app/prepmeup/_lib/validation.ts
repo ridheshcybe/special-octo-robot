@@ -32,6 +32,39 @@ export const phoneSchema = z
     return normalized;
   });
 
+export const emailSchema = z
+  .string()
+  .trim()
+  .email("Please enter a valid email address")
+  .toLowerCase();
+
+export const authTargetSchema = z
+  .string()
+  .trim()
+  .transform((val, ctx) => {
+    if (val.includes("@")) {
+      const parsed = z.string().email().safeParse(val.toLowerCase());
+      if (!parsed.success) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please enter a valid email address",
+        });
+        return z.NEVER;
+      }
+      return { type: "email" as const, value: parsed.data };
+    }
+
+    const normalized = normalizeIndianPhone(val);
+    if (!normalized) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Please enter a valid email address or 10-digit mobile number",
+      });
+      return z.NEVER;
+    }
+    return { type: "phone" as const, value: normalized };
+  });
+
 export const otpSchema = z
   .string()
   .trim()

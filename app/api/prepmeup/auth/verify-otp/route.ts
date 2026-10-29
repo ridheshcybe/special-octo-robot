@@ -1,7 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { phoneSchema, otpSchema } from "@/app/prepmeup/_lib/validation";
+import { authTargetSchema, otpSchema } from "@/app/prepmeup/_lib/validation";
 import { checkAndIncrementVerifyAttempts, resetVerifyAttempts } from "@/app/prepmeup/_lib/rateLimit";
 import { verifyTwilioOtp } from "@/app/prepmeup/_lib/twilioVerify";
+import { verifyEmailOtp } from "@/app/prepmeup/_lib/emailOtp";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 
 export async function POST(req: NextRequest) {
@@ -9,14 +10,15 @@ export async function POST(req: NextRequest) {
     const body = await req.json().catch(() => ({}));
 
     // 1. Validate inputs with Zod
-    const phoneResult = phoneSchema.safeParse(body.phone);
-    if (!phoneResult.success) {
+    const rawTarget = body.email || body.phone || body.identifier || body.target;
+    const targetResult = authTargetSchema.safeParse(rawTarget);
+    if (!targetResult.success) {
       return NextResponse.json(
-        { ok: false, error: phoneResult.error.issues[0]?.message ?? "Invalid phone number" },
+        { ok: false, error: targetResult.error.issues[0]?.message ?? "Invalid email or phone number" },
         { status: 400 }
       );
     }
-    const phone = phoneResult.data;
+    const target = targetResult.data;
 
     const otpResult = otpSchema.safeParse(body.code);
     if (!otpResult.success) {
@@ -27,8 +29,8 @@ export async function POST(req: NextRequest) {
     }
     const code = otpResult.data;
 
-    // 2. Brute-force protection: Max 5 verification attempts per phone
-    const attemptCheck = checkAndIncrementVerifyAttempts(phone);
+    // 2. Brute-force protection: Max 5 verification attempts per target
+    const attemptCheck = checkAndIncrementVerifyAttempts(target.value);
     if (!attemptCheck.allowed) {
       return NextResponse.json(
         { ok: false, error: "Maximum verification attempts exceeded. Please request a new code." },
@@ -36,8 +38,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 3. Verify OTP via Twilio Verify (or Dev Mock)
-    const verifyResult = await verifyTwilioOtp(phone, code);
+    // 3. Verify OTP via Email OTP or Twilio Verify
+    let verifyResult: { success: boolean; error?: string };
+    if (target.type === "email") {
+      verifyResult = await verifyEmailOtp(target.value, code);
+    } else {
+      verifyResult = await verifyTwilioOtp(target.value, code);
+    }
+
     if (!verifyResult.success) {
       return NextResponse.json(
         {
@@ -50,11 +58,12 @@ export async function POST(req: NextRequest) {
     }
 
     // Code verified: reset attempt counter
-    resetVerifyAttempts(phone);
+    resetVerifyAttempts(target.value);
 
     // 4. Supabase User Management
     const serviceClient = createPmuServiceClient();
-    let userId: string = `mock_pmu_user_${phone.replace(/\+/g, "")}`;
+    const sanitizedIdSuffix = target.value.replace(/[^a-zA-Z0-9]/g, "_").slice(0, 32);
+    let userId: string = `mock_pmu_user_${sanitizedIdSuffix}`;
     let isProfileComplete = false;
     let fullName = "";
     let college = "";
@@ -64,7 +73,7 @@ export async function POST(req: NextRequest) {
         const { data: existingProfile } = await serviceClient
           .from("pmu_profiles")
           .select("*")
-          .eq("phone", phone)
+          .eq("phone", target.value)
           .maybeSingle();
 
         if (existingProfile) {
@@ -77,7 +86,7 @@ export async function POST(req: NextRequest) {
           const { data: newProfile } = await serviceClient
             .from("pmu_profiles")
             .insert({
-              phone,
+              phone: target.value,
               full_name: "",
               college: "",
               branch: "B.Tech CSE AI/ML",
@@ -104,7 +113,10 @@ export async function POST(req: NextRequest) {
       redirectTo: isProfileComplete ? "/prepmeup/dashboard" : "/prepmeup/onboarding",
       user: {
         id: userId,
-        phone,
+        target: target.value,
+        type: target.type,
+        phone: target.type === "phone" ? target.value : undefined,
+        email: target.type === "email" ? target.value : undefined,
         role: "student",
         fullName,
         college,
@@ -114,7 +126,15 @@ export async function POST(req: NextRequest) {
     // 5. Set HTTP-Only Secure Auth Cookies for PrepMeUp Student
     response.cookies.set(
       "pmu-session",
-      JSON.stringify({ userId, phone, role: "student", isProfileComplete, fullName, college }),
+      JSON.stringify({
+        userId,
+        phone: target.type === "phone" ? target.value : undefined,
+        email: target.type === "email" ? target.value : undefined,
+        role: "student",
+        isProfileComplete,
+        fullName,
+        college,
+      }),
       {
         path: "/",
         httpOnly: true,

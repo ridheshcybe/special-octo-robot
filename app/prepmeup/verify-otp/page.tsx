@@ -11,7 +11,8 @@ function VerifyOtpForm() {
   const rawRedirectTo = searchParams.get("redirectTo");
   const redirectTo = sanitizeRedirect(rawRedirectTo);
 
-  const [phone, setPhone] = useState("");
+  const [target, setTarget] = useState("");
+  const [targetType, setTargetType] = useState<"email" | "phone">("email");
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -22,8 +23,12 @@ function VerifyOtpForm() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const stored = sessionStorage.getItem("pmu_phone");
-      if (stored) setPhone(stored);
+      const stored = sessionStorage.getItem("pmu_target") || sessionStorage.getItem("pmu_phone") || "";
+      if (stored) {
+        setTarget(stored);
+        const isEmail = stored.includes("@") || sessionStorage.getItem("pmu_target_type") === "email";
+        setTargetType(isEmail ? "email" : "phone");
+      }
       const mock = sessionStorage.getItem("pmu_mock_otp");
       if (mock) setDevMockHint(mock);
     }
@@ -52,7 +57,13 @@ function VerifyOtpForm() {
       const res = await fetch("/api/prepmeup/auth/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, code }),
+        body: JSON.stringify({
+          target,
+          identifier: target,
+          email: target.includes("@") ? target : undefined,
+          phone: !target.includes("@") ? target : undefined,
+          code,
+        }),
       });
 
       const data = await res.json();
@@ -78,7 +89,7 @@ function VerifyOtpForm() {
   };
 
   const handleResend = async () => {
-    if (cooldown > 0 || resending) return;
+    if (cooldown > 0 || resending || !target) return;
     setResending(true);
     setError(null);
 
@@ -86,7 +97,12 @@ function VerifyOtpForm() {
       const res = await fetch("/api/prepmeup/auth/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone }),
+        body: JSON.stringify({
+          target,
+          identifier: target,
+          email: target.includes("@") ? target : undefined,
+          phone: !target.includes("@") ? target : undefined,
+        }),
       });
 
       const data = await res.json();
@@ -100,7 +116,7 @@ function VerifyOtpForm() {
       if (data.devMockCode) {
         setDevMockHint(data.devMockCode);
       }
-      setSuccess("New verification code sent via WhatsApp.");
+      setSuccess(`New verification code dispatched to ${target}.`);
       setResending(false);
     } catch {
       setError("Failed to resend. Please check connection.");
@@ -130,8 +146,8 @@ function VerifyOtpForm() {
           Enter 6-Digit Code
         </h1>
         <p style={{ marginTop: "0.5rem", fontSize: "0.8125rem", color: "#807f78" }}>
-          We sent a verification code to WhatsApp on:{" "}
-          <span style={{ fontWeight: 600, color: "#f3f1ea" }}>{phone || "your number"}</span>
+          {targetType === "email" ? "We sent a verification code to your email:" : "We sent a verification code to:"}{" "}
+          <span style={{ fontWeight: 600, color: "#f3f1ea" }}>{target || "your account"}</span>
         </p>
 
         {devMockHint && (
@@ -258,11 +274,11 @@ function VerifyOtpForm() {
               disabled={resending}
               style={{ fontWeight: 600, color: "#ff3b1d" }}
             >
-              {resending ? "Sending…" : "Resend WhatsApp Code"}
+              {resending ? "Sending…" : "Resend Code"}
             </button>
           )}
         </div>
-        <Link href="/prepmeup/login">Change mobile number</Link>
+        <Link href="/prepmeup/login">Change email or mobile</Link>
       </div>
     </div>
   );

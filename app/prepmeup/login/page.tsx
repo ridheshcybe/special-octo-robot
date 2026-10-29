@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
-import { phoneSchema } from "../_lib/validation";
+import { authTargetSchema } from "../_lib/validation";
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || "/prepmeup/dashboard";
 
-  const [phone, setPhone] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [website, setWebsite] = useState("");
@@ -19,18 +19,24 @@ function LoginForm() {
     e.preventDefault();
     setError(null);
 
-    const validation = phoneSchema.safeParse(phone);
+    const validation = authTargetSchema.safeParse(identifier);
     if (!validation.success) {
-      setError(validation.error.issues[0]?.message ?? "Invalid phone number");
+      setError(validation.error.issues[0]?.message ?? "Please enter a valid email or phone number");
       return;
     }
 
+    const target = validation.data;
     setLoading(true);
     try {
       const res = await fetch("/api/prepmeup/auth/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: validation.data, website }),
+        body: JSON.stringify({
+          identifier: target.value,
+          email: target.type === "email" ? target.value : undefined,
+          phone: target.type === "phone" ? target.value : undefined,
+          website,
+        }),
       });
 
       const data = await res.json();
@@ -41,7 +47,9 @@ function LoginForm() {
       }
 
       if (typeof window !== "undefined") {
-        sessionStorage.setItem("pmu_phone", validation.data);
+        sessionStorage.setItem("pmu_target", target.value);
+        sessionStorage.setItem("pmu_target_type", target.type);
+        sessionStorage.setItem("pmu_phone", target.value);
       }
 
       if (data.devMockCode) {
@@ -77,7 +85,7 @@ function LoginForm() {
           Student Log In
         </h1>
         <p style={{ marginTop: "0.5rem", fontSize: "0.8125rem", color: "#807f78" }}>
-          Enter your WhatsApp mobile number to receive a 6-digit access code.
+          Enter your student email (or mobile number) to receive a 6-digit access code.
         </p>
       </div>
 
@@ -97,7 +105,7 @@ function LoginForm() {
 
         <div>
           <label
-            htmlFor="phone"
+            htmlFor="identifier"
             style={{
               display: "block",
               fontSize: "0.75rem",
@@ -108,40 +116,22 @@ function LoginForm() {
               marginBottom: "0.5rem",
             }}
           >
-            WhatsApp Mobile Number
+            Student Email or Mobile Number
           </label>
-          <div style={{ display: "flex" }}>
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                borderTopLeftRadius: "0.375rem",
-                borderBottomLeftRadius: "0.375rem",
-                border: "1px solid rgba(243,241,234,0.16)",
-                borderRight: "none",
-                backgroundColor: "#17171b",
-                padding: "0 0.875rem",
-                fontSize: "0.75rem",
-                fontWeight: 600,
-                color: "#807f78",
-              }}
-            >
-              +91
-            </span>
-            <input
-              id="phone"
-              type="tel"
-              placeholder="9876543210"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="pmu-input"
-              style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
-              autoFocus
-              required
-            />
-          </div>
+          <input
+            id="identifier"
+            type="text"
+            placeholder="student@dypiu.ac.in or 9876543210"
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
+            className="pmu-input"
+            autoCapitalize="none"
+            autoCorrect="off"
+            autoFocus
+            required
+          />
           <p style={{ marginTop: "0.375rem", fontSize: "0.6875rem", color: "#807f78" }}>
-            We send the OTP directly on WhatsApp (SMS fallback).
+            We'll send a 6-digit verification code directly to your inbox.
           </p>
         </div>
 
@@ -161,7 +151,7 @@ function LoginForm() {
         )}
 
         <button type="submit" disabled={loading} className="pmu-btn-primary" style={{ width: "100%" }}>
-          {loading ? "Sending WhatsApp Code…" : "Send Verification Code"}
+          {loading ? "Sending Verification Code…" : "Send Verification Code"}
         </button>
       </form>
 
