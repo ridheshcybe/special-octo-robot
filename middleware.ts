@@ -157,6 +157,7 @@ export async function middleware(request: NextRequest) {
     if (!isProfileComplete && pathname !== "/prepmeup/onboarding") {
       const redirect = request.nextUrl.clone();
       redirect.pathname = "/prepmeup/onboarding";
+      redirect.searchParams.set("redirectTo", pathname);
       return NextResponse.redirect(redirect);
     }
 

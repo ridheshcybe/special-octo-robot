@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import { onboardingSchema } from "../_lib/validation";
 
-export default function OnboardingPage() {
+function OnboardingForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/prepmeup/dashboard";
 
   const [fullName, setFullName] = useState("");
   const [branch, setBranch] = useState("B.Tech CSE AI/ML");
@@ -44,7 +46,7 @@ export default function OnboardingPage() {
         return;
       }
 
-      router.push("/prepmeup/dashboard");
+      window.location.href = redirectTo || "/prepmeup/dashboard";
     } catch {
       setError("Network error. Please try again.");
       setLoading(false);
@@ -98,21 +100,21 @@ export default function OnboardingPage() {
                 marginBottom: "0.5rem",
               }}
             >
-              Your Full Name
+              Full Name
             </label>
             <input
               id="fullName"
               type="text"
-              placeholder="e.g. Aryan Sharma"
+              placeholder="Aarav Kulkarni"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               className="pmu-input"
-              required
               autoFocus
+              required
             />
           </div>
 
-          <div className="pmu-grid-2" style={{ gap: "1rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
             <div>
               <label
                 htmlFor="branch"
@@ -189,5 +191,13 @@ export default function OnboardingPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function OnboardingPage() {
+  return (
+    <Suspense fallback={<div style={{ textAlign: "center", padding: "3rem", color: "#807f78" }}>Loading onboarding…</div>}>
+      <OnboardingForm />
+    </Suspense>
   );
 }

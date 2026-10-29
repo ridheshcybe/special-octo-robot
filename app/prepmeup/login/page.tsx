@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { authTargetSchema } from "../_lib/validation";
 
 function LoginForm() {
@@ -14,6 +14,27 @@ function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [website, setWebsite] = useState("");
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/prepmeup/auth/me")
+      .then((r) => r.json())
+      .then((data) => {
+        if (!active) return;
+        if (data.ok && data.authenticated) {
+          window.location.href = redirectTo || "/prepmeup/dashboard";
+        } else {
+          setCheckingAuth(false);
+        }
+      })
+      .catch(() => {
+        if (active) setCheckingAuth(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [redirectTo]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,6 +83,14 @@ function LoginForm() {
       setLoading(false);
     }
   };
+
+  if (checkingAuth) {
+    return (
+      <div className="pmu-auth-card" style={{ textAlign: "center", padding: "2.5rem 1.5rem" }}>
+        <p style={{ fontSize: "0.8125rem", color: "#807f78" }}>Checking student session…</p>
+      </div>
+    );
+  }
 
   return (
     <div className="pmu-auth-card">

@@ -80,8 +80,8 @@ function VerifyOtpForm() {
       }
 
       setTimeout(() => {
-        router.push(data.redirectTo || redirectTo);
-      }, 700);
+        window.location.href = data.redirectTo || redirectTo || "/prepmeup/dashboard";
+      }, 500);
     } catch {
       setError("Network error. Please try again.");
       setLoading(false);

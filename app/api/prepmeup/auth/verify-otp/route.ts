@@ -64,8 +64,8 @@ export async function POST(req: NextRequest) {
     const serviceClient = createPmuServiceClient();
     const sanitizedIdSuffix = target.value.replace(/[^a-zA-Z0-9]/g, "_").slice(0, 32);
     let userId: string = `mock_pmu_user_${sanitizedIdSuffix}`;
-    let isProfileComplete = false;
-    let fullName = "";
+    let isProfileComplete = true;
+    let fullName = target.type === "email" ? target.value.split("@")[0] : "Student";
     let college = "";
 
     if (serviceClient && process.env.PMU_SUPABASE_SERVICE_ROLE_KEY) {
@@ -78,16 +78,16 @@ export async function POST(req: NextRequest) {
 
         if (existingProfile) {
           userId = existingProfile.id;
-          fullName = existingProfile.full_name || "";
-          college = existingProfile.college || "";
-          isProfileComplete = Boolean(fullName.trim());
+          if (existingProfile.full_name) fullName = existingProfile.full_name;
+          if (existingProfile.college) college = existingProfile.college;
+          isProfileComplete = true;
         } else {
           // Provision in pmu_profiles
           const { data: newProfile } = await serviceClient
             .from("pmu_profiles")
             .insert({
               phone: target.value,
-              full_name: "",
+              full_name: fullName,
               college: "",
               branch: "B.Tech CSE AI/ML",
               current_semester: 1,
@@ -105,12 +105,17 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    const requestedRedirect = body.redirectTo || body.redirect;
+    const finalRedirect = requestedRedirect && typeof requestedRedirect === "string" && requestedRedirect.startsWith("/prepmeup")
+      ? requestedRedirect
+      : "/prepmeup/dashboard";
+
     const response = NextResponse.json({
       ok: true,
       message: "Authentication successful.",
-      isNewUser: !isProfileComplete,
-      isProfileComplete,
-      redirectTo: isProfileComplete ? "/prepmeup/dashboard" : "/prepmeup/onboarding",
+      isNewUser: false,
+      isProfileComplete: true,
+      redirectTo: finalRedirect,
       user: {
         id: userId,
         target: target.value,
