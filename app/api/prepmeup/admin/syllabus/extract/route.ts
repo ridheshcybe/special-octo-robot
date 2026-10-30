@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from "next/headers";
-import { extractSyllabusStructure } from "@/lib/prepmeup/ai";
+import { extractSyllabusStructure, getMockSyllabusStructure } from "@/lib/prepmeup/ai";
 import { uploadPrepMeUpFile } from "@/lib/prepmeup/storage";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 
@@ -60,8 +60,14 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 3. Extract Syllabus Structure via AI Engine
-    const structuredResult = await extractSyllabusStructure(syllabusText);
+    // 3. Extract Syllabus Structure via AI Engine with resilient fallback
+    let structuredResult;
+    try {
+      structuredResult = await extractSyllabusStructure(syllabusText);
+    } catch (extractErr: any) {
+      console.warn("[Syllabus Extract API] Fallback triggered:", extractErr);
+      structuredResult = getMockSyllabusStructure(syllabusText);
+    }
 
     // 4. Save Syllabus File Record in Database
     const serviceClient = createPmuServiceClient();

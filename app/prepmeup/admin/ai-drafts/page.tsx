@@ -1,4 +1,5 @@
 "use client";
+import { safeParseJson } from "@/lib/prepmeup/jsonRepair";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -75,9 +76,9 @@ export default function AdminAiDraftsPage() {
         finalContent = { ...selectedDraft.generated_content, markdown: editedText };
       } else {
         try {
-          finalContent = JSON.parse(editedText);
+          finalContent = safeParseJson(editedText);
         } catch {
-          throw new Error("Invalid JSON in edited question payload.");
+          throw new Error("Invalid JSON in edited question payload. Please verify syntax.");
         }
       }
 

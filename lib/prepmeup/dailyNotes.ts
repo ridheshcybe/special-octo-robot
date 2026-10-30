@@ -1,3 +1,4 @@
+import { safeParseJson } from "@/lib/prepmeup/jsonRepair";
 import fs from "fs";
 import path from "path";
 import { logger } from "@/lib/logger";
@@ -231,12 +232,14 @@ Important: Return ONLY valid JSON. No conversational preamble. Escape backslashe
     headers: {
       Authorization: `Bearer ${groqApiKey}`,
       "Content-Type": "application/json",
+      "User-Agent": "PrepMeUp/1.0",
     },
     body: JSON.stringify({
       model,
       messages: [{ role: "user", content: prompt }],
       temperature: 0.2,
-      max_tokens: 3500,
+      max_tokens: 4096,
+      response_format: { type: "json_object" },
     }),
   });
 
@@ -248,13 +251,11 @@ Important: Return ONLY valid JSON. No conversational preamble. Escape backslashe
   const json = await res.json();
   const rawContent = json.choices?.[0]?.message?.content || "";
 
-  // Extract JSON block
-  const jsonMatch = rawContent.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) {
+  // Extract and repair JSON payload
+  const parsed: any = safeParseJson(rawContent, null);
+  if (!parsed) {
     throw new Error("Failed to parse JSON response from AI model");
   }
-
-  const parsed = JSON.parse(jsonMatch[0]);
   const now = new Date();
   const dateStr = now.toLocaleDateString("en-US", {
     month: "long",

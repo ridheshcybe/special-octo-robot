@@ -1,3 +1,4 @@
+import { loadPersistentState, savePersistentState } from "@/lib/prepmeup/storage";
 import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import fs from "fs";
@@ -16,22 +17,11 @@ function getStateFilePath(): string {
 }
 
 function loadAdminState(): any {
-  try {
-    const p = getStateFilePath();
-    if (fs.existsSync(p)) {
-      return JSON.parse(fs.readFileSync(p, "utf-8"));
-    }
-  } catch {}
-  return { sessions: [], activities: [], publishedContent: [], committedSyllabi: {} };
+  return loadPersistentState();
 }
 
 function saveAdminState(data: any) {
-  try {
-    const p = getStateFilePath();
-    const dir = path.dirname(p);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(p, JSON.stringify(data, null, 2), "utf-8");
-  } catch {}
+  savePersistentState(data);
 }
 
 export async function POST(req: NextRequest) {
