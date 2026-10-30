@@ -22,7 +22,7 @@ export default function RazorpayCheckoutPage() {
   );
   const [mentorSlot, setMentorSlot] = useState("Today, 7:00 PM – 7:30 PM IST");
   const [paymentMethod, setPaymentMethod] = useState<"upi" | "card" | "netbanking">("upi");
-  const [upiId, setUpiId] = useState("student@okaxis");
+  const [upiId, setUpiId] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -412,7 +412,7 @@ export default function RazorpayCheckoutPage() {
               {/* LEFT COLUMN: Tier Selector & Package Breakdown */}
               <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                 <div className="pmu-card" style={{ padding: "28px" }}>
-                  <span className="pmu-badge pmu-badge-accent">Razorpay Official Payment Page</span>
+                  <span className="pmu-badge pmu-badge-accent">Secure Checkout • Razorpay Gateway</span>
                   <h1
                     className="font-display"
                     style={{

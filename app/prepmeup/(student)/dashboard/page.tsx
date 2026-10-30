@@ -97,7 +97,7 @@ export default async function StudentDashboardPage() {
           { label: "Active Subjects", value: "06", sub: "28 Core Modules Unlocked" },
           { label: "AI Doubt Quota", value: "24/7", sub: "Step-by-Step LaTeX & Code" },
           { label: "Interactive Labs", value: "15+", sub: "Atlas Suite, BEE & Python Sims" },
-          { label: "Pass Status", value: "PRO", sub: "180-Day Semester 1 Access" },
+          { label: "Pass Status", value: tier === "tier3" ? "PREMIUM 1:1" : (tier === "tier2" ? "PRO PASS" : "STARTER PASS"), sub: tier === "tier1" ? "Free Syllabus & Sample Access" : "180-Day Semester 1 Access" },
         ].map((stat) => (
           <div key={stat.label} className="pmu-card" style={{ padding: "22px" }}>
             <span

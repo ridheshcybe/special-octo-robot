@@ -10,9 +10,19 @@ export default function RankPercentilePage() {
   const [cohortAvg, setCohortAvg] = useState<number>(58);
   const [batchSize, setBatchSize] = useState<number>(120);
 
+  const validationError = useMemo(() => {
+    if (batchSize < 1) return "Cohort size must be at least 1 student.";
+    if (totalMarks <= 0) return "Maximum exam marks must be greater than 0.";
+    if (userScore < 0) return "Secured marks cannot be negative.";
+    if (userScore > totalMarks) return `Secured marks (${userScore}) cannot exceed maximum marks (${totalMarks}).`;
+    if (cohortAvg < 0) return "Cohort average cannot be negative.";
+    if (cohortAvg > totalMarks) return `Cohort average (${cohortAvg}) cannot exceed maximum marks (${totalMarks}).`;
+    return null;
+  }, [batchSize, totalMarks, userScore, cohortAvg]);
+
   const { percentile, estimatedRank, percentage, zScoreFormatted } = useMemo(() => {
-    if (totalMarks <= 0 || userScore < 0) {
-      return { percentile: "0.0", estimatedRank: batchSize, percentage: "0.0", zScoreFormatted: "0.00" };
+    if (validationError) {
+      return { percentile: "--", estimatedRank: "--", percentage: "--", zScoreFormatted: "--" };
     }
 
     const pct = Math.min(100, Math.max(0, (userScore / totalMarks) * 100));
@@ -28,15 +38,15 @@ export default function RankPercentilePage() {
 
     const cdf = zScore >= 0 ? 1 - prob : prob;
     const calcPercentile = Math.min(99.9, Math.max(1.0, cdf * 100));
-    const rank = Math.max(1, Math.round(batchSize * (1 - cdf)));
+    const rank = Math.min(batchSize, Math.max(1, Math.round(batchSize * (1 - cdf)) || 1));
 
     return {
       percentile: calcPercentile.toFixed(1),
-      estimatedRank: rank,
+      estimatedRank: String(rank),
       percentage: pct.toFixed(1),
       zScoreFormatted: (zScore >= 0 ? `+${zScore.toFixed(2)}` : zScore.toFixed(2)),
     };
-  }, [userScore, totalMarks, cohortAvg, batchSize]);
+  }, [userScore, totalMarks, cohortAvg, batchSize, validationError]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
@@ -186,77 +196,102 @@ $$Z = \\frac{X - \\mu}{\\sigma}, \\qquad \\text{Percentile} = \\Phi(Z) \\times 1
         <div className="pmu-card-highlight" style={{ padding: "28px" }}>
           <span className="pmu-badge">Predicted Standing</span>
 
-          <div style={{ marginTop: "18px", display: "flex", alignItems: "baseline", justifyContent: "space-between", borderBottom: "1px solid #26262c", paddingBottom: "18px" }}>
-            <div>
-              <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", textTransform: "uppercase" }}>
-                Batch Percentile
-              </span>
-              <div className="font-display" style={{ fontSize: "54px", lineHeight: 1, color: "#ff3b1d", marginTop: "4px" }}>
-                {percentile}%
+          {validationError ? (
+            <div
+              style={{
+                marginTop: "20px",
+                padding: "18px",
+                borderRadius: "8px",
+                backgroundColor: "rgba(239,68,68,0.12)",
+                border: "1px solid rgba(239,68,68,0.45)",
+                color: "#fca5a5",
+                fontSize: "13px",
+                lineHeight: 1.5,
+              }}
+            >
+              <div style={{ fontWeight: 700, fontSize: "14px", color: "#f87171", marginBottom: "6px" }}>
+                ⚠️ Invalid Assessment Parameters
               </div>
+              <div>{validationError}</div>
+              <p style={{ marginTop: "10px", fontSize: "12px", color: "#a19f95" }}>
+                Gaussian modeling requires secured marks ≤ maximum marks and cohort strength ≥ 1. Adjust inputs on the left to recalculate.
+              </p>
             </div>
+          ) : (
+            <>
+              <div style={{ marginTop: "18px", display: "flex", alignItems: "baseline", justifyContent: "space-between", borderBottom: "1px solid #26262c", paddingBottom: "18px" }}>
+                <div>
+                  <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", textTransform: "uppercase" }}>
+                    Batch Percentile
+                  </span>
+                  <div className="font-display" style={{ fontSize: "54px", lineHeight: 1, color: "#ff3b1d", marginTop: "4px" }}>
+                    {percentile}%
+                  </div>
+                </div>
 
-            <div style={{ textAlign: "right" }}>
-              <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", textTransform: "uppercase" }}>
-                Estimated Rank
-              </span>
-              <div className="font-display" style={{ fontSize: "42px", lineHeight: 1, color: "#f3f1ea", marginTop: "4px" }}>
-                #{estimatedRank}
+                <div style={{ textAlign: "right" }}>
+                  <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", textTransform: "uppercase" }}>
+                    Estimated Rank
+                  </span>
+                  <div className="font-display" style={{ fontSize: "42px", lineHeight: 1, color: "#f3f1ea", marginTop: "4px" }}>
+                    #{estimatedRank}
+                  </div>
+                  <span className="font-mono" style={{ fontSize: "11px", color: "#807f78" }}>
+                    out of {batchSize}
+                  </span>
+                </div>
               </div>
-              <span className="font-mono" style={{ fontSize: "11px", color: "#807f78" }}>
-                out of {batchSize}
-              </span>
-            </div>
-          </div>
 
-          {/* Visual Percentile Bar */}
-          <div style={{ marginTop: "18px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", fontFamily: "monospace", color: "#a19f95", marginBottom: "6px" }}>
-              <span>Cohort Distribution</span>
-              <span style={{ color: "#4ade80" }}>Top {(100 - Number(percentile)).toFixed(1)}%</span>
-            </div>
-            <div style={{ height: "8px", width: "100%", borderRadius: "9999px", backgroundColor: "#17171b", overflow: "hidden" }}>
+              {/* Visual Percentile Bar */}
+              <div style={{ marginTop: "18px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", fontFamily: "monospace", color: "#a19f95", marginBottom: "6px" }}>
+                  <span>Cohort Distribution</span>
+                  <span style={{ color: "#4ade80" }}>Top {(100 - Number(percentile)).toFixed(1)}%</span>
+                </div>
+                <div style={{ height: "8px", width: "100%", borderRadius: "9999px", backgroundColor: "#17171b", overflow: "hidden" }}>
+                  <div
+                    style={{
+                      height: "100%",
+                      width: `${percentile}%`,
+                      background: "linear-gradient(90deg, #ff3b1d, #4ade80)",
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ marginTop: "18px", display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", color: "#a19f95" }}>
+                  <span>Your Score Percentage:</span>
+                  <strong className="font-mono" style={{ color: "#f3f1ea" }}>{percentage}%</strong>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", color: "#a19f95" }}>
+                  <span>Standardized Z-Score:</span>
+                  <strong className="font-mono" style={{ color: "#ff6a3d" }}>{zScoreFormatted} σ</strong>
+                </div>
+              </div>
+
               <div
                 style={{
-                  height: "100%",
-                  width: `${percentile}%`,
-                  background: "linear-gradient(90deg, #ff3b1d, #4ade80)",
+                  marginTop: "20px",
+                  padding: "12px",
+                  borderRadius: "6px",
+                  backgroundColor: "rgba(255,59,29,0.14)",
+                  border: "1px solid rgba(255,59,29,0.35)",
+                  textAlign: "center",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  color: "#ff3b1d",
                 }}
-              />
-            </div>
-          </div>
-
-          <div style={{ marginTop: "18px", display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", color: "#a19f95" }}>
-              <span>Your Score Percentage:</span>
-              <strong className="font-mono" style={{ color: "#f3f1ea" }}>{percentage}%</strong>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", color: "#a19f95" }}>
-              <span>Standardized Z-Score:</span>
-              <strong className="font-mono" style={{ color: "#ff6a3d" }}>{zScoreFormatted} σ</strong>
-            </div>
-          </div>
-
-          <div
-            style={{
-              marginTop: "20px",
-              padding: "12px",
-              borderRadius: "6px",
-              backgroundColor: "rgba(255,59,29,0.14)",
-              border: "1px solid rgba(255,59,29,0.35)",
-              textAlign: "center",
-              fontSize: "12px",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              color: "#ff3b1d",
-            }}
-          >
-            {Number(percentile) >= 90
-              ? "🏆 Top 10% Batch Performer (O / A+ Band)"
-              : Number(percentile) >= 75
-              ? "🌟 Upper Quartile Distinction (A+ / A Band)"
-              : "📈 Solid Standing • Room for Revision Boost"}
-          </div>
+              >
+                {Number(percentile) >= 90
+                  ? "🏆 Top 10% Batch Performer (O / A+ Band)"
+                  : Number(percentile) >= 75
+                  ? "🌟 Upper Quartile Distinction (A+ / A Band)"
+                  : "📈 Solid Standing • Room for Revision Boost"}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

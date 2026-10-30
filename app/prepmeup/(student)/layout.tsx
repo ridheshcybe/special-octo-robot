@@ -25,6 +25,7 @@ export default function StudentLayout({ children }: { children: ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<{
     phone?: string;
+    email?: string;
     fullName?: string;
     college?: string;
   } | null>(null);
@@ -36,6 +37,7 @@ export default function StudentLayout({ children }: { children: ReactNode }) {
         if (data?.authenticated && data.user) {
           setUser({
             phone: data.user.phone,
+            email: data.user.email,
             fullName: data.user.profile?.fullName,
             college: data.user.profile?.college,
           });
@@ -191,7 +193,7 @@ export default function StudentLayout({ children }: { children: ReactNode }) {
                     color: "#807f78",
                   }}
                 >
-                  {user?.phone || "WhatsApp Verified"}
+                  {user?.phone ? "WhatsApp Verified" : (user?.email ? "Email Verified" : "Student Account")}
                 </p>
               </div>
             </div>

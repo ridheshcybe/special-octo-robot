@@ -33,6 +33,55 @@ export default function QuizRunnerPage({ params }: QuizRunnerPageProps) {
   const [resultData, setResultData] = useState<any>(null);
   const [submittedAt, setSubmittedAt] = useState<string>("");
 
+  // Restore Active Quiz from LocalStorage across page reloads
+  useEffect(() => {
+    try {
+      const savedKey = `pmu_active_quiz_${quizId}`;
+      const saved = typeof window !== "undefined" ? localStorage.getItem(savedKey) : null;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const elapsed = Math.floor((Date.now() - (parsed.savedAt || Date.now())) / 1000);
+        const remaining = Math.max(0, (parsed.secondsRemaining ?? 900) - elapsed);
+        if (remaining > 5 && parsed.attemptId && parsed.questions && parsed.questions.length > 0) {
+          setQuizMeta(parsed.quizMeta);
+          setQuestions(parsed.questions);
+          setAttemptId(parsed.attemptId);
+          setAnswers(parsed.answers || {});
+          setMarkedForReview(parsed.markedForReview || {});
+          setCurrentIndex(parsed.currentIndex || 0);
+          setSecondsRemaining(remaining);
+          setScreen("running");
+        } else {
+          localStorage.removeItem(savedKey);
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to restore quiz state from localStorage", e);
+    }
+  }, [quizId]);
+
+  // Persist Active Quiz State to LocalStorage on answers/time changes
+  useEffect(() => {
+    if (screen !== "running" || !attemptId || !questions.length) return;
+    try {
+      localStorage.setItem(
+        `pmu_active_quiz_${quizId}`,
+        JSON.stringify({
+          quizMeta,
+          questions,
+          attemptId,
+          currentIndex,
+          answers,
+          markedForReview,
+          secondsRemaining,
+          savedAt: Date.now(),
+        })
+      );
+    } catch (e) {
+      console.warn("Failed to persist quiz state to localStorage", e);
+    }
+  }, [screen, attemptId, questions, currentIndex, answers, markedForReview, secondsRemaining, quizId, quizMeta]);
+
   // 1. Start Quiz Attempt
   const handleStartQuiz = async () => {
     setLoading(true);
@@ -124,6 +173,9 @@ export default function QuizRunnerPage({ params }: QuizRunnerPageProps) {
       setSubmittedAt(new Date().toLocaleTimeString());
       setScreen("completed");
       setShowSubmitModal(false);
+      try {
+        localStorage.removeItem(`pmu_active_quiz_${quizId}`);
+      } catch {}
     } catch (err: any) {
       alert(err.message);
     } finally {
@@ -332,7 +384,16 @@ export default function QuizRunnerPage({ params }: QuizRunnerPageProps) {
           </p>
 
           <div style={{ marginTop: "22px", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px" }}>
-            <button type="button" onClick={() => setScreen("preview")} className="pmu-btn-secondary">
+            <button
+              type="button"
+              onClick={() => {
+                try {
+                  localStorage.removeItem(`pmu_active_quiz_${quizId}`);
+                } catch {}
+                setScreen("preview");
+              }}
+              className="pmu-btn-secondary"
+            >
               ↺ Retake Quiz
             </button>
             <Link href="/prepmeup/progress" className="pmu-btn-primary">
@@ -518,6 +579,22 @@ export default function QuizRunnerPage({ params }: QuizRunnerPageProps) {
           >
             ⏱ {formatTime(secondsRemaining)}
           </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              if (window.confirm("Abandon current quiz attempt? Answers recorded so far will be discarded.")) {
+                try {
+                  localStorage.removeItem(`pmu_active_quiz_${quizId}`);
+                } catch {}
+                setScreen("preview");
+              }
+            }}
+            className="pmu-btn-secondary"
+            style={{ padding: "8px 12px", fontSize: "11px" }}
+          >
+            ✕ Exit
+          </button>
 
           <button
             type="button"
