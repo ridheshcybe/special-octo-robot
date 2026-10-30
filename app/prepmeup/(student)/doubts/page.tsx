@@ -25,10 +25,22 @@ interface DoubtThread {
 }
 
 const SAMPLE_PROMPTS = [
-  "Derive the Newton-Raphson formula $x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$ and state its convergence rate.",
-  "Prove why eigenvalues of an orthogonal matrix $Q$ satisfy $|\\lambda| = 1$.",
-  "Explain Thevenin's Theorem and derive maximum power $P_{max} = \\frac{V_{th}^2}{4 R_{th}}$.",
-  "How does Python list comprehension compare to a standard loop in memory and bytecode?",
+  {
+    title: "Newton-Raphson Formula & Quadratic Convergence Rate",
+    query: "Derive the Newton-Raphson formula x_(n+1) = x_n - f(x_n)/f'(x_n) and state its convergence rate with proof.",
+  },
+  {
+    title: "Orthogonal Matrix Eigenvalue Property (|λ| = 1)",
+    query: "Prove why all eigenvalues of a real orthogonal matrix Q satisfy |λ| = 1.",
+  },
+  {
+    title: "Thevenin's Theorem & Max Power Transfer Derivation",
+    query: "Explain Thevenin's Theorem and derive maximum power P_max = V_th^2 / (4 * R_th).",
+  },
+  {
+    title: "Python List Comprehensions vs Standard Loops",
+    query: "How does Python list comprehension compare to a standard for loop in memory allocation and bytecode execution?",
+  },
 ];
 
 export default function DoubtsPage() {
@@ -310,20 +322,22 @@ export default function DoubtsPage() {
                 <button
                   key={idx}
                   type="button"
-                  onClick={() => setQueryText(p)}
+                  onClick={() => setQueryText(p.query)}
                   style={{
                     textAlign: "left",
                     padding: "10px 12px",
                     borderRadius: "6px",
                     border: "1px solid #26262c",
                     backgroundColor: "#08080a",
-                    color: "#d6d3cb",
-                    fontSize: "11.5px",
-                    lineHeight: 1.45,
                     cursor: "pointer",
                   }}
                 >
-                  {p.replace(/\\/g, "")}
+                  <div style={{ fontSize: "12px", fontWeight: 700, color: "#f3f1ea" }}>
+                    {p.title}
+                  </div>
+                  <div style={{ fontSize: "11px", color: "#a19f95", marginTop: "3px", lineHeight: 1.4 }}>
+                    &ldquo;{p.query}&rdquo;
+                  </div>
                 </button>
               ))}
             </div>

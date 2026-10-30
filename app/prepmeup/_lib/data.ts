@@ -231,9 +231,9 @@ Solve the system:
 $$\begin{bmatrix} 1 & 2 & 1 \\ 2 & 5 & 3 \\ 1 & 1 & 2 \end{bmatrix} \begin{bmatrix} x \\ y \\ z \end{bmatrix} = \begin{bmatrix} 4 \\ 9 \\ 6 \end{bmatrix}$$
 
 Augmented matrix $[A | B]$:
-$$\begin{bmatrix} 1 & 2 & 1 & | & 4 \\ 2 & 5 & 3 & | & 9 \\ 1 & 1 & 2 & | & 6 \end{bmatrix} \\to{R_2 \to R_2 - 2R_1, \; R_3 \to R_3 - R_1} \begin{bmatrix} 1 & 2 & 1 & | & 4 \\ 0 & 1 & 1 & | & 1 \\ 0 & -1 & 1 & | & 2 \end{bmatrix}$$
+$$\begin{bmatrix} 1 & 2 & 1 & | & 4 \\ 2 & 5 & 3 & | & 9 \\ 1 & 1 & 2 & | & 6 \end{bmatrix} \\xrightarrow{R_2 \to R_2 - 2R_1, \; R_3 \to R_3 - R_1} \begin{bmatrix} 1 & 2 & 1 & | & 4 \\ 0 & 1 & 1 & | & 1 \\ 0 & -1 & 1 & | & 2 \end{bmatrix}$$
 
-$$\\to{R_3 \to R_3 + R_2} \begin{bmatrix} 1 & 2 & 1 & | & 4 \\ 0 & 1 & 1 & | & 1 \\ 0 & 0 & 2 & | & 3 \end{bmatrix}$$
+$$\\xrightarrow{R_3 \to R_3 + R_2} \begin{bmatrix} 1 & 2 & 1 & | & 4 \\ 0 & 1 & 1 & | & 1 \\ 0 & 0 & 2 & | & 3 \end{bmatrix}$$
 
 By back substitution:
 $$2z = 3 \implies z = 1.5$$

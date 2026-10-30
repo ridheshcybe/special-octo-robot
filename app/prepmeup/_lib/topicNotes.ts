@@ -6,9 +6,12 @@ export function resolveTopicNote(
   sampleNote: PmuNote | null,
   library: Readonly<Record<string, string>>,
 ): string | null {
+  const libContent = library[topic.slug];
+  if (libContent && libContent.trim()) {
+    return libContent;
+  }
   if (topic.is_sample && sampleNote?.topic_id === topic.id && sampleNote.content?.trim()) {
     return sampleNote.content;
   }
-  const content = library[topic.slug];
-  return content?.trim() ? content : null;
+  return null;
 }

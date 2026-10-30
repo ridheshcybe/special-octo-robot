@@ -8,13 +8,21 @@ function formatAttemptDate(isoString: string): string {
     const d = new Date(isoString);
     if (isNaN(d.getTime())) return "Recently";
     const now = new Date();
-    const isToday = d.toDateString() === now.toDateString();
-    const timeStr = d.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true });
-    if (isToday) return `Today, ${timeStr}`;
-    const yesterday = new Date(now);
-    yesterday.setDate(now.getDate() - 1);
-    if (d.toDateString() === yesterday.toDateString()) return `Yesterday, ${timeStr}`;
-    return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }) + `, ${timeStr}`;
+    // Compare in Asia/Kolkata date
+    const dDateStr = d.toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" });
+    const nowDateStr = now.toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" });
+    const timeStr = d.toLocaleTimeString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    }) + " IST";
+
+    if (dDateStr === nowDateStr) return `Today, ${timeStr}`;
+    const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    const yesterdayDateStr = yesterday.toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" });
+    if (dDateStr === yesterdayDateStr) return `Yesterday, ${timeStr}`;
+    return `${dDateStr}, ${timeStr}`;
   } catch {
     return "Recently";
   }

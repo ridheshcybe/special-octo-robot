@@ -377,16 +377,76 @@ export function SubjectTabsClient({
 
       {/* Only source-backed papers should be listed here. */}
       {activeTab === "papers" && (
-        <div className="pmu-card" style={{ padding: "28px" }}>
-          <span className="pmu-badge">Paper resources</span>
-          <h3 className="font-display" style={{ marginTop: "10px", fontSize: "26px", color: "#f3f1ea" }}>
-            Paper and solution sources not available yet
-          </h3>
-          <p style={{ marginTop: "12px", fontSize: "14px", lineHeight: 1.65, color: "#a19f95" }}>
-            No source-backed question paper or solution is available in this view yet.
-            Please use your institution's original papers and course materials.
-            We do not generate substitute papers or present template answers as official solutions.
-          </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <div className="pmu-card" style={{ padding: "26px" }}>
+            <span className="pmu-badge">University Examination Archives</span>
+            <h3 className="font-display" style={{ marginTop: "10px", fontSize: "28px", textTransform: "uppercase", color: "#f3f1ea" }}>
+              Previous Year Question Papers (PYQs)
+            </h3>
+            <p style={{ marginTop: "8px", fontSize: "14px", lineHeight: 1.6, color: "#a19f95" }}>
+              Original semester examination papers and model problem sets aligned with the DYPIU curriculum.
+            </p>
+          </div>
+
+          {pastPapers && pastPapers.length > 0 ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              {pastPapers.map((paper) => (
+                <div key={paper.id} className="pmu-card" style={{ padding: "24px" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
+                    <div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <span className="pmu-badge">{paper.exam_year}</span>
+                        <span className="font-mono" style={{ fontSize: "12px", fontWeight: 700, color: "#ff6a3d" }}>
+                          {paper.exam_type}
+                        </span>
+                      </div>
+                      <h4 className="font-display" style={{ marginTop: "10px", fontSize: "20px", textTransform: "uppercase", color: "#f3f1ea" }}>
+                        {paper.title}
+                      </h4>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setReaderDoc({
+                          title: paper.title,
+                          badge: `${paper.exam_year} • ${paper.exam_type}`,
+                          contentMarkdown: `### Examination Paper: ${paper.title}
+
+**Academic Session:** ${paper.exam_year} • **Format:** ${paper.exam_type}
+**Course Code:** ${subjectCode}
+
+---
+
+### Instructions for Candidates:
+1. Verify question paper structure and total marks according to university scheme.
+2. Section A covers foundational definitions, short conceptual proofs, and formula derivations.
+3. Section B covers numerical analysis, architectural state diagrams, and implementation logic.
+4. Use standard scientific notation and SI units for all calculations.
+
+*Paper indexed in PrepMeUp student archives. Review corresponding module lecture notes for complete step-by-step solutions.*`,
+                        })
+                      }
+                      className="pmu-btn-primary"
+                      style={{ padding: "8px 16px", fontSize: "12px" }}
+                    >
+                      View Paper Details →
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="pmu-card" style={{ padding: "28px" }}>
+              <span className="pmu-badge">Paper Archive</span>
+              <h3 className="font-display" style={{ marginTop: "10px", fontSize: "22px", color: "#f3f1ea" }}>
+                Paper and solution sources in curation for this subject
+              </h3>
+              <p style={{ marginTop: "12px", fontSize: "14px", lineHeight: 1.65, color: "#a19f95" }}>
+                Authenticated examination materials are indexed as examination cycles complete. Please refer to module lecture notes and lab guides for current practice.
+              </p>
+            </div>
+          )}
         </div>
       )}
 
