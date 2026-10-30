@@ -65,7 +65,7 @@ where singular values $\\sigma_i = \\sqrt{\\lambda_i(A^T A)}$.`,
     },
   ];
 
-  return NextResponse.json({ ok: true, items });
+  return NextResponse.json({ ok: true, items, simulations: state.simulations || [] });
 }
 
 export async function POST(req: NextRequest) {

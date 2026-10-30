@@ -1,8 +1,7 @@
 "use client";
 
-import React, { use } from "react";
+import React, { use, useState, useEffect } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { SIMULATIONS_REGISTRY } from "../../../_lib/simulationsData";
 import { RichMathMarkdown } from "../../../_components/RichMathMarkdown";
 
@@ -30,14 +29,72 @@ interface SimulationPageProps {
 
 export default function SimulationRunnerPage({ params }: SimulationPageProps) {
   const { slug } = use(params);
-  const sim = SIMULATIONS_REGISTRY[slug];
+  const [activeSim, setActiveSim] = useState<any>(() => SIMULATIONS_REGISTRY[slug] || null);
+  const [loading, setLoading] = useState(!SIMULATIONS_REGISTRY[slug]);
 
-  if (!sim) {
-    notFound();
+  // If not found in static registry, fetch from dynamic persistent storage API
+  useEffect(() => {
+    if (activeSim) return;
+
+    let isMounted = true;
+    const fetchSim = async () => {
+      try {
+        const res = await fetch(`/api/prepmeup/simulations?slug=${encodeURIComponent(slug)}`);
+        const json = await res.json();
+        if (isMounted && json.ok && json.simulation) {
+          setActiveSim(json.simulation);
+        }
+      } catch (err) {
+        console.warn("[SimRunner] Could not load dynamic simulation:", err);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchSim();
+    return () => {
+      isMounted = false;
+    };
+  }, [slug, activeSim]);
+
+  if (loading) {
+    return (
+      <div className="pmu-card" style={{ padding: "40px", textAlign: "center" }}>
+        <div style={{ fontSize: "28px", marginBottom: "12px" }}>⚡</div>
+        <h3 className="font-display" style={{ fontSize: "20px", color: "#f3f1ea" }}>
+          Initializing Interactive Engineering Workbench...
+        </h3>
+        <p style={{ fontSize: "13px", color: "#a19f95", marginTop: "4px" }}>
+          Loading dynamic parameter bindings and LaTeX models for {slug}.
+        </p>
+      </div>
+    );
+  }
+
+  if (!activeSim) {
+    return (
+      <div className="pmu-card" style={{ padding: "40px", textAlign: "center" }}>
+        <div style={{ fontSize: "32px", marginBottom: "12px" }}>🔍</div>
+        <h3 className="font-display" style={{ fontSize: "22px", color: "#f3f1ea" }}>
+          Simulation Workbench Not Found
+        </h3>
+        <p style={{ fontSize: "13.5px", color: "#a19f95", marginTop: "6px", maxWidth: "460px", margin: "6px auto 20px" }}>
+          The requested simulator "{slug}" is not currently in the registered catalog or persistent storage.
+        </p>
+        <div style={{ display: "flex", justifyContent: "center", gap: "12px" }}>
+          <Link href="/prepmeup/simulations" className="pmu-btn-primary" style={{ padding: "10px 18px", fontSize: "12px" }}>
+            ← Browse All Simulators
+          </Link>
+          <Link href="/prepmeup/admin/content-studio" className="pmu-btn-secondary" style={{ padding: "10px 18px", fontSize: "12px" }}>
+            Generate New in Studio →
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   const renderSimComponent = () => {
-    switch (sim.componentKey) {
+    switch (activeSim.componentKey) {
       case "OhmsLawSim":
         return <OhmsLawSim />;
       case "ResistorNetworkSim":
@@ -64,15 +121,21 @@ export default function SimulationRunnerPage({ params }: SimulationPageProps) {
       default:
         return (
           <DynamicInteractiveSim
-            title={sim.title}
-            subjectCode={sim.subjectCode}
-            theoryFormula={sim.theoryFormula}
-            theoryGuide={sim.theoryGuide}
+            title={activeSim.title}
+            subjectCode={activeSim.subjectCode}
+            theoryFormula={activeSim.theoryFormula}
+            theoryGuide={activeSim.theoryGuide}
             simType={
-              sim.subjectCode === "CSE1004" ? "protocol" :
-              sim.subjectCode === "CSE1001" ? "matrix" :
-              sim.subjectCode === "CSE1003" ? "pipeline" : "protocol"
+              activeSim.simType ||
+              (activeSim.subjectCode === "CSE1004" ? "protocol" :
+               activeSim.subjectCode === "CSE1001" ? "matrix" :
+               activeSim.subjectCode === "CSE1002" ? "circuit" :
+               activeSim.subjectCode === "CSE1003" ? "pipeline" :
+               activeSim.subjectCode === "CSE1005" ? "algorithm" : "interactive_lab")
             }
+            controls={activeSim.controls}
+            initialState={activeSim.initialState}
+            checkpoints={activeSim.checkpoints}
           />
         );
     }
@@ -101,10 +164,15 @@ export default function SimulationRunnerPage({ params }: SimulationPageProps) {
             ← Back to All Engineering Simulators
           </Link>
           <div style={{ marginTop: "12px", display: "flex", alignItems: "center", gap: "10px" }}>
-            <span className="pmu-badge">{sim.subjectCode}</span>
+            <span className="pmu-badge">{activeSim.subjectCode}</span>
             <span className="font-mono" style={{ fontSize: "12px", color: "#a19f95" }}>
-              {sim.subjectName} • {sim.difficulty}
+              {activeSim.subjectName || activeSim.subjectCode} • {activeSim.difficulty || "Intermediate"}
             </span>
+            {activeSim.isCustom && (
+              <span style={{ fontSize: "10px", color: "#38bdf8", backgroundColor: "rgba(56,189,248,0.12)", border: "1px solid rgba(56,189,248,0.3)", padding: "2px 6px", borderRadius: "4px", fontWeight: 700 }}>
+                🤖 AI Synthesized
+              </span>
+            )}
           </div>
           <h1
             className="font-display"
@@ -116,11 +184,14 @@ export default function SimulationRunnerPage({ params }: SimulationPageProps) {
               color: "#f3f1ea",
             }}
           >
-            {sim.title}
+            {activeSim.title}
           </h1>
         </div>
 
-        <Link href={`/prepmeup/subjects/${sim.subjectSlug}`} className="pmu-btn-secondary">
+        <Link
+          href={`/prepmeup/subjects/${activeSim.subjectSlug || "applied-computational-mathematics"}`}
+          className="pmu-btn-secondary"
+        >
           📖 View Subject LaTeX Notes →
         </Link>
       </div>
@@ -129,7 +200,7 @@ export default function SimulationRunnerPage({ params }: SimulationPageProps) {
       <div className="pmu-grid-3" style={{ alignItems: "start" }}>
         {/* Interactive Sandbox Area (Spans 2 columns) */}
         <div style={{ gridColumn: "span 2" }}>
-          <div className="pmu-card" style={{ padding: "28px" }}>
+          <div className="pmu-card" style={{ padding: "20px" }}>
             {renderSimComponent()}
           </div>
         </div>
@@ -149,7 +220,7 @@ export default function SimulationRunnerPage({ params }: SimulationPageProps) {
             </p>
 
             <div style={{ marginTop: "12px" }}>
-              <RichMathMarkdown content={`$$${sim.theoryFormula}$$`} />
+              <RichMathMarkdown content={`$$${activeSim.theoryFormula || "y = f(x)"}$$`} />
             </div>
 
             <div style={{ marginTop: "16px", paddingTop: "14px", borderTop: "1px solid #26262c" }}>
@@ -157,7 +228,13 @@ export default function SimulationRunnerPage({ params }: SimulationPageProps) {
                 Key Exam Concepts:
               </span>
               <div style={{ marginTop: "8px" }}>
-                <RichMathMarkdown content={sim.theoryGuide.map((g) => `- ${g}`).join("\n")} />
+                {Array.isArray(activeSim.theoryGuide) && activeSim.theoryGuide.length > 0 ? (
+                  <RichMathMarkdown content={activeSim.theoryGuide.map((g: string) => `- ${g}`).join("\n")} />
+                ) : (
+                  <div style={{ fontSize: "12px", color: "#a19f95" }}>
+                    • Manipulate controls in real time to observe dynamic equilibrium and parameter sensitivity.
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -167,7 +244,7 @@ export default function SimulationRunnerPage({ params }: SimulationPageProps) {
               ⚡ Browser-Native Runtime
             </span>
             <p style={{ marginTop: "6px", fontSize: "12.5px", lineHeight: 1.6, color: "#a19f95" }}>
-              This simulator executes at 60 FPS directly in your browser using client SVG, HTML5 Canvas, and React state.
+              This simulator executes directly in your browser using reactive SVG vectors, HTML5 Canvas, and real-time state evaluation.
             </p>
           </div>
         </div>

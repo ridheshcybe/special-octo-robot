@@ -922,6 +922,89 @@ Pipelining does not decrease the latency of an individual instruction; instead, 
     };
   }
 
+  // BEE Circuit & Power Simulation Preset
+  if (subjectCode === "CSE1002" || topic.toLowerCase().includes("circuit") || topic.toLowerCase().includes("ohm") || topic.toLowerCase().includes("power") || topic.toLowerCase().includes("rlc")) {
+    return {
+      slug: slug || "ac-dc-circuit-power-dissipation-simulator",
+      title: "Ohm's Law, Power Dissipation & AC Oscilloscope Simulator",
+      category: "bee",
+      difficulty,
+      estimatedMinutes: 15,
+      subjectCode: "CSE1002",
+      subjectName: "Basic Electrical & Electronics Engineering",
+      theoryFormula: "I = \\frac{V}{R}, \\quad P = V \\cdot I = I^2 R = \\frac{V^2}{R}",
+      theoryGuide: [
+        "Ohm's Law states that current through a conductor is directly proportional to voltage and inversely proportional to resistance.",
+        "Thermal power dissipation P = I²R converts electric potential energy into heat.",
+        "In alternating current (AC), voltage oscillates as v(t) = V_peak * sin(2πft), with RMS voltage V_rms = V_peak / √2.",
+      ],
+      summary: "Adjust source voltage, load resistance, and AC frequency to observe electron flow velocity, thermal dissipation, and real-time waveforms on an animated oscilloscope.",
+      simType: "circuit",
+      controls: [
+        { id: "voltage", label: "Source Voltage (V)", type: "slider", min: 1, max: 24, step: 0.5, default: 12, unit: "V" },
+        { id: "resistance", label: "Load Resistance (R)", type: "slider", min: 1, max: 50, step: 1, default: 10, unit: "Ω" },
+        { id: "frequency", label: "AC Wave Frequency", type: "slider", min: 10, max: 200, step: 5, default: 50, unit: "Hz" },
+        { id: "acMode", label: "AC Mode (Sine Wave)", type: "toggle", default: true },
+      ],
+      initialState: { voltage: 12, resistance: 10, frequency: 50, acMode: true },
+      checkpoints: [
+        {
+          question: "If voltage is doubled from 12V to 24V across a fixed 10Ω resistor, by what factor does thermal power dissipation increase?",
+          options: [
+            "A) 2x (linear increase)",
+            "B) 4x (quadratic increase P = V² / R)",
+            "C) Remains identical",
+            "D) Decreases by half"
+          ],
+          correctIndex: 1,
+          explanation: "Power is proportional to the square of the voltage: P = V² / R. Doubling voltage quadruples power from 14.4W to 57.6W."
+        }
+      ],
+      contentMarkdown: `### 1. Ohm's Law & Electrical Energy Conversion\nElectric current represents the directed rate of electron flow through conductive materials. Resistance opposes this flow through lattice collisions, generating heat according to Joule's law.`,
+    };
+  }
+
+  // Python Algorithm & Complexity Preset
+  if (subjectCode === "CSE1005" || topic.toLowerCase().includes("python") || topic.toLowerCase().includes("sort") || topic.toLowerCase().includes("algorithm")) {
+    return {
+      slug: slug || "python-algorithm-complexity-visualizer",
+      title: "Python Algorithm Complexity & Stack Tracer",
+      category: "python",
+      difficulty,
+      estimatedMinutes: 15,
+      subjectCode: "CSE1005",
+      subjectName: "Python Programming",
+      theoryFormula: "T(N) = a T(N/b) + f(N) \\implies \\mathcal{O}(N \\log N)",
+      theoryGuide: [
+        "Time complexity measures the growth rate of required CPU operations as input size N increases.",
+        "Divide-and-conquer algorithms like Merge Sort run in optimal O(N log N) time.",
+        "Quadratic algorithms like Bubble Sort scale as O(N²), becoming impractical for large datasets.",
+      ],
+      summary: "Adjust array size and toggle algorithm modes to observe real-time operation counters, stack growth, and Big-O asymptotic comparisons.",
+      simType: "algorithm",
+      controls: [
+        { id: "inputSize", label: "Input Size (N)", type: "slider", min: 10, max: 500, step: 10, default: 100, unit: "items" },
+        { id: "algorithm", label: "Algorithm Mode", type: "select", options: ["Merge Sort O(N log N)", "Binary Search O(log N)", "Bubble Sort O(N²)", "Hash Lookup O(1)"], default: "Merge Sort O(N log N)" },
+        { id: "optimized", label: "In-Place Optimization", type: "toggle", default: true },
+      ],
+      initialState: { inputSize: 100, algorithm: "Merge Sort O(N log N)", optimized: true },
+      checkpoints: [
+        {
+          question: "When sorting N = 100 items, approximately how many operations does Merge Sort perform compared to Bubble Sort?",
+          options: [
+            "A) Merge Sort ~664 ops vs Bubble Sort ~4,950 ops (7.4x faster)",
+            "B) They perform identical operations",
+            "C) Bubble Sort is faster for N = 100",
+            "D) Merge Sort requires 1,000,000 ops"
+          ],
+          correctIndex: 0,
+          explanation: "Merge sort scales with N log2(N) ≈ 100 * 6.64 = 664. Bubble sort scales with N(N-1)/2 ≈ 4,950 operations."
+        }
+      ],
+      contentMarkdown: `### 1. Algorithmic Efficiency & Space-Time Tradeoffs\nIn Python engineering, understanding algorithmic time and memory complexity is critical for scalable systems.`,
+    };
+  }
+
   // Default Generic Engineering Interactive Lab
   return {
     slug: slug || "interactive-engineering-lab",
