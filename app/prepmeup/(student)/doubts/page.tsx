@@ -513,7 +513,7 @@ export default function DoubtsPage() {
                   rows={3}
                   value={queryText}
                   onChange={(e) => setQueryText(e.target.value)}
-                  placeholder="e.g. Derive the characteristic equation det(A - \lambda I) = 0 or paste your Python function..."
+                  placeholder="e.g. Derive the characteristic equation det(A - λI) = 0 or paste your Python function..."
                   className="pmu-input"
                   style={{ resize: "vertical", fontFamily: "var(--font-onest), sans-serif" }}
                 />

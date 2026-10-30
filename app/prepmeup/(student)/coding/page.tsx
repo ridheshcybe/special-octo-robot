@@ -210,6 +210,19 @@ export default function CodingHelperPage() {
         testResults,
       });
       setExecuting(false);
+
+      // Record to server activity store so submission shows up in Progress audit log
+      fetch("/api/prepmeup/coding/debug", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code: trimmed,
+          problemId: problem.id,
+          problemTitle: problem.title,
+          errorOutput: passedAll ? undefined : (errorDiag || "Test failure"),
+          requestType: "submit",
+        }),
+      }).catch(() => {});
     }, 350);
   };
 

@@ -136,17 +136,27 @@ function getStoragePath(): string {
   return path.join(process.cwd(), "deploy", "cms", "daily_note.json");
 }
 
+function getTodayFormatted(): string {
+  return new Date().toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "Asia/Kolkata",
+  });
+}
+
 export function getStoredDailyNote(): DailyNoteData {
   try {
     const p = getStoragePath();
     if (fs.existsSync(p)) {
       const raw = fs.readFileSync(p, "utf-8");
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      return { ...parsed, date: getTodayFormatted() };
     }
   } catch (err) {
     logger.warn("DAILY_NOTE", "Failed to read stored daily note, using default", { error: String(err) });
   }
-  return DEFAULT_DAILY_NOTE;
+  return { ...DEFAULT_DAILY_NOTE, date: getTodayFormatted() };
 }
 
 export function saveDailyNote(data: DailyNoteData): void {

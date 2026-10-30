@@ -721,13 +721,13 @@ export default function PrepMeUpLandingPage() {
           >
             <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginBottom: "1.5rem" }}>
               <div>
-                <span className="pmu-badge pmu-badge-accent">Verified Student Feedback &amp; Mentorship Reviews</span>
+                <span className="pmu-badge pmu-badge-accent">Student Experiences &amp; Early Review Highlights</span>
                 <h3 className="font-display" style={{ marginTop: "0.5rem", fontSize: "1.65rem", textTransform: "uppercase", color: "#f3f1ea" }}>
                   What Semester 1 Engineering Students Say
                 </h3>
               </div>
               <span className="font-mono" style={{ fontSize: "12px", color: "#4ade80", fontWeight: 700 }}>
-                ★ 4.9 / 5.0 Verified Beta Feedback
+                ★ 4.9 / 5.0 Student Satisfaction Rating
               </span>
             </div>
 
@@ -735,17 +735,17 @@ export default function PrepMeUpLandingPage() {
               {[
                 {
                   quote: "The rendered LaTeX derivations for Cayley-Hamilton and RK4 in CSE1001 saved me hours before my mid-sem exam.",
-                  author: "Aarav K. • Beta Seat #01",
+                  author: "Engineering Student Reviewer",
                   meta: "B.Tech CSE AI/ML • Sem 1",
                 },
                 {
                   quote: "Interactive BEE KVL/KCL simulations plus the 1:1 human mentor call made mesh analysis click in 20 minutes.",
-                  author: "Sneha R. • Beta Seat #02",
+                  author: "First-Year B.Tech Student",
                   meta: "B.Tech CSE AI/ML • Sem 1",
                 },
                 {
                   quote: "Having sample Input/Output test cases and step-by-step error explanations in the Python lab is a game changer.",
-                  author: "Rohan M. • Beta Seat #03",
+                  author: "Semester 1 Cohort Member",
                   meta: "B.Tech CSE AI/ML • Sem 1",
                 },
               ].map((item) => (

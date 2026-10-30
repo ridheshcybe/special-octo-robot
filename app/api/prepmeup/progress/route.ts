@@ -97,6 +97,23 @@ export async function GET(req: NextRequest) {
       });
     }
 
+    // Add in-memory coding lab submissions
+    for (const c of activity.codingSubmissions) {
+      const isAccepted = c.status === "accepted";
+      attemptsList.push({
+        id: c.id,
+        quizTitle: `💻 Coding Lab: ${c.problemTitle}`,
+        score: isAccepted ? 100 : 0,
+        totalMarks: 100,
+        percentage: isAccepted ? 100 : 0,
+        date: formatAttemptDate(c.submittedAt),
+        errorsDetected: isAccepted ? [] : ["Unit test failure or logical assertion error detected."],
+        explanationMarkdown: isAccepted
+          ? `### Coding Lab: ${c.problemTitle} — Passed!\n\nAll unit test assertions verified successfully in Python 3.12 runner.\n\n\`\`\`python\n${c.code}\n\`\`\``
+          : `### Coding Lab: ${c.problemTitle} — Needs Revision\n\nEnsure array bounds and algorithmic logic match expected problem outputs.\n\n\`\`\`python\n${c.code}\n\`\`\``,
+      });
+    }
+
     // Also check Supabase if serviceClient is available
     const serviceClient = createPmuServiceClient();
     if (serviceClient && studentId !== "mock-student-id") {
