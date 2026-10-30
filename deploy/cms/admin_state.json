@@ -1,0 +1,219 @@
+{
+  "settings": {
+    "brandName": "PrepMeUp AI",
+    "tickerText": "\ud83c\udfaf Semester 1 Engineering Prep Live! Unlimited 1:1 Live Mentorship & AI Doubts Open",
+    "tickerActive": true,
+    "accentColor": "#ff3b1d",
+    "aiProvider": "Groq LLaMA 3.3 70B (Ultra-Low Latency)",
+    "maintenanceMode": false,
+    "tier1Price": 99,
+    "tier1ValidityDays": 180,
+    "tier2Price": 199,
+    "tier2CareerSupportActive": true,
+    "tier2Features": [
+      "Unlimited 24/7 AI Doubt Copilot",
+      "Python Coding Lab + Line-by-Line AI Debugger",
+      "1 Included 1:1 Human Mentor Video Session",
+      "\u2605 Exclusive Internship & Career Support (Resume/GitHub & Referrals)"
+    ],
+    "tier3Price": 499,
+    "tier3UnlimitedSessions": true,
+    "tier3Features": [
+      "Everything in Tier 1 & 2 Included",
+      "UNLIMITED 1:1 Live Video Mentorship Sessions (Google Meet)",
+      "Priority Real-Time Calendar Slot Scheduling & Rescheduling",
+      "Dedicated Senior Engineering Subject Mentors (Maths, BEE, Python, COA)",
+      "Direct 1:1 Lab & Exam Problem Walkthroughs",
+      "VIP Fast-Track Career & Resume Polish"
+    ]
+  },
+  "subjects": [],
+  "modules": [
+    {
+      "id": "mod-01",
+      "subject_code": "CSE1001",
+      "module_number": 1,
+      "title": "Linear Algebra & Matrix Decompositions",
+      "description": "Vector spaces, eigenvalues, Cayley-Hamilton, SVD.",
+      "is_published": true
+    },
+    {
+      "id": "mod-02",
+      "subject_code": "CSE1001",
+      "module_number": 2,
+      "title": "Differential Calculus & Optimisation",
+      "description": "Partial derivatives, Hessian test, Lagrange multipliers.",
+      "is_published": true
+    },
+    {
+      "id": "mod-03",
+      "subject_code": "CSE1005",
+      "module_number": 1,
+      "title": "Control Structures & Comprehensions",
+      "description": "Memory layout, loops, generators, dictionary comprehensions.",
+      "is_published": true
+    },
+    {
+      "id": "mod-04",
+      "subject_code": "CSE1002",
+      "module_number": 1,
+      "title": "DC Circuit Theorems",
+      "description": "Thevenin, Norton, Superposition, Maximum Power Transfer.",
+      "is_published": true
+    },
+    {
+      "id": "mod-05",
+      "subject_code": "CSE1003",
+      "module_number": 1,
+      "title": "Computer Evolution & Addressing Modes",
+      "description": "Von Neumann vs Harvard, instruction cycle.",
+      "is_published": true
+    }
+  ],
+  "notes": [
+    {
+      "id": "note-01",
+      "subject_code": "CSE1001",
+      "module_number": 1,
+      "title": "Eigenvalues, Eigenvectors & Diagonalization",
+      "reading_time_min": 20,
+      "is_sample": true,
+      "is_published": true,
+      "content": "### 1. Fundamental Definition\nFor any square matrix  \\in \\mathbb{R}^{n \\times n}$, non-zero $\\mathbf{x}$ is an eigenvector if:\nA\\mathbf{x} = \\lambda\\mathbf{x} \\implies \\det(A - \\lambda I) = 0\n\n---\n\n### 2. Cayley-Hamilton Theorem\nEvery square matrix satisfies its own characteristic equation:\nA^2 - \\text{tr}(A)A + \\det(A)I = \\mathbf{0}",
+      "updated_at": "2026-10-30T12:09:38.326282"
+    },
+    {
+      "id": "note-02",
+      "subject_code": "CSE1002",
+      "module_number": 1,
+      "title": "Thevenin & Norton Equivalent Circuits",
+      "reading_time_min": 25,
+      "is_sample": true,
+      "is_published": true,
+      "content": "### 1. Thevenin Equivalent Model\nLoad current formula across terminal network:\nI_L = \\frac{V_{th}}{R_{th} + R_L}, \\qquad P_{max} = \\frac{V_{th}^2}{4 R_{th}}",
+      "updated_at": "2026-10-30T12:09:38.326312"
+    },
+    {
+      "id": "note-03",
+      "subject_code": "CSE1005",
+      "module_number": 1,
+      "title": "Python Memory Model, Generators & List Comprehensions",
+      "reading_time_min": 15,
+      "is_sample": true,
+      "is_published": true,
+      "content": "### 1. Python Object Model\nAll variables bind references on private heap.\n\n`python\n# Generator expression saves memory\nsquares_gen = (x**2 for x in range(1_000_000))\nprint(next(squares_gen))\n`",
+      "updated_at": "2026-10-30T12:09:38.326314"
+    },
+    {
+      "id": "note-04",
+      "subject_code": "CSE1004",
+      "module_number": 1,
+      "title": "Client-Server Architecture, DNS & HTTP/HTTPS Lifecycle",
+      "reading_time_min": 20,
+      "is_sample": true,
+      "is_published": true,
+      "content": "### 1. HTTP vs HTTPS & TCP/TLS Handshake\nIn Web Technologies (CSE1004), client-server communication relies on TCP/IP and TLS 1.3 cryptographic key negotiation.",
+      "updated_at": "2026-10-30T12:09:38.326316"
+    }
+  ],
+  "pastPapers": [
+    {
+      "id": "pyq-01",
+      "subject_code": "CSE1001",
+      "exam_year": 2025,
+      "exam_type": "End-Semester Examination",
+      "title": "Winter 2025 CSE1001 Solved End-Sem Question Paper",
+      "question_paper_url": "https://example.com/acm-2025.pdf",
+      "solution_markdown": "### Q1 Cayley-Hamilton Verification\nGiven  = \\begin{bmatrix} 2 & 1 \\\\ 1 & 2 \\end{bmatrix}$, $\\det(A - \\lambda I) = \\lambda^2 - 4\\lambda + 3 = 0$. Eigenvalues $\\lambda = 1, 3$.",
+      "is_published": true
+    }
+  ],
+  "sessions": [],
+  "calendarSlots": [
+    {
+      "id": "slot-01",
+      "dayOfWeek": "Monday",
+      "timeSlot": "05:00 PM \u2013 05:45 PM IST",
+      "mentorName": "Prof. S. Sharma (ACM / Maths Specialist)",
+      "meetUrl": "https://meet.google.com/pmu-math-01",
+      "isActive": true,
+      "capacity": 1
+    },
+    {
+      "id": "slot-02",
+      "dayOfWeek": "Monday",
+      "timeSlot": "07:00 PM \u2013 07:45 PM IST",
+      "mentorName": "A. Verma (Python AI & Lab Architect)",
+      "meetUrl": "https://meet.google.com/pmu-py-01",
+      "isActive": true,
+      "capacity": 1
+    },
+    {
+      "id": "slot-03",
+      "dayOfWeek": "Tuesday",
+      "timeSlot": "06:00 PM \u2013 06:45 PM IST",
+      "mentorName": "Dr. K. Iyer (BEE & Circuit Simulations)",
+      "meetUrl": "https://meet.google.com/pmu-bee-02",
+      "isActive": true,
+      "capacity": 1
+    },
+    {
+      "id": "slot-04",
+      "dayOfWeek": "Wednesday",
+      "timeSlot": "07:30 PM \u2013 08:15 PM IST",
+      "mentorName": "Senior Career Mentor (Tech Internships & Resume)",
+      "meetUrl": "https://meet.google.com/pmu-career-03",
+      "isActive": true,
+      "capacity": 1
+    },
+    {
+      "id": "slot-05",
+      "dayOfWeek": "Thursday",
+      "timeSlot": "06:00 PM \u2013 06:45 PM IST",
+      "mentorName": "N. Rao (COA & Digital Architecture)",
+      "meetUrl": "https://meet.google.com/pmu-coa-04",
+      "isActive": true,
+      "capacity": 1
+    },
+    {
+      "id": "slot-06",
+      "dayOfWeek": "Friday",
+      "timeSlot": "08:00 PM \u2013 08:45 PM IST",
+      "mentorName": "End-Sem Exam & PYQ Solver Specialist",
+      "meetUrl": "https://meet.google.com/pmu-pyq-05",
+      "isActive": true,
+      "capacity": 1
+    },
+    {
+      "id": "slot-07",
+      "dayOfWeek": "Saturday",
+      "timeSlot": "11:00 AM \u2013 11:45 AM IST",
+      "mentorName": "Weekend VIP 1:1 Masterclass Mentor",
+      "meetUrl": "https://meet.google.com/pmu-wknd-01",
+      "isActive": true,
+      "capacity": 1
+    },
+    {
+      "id": "slot-08",
+      "dayOfWeek": "Sunday",
+      "timeSlot": "04:00 PM \u2013 04:45 PM IST",
+      "mentorName": "Weekend VIP 1:1 Masterclass Mentor",
+      "meetUrl": "https://meet.google.com/pmu-wknd-02",
+      "isActive": true,
+      "capacity": 1
+    }
+  ],
+  "publishedContent": [],
+  "activities": [
+    {
+      "id": "act-01",
+      "timestamp": "Just now",
+      "collection": "Platform Settings",
+      "itemTitle": "Persistent Data Storage Activated",
+      "action": "created",
+      "details": "Initialized persistent curriculum, notes, and availability slots.",
+      "author": "admin@ridheshcybe.dpdns.org"
+    }
+  ],
+  "lastUpdated": "2026-10-30T12:09:38.326324"
+}

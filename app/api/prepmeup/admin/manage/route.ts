@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
-import fs from "fs";
 import path from "path";
 import { FALLBACK_SUBJECTS, FALLBACK_SUBJECT_DETAILS } from "@/app/prepmeup/_lib/data";
+import { loadPersistentState, savePersistentState } from "@/lib/prepmeup/storage";
 
 export interface PlatformSettings {
   brandName: string;
@@ -154,177 +154,14 @@ function loadState(): {
   pastPapers: AdminPyq[];
   sessions: AdminSession[];
   calendarSlots: CalendarSlot[];
+  publishedContent: any[];
   activities: AdminActivity[];
 } {
-  try {
-    const p = getStateFilePath();
-    if (fs.existsSync(p)) {
-      const parsed = JSON.parse(fs.readFileSync(p, "utf-8"));
-      return {
-        settings: { ...DEFAULT_SETTINGS, ...(parsed.settings || {}) },
-        subjects: parsed.subjects || FALLBACK_SUBJECTS,
-        modules: parsed.modules || [
-          { id: "mod-01", subject_code: "CSE1001", module_number: 1, title: "Linear Algebra & Matrix Decompositions", description: "Vector spaces, eigenvalues, Cayley-Hamilton, SVD.", is_published: true },
-          { id: "mod-02", subject_code: "CSE1001", module_number: 2, title: "Differential Calculus & Optimisation", description: "Partial derivatives, Hessian test, Lagrange multipliers.", is_published: true },
-          { id: "mod-03", subject_code: "CSE1005", module_number: 1, title: "Control Structures & Comprehensions", description: "Memory layout, loops, generators, dictionary comprehensions.", is_published: true },
-          { id: "mod-04", subject_code: "CSE1002", module_number: 1, title: "DC Circuit Theorems", description: "Thevenin, Norton, Superposition, Maximum Power Transfer.", is_published: true },
-          { id: "mod-05", subject_code: "CSE1003", module_number: 1, title: "Computer Evolution & Addressing Modes", description: "Von Neumann vs Harvard, instruction cycle.", is_published: true },
-        ],
-        notes: parsed.notes || [
-          {
-            id: "note-01",
-            subject_code: "CSE1001",
-            module_number: 1,
-            title: "Eigenvalues, Eigenvectors & Diagonalization",
-            reading_time_min: 20,
-            is_sample: true,
-            is_published: true,
-            content: `### 1. Fundamental Definition\nFor any square matrix $A \\in \\mathbb{R}^{n \\times n}$, non-zero $\\mathbf{x}$ is an eigenvector if:\n$$A\\mathbf{x} = \\lambda\\mathbf{x} \\implies \\det(A - \\lambda I) = 0$$\n\n---\n\n### 2. Cayley-Hamilton Theorem\nEvery square matrix satisfies its own characteristic equation:\n$$A^2 - \\text{tr}(A)A + \\det(A)I = \\mathbf{0}$$`,
-            updated_at: new Date().toISOString(),
-          },
-          {
-            id: "note-02",
-            subject_code: "CSE1002",
-            module_number: 1,
-            title: "Thevenin & Norton Equivalent Circuits",
-            reading_time_min: 25,
-            is_sample: true,
-            is_published: true,
-            content: `### 1. Thevenin Equivalent Model\nLoad current formula across terminal network:\n$$I_L = \\frac{V_{th}}{R_{th} + R_L}, \\qquad P_{max} = \\frac{V_{th}^2}{4 R_{th}}$$`,
-            updated_at: new Date().toISOString(),
-          },
-        ],
-        pastPapers: parsed.pastPapers || [
-          {
-            id: "pyq-01",
-            subject_code: "CSE1001",
-            exam_year: 2025,
-            exam_type: "End-Semester Examination",
-            title: "Winter 2025 CSE1001 Solved End-Sem Question Paper",
-            question_paper_url: "https://example.com/acm-2025.pdf",
-            solution_markdown: `### Q1 Cayley-Hamilton Verification\nGiven $A = \\begin{bmatrix} 2 & 1 \\\\ 1 & 2 \\end{bmatrix}$, $\\det(A - \\lambda I) = \\lambda^2 - 4\\lambda + 3 = 0$. Eigenvalues $\\lambda = 1, 3$.`,
-            is_published: true,
-          },
-        ],
-        sessions: parsed.sessions || [
-          {
-            id: "sess-01",
-            studentName: "Aarav Kulkarni",
-            whatsapp: "+919820123456",
-            tier: "tier3",
-            topic: "★ Internship & Career Support (Resume, GitHub & Referrals)",
-            slot: "Today, 7:00 PM – 7:45 PM IST",
-            date: new Date().toISOString().slice(0, 10),
-            time: "19:00 IST",
-            status: "completed",
-            meetUrl: "https://meet.google.com/pmu-care-101",
-            notes: "Given: Reviewed AI/ML GitHub repo and corrected resume layout.",
-            updatedAt: new Date(Date.now() - 3600000).toISOString(),
-          },
-          {
-            id: "sess-02",
-            studentName: "Rohan Deshmukh",
-            whatsapp: "+919833445566",
-            tier: "tier3",
-            topic: "Applied Computational Mathematics (CSE1001)",
-            slot: "Today, 9:00 PM – 9:45 PM IST",
-            date: new Date().toISOString().slice(0, 10),
-            time: "21:00 IST",
-            status: "live_now",
-            meetUrl: "https://meet.google.com/pmu-math-202",
-            notes: "Scheduled: SVD and matrix proofs.",
-            updatedAt: new Date().toISOString(),
-          },
-        ],
-        calendarSlots: parsed.calendarSlots || DEFAULT_CALENDAR_SLOTS,
-        activities: parsed.activities || [
-          {
-            id: "act-01",
-            timestamp: "Just now",
-            collection: "Platform Settings",
-            itemTitle: "Admin GUI Control Panel Activated",
-            action: "updated",
-            details: "Configured full administrative suite: Subjects, Modules, Notes, PYQs, Pricing & Tiers.",
-            author: "admin@ridheshcybe.dpdns.org",
-          },
-        ],
-      };
-    }
-  } catch {}
-
-  return {
-    settings: DEFAULT_SETTINGS,
-    subjects: FALLBACK_SUBJECTS as AdminSubject[],
-    modules: [
-      { id: "mod-01", subject_code: "CSE1001", module_number: 1, title: "Linear Algebra & Matrix Decompositions", description: "Vector spaces, eigenvalues, Cayley-Hamilton, SVD.", is_published: true },
-      { id: "mod-02", subject_code: "CSE1001", module_number: 2, title: "Differential Calculus & Optimisation", description: "Partial derivatives, Hessian test, Lagrange multipliers.", is_published: true },
-      { id: "mod-03", subject_code: "CSE1005", module_number: 1, title: "Control Structures & Comprehensions", description: "Memory layout, loops, generators, dictionary comprehensions.", is_published: true },
-      { id: "mod-04", subject_code: "CSE1002", module_number: 1, title: "DC Circuit Theorems", description: "Thevenin, Norton, Superposition, Maximum Power Transfer.", is_published: true },
-      { id: "mod-05", subject_code: "CSE1003", module_number: 1, title: "Computer Evolution & Addressing Modes", description: "Von Neumann vs Harvard, instruction cycle.", is_published: true },
-    ],
-    notes: [
-      {
-        id: "note-01",
-        subject_code: "CSE1001",
-        module_number: 1,
-        title: "Eigenvalues, Eigenvectors & Diagonalization",
-        reading_time_min: 20,
-        is_sample: true,
-        is_published: true,
-        content: `### 1. Fundamental Definition\nFor any square matrix $A \\in \\mathbb{R}^{n \\times n}$, non-zero $\\mathbf{x}$ is an eigenvector if:\n$$A\\mathbf{x} = \\lambda\\mathbf{x} \\implies \\det(A - \\lambda I) = 0$$\n\n---\n\n### 2. Cayley-Hamilton Theorem\nEvery square matrix satisfies its own characteristic equation:\n$$A^2 - \\text{tr}(A)A + \\det(A)I = \\mathbf{0}$$`,
-        updated_at: new Date().toISOString(),
-      },
-    ],
-    pastPapers: [
-      {
-        id: "pyq-01",
-        subject_code: "CSE1001",
-        exam_year: 2025,
-        exam_type: "End-Semester Examination",
-        title: "Winter 2025 CSE1001 Solved End-Sem Question Paper",
-        question_paper_url: "https://example.com/acm-2025.pdf",
-        solution_markdown: `### Q1 Cayley-Hamilton Verification\nGiven $A = \\begin{bmatrix} 2 & 1 \\\\ 1 & 2 \\end{bmatrix}$, $\\det(A - \\lambda I) = \\lambda^2 - 4\\lambda + 3 = 0$. Eigenvalues $\\lambda = 1, 3$.`,
-        is_published: true,
-      },
-    ],
-    sessions: [
-      {
-        id: "sess-01",
-        studentName: "Aarav Kulkarni",
-        whatsapp: "+919820123456",
-        tier: "tier3",
-        topic: "★ Internship & Career Support (Resume, GitHub & Referrals)",
-        slot: "Today, 7:00 PM – 7:45 PM IST",
-        date: new Date().toISOString().slice(0, 10),
-        time: "19:00 IST",
-        status: "completed",
-        meetUrl: "https://meet.google.com/pmu-care-101",
-        notes: "Given: Reviewed AI/ML GitHub repo and corrected resume layout.",
-        updatedAt: new Date().toISOString(),
-      },
-    ],
-    calendarSlots: DEFAULT_CALENDAR_SLOTS,
-    activities: [
-      {
-        id: "act-01",
-        timestamp: "Just now",
-        collection: "Platform Settings",
-        itemTitle: "Admin GUI Control Panel Activated",
-        action: "updated",
-        details: "Configured full administrative suite.",
-        author: "admin@ridheshcybe.dpdns.org",
-      },
-    ],
-  };
+  return loadPersistentState() as any;
 }
 
 function saveState(data: any) {
-  try {
-    const p = getStateFilePath();
-    const dir = path.dirname(p);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(p, JSON.stringify(data, null, 2), "utf-8");
-  } catch {}
+  savePersistentState(data);
 }
 
 export async function GET() {

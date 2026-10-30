@@ -125,6 +125,7 @@ interface AnalyticsData {
     paidStudentsCount: number;
     tier1Count: number;
     tier2Count: number;
+    tier3Count: number;
     conversionRatePercent: number;
     subjectBreakdown: Array<{
       code: string;
@@ -812,7 +813,7 @@ export default function AdminDashboardPage() {
                 </span>
               </div>
               <p style={{ fontSize: "12px", color: "#807f78", marginTop: "8px" }}>
-                {analytics?.metrics?.tier2Count ?? 0} Full Suite (₹199) • {analytics?.metrics?.tier1Count ?? 0} Pass (₹99) • {analytics?.metrics?.totalStudyHours ?? 0}h Studied
+                {analytics?.metrics?.tier3Count ?? 0} VIP (₹499) • {analytics?.metrics?.tier2Count ?? 0} Pro (₹199) • {analytics?.metrics?.tier1Count ?? 0} Basic (₹99) • {analytics?.metrics?.totalStudyHours ?? 0}h Studied
               </p>
             </div>
           </div>
@@ -845,7 +846,7 @@ export default function AdminDashboardPage() {
                     { id: "all", label: "All" },
                     { id: "online", label: "🟢 Online" },
                     { id: "paid", label: "💎 Paid" },
-                    { id: "free", label: "Free Beta" },
+                    { id: "free", label: "Free Students" },
                   ].map((f) => (
                     <button
                       key={f.id}

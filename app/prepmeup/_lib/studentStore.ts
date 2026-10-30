@@ -60,7 +60,7 @@ export interface AppUser {
   college: string;
   branch: string;
   role: "student" | "admin";
-  tier: "Free Beta" | "Tier 1 Pass (₹99)" | "Tier 2 Full Suite (₹199)";
+  tier: "Free Student" | "Tier 1 Pass (₹99)" | "Tier 2 Pro (₹199)" | "Tier 3 VIP Unlimited (₹499)";
   registeredAt: string;
   lastSeenAt: string;
   lastActivity: string;
@@ -131,7 +131,7 @@ function loadPersistedData() {
       college: "D.Y. Patil International University, Akurdi",
       branch: "B.Tech CSE AI/ML",
       role: "admin",
-      tier: "Tier 2 Full Suite (₹199)",
+      tier: "Tier 2 Pro (₹199)",
       registeredAt: "2026-10-24T10:00:00.000Z",
       lastSeenAt: new Date().toISOString(),
       lastActivity: "Platform Admin Session Active",
@@ -300,7 +300,7 @@ function findOrCreateUser(studentId: string, metadata?: Partial<AppUser>): AppUs
     college: metadata?.college || "D.Y. Patil International University, Akurdi",
     branch: metadata?.branch || "B.Tech CSE AI/ML",
     role: "student",
-    tier: metadata?.tier || "Free Beta",
+    tier: metadata?.tier || "Free Student",
     registeredAt: metadata?.registeredAt || new Date().toISOString(),
     lastSeenAt: new Date().toISOString(),
     lastActivity: metadata?.lastActivity || "Registered and initialized workspace",
@@ -329,7 +329,7 @@ export function recordUserPresence(params: {
   branch?: string;
   page?: string;
   activity?: string;
-  tier?: "Free Beta" | "Tier 1 Pass (₹99)" | "Tier 2 Full Suite (₹199)";
+  tier?: "Free Student" | "Tier 1 Pass (₹99)" | "Tier 2 Pro (₹199)" | "Tier 3 VIP Unlimited (₹499)";
 }): AppUser {
   loadPersistedData();
   const user = findOrCreateUser(params.userId, {
@@ -412,6 +412,7 @@ export interface AppOverallMetrics {
   paidStudentsCount: number;
   tier1Count: number;
   tier2Count: number;
+  tier3Count: number;
   conversionRatePercent: number;
   subjectBreakdown: Array<{
     code: string;
@@ -439,69 +440,68 @@ export function getAppOverallMetrics(): AppOverallMetrics {
   let totalMinutes = 0;
   let tier1Count = 0;
   let tier2Count = 0;
+  let tier3Count = 0;
 
   for (const u of users) {
     totalQuizzes += u.stats.quizzesCompleted;
     totalDoubts += u.stats.doubtsAsked;
     totalCode += u.stats.codingSubmissions;
     totalMinutes += u.stats.studyMinutes;
-    if (u.tier.includes("Tier 1")) tier1Count++;
-    if (u.tier.includes("Tier 2")) tier2Count++;
+    if (u.tier.includes("Tier 3") || (u as any).tier?.includes("tier3")) tier3Count++;
+    else if (u.tier.includes("Tier 2") || (u as any).tier?.includes("tier2")) tier2Count++;
+    else if (u.tier.includes("Tier 1") || (u as any).tier?.includes("tier1")) tier1Count++;
   }
 
-  // Exact real counts - zero fake inflation
+  // Exact real telemetry - zero fake mock values
   const totalRegisteredUsers = users.length;
   const totalQuizAttempts = totalQuizzes;
   const totalDoubtsResolved = totalDoubts;
   const totalCodeSubmissions = totalCode;
   const totalStudyHours = Math.round(totalMinutes / 60);
-  const paidCount = tier1Count + tier2Count;
+  const paidCount = tier1Count + tier2Count + tier3Count;
   const conversionRate = totalRegisteredUsers > 0 ? Math.round((paidCount / totalRegisteredUsers) * 100) : 0;
 
+  // Real attempt aggregation per subject
+  const subjectAttemptMap = new Map<string, { attempts: number; scoreSum: number; learners: Set<string> }>();
+  for (const [sId, rec] of studentStoreMap.entries()) {
+    for (const q of rec.quizAttempts) {
+      let code = "CSE1001";
+      if (q.quizId.includes("1002") || q.quizTitle.toLowerCase().includes("electrical") || q.quizTitle.toLowerCase().includes("bee")) code = "CSE1002";
+      else if (q.quizId.includes("1003") || q.quizTitle.toLowerCase().includes("coa") || q.quizTitle.toLowerCase().includes("architecture")) code = "CSE1003";
+      else if (q.quizId.includes("1004") || q.quizTitle.toLowerCase().includes("web") || q.quizTitle.toLowerCase().includes("fwt")) code = "CSE1004";
+      else if (q.quizId.includes("1005") || q.quizTitle.toLowerCase().includes("python")) code = "CSE1005";
+      else if (q.quizId.includes("1006") || q.quizTitle.toLowerCase().includes("iset")) code = "CSE1006";
+
+      if (!subjectAttemptMap.has(code)) {
+        subjectAttemptMap.set(code, { attempts: 0, scoreSum: 0, learners: new Set() });
+      }
+      const entry = subjectAttemptMap.get(code)!;
+      entry.attempts += 1;
+      entry.scoreSum += q.percentage;
+      entry.learners.add(sId);
+    }
+  }
+
   const subjectBreakdown = [
-    {
-      code: "CSE1001",
-      title: "Applied Computational Mathematics",
-      attempts: 0,
-      activeLearners: users.length,
-      avgScore: 0,
-    },
-    {
-      code: "CSE1002",
-      title: "Basic Electrical & Electronics",
-      attempts: 0,
-      activeLearners: users.length,
-      avgScore: 0,
-    },
-    {
-      code: "CSE1003",
-      title: "Computer Organization & Architecture",
-      attempts: 0,
-      activeLearners: users.length,
-      avgScore: 0,
-    },
-    {
-      code: "CSE1004",
-      title: "Fundamentals of Web Technologies",
-      attempts: 0,
-      activeLearners: users.length,
-      avgScore: 0,
-    },
-    {
-      code: "CSE1005",
-      title: "Python Programming",
-      attempts: 0,
-      activeLearners: users.length,
-      avgScore: 0,
-    },
-    {
-      code: "CSE1006",
-      title: "Indian Science, Engineering & Technology",
-      attempts: 0,
-      activeLearners: users.length,
-      avgScore: 0,
-    },
-  ];
+    { code: "CSE1001", title: "Applied Computational Mathematics" },
+    { code: "CSE1002", title: "Basic Electrical & Electronics" },
+    { code: "CSE1003", title: "Computer Organization & Architecture" },
+    { code: "CSE1004", title: "Fundamentals of Web Technologies" },
+    { code: "CSE1005", title: "Python Programming" },
+    { code: "CSE1006", title: "Indian Science, Engineering & Technology" },
+  ].map((s) => {
+    const data = subjectAttemptMap.get(s.code);
+    const attempts = data?.attempts || 0;
+    const avgScore = attempts > 0 ? Math.round(data!.scoreSum / attempts) : 0;
+    const activeLearners = data ? data.learners.size : 0;
+    return {
+      code: s.code,
+      title: s.title,
+      attempts,
+      activeLearners,
+      avgScore,
+    };
+  });
 
   return {
     totalRegisteredUsers,
@@ -516,6 +516,7 @@ export function getAppOverallMetrics(): AppOverallMetrics {
     paidStudentsCount: paidCount,
     tier1Count,
     tier2Count,
+    tier3Count,
     conversionRatePercent: conversionRate,
     subjectBreakdown,
   };

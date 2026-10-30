@@ -1,8 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
-import fs from "fs";
-import path from "path";
 import { generateSimulationDraft } from "@/lib/prepmeup/ai";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
+import { loadPersistentState, savePersistentState } from "@/lib/prepmeup/storage";
 
 export interface PublishedContentItem {
   id: string;
@@ -19,27 +18,12 @@ export interface PublishedContentItem {
   author: string;
 }
 
-function getStateFilePath(): string {
-  return path.join(process.cwd(), "deploy", "cms", "admin_state.json");
-}
-
 function loadAdminState(): any {
-  try {
-    const p = getStateFilePath();
-    if (fs.existsSync(p)) {
-      return JSON.parse(fs.readFileSync(p, "utf-8"));
-    }
-  } catch {}
-  return { sessions: [], activities: [], publishedContent: [], notes: [], modules: [] };
+  return loadPersistentState();
 }
 
 function saveAdminState(data: any) {
-  try {
-    const p = getStateFilePath();
-    const dir = path.dirname(p);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(p, JSON.stringify(data, null, 2), "utf-8");
-  } catch {}
+  savePersistentState(data);
 }
 
 export async function GET() {
