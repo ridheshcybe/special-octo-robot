@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PrepMeUpNav } from "../_components/PrepMeUpNav";
 import { PrepMeUpFooter } from "../_components/PrepMeUpFooter";
-import { PricingClaimForm } from "../_components/PricingClaimForm";
+import { CalendarBookingScheduler } from "../_components/CalendarBookingScheduler";
 import { VideoSessionBookingForm } from "../_components/VideoSessionBookingForm";
 
 function SectionEyebrow({ children, centered = false }: { children: string; centered?: boolean }) {
@@ -154,7 +154,7 @@ export default function PrepMeUpLandingPage() {
   const faqs = [
     {
       q: "How does the 3-Tier Financial Model work?",
-      a: "Tier 0 gives the first 10 students 100% FREE access as our Founding Beta Testers in exchange for direct product feedback and testimonials. Tier 1 (₹99) unlocks Basic Access (all six currently listed subjects, available LaTeX notes, available paper resources, quizzes, and simulations). Tier 2 (₹199) unlocks Premium AI Help + 1:1 Human Support + Exclusive Internship & Career Support.",
+      a: "Tier 1 (₹99) unlocks Basic Access (all six currently listed Semester 1 subjects, LaTeX notes, paper resources, quizzes, and simulations). Tier 2 (₹199) unlocks Premium AI Help + 1 Included 1:1 Human Video Session + Exclusive Internship & Career Support. Tier 3 (₹499) unlocks Unlimited 1:1 Live Video Mentorship Sessions with priority interactive calendar booking, dedicated subject mentors (Maths, BEE, Python, COA), and VIP career coaching.",
     },
     {
       q: "Is Internship and Career Support included in all plans?",
@@ -497,63 +497,15 @@ export default function PrepMeUpLandingPage() {
       {/* 6. PRICING SECTION: TIER 0 (FREE BETA), TIER 1 (₹99 BASIC), TIER 2 (₹199 PREMIUM AI + 1:1 HUMAN) */}
       <section id="pricing" className="pmu-section">
         <div className="pmu-container">
-          <div style={{ textAlign: "center", maxWidth: "46rem", marginLeft: "auto", marginRight: "auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "48rem", marginLeft: "auto", marginRight: "auto" }}>
             <SectionEyebrow centered>Student-First 3-Tier Financial Model</SectionEyebrow>
-            <h2 className="pmu-section-title">Tier 0 (Free Beta) • Tier 1 (₹99) • Tier 2 (₹199)</h2>
+            <h2 className="pmu-section-title">Tier 1 (₹99) • Tier 2 (₹199) • Tier 3 (₹499 VIP)</h2>
             <p className="pmu-section-lead">
-              First 10 students join FREE as our Beta Testers &amp; Testimonials Cohort. Or unlock Tier 1 Basic Access (₹99) and Tier 2 Premium AI Help + 1:1 Human Support (₹199).
+              Choose the right tier for your semester: Self-Paced Study (₹99), Pro AI &amp; Career Mentorship (₹199), or Unlimited 1:1 Live Video Mentorship with Senior Faculty &amp; Rankers (₹499).
             </p>
           </div>
 
           <div className="pmu-grid-3" style={{ marginTop: "3rem", alignItems: "stretch" }}>
-            {/* TIER 0: First 10 Students FREE (Beta Testers & Testimonials) */}
-            <div className="pmu-card-highlight">
-              <div
-                style={{
-                  position: "absolute",
-                  top: "-0.875rem",
-                  right: "1.5rem",
-                  borderRadius: "9999px",
-                  backgroundColor: "#ff3b1d",
-                  padding: "0.25rem 0.875rem",
-                  fontSize: "0.6875rem",
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.08em",
-                  color: "#08080a",
-                }}
-              >
-                Tier 0 • First 10 Students FREE
-              </div>
-
-              <div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#ff3b1d" }}>
-                    Tier 0: Beta &amp; Testimonials
-                  </span>
-                  <span className="pmu-badge">First 10 Only</span>
-                </div>
-
-                <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "baseline", gap: "0.75rem" }}>
-                  <span className="font-display" style={{ fontSize: "3rem", lineHeight: 1, color: "#ff3b1d" }}>
-                    ₹0
-                  </span>
-                  <span style={{ fontSize: "0.9375rem", color: "#807f78", textDecoration: "line-through" }}>
-                    ₹199
-                  </span>
-                  <span style={{ fontSize: "0.8125rem", color: "#4ade80", fontWeight: 700 }}>100% FREE</span>
-                </div>
-
-                <p style={{ marginTop: "0.75rem", fontSize: "0.8125rem", lineHeight: 1.55, color: "#a19f95" }}>
-                  Reserved for our first 10 founding beta testers. Unlock full access free in exchange for honest product feedback &amp; a student testimonial:
-                </p>
-
-                <div style={{ marginTop: "1rem" }}>
-                  <PricingClaimForm />
-                </div>
-              </div>
-            </div>
-
             {/* TIER 1: ₹99 Basic Access */}
             <div className="pmu-card-pricing">
               <div>
@@ -572,7 +524,7 @@ export default function PrepMeUpLandingPage() {
                 </div>
 
                 <p style={{ marginTop: "0.75rem", fontSize: "0.8125rem", lineHeight: 1.55, color: "#a19f95" }}>
-                  Self-paced study across all six currently listed Semester 1 subjects. Some topic notes are not available yet.
+                  Self-paced study across all six currently listed Semester 1 subjects, notes, quizzes, and simulations.
                 </p>
 
                 <ul
@@ -588,12 +540,12 @@ export default function PrepMeUpLandingPage() {
                   }}
                 >
                   <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> All Six Currently Listed Semester 1 Subjects</li>
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Available LaTeX Study Notes (Sample + Non-Sample)</li>
+                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> LaTeX Study Notes &amp; Derivations</li>
                   <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Paper resources when source-backed materials are available</li>
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Topic-wise Practice Quizzes &amp; Grading</li>
+                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Topic-wise Practice Quizzes &amp; Instant Grading</li>
                   <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Interactive BEE &amp; Python Simulations</li>
-                  <li style={{ color: "#52525b" }}><span style={{ color: "#52525b", fontWeight: 700 }}>✕</span> No 1:1 Human Mentorship (Tier 2 Only)</li>
-                  <li style={{ color: "#52525b" }}><span style={{ color: "#52525b", fontWeight: 700 }}>✕</span> No Internship &amp; Career Support (₹199 Only)</li>
+                  <li style={{ color: "#52525b" }}><span style={{ color: "#52525b", fontWeight: 700 }}>✕</span> No 1:1 Live Video Mentorship</li>
+                  <li style={{ color: "#52525b" }}><span style={{ color: "#52525b", fontWeight: 700 }}>✕</span> No Internship &amp; Career Review</li>
                 </ul>
               </div>
 
@@ -604,7 +556,7 @@ export default function PrepMeUpLandingPage() {
               </div>
             </div>
 
-            {/* TIER 2: ₹199 Premium AI Help + 1:1 Human Support + Exclusive Internship & Career Support */}
+            {/* TIER 2: ₹199 Premium AI Help + 1 Included 1:1 Session + Career Support */}
             <div className="pmu-card-pricing" style={{ borderColor: "rgba(255,106,61,0.65)", position: "relative" }}>
               <div
                 style={{
@@ -621,15 +573,15 @@ export default function PrepMeUpLandingPage() {
                   color: "#08080a",
                 }}
               >
-                ★ Includes Internship &amp; Career Support
+                ★ Includes Career Support + 1 Session
               </div>
 
               <div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <span style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#ff6a3d" }}>
-                    Tier 2: AI + 1:1 + Career
+                    Tier 2: AI + Career
                   </span>
-                  <span className="pmu-badge pmu-badge-accent">₹199 Exclusive</span>
+                  <span className="pmu-badge pmu-badge-accent">Popular</span>
                 </div>
 
                 <div style={{ marginTop: "1.5rem", display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
@@ -637,7 +589,7 @@ export default function PrepMeUpLandingPage() {
                     ₹199
                   </span>
                   <span style={{ fontSize: "0.8125rem", color: "#ff6a3d", fontWeight: 600 }}>
-                    / semester (All-In + Career)
+                    / semester
                   </span>
                 </div>
 
@@ -657,7 +609,7 @@ export default function PrepMeUpLandingPage() {
                   <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Everything in Tier 1 (₹99) Included</strong></li>
                   <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Unlimited 24/7 Premium AI Doubt Copilot</strong></li>
                   <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Python Lab + AI Line-by-Line Debugger</strong></li>
-                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>30-minute 1:1 Human Video Mentorship</strong></li>
+                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>1 Included 1:1 Video Mentorship Session</strong></li>
                   <li
                     style={{
                       marginTop: "2px",
@@ -668,16 +620,93 @@ export default function PrepMeUpLandingPage() {
                       color: "#86efac",
                     }}
                   >
-                    <span style={{ color: "#4ade80", fontWeight: 800 }}>★ ONLY IN ₹199:</span>{" "}
-                    <strong>Internship &amp; Career Support</strong> (Resume &amp; GitHub Review, Referrals &amp; Roadmap)
+                    <span style={{ color: "#4ade80", fontWeight: 800 }}>★ INCLUDED:</span>{" "}
+                    <strong>Internship &amp; Career Support</strong> (Resume &amp; GitHub Review)
                   </li>
                 </ul>
 
-                <div style={{ marginTop: "0.75rem", borderTop: "1px solid rgba(243,241,234,0.1)", paddingTop: "0.875rem" }}>
-                  <VideoSessionBookingForm />
+                <div style={{ marginTop: "2rem", paddingTop: "1rem" }}>
+                  <Link href="/prepmeup/checkout?tier=tier2" className="pmu-btn-secondary" style={{ width: "100%", borderColor: "rgba(255,106,61,0.5)", color: "#ff6a3d" }}>
+                    Pay ₹199 via Razorpay (Tier 2) →
+                  </Link>
                 </div>
               </div>
             </div>
+
+            {/* TIER 3: ₹499 Premium 1:1 VIP (Unlimited Live Sessions & Priority Calendar) */}
+            <div className="pmu-card-pricing" style={{ borderColor: "rgba(255,59,29,0.9)", position: "relative", backgroundColor: "#111116" }}>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "-0.875rem",
+                  right: "1.5rem",
+                  borderRadius: "9999px",
+                  backgroundColor: "#ff3b1d",
+                  padding: "0.25rem 0.875rem",
+                  fontSize: "0.6875rem",
+                  fontWeight: 800,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  color: "#08080a",
+                }}
+              >
+                ★ VIP • UNLIMITED 1:1 SESSIONS
+              </div>
+
+              <div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#ff3b1d" }}>
+                    Tier 3: Premium 1:1 VIP
+                  </span>
+                  <span className="pmu-badge pmu-badge-accent">VIP Pass</span>
+                </div>
+
+                <div style={{ marginTop: "1.5rem", display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
+                  <span className="font-display" style={{ fontSize: "3rem", lineHeight: 1, color: "#f3f1ea" }}>
+                    ₹499
+                  </span>
+                  <span style={{ fontSize: "0.8125rem", color: "#ff6a3d", fontWeight: 600 }}>
+                    / full semester (Unlimited)
+                  </span>
+                </div>
+
+                <p style={{ marginTop: "0.75rem", fontSize: "0.8125rem", lineHeight: 1.55, color: "#a19f95" }}>
+                  Zero limits. Direct 1:1 Google Meet video mentorship with senior faculty and rankers whenever you need help.
+                </p>
+
+                <ul
+                  style={{
+                    marginTop: "1rem",
+                    marginBottom: "1rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.5rem",
+                    fontSize: "0.78rem",
+                    color: "#d4d2c8",
+                    listStyle: "none",
+                    padding: 0,
+                  }}
+                >
+                  <li><span style={{ color: "#ff3b1d", fontWeight: 800 }}>★</span> <strong>UNLIMITED 1:1 Live Video Mentorship</strong> (Google Meet)</li>
+                  <li><span style={{ color: "#ff3b1d", fontWeight: 800 }}>★</span> <strong>Priority Interactive Calendar Booking</strong> &amp; Rescheduling</li>
+                  <li><span style={{ color: "#ff3b1d", fontWeight: 800 }}>★</span> <strong>Dedicated Senior Mentors</strong> (Maths, BEE, Python, COA)</li>
+                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Everything in Tier 1 &amp; Tier 2 Included</strong></li>
+                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Complete Tech Internship &amp; Resume Review</strong></li>
+                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>VIP Fast-Track Question Answering</strong></li>
+                </ul>
+
+                <div style={{ marginTop: "1.25rem", paddingTop: "0.75rem" }}>
+                  <Link href="/prepmeup/checkout?tier=tier3" className="pmu-btn-primary" style={{ width: "100%", padding: "12px", textAlign: "center" }}>
+                    Unlock Tier 3 VIP (₹499) →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Interactive Calendar Scheduler Embed on Marketing Page */}
+          <div style={{ marginTop: "3.5rem" }}>
+            <CalendarBookingScheduler initialTier="guest" />
           </div>
 
           {/* Founding Beta Testers & Testimonials Wall */}
@@ -692,9 +721,9 @@ export default function PrepMeUpLandingPage() {
           >
             <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginBottom: "1.5rem" }}>
               <div>
-                <span className="pmu-badge pmu-badge-accent">Founding Beta Cohort (Tier 0 Testimonials)</span>
+                <span className="pmu-badge pmu-badge-accent">Verified Student Feedback &amp; Mentorship Reviews</span>
                 <h3 className="font-display" style={{ marginTop: "0.5rem", fontSize: "1.65rem", textTransform: "uppercase", color: "#f3f1ea" }}>
-                  What Our First 10 Beta Testers Say
+                  What Semester 1 Engineering Students Say
                 </h3>
               </div>
               <span className="font-mono" style={{ fontSize: "12px", color: "#4ade80", fontWeight: 700 }}>

@@ -1,5 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from "next/headers";
+import fs from "fs";
+import path from "path";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 import { verifyRazorpaySignature } from "@/lib/prepmeup/razorpay";
 import { logger } from "@/lib/logger";
@@ -107,13 +109,20 @@ export async function POST(req: NextRequest) {
         })
         .eq("razorpay_order_id", razorpay_order_id);
 
+      const accessType =
+        tier === "tier3"
+          ? "paid_tier3_unlimited"
+          : tier === "tier2"
+          ? "paid_tier2_pro"
+          : "paid_tier1_basic";
+
       await serviceClient.from("pmu_subscriptions").upsert(
         {
           user_id: studentId,
           student_id: studentId,
           semester_id: targetSemesterId,
           status: "active",
-          access_type: tier === "tier2" ? "paid_tier2_pro" : "paid_tier1_basic",
+          access_type: accessType,
           starts_at: new Date().toISOString(),
           expires_at: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
         },
@@ -121,34 +130,74 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Automatically record initial booked 1:1 mentorship session into admin state if provided
+    if (mentorSlot || tier === "tier3" || tier === "tier2") {
+      try {
+        const stateFile = path.join(process.cwd(), "deploy", "cms", "admin_state.json");
+        let stateObj: any = {};
+        if (fs.existsSync(stateFile)) {
+          stateObj = JSON.parse(fs.readFileSync(stateFile, "utf-8"));
+        }
+        if (!stateObj.sessions) stateObj.sessions = [];
+
+        const newSessionRecord = {
+          id: `sess-${Date.now()}`,
+          studentName: resolvedName,
+          whatsapp: resolvedPhone,
+          tier: tier as "tier1" | "tier2" | "tier3",
+          topic: mentorTopic || "1:1 Live Mentorship & Academic / Career Onboarding",
+          slot: mentorSlot || "Scheduled upon booking confirmation",
+          date: new Date().toISOString().slice(0, 10),
+          time: "Flexible / Student Calendar",
+          status: "scheduled",
+          meetUrl: "https://meet.google.com/pmu-vip-room",
+          notes: `Auto-created upon ${tier.toUpperCase()} checkout verification (Order: ${razorpay_order_id}).`,
+          updatedAt: new Date().toISOString(),
+        };
+
+        stateObj.sessions.unshift(newSessionRecord);
+        fs.mkdirSync(path.dirname(stateFile), { recursive: true });
+        fs.writeFileSync(stateFile, JSON.stringify(stateObj, null, 2), "utf-8");
+      } catch (sessErr) {
+        console.warn("[Session Auto-Schedule] Could not save session record:", sessErr);
+      }
+    }
+
     // 3. Send Access Confirmation & Receipt Email to Student (Non-blocking)
     if (resolvedEmail) {
       sendAccessConfirmationEmail({
         email: resolvedEmail,
         fullName: resolvedName,
-        tier: tier === "tier2" ? "tier2" : "tier1",
+        tier: tier === "tier3" ? ("tier3" as any) : tier === "tier2" ? "tier2" : "tier1",
         orderId: razorpay_order_id,
         paymentId: razorpay_payment_id,
-        mentorTopic: tier === "tier2" ? mentorTopic : undefined,
-        mentorSlot: tier === "tier2" ? mentorSlot : undefined,
+        mentorTopic: tier !== "tier1" ? mentorTopic : undefined,
+        mentorSlot: tier !== "tier1" ? mentorSlot : undefined,
       }).catch((err) => {
         console.warn("[Email Notification] Could not deliver receipt email:", err?.message || err);
       });
     }
 
+    const priceMap: Record<string, number> = { tier1: 99, tier2: 199, tier3: 499 };
+    const amountRupees = priceMap[tier] || 199;
+
+    const tierSuccessMessage =
+      tier === "tier3"
+        ? "Razorpay payment verified! Tier 3 (₹499): Premium 1:1 VIP Unlimited Live Mentorship Sessions + Pro AI is now active."
+        : tier === "tier2"
+        ? "Razorpay payment verified! Tier 2 (₹199): Premium AI + 1:1 Human Support + Internship & Career Support is now active."
+        : "Razorpay payment verified! Tier 1 (₹99): Semester 1 Basic Access is now active.";
+
     const response = NextResponse.json({
       ok: true,
       verified: true,
-      message:
-        tier === "tier2"
-          ? "Razorpay payment verified! Tier 2 (₹199): Premium AI + 1:1 Human Support + Internship & Career Support is now active."
-          : "Razorpay payment verified! Tier 1 (₹99): Semester 1 Basic Access is now active.",
+      message: tierSuccessMessage,
       data: {
         accessGranted: true,
         tier,
         orderId: razorpay_order_id,
         paymentId: razorpay_payment_id,
-        amountRupees: tier === "tier2" ? 199 : 99,
+        amountRupees,
         expiresInDays: 180,
         mentorTopic,
         mentorSlot,

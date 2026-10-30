@@ -8,6 +8,7 @@ import { DailyNotificationBanner } from "../_components/DailyNotificationBanner"
 
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/prepmeup/dashboard", icon: "📊" },
+  { label: "1:1 Mentorship", href: "/prepmeup/sessions", icon: "📅" },
   { label: "Subjects", href: "/prepmeup/subjects", icon: "📚" },
   { label: "AI Doubt Solver", href: "/prepmeup/doubts", icon: "🤖" },
   { label: "Quizzes", href: "/prepmeup/quizzes", icon: "⚡" },
@@ -105,7 +106,7 @@ export default function StudentLayout({ children }: { children: ReactNode }) {
             <p style={{ marginTop: "0.25rem", fontSize: "0.75rem", fontWeight: 600, color: "#f3f1ea" }}>
               B.Tech CSE AI/ML
             </p>
-            <p style={{ fontSize: "0.6875rem", color: "#807f78" }}>Early Adopter Access (₹0)</p>
+            <p style={{ fontSize: "0.6875rem", color: "#807f78" }}>Engineering Pass (Active)</p>
           </div>
 
           {/* Navigation Links */}

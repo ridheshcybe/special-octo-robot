@@ -19,14 +19,27 @@ interface PlatformSettings {
   accentColor: string;
   aiProvider: string;
   maintenanceMode: boolean;
-  tier0Price: number;
-  tier0SeatsLimit: number;
-  tier0Active: boolean;
+  tier0Price?: number;
+  tier0SeatsLimit?: number;
+  tier0Active?: boolean;
   tier1Price: number;
   tier1ValidityDays: number;
   tier2Price: number;
   tier2CareerSupportActive: boolean;
   tier2Features: string[];
+  tier3Price: number;
+  tier3UnlimitedSessions: boolean;
+  tier3Features: string[];
+}
+
+interface CalendarSlot {
+  id: string;
+  dayOfWeek: string;
+  timeSlot: string;
+  mentorName: string;
+  meetUrl: string;
+  isActive: boolean;
+  capacity: number;
 }
 
 interface AdminSubject {
@@ -77,12 +90,12 @@ interface AdminSession {
   id: string;
   studentName: string;
   whatsapp: string;
-  tier: "tier2" | "tier1";
+  tier: "tier3" | "tier2" | "tier1";
   topic: string;
   slot: string;
   date: string;
   time: string;
-  status: "scheduled" | "completed" | "live_now";
+  status: "scheduled" | "completed" | "live_now" | "cancelled";
   meetUrl: string;
   notes: string;
   updatedAt: string;
@@ -187,7 +200,13 @@ export default function AdminDashboardPage() {
   const [notes, setNotes] = useState<AdminNote[]>([]);
   const [pastPapers, setPastPapers] = useState<AdminPyq[]>([]);
   const [sessions, setSessions] = useState<AdminSession[]>([]);
+  const [calendarSlots, setCalendarSlots] = useState<CalendarSlot[]>([]);
   const [activities, setActivities] = useState<AdminActivity[]>([]);
+  const [showSlotModal, setShowSlotModal] = useState(false);
+  const [newSlotDay, setNewSlotDay] = useState("Monday");
+  const [newSlotTime, setNewSlotTime] = useState("06:00 PM – 06:45 PM IST");
+  const [newSlotMentor, setNewSlotMentor] = useState("Senior Subject Mentor (IIT / VIT)");
+  const [newSlotMeet, setNewSlotMeet] = useState("https://meet.google.com/pmu-vip-room");
   const [cmsInfo, setCmsInfo] = useState<any>(null);
 
   // App-wide Analytics & Live User Telemetry
@@ -248,6 +267,7 @@ export default function AdminDashboardPage() {
         setNotes(json.data.notes || []);
         setPastPapers(json.data.pastPapers || []);
         setSessions(json.data.sessions || []);
+        setCalendarSlots(json.data.calendarSlots || []);
         setActivities(json.data.activities || []);
         setCmsInfo(json.cms);
       }
@@ -379,6 +399,79 @@ export default function AdminDashboardPage() {
   };
 
   // 4. Session actions
+  const handleToggleSlot = async (id: string) => {
+    setActionLoading(true);
+    try {
+      const res = await fetch("/api/prepmeup/admin/manage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "toggle_calendar_slot", payload: { id } }),
+      });
+      const json = await res.json();
+      if (json.ok) {
+        setCalendarSlots(json.calendarSlots);
+        setStatusMsg({ type: "success", text: "Toggled slot active availability." });
+      }
+    } catch {
+      setStatusMsg({ type: "error", text: "Failed to toggle slot." });
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleDeleteSlot = async (id: string) => {
+    if (!confirm("Are you sure you want to remove this calendar availability slot?")) return;
+    setActionLoading(true);
+    try {
+      const res = await fetch("/api/prepmeup/admin/manage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "delete_calendar_slot", payload: { id } }),
+      });
+      const json = await res.json();
+      if (json.ok) {
+        setCalendarSlots(json.calendarSlots);
+        setStatusMsg({ type: "success", text: "Availability slot deleted." });
+      }
+    } catch {
+      setStatusMsg({ type: "error", text: "Failed to delete slot." });
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleAddSlot = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setActionLoading(true);
+    try {
+      const res = await fetch("/api/prepmeup/admin/manage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "add_calendar_slot",
+          payload: {
+            dayOfWeek: newSlotDay,
+            timeSlot: newSlotTime,
+            mentorName: newSlotMentor,
+            meetUrl: newSlotMeet,
+            isActive: true,
+            capacity: 1,
+          },
+        }),
+      });
+      const json = await res.json();
+      if (json.ok) {
+        setCalendarSlots(json.calendarSlots);
+        setShowSlotModal(false);
+        setStatusMsg({ type: "success", text: "Added new calendar availability slot!" });
+      }
+    } catch {
+      setStatusMsg({ type: "error", text: "Failed to add slot." });
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
   const handleToggleSession = async (id: string) => {
     await executeAction("toggle_session", { id });
     notify("1:1 Mentorship session status updated!");
@@ -1320,53 +1413,11 @@ export default function AdminDashboardPage() {
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "20px" }}>
-            {/* Tier 0 Config */}
-            <div className="pmu-card" style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "14px" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <span className="pmu-badge">Tier 0 (Free Beta)</span>
-                <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "#4ade80", fontWeight: 700 }}>
-                  <input
-                    type="checkbox"
-                    checked={settings.tier0Active}
-                    onChange={(e) => setSettings({ ...settings, tier0Active: e.target.checked })}
-                  />
-                  <span>Active</span>
-                </label>
-              </div>
-
-              <div>
-                <label className="pmu-label">Price in INR (₹)</label>
-                <input
-                  type="number"
-                  value={settings.tier0Price}
-                  disabled
-                  className="pmu-input font-mono"
-                  style={{ opacity: 0.8 }}
-                />
-              </div>
-
-              <div>
-                <label className="pmu-label">Max Free Beta Seats</label>
-                <input
-                  type="number"
-                  min={1}
-                  max={100}
-                  value={settings.tier0SeatsLimit}
-                  onChange={(e) => setSettings({ ...settings, tier0SeatsLimit: Number(e.target.value) })}
-                  className="pmu-input font-mono"
-                />
-              </div>
-
-              <p style={{ fontSize: "12px", color: "#a19f95", lineHeight: 1.5 }}>
-                First 10 students receive 100% free access in exchange for testimonials and feedback.
-              </p>
-            </div>
-
             {/* Tier 1 Config */}
             <div className="pmu-card" style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "14px" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <span className="pmu-badge">Tier 1 (Basic Access)</span>
-                <span className="font-display" style={{ fontSize: "20px", color: "#f3f1ea" }}>
+                <span className="pmu-badge">Tier 1: Basic Foundation</span>
+                <span className="font-display" style={{ fontSize: "22px", color: "#f3f1ea" }}>
                   ₹{settings.tier1Price}
                 </span>
               </div>
@@ -1401,10 +1452,10 @@ export default function AdminDashboardPage() {
             </div>
 
             {/* Tier 2 Config */}
-            <div className="pmu-card-highlight" style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "14px" }}>
+            <div className="pmu-card" style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "14px" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <span className="pmu-badge pmu-badge-accent">Tier 2 (Pro + Career)</span>
-                <span className="font-display" style={{ fontSize: "24px", color: "#ff3b1d" }}>
+                <span className="pmu-badge pmu-badge-accent">Tier 2: Pro + Career</span>
+                <span className="font-display" style={{ fontSize: "22px", color: "#ff6a3d" }}>
                   ₹{settings.tier2Price}
                 </span>
               </div>
@@ -1418,7 +1469,7 @@ export default function AdminDashboardPage() {
                   value={settings.tier2Price}
                   onChange={(e) => setSettings({ ...settings, tier2Price: Number(e.target.value) })}
                   className="pmu-input font-mono"
-                  style={{ color: "#ff3b1d", fontWeight: 700 }}
+                  style={{ color: "#ff6a3d", fontWeight: 700 }}
                 />
               </div>
 
@@ -1429,12 +1480,52 @@ export default function AdminDashboardPage() {
                     checked={settings.tier2CareerSupportActive}
                     onChange={(e) => setSettings({ ...settings, tier2CareerSupportActive: e.target.checked })}
                   />
-                  <span>★ Include Internship &amp; Career Support (Only in Tier 2)</span>
+                  <span>★ Include Internship &amp; Career Review</span>
+                </label>
+              </div>
+
+              <p style={{ fontSize: "12px", color: "#a19f95", lineHeight: 1.5 }}>
+                Includes 24/7 AI Doubt Copilot, Python Lab Debugger, and 1 Included 1:1 Video Mentorship session.
+              </p>
+            </div>
+
+            {/* Tier 3 Config: VIP Unlimited 1:1 */}
+            <div className="pmu-card-highlight" style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "14px", borderColor: "rgba(255,59,29,0.7)" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <span className="pmu-badge pmu-badge-accent" style={{ backgroundColor: "#ff3b1d", color: "#08080a" }}>
+                  Tier 3: Premium 1:1 VIP
+                </span>
+                <span className="font-display" style={{ fontSize: "26px", color: "#ff3b1d" }}>
+                  ₹{settings.tier3Price || 499}
+                </span>
+              </div>
+
+              <div>
+                <label className="pmu-label">Tier 3 Price in INR (₹)</label>
+                <input
+                  type="number"
+                  min={99}
+                  max={4999}
+                  value={settings.tier3Price || 499}
+                  onChange={(e) => setSettings({ ...settings, tier3Price: Number(e.target.value) })}
+                  className="pmu-input font-mono"
+                  style={{ color: "#ff3b1d", fontWeight: 800 }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", color: "#4ade80", fontWeight: 700 }}>
+                  <input
+                    type="checkbox"
+                    checked={settings.tier3UnlimitedSessions ?? true}
+                    onChange={(e) => setSettings({ ...settings, tier3UnlimitedSessions: e.target.checked })}
+                  />
+                  <span>★ UNLIMITED 1:1 Live Video Mentorship Sessions</span>
                 </label>
               </div>
 
               <p style={{ fontSize: "12px", color: "#d4d2c8", lineHeight: 1.5 }}>
-                Unlocks unlimited AI doubt resolution, 1:1 human mentorship sessions, and exclusive resume &amp; referral reviews.
+                Top VIP Tier: Unlocks unlimited student calendar bookings on Google Meet, dedicated subject mentors, and fast-track career coaching.
               </p>
             </div>
           </div>
@@ -1454,14 +1545,112 @@ export default function AdminDashboardPage() {
           TAB 4: 1:1 MENTORSHIP & CAREER SESSIONS GUI
           ========================================================================= */}
       {activeTab === "sessions" && (
-        <div style={{ marginTop: "1.5rem", display: "flex", flexDirection: "column", gap: "20px" }}>
+        <div style={{ marginTop: "1.5rem", display: "flex", flexDirection: "column", gap: "28px" }}>
+          {/* SECTION A: CALENDAR AVAILABILITY SLOTS (ADMIN SCHEDULING CONTROL) */}
+          <div
+            style={{
+              padding: "20px",
+              borderRadius: "10px",
+              border: "1px solid rgba(255,59,29,0.3)",
+              backgroundColor: "#0d0d10",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", marginBottom: "16px" }}>
+              <div>
+                <span className="pmu-badge pmu-badge-accent">Live Student Calendar Feeder</span>
+                <h3 className="font-display" style={{ fontSize: "18px", color: "#f3f1ea", textTransform: "uppercase", marginTop: "4px" }}>
+                  Active Calendar Availability Slots ({calendarSlots.length})
+                </h3>
+                <p style={{ fontSize: "12px", color: "#807f78", margin: 0 }}>
+                  Time slots configured here appear directly in the student booking scheduler for 1:1 sessions.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowSlotModal(true)}
+                className="pmu-btn-primary"
+                style={{ padding: "8px 16px", fontSize: "12px" }}
+              >
+                + Add Calendar Slot
+              </button>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "10px" }}>
+              {calendarSlots.map((slot) => (
+                <div
+                  key={slot.id}
+                  style={{
+                    padding: "12px 16px",
+                    borderRadius: "8px",
+                    border: slot.isActive ? "1px solid rgba(74,222,128,0.3)" : "1px solid #1f1f24",
+                    backgroundColor: slot.isActive ? "rgba(34,197,94,0.03)" : "#08080a",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "10px",
+                  }}
+                >
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <span className="font-mono" style={{ fontSize: "11px", fontWeight: 700, color: "#ff3b1d" }}>
+                        {slot.dayOfWeek}
+                      </span>
+                      <strong style={{ fontSize: "13px", color: "#f3f1ea" }}>{slot.timeSlot}</strong>
+                    </div>
+                    <div style={{ fontSize: "11px", color: "#a19f95", marginTop: "3px" }}>
+                      {slot.mentorName}
+                    </div>
+                    <div style={{ fontSize: "10px", color: "#666", marginTop: "2px" }}>
+                      Meet: <a href={slot.meetUrl} target="_blank" rel="noreferrer" style={{ color: "#ff6a3d" }}>Link ↗</a>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <button
+                      type="button"
+                      onClick={() => handleToggleSlot(slot.id)}
+                      style={{
+                        padding: "4px 8px",
+                        borderRadius: "4px",
+                        fontSize: "10px",
+                        fontWeight: 700,
+                        cursor: "pointer",
+                        border: slot.isActive ? "1px solid #4ade80" : "1px solid #52525b",
+                        backgroundColor: slot.isActive ? "rgba(74,222,128,0.15)" : "#18181b",
+                        color: slot.isActive ? "#4ade80" : "#71717a",
+                      }}
+                    >
+                      {slot.isActive ? "ACTIVE" : "PAUSED"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteSlot(slot.id)}
+                      style={{
+                        padding: "4px 8px",
+                        borderRadius: "4px",
+                        fontSize: "10px",
+                        cursor: "pointer",
+                        border: "1px solid rgba(239,68,68,0.3)",
+                        backgroundColor: "rgba(239,68,68,0.1)",
+                        color: "#fca5a5",
+                      }}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* SECTION B: BOOKED SESSIONS ROSTER */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
             <div>
               <h2 className="font-display" style={{ fontSize: "24px", textTransform: "uppercase", color: "#f3f1ea" }}>
-                1:1 Mentorship &amp; Career Schedule
+                Booked 1:1 Student Mentorship Sessions ({sessions.length})
               </h2>
               <p style={{ fontSize: "13px", color: "#a19f95", marginTop: "2px" }}>
-                Track which sessions have been Given / Completed, manage Google Meet links, and contact students.
+                Track student bookings across Tier 3 VIP, Tier 2 Pro, and Tier 1. Manage status and Google Meet links.
               </p>
             </div>
             <button
@@ -1470,7 +1659,7 @@ export default function AdminDashboardPage() {
               className="pmu-btn-primary"
               style={{ padding: "8px 16px", fontSize: "12px" }}
             >
-              + Schedule 1:1 Session
+              + Schedule Manual Session
             </button>
           </div>
 

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { getPmuSubjects } from "../../_lib/queries";
-import { BetaFeedbackExtractor } from "../../_components/BetaFeedbackExtractor";
+import { CalendarBookingScheduler } from "../../_components/CalendarBookingScheduler";
 import { DailyNoteCapsule } from "../../_components/DailyNoteCapsule";
 import { getStoredDailyNote } from "@/lib/prepmeup/dailyNotes";
 
@@ -14,6 +14,8 @@ export default async function StudentDashboardPage() {
   let studentName = "Engineering Student";
   let branch = "B.Tech CSE AI/ML";
   let semester = 1;
+  let tier = "tier1";
+  let phone = "";
 
   if (sessionCookie) {
     try {
@@ -21,6 +23,8 @@ export default async function StudentDashboardPage() {
       if (parsed.fullName?.trim()) studentName = parsed.fullName.trim();
       if (parsed.branch?.trim()) branch = parsed.branch.trim();
       if (parsed.currentSemester) semester = Number(parsed.currentSemester);
+      if (parsed.tier) tier = parsed.tier;
+      if (parsed.phone) phone = parsed.phone;
     } catch {
       // Fallback defaults
     }
@@ -77,8 +81,12 @@ export default async function StudentDashboardPage() {
         </div>
       </div>
 
-      {/* Aggressive Beta Tester Feedback & Testimonial Extractor */}
-      <BetaFeedbackExtractor studentName={studentName} />
+      {/* 1:1 Live Video Mentorship & Interactive Calendar Scheduling */}
+      <CalendarBookingScheduler
+        initialTier={tier}
+        studentNameProp={studentName}
+        whatsappProp={phone}
+      />
 
       {/* Daily High-Yield Academic Capsule (Updated Daily with Notes, Quiz & Summary) */}
       <DailyNoteCapsule initialData={dailyNote} />

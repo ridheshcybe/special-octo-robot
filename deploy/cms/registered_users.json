@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "id": "usr_ridhesh_admin",
+      "name": "Ridhesh Walavalkar",
+      "target": "walavalkarridhesh@gmail.com",
+      "type": "email",
+      "college": "D.Y. Patil International University, Akurdi",
+      "branch": "B.Tech CSE AI/ML",
+      "role": "admin",
+      "tier": "Tier 2 Full Suite (₹199)",
+      "registeredAt": "2026-10-24T10:00:00.000Z",
+      "lastSeenAt": "2026-10-30T06:28:29.222Z",
+      "lastActivity": "Platform Admin Session Active",
+      "currentPath": "/prepmeup/admin",
+      "isOnline": true,
+      "stats": {
+        "quizzesCompleted": 0,
+        "doubtsAsked": 0,
+        "codingSubmissions": 0,
+        "studyMinutes": 0
+      }
+    }
+  ],
+  "activities": [],
+  "lastUpdated": "2026-10-30T06:28:29.223Z"
+}

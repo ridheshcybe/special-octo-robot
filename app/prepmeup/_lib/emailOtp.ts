@@ -289,7 +289,7 @@ export async function verifyEmailOtp(
 export interface AccessConfirmationParams {
   email: string;
   fullName: string;
-  tier: "tier1" | "tier2";
+  tier: "tier1" | "tier2" | "tier3";
   orderId: string;
   paymentId: string;
   mentorTopic?: string;
@@ -308,8 +308,13 @@ export async function sendAccessConfirmationEmail(
   }
 
   const normalizedEmail = email.trim().toLowerCase();
-  const planLabel = tier === "tier2" ? "Tier 2 Premium AI + 1:1 Human Support (₹199)" : "Tier 1 Basic Pass (₹99)";
-  const subject = `PrepMeUp AI: Your ${tier === "tier2" ? "Premium" : "Basic"} Access Pass is Active`;
+  const planLabel =
+    tier === "tier3"
+      ? "Tier 3 Premium 1:1 VIP Unlimited Sessions (₹499)"
+      : tier === "tier2"
+      ? "Tier 2 Premium AI + 1:1 Human Support (₹199)"
+      : "Tier 1 Basic Pass (₹99)";
+  const subject = `PrepMeUp AI: Your ${tier === "tier3" ? "VIP Unlimited" : tier === "tier2" ? "Premium" : "Basic"} Access Pass is Active`;
 
   const html = `<!DOCTYPE html>
 <html lang="en">

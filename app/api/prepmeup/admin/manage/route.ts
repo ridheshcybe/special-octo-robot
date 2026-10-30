@@ -10,14 +10,27 @@ export interface PlatformSettings {
   accentColor: string;
   aiProvider: string;
   maintenanceMode: boolean;
-  tier0Price: number;
-  tier0SeatsLimit: number;
-  tier0Active: boolean;
+  tier0Price?: number;
+  tier0SeatsLimit?: number;
+  tier0Active?: boolean;
   tier1Price: number;
   tier1ValidityDays: number;
   tier2Price: number;
   tier2CareerSupportActive: boolean;
   tier2Features: string[];
+  tier3Price: number;
+  tier3UnlimitedSessions: boolean;
+  tier3Features: string[];
+}
+
+export interface CalendarSlot {
+  id: string;
+  dayOfWeek: string;
+  timeSlot: string;
+  mentorName: string;
+  meetUrl: string;
+  isActive: boolean;
+  capacity: number;
 }
 
 export interface AdminSubject {
@@ -68,12 +81,12 @@ export interface AdminSession {
   id: string;
   studentName: string;
   whatsapp: string;
-  tier: "tier2" | "tier1";
+  tier: "tier3" | "tier2" | "tier1";
   topic: string;
   slot: string;
   date: string;
   time: string;
-  status: "scheduled" | "completed" | "live_now";
+  status: "scheduled" | "completed" | "live_now" | "cancelled";
   meetUrl: string;
   notes: string;
   updatedAt: string;
@@ -89,16 +102,24 @@ export interface AdminActivity {
   author: string;
 }
 
+export const DEFAULT_CALENDAR_SLOTS: CalendarSlot[] = [
+  { id: "slot-01", dayOfWeek: "Monday", timeSlot: "05:00 PM – 05:45 PM IST", mentorName: "Prof. S. Sharma (ACM / Maths Specialist)", meetUrl: "https://meet.google.com/pmu-math-01", isActive: true, capacity: 1 },
+  { id: "slot-02", dayOfWeek: "Monday", timeSlot: "07:00 PM – 07:45 PM IST", mentorName: "A. Verma (Python AI & Lab Architect)", meetUrl: "https://meet.google.com/pmu-py-01", isActive: true, capacity: 1 },
+  { id: "slot-03", dayOfWeek: "Tuesday", timeSlot: "06:00 PM – 06:45 PM IST", mentorName: "Dr. K. Iyer (BEE & Circuit Simulations)", meetUrl: "https://meet.google.com/pmu-bee-02", isActive: true, capacity: 1 },
+  { id: "slot-04", dayOfWeek: "Wednesday", timeSlot: "07:30 PM – 08:15 PM IST", mentorName: "Senior Career Mentor (Tech Internships & Resume)", meetUrl: "https://meet.google.com/pmu-career-03", isActive: true, capacity: 1 },
+  { id: "slot-05", dayOfWeek: "Thursday", timeSlot: "06:00 PM – 06:45 PM IST", mentorName: "N. Rao (COA & Digital Architecture)", meetUrl: "https://meet.google.com/pmu-coa-04", isActive: true, capacity: 1 },
+  { id: "slot-06", dayOfWeek: "Friday", timeSlot: "08:00 PM – 08:45 PM IST", mentorName: "End-Sem Exam & PYQ Solver Specialist", meetUrl: "https://meet.google.com/pmu-pyq-05", isActive: true, capacity: 1 },
+  { id: "slot-07", dayOfWeek: "Saturday", timeSlot: "11:00 AM – 11:45 AM IST", mentorName: "Weekend VIP 1:1 Masterclass Mentor", meetUrl: "https://meet.google.com/pmu-wknd-01", isActive: true, capacity: 1 },
+  { id: "slot-08", dayOfWeek: "Sunday", timeSlot: "04:00 PM – 04:45 PM IST", mentorName: "Weekend VIP 1:1 Masterclass Mentor", meetUrl: "https://meet.google.com/pmu-wknd-02", isActive: true, capacity: 1 },
+];
+
 const DEFAULT_SETTINGS: PlatformSettings = {
   brandName: "PrepMeUp AI",
-  tickerText: "🎯 Semester 1 Engineering Prep Live! First 10 Beta Testers Get 100% Free Pass",
+  tickerText: "🎯 Semester 1 Engineering Prep Live! Unlimited 1:1 Live Mentorship & AI Doubts Open",
   tickerActive: true,
   accentColor: "#ff3b1d",
   aiProvider: "Groq LLaMA 3.3 70B (Ultra-Low Latency)",
   maintenanceMode: false,
-  tier0Price: 0,
-  tier0SeatsLimit: 10,
-  tier0Active: true,
   tier1Price: 99,
   tier1ValidityDays: 180,
   tier2Price: 199,
@@ -106,8 +127,18 @@ const DEFAULT_SETTINGS: PlatformSettings = {
   tier2Features: [
     "Unlimited 24/7 AI Doubt Copilot",
     "Python Coding Lab + Line-by-Line AI Debugger",
-    "1:1 Human Mentor Live Video Support",
+    "1 Included 1:1 Human Mentor Video Session",
     "★ Exclusive Internship & Career Support (Resume/GitHub & Referrals)",
+  ],
+  tier3Price: 499,
+  tier3UnlimitedSessions: true,
+  tier3Features: [
+    "Everything in Tier 1 & 2 Included",
+    "UNLIMITED 1:1 Live Video Mentorship Sessions (Google Meet)",
+    "Priority Real-Time Calendar Slot Scheduling & Rescheduling",
+    "Dedicated Senior Engineering Subject Mentors (Maths, BEE, Python, COA)",
+    "Direct 1:1 Lab & Exam Problem Walkthroughs",
+    "VIP Fast-Track Career & Resume Polish",
   ],
 };
 
@@ -122,6 +153,7 @@ function loadState(): {
   notes: AdminNote[];
   pastPapers: AdminPyq[];
   sessions: AdminSession[];
+  calendarSlots: CalendarSlot[];
   activities: AdminActivity[];
 } {
   try {
@@ -179,7 +211,7 @@ function loadState(): {
             id: "sess-01",
             studentName: "Aarav Kulkarni",
             whatsapp: "+919820123456",
-            tier: "tier2",
+            tier: "tier3",
             topic: "★ Internship & Career Support (Resume, GitHub & Referrals)",
             slot: "Today, 7:00 PM – 7:45 PM IST",
             date: new Date().toISOString().slice(0, 10),
@@ -193,7 +225,7 @@ function loadState(): {
             id: "sess-02",
             studentName: "Rohan Deshmukh",
             whatsapp: "+919833445566",
-            tier: "tier2",
+            tier: "tier3",
             topic: "Applied Computational Mathematics (CSE1001)",
             slot: "Today, 9:00 PM – 9:45 PM IST",
             date: new Date().toISOString().slice(0, 10),
@@ -204,6 +236,7 @@ function loadState(): {
             updatedAt: new Date().toISOString(),
           },
         ],
+        calendarSlots: parsed.calendarSlots || DEFAULT_CALENDAR_SLOTS,
         activities: parsed.activities || [
           {
             id: "act-01",
@@ -259,7 +292,7 @@ function loadState(): {
         id: "sess-01",
         studentName: "Aarav Kulkarni",
         whatsapp: "+919820123456",
-        tier: "tier2",
+        tier: "tier3",
         topic: "★ Internship & Career Support (Resume, GitHub & Referrals)",
         slot: "Today, 7:00 PM – 7:45 PM IST",
         date: new Date().toISOString().slice(0, 10),
@@ -270,6 +303,7 @@ function loadState(): {
         updatedAt: new Date().toISOString(),
       },
     ],
+    calendarSlots: DEFAULT_CALENDAR_SLOTS,
     activities: [
       {
         id: "act-01",
@@ -458,6 +492,48 @@ export async function POST(req: NextRequest) {
       addActivity("Past Papers (PYQs)", "Past Paper", "deleted", "Deleted PYQ archive.");
       saveState(state);
       return NextResponse.json({ ok: true, pastPapers: state.pastPapers });
+    }
+
+    // 5.5 Calendar Slot Availability CRUD
+    if (action === "add_calendar_slot" && payload) {
+      const newSlot: CalendarSlot = {
+        id: `slot-${Date.now()}`,
+        dayOfWeek: payload.dayOfWeek || "Monday",
+        timeSlot: payload.timeSlot || "07:00 PM – 07:45 PM IST",
+        mentorName: payload.mentorName || "Senior Engineering Mentor",
+        meetUrl: payload.meetUrl || "https://meet.google.com/pmu-vip-room",
+        isActive: payload.isActive !== undefined ? Boolean(payload.isActive) : true,
+        capacity: Number(payload.capacity) || 1,
+      };
+      if (!state.calendarSlots) state.calendarSlots = [];
+      state.calendarSlots.push(newSlot);
+      addActivity("Calendar Scheduling", `${newSlot.dayOfWeek}: ${newSlot.timeSlot}`, "created", `Created new 1:1 availability slot (${newSlot.mentorName}).`);
+      saveState(state);
+      return NextResponse.json({ ok: true, calendarSlots: state.calendarSlots });
+    }
+
+    if (action === "update_calendar_slot" && payload?.id) {
+      if (!state.calendarSlots) state.calendarSlots = [];
+      state.calendarSlots = state.calendarSlots.map((s) => (s.id === payload.id ? { ...s, ...payload } : s));
+      addActivity("Calendar Scheduling", payload.timeSlot || "Slot", "updated", "Updated availability time or mentor.");
+      saveState(state);
+      return NextResponse.json({ ok: true, calendarSlots: state.calendarSlots });
+    }
+
+    if (action === "toggle_calendar_slot" && payload?.id) {
+      if (!state.calendarSlots) state.calendarSlots = [];
+      state.calendarSlots = state.calendarSlots.map((s) => (s.id === payload.id ? { ...s, isActive: !s.isActive } : s));
+      addActivity("Calendar Scheduling", "Slot Active Toggle", "verified", "Toggled slot visibility on student booking calendar.");
+      saveState(state);
+      return NextResponse.json({ ok: true, calendarSlots: state.calendarSlots });
+    }
+
+    if (action === "delete_calendar_slot" && payload?.id) {
+      if (!state.calendarSlots) state.calendarSlots = [];
+      state.calendarSlots = state.calendarSlots.filter((s) => s.id !== payload.id);
+      addActivity("Calendar Scheduling", "Slot Removed", "deleted", "Deleted 1:1 availability slot.");
+      saveState(state);
+      return NextResponse.json({ ok: true, calendarSlots: state.calendarSlots });
     }
 
     // 6. 1:1 Mentorship Sessions CRUD

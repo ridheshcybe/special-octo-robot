@@ -41,15 +41,17 @@ export async function POST(req: NextRequest) {
     }
 
     const semesterId = body.semesterId || "a1111111-1111-4111-8111-111111111111";
-    const tier = body.tier === "tier1" ? "tier1" : "tier2";
+    const tier = body.tier === "tier3" ? "tier3" : body.tier === "tier1" ? "tier1" : "tier2";
 
-    // Support explicit `amount` (in paise) or derive from `tier` (Tier 1 = 9900p, Tier 2 = 19900p)
+    // Support explicit `amount` (in paise) or derive from `tier`
+    // Tier 1 = 9900p (₹99), Tier 2 = 19900p (₹199), Tier 3 = 49900p (₹499)
+    const defaultAmountInPaise =
+      tier === "tier3" ? 49900 : tier === "tier1" ? 9900 : 19900;
+
     const amountInPaise =
-      typeof body.amount === "number"
+      typeof body.amount === "number" && body.amount >= 100
         ? Math.round(body.amount)
-        : body.tier === "tier1"
-        ? 9900
-        : 19900;
+        : defaultAmountInPaise;
 
     // Validate minimum amount >= 100 paise (₹1.00)
     if (!Number.isFinite(amountInPaise) || amountInPaise < 100) {
@@ -66,7 +68,9 @@ export async function POST(req: NextRequest) {
         : `rcpt_pmu_${tier}_${Date.now()}`;
 
     const planLabel =
-      tier === "tier2"
+      tier === "tier3"
+        ? "Tier 3 (₹499): Premium 1:1 VIP — Unlimited Live Mentorship Sessions + Pro AI"
+        : tier === "tier2"
         ? "Tier 2 (₹199): Premium AI Help + 1:1 Human Support + Internship & Career Support"
         : "Tier 1 (₹99): Semester 1 Basic Access";
 
@@ -159,7 +163,9 @@ export async function POST(req: NextRequest) {
         keyId: keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         isLiveRazorpay: true,
         hostedPaymentPageUrl:
-          tier === "tier2"
+          tier === "tier3"
+            ? process.env.NEXT_PUBLIC_RAZORPAY_PAYMENT_PAGE_TIER3 || process.env.NEXT_PUBLIC_RAZORPAY_PAYMENT_PAGE_TIER2 || ""
+            : tier === "tier2"
             ? process.env.NEXT_PUBLIC_RAZORPAY_PAYMENT_PAGE_TIER2 || ""
             : process.env.NEXT_PUBLIC_RAZORPAY_PAYMENT_PAGE_TIER1 || "",
       },

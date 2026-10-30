@@ -13,7 +13,7 @@ declare global {
 }
 
 export default function RazorpayCheckoutPage() {
-  const [tier, setTier] = useState<"tier1" | "tier2">("tier2");
+  const [tier, setTier] = useState<"tier1" | "tier2" | "tier3">("tier3");
   const [fullName, setFullName] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
@@ -42,7 +42,7 @@ export default function RazorpayCheckoutPage() {
     orderId: string;
     paymentId: string;
     amountRupees: number;
-    tier: "tier1" | "tier2";
+    tier: "tier1" | "tier2" | "tier3";
     paidAt: string;
   } | null>(null);
 
@@ -50,7 +50,7 @@ export default function RazorpayCheckoutPage() {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     const paramTier = params.get("tier");
-    if (paramTier === "tier1" || paramTier === "tier2") {
+    if (paramTier === "tier1" || paramTier === "tier2" || paramTier === "tier3") {
       setTier(paramTier);
     }
     const paramTopic = params.get("topic");
@@ -63,7 +63,7 @@ export default function RazorpayCheckoutPage() {
     if (paramEmail) setEmail(paramEmail);
   }, []);
 
-  const priceRupees = tier === "tier2" ? 199 : 99;
+  const priceRupees = tier === "tier3" ? 499 : tier === "tier2" ? 199 : 99;
 
   const loadRazorpayScript = (): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -98,8 +98,8 @@ export default function RazorpayCheckoutPage() {
           fullName: fullName.trim() || "Engineering Student",
           whatsappNumber: whatsapp,
           email,
-          mentorTopic: tier === "tier2" ? mentorTopic : "",
-          mentorSlot: tier === "tier2" ? mentorSlot : "",
+          mentorTopic: tier !== "tier1" ? mentorTopic : "",
+          mentorSlot: tier !== "tier1" ? mentorSlot : "",
         }),
       });
 
@@ -328,7 +328,9 @@ export default function RazorpayCheckoutPage() {
                   color: "#f3f1ea",
                 }}
               >
-                {receipt.tier === "tier2"
+                {receipt.tier === "tier3"
+                  ? "Tier 3 (₹499) VIP Unlimited 1:1 Mentorship Pass Unlocked!"
+                  : receipt.tier === "tier2"
                   ? "Tier 2 (₹199) All-In + Career Pass Unlocked!"
                   : "Tier 1 (₹99) Basic Semester Pass Unlocked!"}
               </h1>
@@ -364,12 +366,14 @@ export default function RazorpayCheckoutPage() {
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px" }}>
                   <span style={{ color: "#807f78" }}>Package Activated</span>
                   <span style={{ color: "#ff6a3d", fontWeight: 700 }}>
-                    {receipt.tier === "tier2"
+                    {receipt.tier === "tier3"
+                      ? "Tier 3 (₹499): Premium 1:1 VIP — Unlimited Live Sessions + Pro AI"
+                      : receipt.tier === "tier2"
                       ? "Tier 2 (₹199): Premium AI + 1:1 Human + Internship & Career Support"
                       : "Tier 1 (₹99): Semester 1 Basic Access"}
                   </span>
                 </div>
-                {receipt.tier === "tier2" && (
+                {receipt.tier !== "tier1" && (
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px" }}>
                     <span style={{ color: "#807f78" }}>1:1 Human &amp; Career Slot</span>
                     <span style={{ color: "#86efac", fontWeight: 600 }}>
@@ -428,6 +432,73 @@ export default function RazorpayCheckoutPage() {
                   {/* Tier Switcher */}
                   <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
                     <label className="pmu-label">Select Your Package Tier</label>
+
+                    {/* Option: Tier 3 (₹499 VIP Unlimited) */}
+                    <button
+                      type="button"
+                      onClick={() => setTier("tier3")}
+                      style={{
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "18px",
+                        borderRadius: "10px",
+                        border: tier === "tier3" ? "2px solid #ff3b1d" : "1px solid #26262c",
+                        backgroundColor: tier === "tier3" ? "rgba(255,59,29,0.12)" : "#08080a",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <span
+                            style={{
+                              display: "inline-flex",
+                              height: "18px",
+                              width: "18px",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              borderRadius: "9999px",
+                              border: tier === "tier3" ? "5px solid #ff3b1d" : "2px solid #52525b",
+                            }}
+                          />
+                          <span style={{ fontSize: "14px", fontWeight: 800, color: "#f3f1ea", textTransform: "uppercase" }}>
+                            Tier 3: Premium 1:1 VIP (Unlimited Sessions)
+                          </span>
+                        </div>
+                        <span className="font-display" style={{ fontSize: "26px", color: "#ff3b1d" }}>
+                          ₹499
+                        </span>
+                      </div>
+
+                      <div
+                        style={{
+                          marginTop: "10px",
+                          padding: "6px 10px",
+                          borderRadius: "6px",
+                          backgroundColor: "rgba(255,59,29,0.15)",
+                          border: "1px solid rgba(255,59,29,0.35)",
+                          fontSize: "11px",
+                          color: "#ff6a3d",
+                          fontWeight: 800,
+                        }}
+                      >
+                        ★ VIP TOP TIER: UNLIMITED 1:1 LIVE VIDEO SESSIONS + PRIORITY CALENDAR
+                      </div>
+
+                      <ul
+                        style={{
+                          marginTop: "10px",
+                          paddingLeft: "18px",
+                          fontSize: "12px",
+                          color: "#a19f95",
+                          lineHeight: 1.65,
+                        }}
+                      >
+                        <li><strong>UNLIMITED 1:1 Live Video Mentorship</strong> with Senior Mentors on Google Meet</li>
+                        <li><strong>Interactive Calendar Priority Scheduling</strong> &amp; Instant Rescheduling</li>
+                        <li>Direct Code Reviews, Python Lab Debugging &amp; Math Derivations</li>
+                        <li>Everything in Tier 1 &amp; Tier 2 (Pro AI + Full Semester 1 Access + Career Support)</li>
+                      </ul>
+                    </button>
 
                     {/* Option: Tier 2 (₹199) */}
                     <button
@@ -894,7 +965,9 @@ export default function RazorpayCheckoutPage() {
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", color: "#a19f95" }}>
                       <span>
-                        {tier === "tier2"
+                        {tier === "tier3"
+                          ? "Tier 3: Premium 1:1 VIP (Unlimited Live Sessions + Pro AI)"
+                          : tier === "tier2"
                           ? "Tier 2 (Premium AI + 1:1 Human + Internship/Career)"
                           : "Tier 1 (Semester 1 Basic Access)"}
                       </span>
@@ -986,7 +1059,7 @@ export default function RazorpayCheckoutPage() {
                   Razorpay Secure Checkout
                 </div>
                 <div className="font-display" style={{ fontSize: "22px", letterSpacing: "0.03em", textTransform: "uppercase" }}>
-                  PrepMeUp AI • {tier === "tier2" ? "Tier 2 Pro" : "Tier 1 Basic"}
+                  PrepMeUp AI • {tier === "tier3" ? "Tier 3 VIP" : tier === "tier2" ? "Tier 2 Pro" : "Tier 1 Basic"}
                 </div>
                 <div className="font-mono" style={{ fontSize: "11px", opacity: 0.9 }}>
                   Order: {activeOrder.orderId}
