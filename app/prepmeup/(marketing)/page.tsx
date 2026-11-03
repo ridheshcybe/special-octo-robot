@@ -230,6 +230,9 @@ export default function PrepMeUpLandingPage() {
               <Link href="#pricing" className="pmu-btn-primary">
                 Explore Semester 1 Passes &amp; Pricing →
               </Link>
+              <Link href="/prepmeup/tracks" className="pmu-btn-secondary" style={{ borderColor: "rgba(255, 106, 61, 0.5)", color: "#ff6a3d" }}>
+                ⚛️ Learning Tracks (Quantum Live) →
+              </Link>
               <Link href="/prepmeup/tools/cgpa" className="pmu-btn-secondary">
                 🎯 SGPA &amp; CGPA Calculator
               </Link>
@@ -272,6 +275,38 @@ export default function PrepMeUpLandingPage() {
                   Topics Across 30 Modules
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PHASE Q1: MULTI-TRACK & QUANTUM COMPUTING BANNER */}
+      <section style={{ borderBottom: "1px solid rgba(243, 241, 234, 0.1)", backgroundColor: "#0c0c10", padding: "2.5rem 1.5rem" }}>
+        <div className="pmu-container">
+          <div className="pmu-card" style={{ padding: "32px", border: "1px solid rgba(255, 59, 29, 0.35)", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "20px" }}>
+            <div style={{ maxWidth: "700px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span className="pmu-badge" style={{ backgroundColor: "rgba(255, 59, 29, 0.15)", color: "#ff6a3d", borderColor: "rgba(255, 59, 29, 0.4)" }}>
+                  ⚛️ Phase Q1 Multi-Track Expansion Live
+                </span>
+                <span className="font-mono" style={{ fontSize: "12px", color: "#00e676" }}>
+                  ⭐ Free Preview Available
+                </span>
+              </div>
+              <h2 className="font-display" style={{ fontSize: "clamp(24px, 3.5vw, 36px)", color: "#f3f1ea", textTransform: "uppercase", marginTop: "10px" }}>
+                Quantum Computing Foundations Track
+              </h2>
+              <p style={{ fontSize: "15px", color: "#807f78", marginTop: "6px", lineHeight: "1.6" }}>
+                Led by Dr. Aravind Vaidya, PhD. Explore 5 interactive browser simulations (Bloch Sphere, Superposition, Circuit Builder, Bell Entanglement, Grover Search), 5 modules, and Qiskit circuit engineering.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+              <Link href="/prepmeup/tracks" className="pmu-btn-secondary" style={{ padding: "12px 20px", fontSize: "13px" }}>
+                View All Tracks →
+              </Link>
+              <Link href="/prepmeup/courses/quantum-computing-foundations" className="pmu-btn-primary" style={{ padding: "12px 22px", fontSize: "13px" }}>
+                Explore Quantum Course →
+              </Link>
             </div>
           </div>
         </div>

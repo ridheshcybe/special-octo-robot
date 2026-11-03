@@ -63,6 +63,33 @@ export default function SimulationsDirectoryPage() {
           Experiment with interactive BEE electrical circuits, FWT network protocol flows, ACM matrix transformations, and Python memory/execution visualizers. Adjust controls in real time to observe live canvas waveforms and calculated telemetry readouts.
         </p>
 
+        {/* Quantum Simulations Phase Q1 Banner */}
+        <div style={{ marginTop: "20px", padding: "16px", backgroundColor: "#17171b", border: "1px solid rgba(255, 59, 29, 0.3)", borderRadius: "10px", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "14px" }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <span className="pmu-badge" style={{ backgroundColor: "rgba(255, 59, 29, 0.15)", color: "#ff6a3d", borderColor: "rgba(255, 59, 29, 0.4)" }}>
+                ⚛️ Phase Q1 Multi-Track Live
+              </span>
+              <span className="font-mono" style={{ fontSize: "11px", color: "#00e676" }}>
+                5 Quantum Simulators Available
+              </span>
+            </div>
+            <h3 className="font-display" style={{ fontSize: "20px", color: "#f3f1ea", textTransform: "uppercase", marginTop: "6px" }}>
+              Quantum Computing Track Simulations
+            </h3>
+            <p style={{ fontSize: "13px", color: "#807f78", marginTop: "2px" }}>
+              Bloch Sphere, Superposition Explorer, Quantum Circuit Builder, Bell Entanglement, and Grover Search.
+            </p>
+          </div>
+          <Link
+            href="/prepmeup/simulations/quantum"
+            className="pmu-btn-primary"
+            style={{ padding: "8px 18px", fontSize: "13px", whiteSpace: "nowrap" }}
+          >
+            Launch Quantum Workbench →
+          </Link>
+        </div>
+
         {/* Filter Tabs */}
         <div style={{ marginTop: "20px", display: "flex", flexWrap: "wrap", gap: "10px" }}>
           {[
