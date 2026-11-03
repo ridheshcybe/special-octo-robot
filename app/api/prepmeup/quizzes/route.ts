@@ -2,12 +2,35 @@ import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 import { MOCK_QUIZZES } from "@/app/prepmeup/_lib/quizData";
+import { getAllQuantumQuizzes } from "@/app/prepmeup/_lib/trackStore";
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const subjectId = searchParams.get("subjectId");
     const topicId = searchParams.get("topicId");
+    const track = searchParams.get("track");
+
+    if (track === "quantum-computing") {
+      const quantumQuizzes = getAllQuantumQuizzes();
+      return NextResponse.json({
+        ok: true,
+        quizzes: quantumQuizzes.map((q) => ({
+          id: q.id,
+          title: q.title,
+          description: q.description,
+          quiz_type: q.isFreePreview ? "diagnostic" : "module_assessment",
+          duration_minutes: q.durationMinutes,
+          total_marks: q.totalMarks,
+          passing_marks: q.passingScore,
+          subject_title: `Quantum Computing • Module ${q.moduleNumber}`,
+          module_number: q.moduleNumber,
+          is_free_preview: Boolean(q.isFreePreview),
+          status: q.status,
+          track: "quantum-computing",
+        })),
+      });
+    }
 
     const serviceClient = createPmuServiceClient();
 

@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 import { MOCK_QUIZZES } from "@/app/prepmeup/_lib/quizData";
+import { getQuantumQuizById, checkUserCourseAccess } from "@/app/prepmeup/_lib/trackStore";
 
 export async function POST(
   req: NextRequest,
@@ -25,6 +26,53 @@ export async function POST(
       } catch {
         // Fallback
       }
+    }
+
+    // Check if this is a Quantum Quiz
+    const quantumQuiz = getQuantumQuizById(quizId);
+    if (quantumQuiz) {
+      // Access check: only free preview quiz is accessible unless user has course access or admin
+      const isFreePreview = Boolean(quantumQuiz.isFreePreview);
+      const hasAccess = isFreePreview || Boolean(adminSession?.value) || checkUserCourseAccess(studentId, "quantum-computing-foundations");
+
+      if (!hasAccess) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error: "This assessment requires active Quantum Computing Foundations enrollment. Please unlock the course to take this quiz.",
+          },
+          { status: 403 }
+        );
+      }
+
+      const questionsList = (quantumQuiz.questions || []).map((q) => ({
+        id: q.id,
+        question_type: "mcq_single",
+        question_text: q.text,
+        options: q.options || [],
+        marks: 1,
+        difficulty: "medium",
+        // Scrub correct answers and explanations
+      }));
+
+      const attemptId = `q-attempt-${Date.now()}`;
+
+      return NextResponse.json({
+        ok: true,
+        data: {
+          attemptId,
+          quiz: {
+            id: quantumQuiz.id,
+            title: quantumQuiz.title,
+            description: quantumQuiz.description,
+            duration_minutes: quantumQuiz.durationMinutes || 15,
+            total_marks: quantumQuiz.totalMarks || 5,
+            passing_marks: quantumQuiz.passingScore || 3,
+            is_free_preview: isFreePreview,
+          },
+          questions: questionsList,
+        },
+      });
     }
 
     const serviceClient = createPmuServiceClient();

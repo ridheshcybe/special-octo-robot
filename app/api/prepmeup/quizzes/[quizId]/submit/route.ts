@@ -8,6 +8,7 @@ import {
   getSubjectCodeForQuizAttempt,
   StorageUnavailableError,
 } from "@/app/prepmeup/_lib/studentStore";
+import { getQuantumQuizById, updateStudentQuantumProgress } from "@/app/prepmeup/_lib/trackStore";
 
 export const dynamic = "force-dynamic";
 
@@ -31,38 +32,66 @@ export async function POST(
 
     const body = await req.json().catch(() => ({}));
     const { attemptId, answers, timeSpentSeconds } = body;
-
-    // Load quiz & full question keys strictly from server
-    let quiz: any = MOCK_QUIZZES.find((q) => q.id === quizId) || MOCK_QUIZZES[0];
     const serviceClient = createPmuServiceClient();
 
-    if (serviceClient) {
-      try {
-        const { data: qRow } = await serviceClient
-          .from("pmu_quizzes")
-          .select("*, questions:pmu_quiz_questions(marks, question:pmu_questions(*))")
-          .eq("id", quizId)
-          .maybeSingle();
+    // Check if this is a Quantum Quiz
+    const quantumQuiz = getQuantumQuizById(quizId);
+    let quiz: any = null;
+    let isQuantum = false;
 
-        if (qRow) {
-          quiz = {
-            id: qRow.id,
-            title: qRow.title,
-            total_marks: qRow.total_marks,
-            passing_marks: qRow.passing_marks || 3,
-            subject_id: qRow.subject_id,
-            questions: qRow.questions.map((item: any) => ({
-              id: item.question.id,
-              question_type: item.question.question_type,
-              question_text: item.question.question_text,
-              options: item.question.options,
-              correct_answer: item.question.correct_answer,
-              explanation: item.question.explanation,
-              marks: item.marks || item.question.marks,
-            })),
-          };
-        }
-      } catch {}
+    if (quantumQuiz) {
+      isQuantum = true;
+      quiz = {
+        id: quantumQuiz.id,
+        title: quantumQuiz.title,
+        total_marks: quantumQuiz.totalMarks || 5,
+        passing_marks: quantumQuiz.passingScore || 3,
+        subject_id: "quantum-computing",
+        subject_title: "Quantum Computing Foundations",
+        questions: (quantumQuiz.questions || []).map((q) => ({
+          id: q.id,
+          question_type: "mcq_single",
+          question_text: q.text,
+          options: q.options || [],
+          correct_answer:
+            typeof q.correctIndex === "number" && q.options && q.options[q.correctIndex] !== undefined
+              ? q.options[q.correctIndex]
+              : "",
+          explanation: q.explanation,
+          marks: 1,
+        })),
+      };
+    } else {
+      quiz = MOCK_QUIZZES.find((q) => q.id === quizId) || MOCK_QUIZZES[0];
+
+      if (serviceClient) {
+        try {
+          const { data: qRow } = await serviceClient
+            .from("pmu_quizzes")
+            .select("*, questions:pmu_quiz_questions(marks, question:pmu_questions(*))")
+            .eq("id", quizId)
+            .maybeSingle();
+
+          if (qRow) {
+            quiz = {
+              id: qRow.id,
+              title: qRow.title,
+              total_marks: qRow.total_marks,
+              passing_marks: qRow.passing_marks || 3,
+              subject_id: qRow.subject_id,
+              questions: qRow.questions.map((item: any) => ({
+                id: item.question.id,
+                question_type: item.question.question_type,
+                question_text: item.question.question_text,
+                options: item.question.options,
+                correct_answer: item.question.correct_answer,
+                explanation: item.question.explanation,
+                marks: item.marks || item.question.marks,
+              })),
+            };
+          }
+        } catch {}
+      }
     }
 
     // 1. Rigorous Server-Side Evaluation
@@ -147,6 +176,18 @@ export async function POST(
       })),
       submittedAt,
     });
+
+    if (isQuantum && passed) {
+      try {
+        updateStudentQuantumProgress(studentId, {
+          type: "quiz",
+          id: quiz.id,
+          passed: true,
+        });
+      } catch {
+        // Non-blocking
+      }
+    }
 
     // 2. Persist in Database if configured
     if (serviceClient && attemptId && !attemptId.startsWith("attempt-")) {

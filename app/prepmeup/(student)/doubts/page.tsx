@@ -28,18 +28,42 @@ const SAMPLE_PROMPTS = [
   {
     title: "Newton-Raphson Formula & Quadratic Convergence Rate",
     query: "Derive the Newton-Raphson formula x_(n+1) = x_n - f(x_n)/f'(x_n) and state its convergence rate with proof.",
+    track: "btech-cse-aiml",
   },
   {
     title: "Orthogonal Matrix Eigenvalue Property (|λ| = 1)",
     query: "Prove why all eigenvalues of a real orthogonal matrix Q satisfy |λ| = 1.",
+    track: "btech-cse-aiml",
   },
   {
     title: "Thevenin's Theorem & Max Power Transfer Derivation",
     query: "Explain Thevenin's Theorem and derive maximum power P_max = V_th^2 / (4 * R_th).",
+    track: "btech-cse-aiml",
   },
   {
     title: "Python List Comprehensions vs Standard Loops",
     query: "How does Python list comprehension compare to a standard for loop in memory allocation and bytecode execution?",
+    track: "btech-cse-aiml",
+  },
+  {
+    title: "Bloch Sphere & Polar Angles θ, ϕ Representation",
+    query: "Explain single-qubit pure state representation on the Bloch sphere using polar angles theta and phi, and the Born rule measurement probability.",
+    track: "quantum-computing",
+  },
+  {
+    title: "Bell State |Φ+⟩ Synthesis with Hadamard and CNOT",
+    query: "Derive step-by-step how to create the Bell state |Phi+> starting from |00> using an H gate and CNOT gate.",
+    track: "quantum-computing",
+  },
+  {
+    title: "Grover's Algorithm Phase Oracle and Diffusion Operator",
+    query: "Explain Grover's search algorithm step-by-step: how the phase oracle marks the target and how the diffusion operator reflects about the mean.",
+    track: "quantum-computing",
+  },
+  {
+    title: "Qiskit 1.0 Bell State Circuit Code",
+    query: "Show the Python Qiskit code to build a 2-qubit Bell state circuit, measure in computational basis, and simulate on AerSimulator.",
+    track: "quantum-computing",
   },
 ];
 
@@ -50,6 +74,10 @@ export default function DoubtsPage() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [showVideoModal, setShowVideoModal] = useState(false);
 
+  // Track switcher (B.Tech CSE AI/ML vs Quantum Computing Foundations)
+  const [selectedTrack, setSelectedTrack] = useState<"btech-cse-aiml" | "quantum-computing">("btech-cse-aiml");
+  const [selectedModule, setSelectedModule] = useState<number>(1);
+
   // Composer state
   const [queryText, setQueryText] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("Applied Computational Mathematics");
@@ -57,6 +85,9 @@ export default function DoubtsPage() {
   const [imageMime, setImageMime] = useState<string>("image/jpeg");
   const [sending, setSending] = useState(false);
   const [searchFilter, setSearchFilter] = useState("");
+  const [feedbackState, setFeedbackState] = useState<Record<string, "helpful" | "unhelpful">>({});
+  const [followUpText, setFollowUpText] = useState("");
+  const [sendingFollowUp, setSendingFollowUp] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const fetchThreads = async () => {
@@ -113,58 +144,170 @@ export default function DoubtsPage() {
 
     setSending(true);
     try {
-      const payload: Record<string, unknown> = {
-        queryText: queryText.trim(),
-        subjectName: selectedSubject,
-      };
-      if (selectedImage) {
-        payload.imageBase64 = selectedImage;
-        payload.imageMimeType = imageMime;
+      if (selectedTrack === "quantum-computing") {
+        const payload: Record<string, unknown> = {
+          question: queryText.trim(),
+          moduleNumber: selectedModule,
+        };
+        if (selectedImage) {
+          payload.imageUrl = "data:" + imageMime + ";base64," + selectedImage;
+        }
+
+        const res = await fetch("/api/prepmeup/ai/quantum/doubt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || "Failed to solve quantum doubt.");
+        }
+
+        const newThread: DoubtThread = {
+          id: data.data.doubtId,
+          title: data.data.title,
+          status: "answered",
+          created_at: new Date().toISOString(),
+          messages: [
+            {
+              id: "m-user-" + Date.now(),
+              sender_type: "student",
+              message_text: queryText,
+              image_url: selectedImage ? "data:image/jpeg;base64," + selectedImage : undefined,
+              created_at: new Date().toISOString(),
+            },
+            {
+              id: "m-ai-" + Date.now(),
+              sender_type: "ai",
+              message_text: data.data.answer,
+              is_grounded_in_syllabus: data.data.isGrounded,
+              created_at: new Date().toISOString(),
+            },
+          ],
+        };
+
+        setThreads([newThread, ...threads]);
+        setActiveThreadId(newThread.id);
+        setQueryText("");
+        setSelectedImage(null);
+      } else {
+        const payload: Record<string, unknown> = {
+          queryText: queryText.trim(),
+          subjectName: selectedSubject,
+        };
+        if (selectedImage) {
+          payload.imageBase64 = selectedImage;
+          payload.imageMimeType = imageMime;
+        }
+
+        const res = await fetch("/api/prepmeup/doubts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || "Failed to solve doubt.");
+        }
+
+        const newThread: DoubtThread = {
+          id: data.data.doubtId,
+          title: data.data.title,
+          status: "answered",
+          created_at: new Date().toISOString(),
+          messages: [
+            {
+              id: "m-user-" + Date.now(),
+              sender_type: "student",
+              message_text: queryText,
+              image_url: selectedImage ? "data:image/jpeg;base64," + selectedImage : undefined,
+              created_at: new Date().toISOString(),
+            },
+            {
+              id: "m-ai-" + Date.now(),
+              sender_type: "ai",
+              message_text: data.data.answer,
+              extracted_ocr_text: data.data.extractedOcrText,
+              is_grounded_in_syllabus: data.data.isGrounded,
+              created_at: new Date().toISOString(),
+            },
+          ],
+        };
+
+        setThreads([newThread, ...threads]);
+        setActiveThreadId(newThread.id);
+        setQueryText("");
+        setSelectedImage(null);
       }
-
-      const res = await fetch("/api/prepmeup/doubts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data.ok) {
-        throw new Error(data.error || "Failed to solve doubt.");
-      }
-
-      const newThread: DoubtThread = {
-        id: data.data.doubtId,
-        title: data.data.title,
-        status: "answered",
-        created_at: new Date().toISOString(),
-        messages: [
-          {
-            id: "m-user-" + Date.now(),
-            sender_type: "student",
-            message_text: queryText,
-            image_url: selectedImage ? "data:image/jpeg;base64," + selectedImage : undefined,
-            created_at: new Date().toISOString(),
-          },
-          {
-            id: "m-ai-" + Date.now(),
-            sender_type: "ai",
-            message_text: data.data.answer,
-            extracted_ocr_text: data.data.extractedOcrText,
-            is_grounded_in_syllabus: data.data.isGrounded,
-            created_at: new Date().toISOString(),
-          },
-        ],
-      };
-
-      setThreads([newThread, ...threads]);
-      setActiveThreadId(newThread.id);
-      setQueryText("");
-      setSelectedImage(null);
     } catch (err: any) {
       alert(err.message);
     } finally {
       setSending(false);
+    }
+  };
+
+  const handleFeedback = async (doubtId: string, helpful: boolean) => {
+    try {
+      setFeedbackState((prev) => ({
+        ...prev,
+        [doubtId]: helpful ? "helpful" : "unhelpful",
+      }));
+      await fetch("/api/prepmeup/ai/quantum/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ doubtId, helpful }),
+      });
+    } catch {
+      // Non-blocking UI
+    }
+  };
+
+  const handleFollowUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!followUpText.trim() || !activeThreadId) return;
+
+    setSendingFollowUp(true);
+    try {
+      const res = await fetch(`/api/prepmeup/ai/quantum/doubt/${activeThreadId}/follow-up`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: followUpText.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        setThreads((prev) =>
+          prev.map((t) => {
+            if (t.id === activeThreadId) {
+              return {
+                ...t,
+                messages: [
+                  ...t.messages,
+                  {
+                    id: "m-user-" + Date.now(),
+                    sender_type: "student",
+                    message_text: followUpText,
+                    created_at: new Date().toISOString(),
+                  },
+                  {
+                    id: "m-ai-" + Date.now(),
+                    sender_type: "ai",
+                    message_text: data.reply,
+                    created_at: new Date().toISOString(),
+                  },
+                ],
+              };
+            }
+            return t;
+          })
+        );
+        setFollowUpText("");
+      }
+    } catch {
+      // Ignored
+    } finally {
+      setSendingFollowUp(false);
     }
   };
 
@@ -349,11 +492,50 @@ export default function DoubtsPage() {
 
           {/* Quick Sample Prompts */}
           <div className="pmu-card" style={{ padding: "20px" }}>
+            <div style={{ display: "flex", gap: "8px", marginBottom: "14px" }}>
+              <button
+                type="button"
+                onClick={() => setSelectedTrack("btech-cse-aiml")}
+                className="font-mono"
+                style={{
+                  flex: 1,
+                  padding: "6px 8px",
+                  fontSize: "10.5px",
+                  fontWeight: 700,
+                  borderRadius: "6px",
+                  border: selectedTrack === "btech-cse-aiml" ? "1px solid #ff3b1d" : "1px solid #26262c",
+                  backgroundColor: selectedTrack === "btech-cse-aiml" ? "rgba(255,59,29,0.15)" : "#08080a",
+                  color: selectedTrack === "btech-cse-aiml" ? "#ff6a3d" : "#807f78",
+                  cursor: "pointer",
+                }}
+              >
+                B.Tech AI/ML
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedTrack("quantum-computing")}
+                className="font-mono"
+                style={{
+                  flex: 1,
+                  padding: "6px 8px",
+                  fontSize: "10.5px",
+                  fontWeight: 700,
+                  borderRadius: "6px",
+                  border: selectedTrack === "quantum-computing" ? "1px solid #ff3b1d" : "1px solid #26262c",
+                  backgroundColor: selectedTrack === "quantum-computing" ? "rgba(255,59,29,0.15)" : "#08080a",
+                  color: selectedTrack === "quantum-computing" ? "#ff6a3d" : "#807f78",
+                  cursor: "pointer",
+                }}
+              >
+                ⚛️ Quantum Track
+              </button>
+            </div>
+
             <span className="font-mono" style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", color: "#ff6a3d" }}>
-              ⚡ Try a High-Yield Exam Prompt
+              ⚡ Try a High-Yield {selectedTrack === "quantum-computing" ? "Quantum" : "Exam"} Prompt
             </span>
             <div style={{ marginTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
-              {SAMPLE_PROMPTS.map((p, idx) => (
+              {SAMPLE_PROMPTS.filter((p) => p.track === selectedTrack).map((p, idx) => (
                 <button
                   key={idx}
                   type="button"
@@ -396,25 +578,42 @@ export default function DoubtsPage() {
               }}
             >
               <div>
-                <span className="pmu-badge">✓ Syllabus RAG Grounding</span>
+                <span className="pmu-badge">
+                  {selectedTrack === "quantum-computing" ? "⚛️ Quantum AI Tutor RAG" : "✓ Syllabus RAG Grounding"}
+                </span>
                 <h3 style={{ marginTop: "6px", fontSize: "16px", fontWeight: 700, color: "#f3f1ea" }}>
-                  {activeThread?.title || "Ask a New Engineering Doubt"}
+                  {activeThread?.title || (selectedTrack === "quantum-computing" ? "Ask a Quantum Computing Question" : "Ask a New Engineering Doubt")}
                 </h3>
               </div>
 
-              <select
-                value={selectedSubject}
-                onChange={(e) => setSelectedSubject(e.target.value)}
-                className="pmu-input font-mono"
-                style={{ width: "auto", minWidth: "240px", padding: "8px 12px", fontSize: "12px" }}
-              >
-                <option value="Applied Computational Mathematics">CSE1001: Applied Mathematics</option>
-                <option value="Python Programming">CSE1005: Python Programming</option>
-                <option value="Basic Electrical and Electronics Engineering">CSE1002: Basic Electrical & Electronics</option>
-                <option value="Computer Organization and Architecture">CSE1003: Computer Architecture</option>
-                <option value="Fundamentals of Web Technologies">CSE1004: Web Technologies</option>
-                <option value="Indian Science, Engineering and Technology">CSE1006: Indian Science & Technology</option>
-              </select>
+              {selectedTrack === "quantum-computing" ? (
+                <select
+                  value={selectedModule}
+                  onChange={(e) => setSelectedModule(Number(e.target.value))}
+                  className="pmu-input font-mono"
+                  style={{ width: "auto", minWidth: "260px", padding: "8px 12px", fontSize: "12px" }}
+                >
+                  <option value={1}>Mod 1: Mathematical Foundations & Qubits</option>
+                  <option value={2}>Mod 2: Quantum Gates & Circuits</option>
+                  <option value={3}>Mod 3: Quantum Algorithms & Entanglement</option>
+                  <option value={4}>Mod 4: Error Mitigation & Decoherence</option>
+                  <option value={5}>Mod 5: Quantum Hardware & NISQ</option>
+                </select>
+              ) : (
+                <select
+                  value={selectedSubject}
+                  onChange={(e) => setSelectedSubject(e.target.value)}
+                  className="pmu-input font-mono"
+                  style={{ width: "auto", minWidth: "240px", padding: "8px 12px", fontSize: "12px" }}
+                >
+                  <option value="Applied Computational Mathematics">CSE1001: Applied Mathematics</option>
+                  <option value="Python Programming">CSE1005: Python Programming</option>
+                  <option value="Basic Electrical and Electronics Engineering">CSE1002: Basic Electrical & Electronics</option>
+                  <option value="Computer Organization and Architecture">CSE1003: Computer Architecture</option>
+                  <option value="Fundamentals of Web Technologies">CSE1004: Web Technologies</option>
+                  <option value="Indian Science, Engineering and Technology">CSE1006: Indian Science & Technology</option>
+                </select>
+              )}
             </div>
 
             {/* Messages Area */}
@@ -481,9 +680,91 @@ export default function DoubtsPage() {
 
                     {/* Formatted Markdown & LaTeX Content for BOTH Request and Response */}
                     <RichMathMarkdown content={m.message_text} />
+
+                    {/* AI Feedback Thumbs */}
+                    {!isStudent && activeThread && (
+                      <div
+                        style={{
+                          marginTop: "14px",
+                          paddingTop: "10px",
+                          borderTop: "1px solid rgba(243,241,234,0.06)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <span className="font-mono" style={{ fontSize: "11px", color: "#807f78" }}>
+                          Was this explanation clear &amp; rigorous?
+                        </span>
+                        <div style={{ display: "flex", gap: "8px" }}>
+                          <button
+                            type="button"
+                            onClick={() => handleFeedback(activeThread.id, true)}
+                            style={{
+                              padding: "4px 10px",
+                              borderRadius: "4px",
+                              border: feedbackState[activeThread.id] === "helpful" ? "1px solid #4ade80" : "1px solid #26262c",
+                              backgroundColor: feedbackState[activeThread.id] === "helpful" ? "rgba(74,222,128,0.15)" : "#111114",
+                              color: feedbackState[activeThread.id] === "helpful" ? "#4ade80" : "#a19f95",
+                              fontSize: "11px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            👍 Helpful
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleFeedback(activeThread.id, false)}
+                            style={{
+                              padding: "4px 10px",
+                              borderRadius: "4px",
+                              border: feedbackState[activeThread.id] === "unhelpful" ? "1px solid #f87171" : "1px solid #26262c",
+                              backgroundColor: feedbackState[activeThread.id] === "unhelpful" ? "rgba(248,113,113,0.15)" : "#111114",
+                              color: feedbackState[activeThread.id] === "unhelpful" ? "#f87171" : "#a19f95",
+                              fontSize: "11px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            👎 Needs Revision
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })}
+
+              {/* Follow-up question input if thread is active */}
+              {activeThread && (
+                <form
+                  onSubmit={handleFollowUp}
+                  style={{
+                    display: "flex",
+                    gap: "8px",
+                    padding: "12px",
+                    borderRadius: "8px",
+                    border: "1px dashed #26262c",
+                    backgroundColor: "#0d0d10",
+                  }}
+                >
+                  <input
+                    type="text"
+                    value={followUpText}
+                    onChange={(e) => setFollowUpText(e.target.value)}
+                    placeholder="Ask a quick follow-up on this doubt..."
+                    className="pmu-input"
+                    style={{ flex: 1, padding: "8px 12px", fontSize: "12px" }}
+                  />
+                  <button
+                    type="submit"
+                    disabled={sendingFollowUp || !followUpText.trim()}
+                    className="pmu-btn-secondary"
+                    style={{ padding: "8px 16px", fontSize: "12px", whiteSpace: "nowrap" }}
+                  >
+                    {sendingFollowUp ? "..." : "Send Follow-Up ↵"}
+                  </button>
+                </form>
+              )}
 
               {/* Interactive Fun Loader When Waiting for AI Response */}
               {sending && (

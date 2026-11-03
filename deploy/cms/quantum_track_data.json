@@ -426,10 +426,12 @@
       "id": "quiz-quantum-01",
       "courseSlug": "quantum-computing-foundations",
       "moduleNumber": 1,
-      "title": "Module 1 Diagnostic: Quantum Essentials & Bloch Geometry",
+      "title": "Quantum Computing Essentials Diagnostic Quiz",
       "description": "5 conceptual questions covering Dirac notation, statevector normalization, measurement probabilities, and the Bloch sphere.",
       "isFreePreview": true,
-      "status": "draft",
+      "status": "published",
+      "durationMinutes": 15,
+      "totalMarks": 5,
       "passingScore": 60,
       "questions": [
         {
@@ -501,7 +503,9 @@
       "title": "Module 2 Assessment: Unitary Gates & Circuits",
       "description": "Pauli transformations, Hadamard rotation matrices, phase logic, and CNOT reversible matrix calculations.",
       "isFreePreview": false,
-      "status": "draft",
+      "status": "published",
+      "durationMinutes": 20,
+      "totalMarks": 5,
       "passingScore": 60,
       "questions": [
         {
@@ -515,6 +519,54 @@
           ],
           "correctIndex": 1,
           "explanation": "H|0⟩ = (|0⟩ + |1⟩)/√2 = |+⟩."
+        },
+        {
+          "id": "q2-02",
+          "text": "Which Pauli matrix corresponds to a quantum bit flip?",
+          "options": [
+            "Pauli-X",
+            "Pauli-Y",
+            "Pauli-Z",
+            "Identity I"
+          ],
+          "correctIndex": 0,
+          "explanation": "The Pauli-X operator swaps amplitudes between |0⟩ and |1⟩, acting as a quantum NOT gate."
+        },
+        {
+          "id": "q2-03",
+          "text": "What is the relation between the Phase S gate and the T gate?",
+          "options": [
+            "S = T²",
+            "T = S²",
+            "S = T⁴",
+            "S = T†"
+          ],
+          "correctIndex": 0,
+          "explanation": "Since T introduces a π/4 phase and S introduces a π/2 phase, S = T²."
+        },
+        {
+          "id": "q2-04",
+          "text": "What is the truth table result of CNOT applied to input state |10⟩?",
+          "options": [
+            "|00⟩",
+            "|10⟩",
+            "|11⟩",
+            "|01⟩"
+          ],
+          "correctIndex": 2,
+          "explanation": "Since the control qubit is 1, CNOT flips the target qubit from 0 to 1, producing |11⟩."
+        },
+        {
+          "id": "q2-05",
+          "text": "Why must all quantum gates in closed physical systems be unitary?",
+          "options": [
+            "To prevent overheating in dilution refrigerators",
+            "To conserve quantum state normalization and inner product probabilities",
+            "Because classical gates are reversible",
+            "To eliminate noise"
+          ],
+          "correctIndex": 1,
+          "explanation": "Unitary operators satisfy U†U = I, ensuring the Euclidean length of the statevector remains 1."
         }
       ]
     },
@@ -525,7 +577,9 @@
       "title": "Module 3 Assessment: Entanglement, Bell States & Non-Locality",
       "description": "Testing Kronecker tensor multiplication, Bell basis state projection, and CHSH inequality concepts.",
       "isFreePreview": false,
-      "status": "draft",
+      "status": "published",
+      "durationMinutes": 20,
+      "totalMarks": 5,
       "passingScore": 60,
       "questions": [
         {
@@ -539,6 +593,54 @@
           ],
           "correctIndex": 0,
           "explanation": "H on q0 creates (|0⟩+|1⟩)/√2 ⊗ |0⟩ = (|00⟩+|10⟩)/√2. The subsequent CNOT flips the target only on |10⟩, creating (|00⟩+|11⟩)/√2."
+        },
+        {
+          "id": "q3-02",
+          "text": "If Alice and Bob share Bell state |Φ+⟩, and Alice measures her qubit to be 1, what will Bob measure?",
+          "options": [
+            "0 with 100% certainty",
+            "1 with 100% certainty",
+            "0 or 1 with 50% probability",
+            "The state will remain in superposition"
+          ],
+          "correctIndex": 1,
+          "explanation": "For |Φ+⟩ = (|00⟩+|11⟩)/√2, Alice's measurement collapses the system to |11⟩, ensuring Bob measures 1."
+        },
+        {
+          "id": "q3-03",
+          "text": "What is Cirel'son's upper bound for quantum violation of the CHSH inequality?",
+          "options": [
+            "2",
+            "2√2 (≈ 2.828)",
+            "4",
+            "√2"
+          ],
+          "correctIndex": 1,
+          "explanation": "While classical local realism limits |S| ≤ 2, quantum entangled states achieve up to 2√2."
+        },
+        {
+          "id": "q3-04",
+          "text": "Can entangled particles be used for instantaneous faster-than-light communication?",
+          "options": [
+            "Yes, using quantum internet routers",
+            "No, because local measurements yield random outcomes without classical coordination",
+            "Yes, for short distances under 1 km",
+            "Only with superconducting circuits"
+          ],
+          "correctIndex": 1,
+          "explanation": "The No-Communication theorem proves that local measurements cannot transmit information faster than light."
+        },
+        {
+          "id": "q3-05",
+          "text": "How many qubits are required to synthesize a GHZ state?",
+          "options": [
+            "2 qubits",
+            "3 or more qubits",
+            "Exactly 1 qubit",
+            "Only even numbers of qubits"
+          ],
+          "correctIndex": 1,
+          "explanation": "The standard GHZ state |GHZ⟩ = (|000⟩+|111⟩)/√2 is defined across 3 or more qubits."
         }
       ]
     },
@@ -549,7 +651,9 @@
       "title": "Module 4 Assessment: Quantum Oracles & Search Algorithms",
       "description": "Evaluating Deutsch-Jozsa phase kickback and Grover iteration counting for optimal target amplification.",
       "isFreePreview": false,
-      "status": "draft",
+      "status": "published",
+      "durationMinutes": 25,
+      "totalMarks": 5,
       "passingScore": 60,
       "questions": [
         {
@@ -563,6 +667,54 @@
           ],
           "correctIndex": 2,
           "explanation": "Grover's algorithm provides a quadratic speedup over classical O(N), requiring O(√N) oracle queries."
+        },
+        {
+          "id": "q4-02",
+          "text": "In the Deutsch-Jozsa algorithm, how many evaluations of the oracle function f(x) are required to determine if f is constant or balanced?",
+          "options": [
+            "2^(n-1) + 1 evaluations",
+            "Exactly 1 evaluation",
+            "n evaluations",
+            "√N evaluations"
+          ],
+          "correctIndex": 1,
+          "explanation": "Quantum interference allows evaluating whether f is constant or balanced in a single query."
+        },
+        {
+          "id": "q4-03",
+          "text": "What is the mathematical definition of the Grover diffusion operator?",
+          "options": [
+            "U_s = 2|s⟩⟨s| - I",
+            "U_s = |s⟩⟨s| + I",
+            "U_s = H ⊗ H",
+            "U_s = e^(iHt)"
+          ],
+          "correctIndex": 0,
+          "explanation": "The diffusion operator reflects quantum state amplitudes about the uniform mean amplitude."
+        },
+        {
+          "id": "q4-04",
+          "text": "What is the primary quantum subroutine behind Shor's factoring algorithm?",
+          "options": [
+            "Quantum Phase Estimation & Quantum Fourier Transform (QFT)",
+            "Grover search",
+            "Bloch sphere rotation",
+            "Error syndrome decoding"
+          ],
+          "correctIndex": 0,
+          "explanation": "Shor's algorithm reduces factoring to order finding via Quantum Phase Estimation using the QFT."
+        },
+        {
+          "id": "q4-05",
+          "text": "For N = 4 items (2 qubits), how many Grover iterations are required for 100% target amplification?",
+          "options": [
+            "Exactly 1 iteration",
+            "2 iterations",
+            "4 iterations",
+            "8 iterations"
+          ],
+          "correctIndex": 0,
+          "explanation": "R ≈ (π/4)√4 = π/2 ≈ 1 iteration rotates the initial state directly onto the target."
         }
       ]
     },
@@ -573,7 +725,9 @@
       "title": "Module 5 Practical Assessment: Qiskit Circuit Engineering",
       "description": "Syntax diagnostic on QuantumCircuit methods, StatevectorSampler execution, and measurement histogram decoding.",
       "isFreePreview": false,
-      "status": "draft",
+      "status": "published",
+      "durationMinutes": 25,
+      "totalMarks": 5,
       "passingScore": 60,
       "questions": [
         {
@@ -587,6 +741,54 @@
           ],
           "correctIndex": 0,
           "explanation": "QuantumCircuit(num_qubits, num_clbits) allocates both quantum and classical registers."
+        },
+        {
+          "id": "q5-02",
+          "text": "Which method on a QuantumCircuit object adds a Hadamard gate to qubit 0?",
+          "options": [
+            "qc.h(0)",
+            "qc.hadamard(0)",
+            "qc.gate_h([0])",
+            "qc.apply('H', 0)"
+          ],
+          "correctIndex": 0,
+          "explanation": "qc.h(0) is the standard Qiskit API method for appending a Hadamard gate."
+        },
+        {
+          "id": "q5-03",
+          "text": "What does circuit depth measure in quantum computing?",
+          "options": [
+            "The physical depth of the dilution refrigerator",
+            "The longest sequence of dependent gate operations on any qubit",
+            "The number of classical bits",
+            "The time taken to compile"
+          ],
+          "correctIndex": 1,
+          "explanation": "Circuit depth represents the critical path duration in discrete time-steps."
+        },
+        {
+          "id": "q5-04",
+          "text": "What physical process does T1 relaxation time describe in superconducting qubits?",
+          "options": [
+            "Loss of relative quantum phase",
+            "Energy dissipation from excited state |1⟩ down to ground state |0⟩",
+            "Microwave pulse reflection",
+            "Readout resonator ringdown"
+          ],
+          "correctIndex": 1,
+          "explanation": "T1 is the longitudinal relaxation time measuring energy loss from |1⟩ to |0⟩."
+        },
+        {
+          "id": "q5-05",
+          "text": "Which Qiskit simulator module is typically used to sample shot counts with realistic noise models?",
+          "options": [
+            "AerSimulator from qiskit_aer",
+            "StatevectorEngine from qiskit_core",
+            "BasicSim from qiskit_base",
+            "NoiseBackend from qiskit_math"
+          ],
+          "correctIndex": 0,
+          "explanation": "AerSimulator provides high-performance C++ backend simulation with customizable noise."
         }
       ]
     }
@@ -648,14 +850,82 @@
       "relatedLessonId": "lesson-q4-02"
     }
   ],
+  "mentorshipSlots": [
+    {
+      "id": "slot-q2-001",
+      "instructorId": "e0000000-0000-0000-0000-000000000001",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "courseSlug": "quantum-computing-foundations",
+      "startAt": "2026-11-10T10:00:00.000Z",
+      "endAt": "2026-11-10T10:45:00.000Z",
+      "durationMinutes": 45,
+      "timezone": "Asia/Kolkata",
+      "status": "available",
+      "supportedTypes": [
+        "quantum_doubt_clearing",
+        "quantum_interview_prep",
+        "career_guidance"
+      ]
+    },
+    {
+      "id": "slot-q2-002",
+      "instructorId": "e0000000-0000-0000-0000-000000000001",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "courseSlug": "quantum-computing-foundations",
+      "startAt": "2026-11-10T15:30:00.000Z",
+      "endAt": "2026-11-10T16:15:00.000Z",
+      "durationMinutes": 45,
+      "timezone": "Asia/Kolkata",
+      "status": "available",
+      "supportedTypes": [
+        "quantum_doubt_clearing",
+        "quantum_interview_prep",
+        "career_guidance"
+      ]
+    },
+    {
+      "id": "slot-q2-003",
+      "instructorId": "e0000000-0000-0000-0000-000000000001",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "courseSlug": "quantum-computing-foundations",
+      "startAt": "2026-11-12T11:00:00.000Z",
+      "endAt": "2026-11-12T11:45:00.000Z",
+      "durationMinutes": 45,
+      "timezone": "Asia/Kolkata",
+      "status": "available",
+      "supportedTypes": [
+        "quantum_doubt_clearing",
+        "quantum_interview_prep",
+        "career_guidance"
+      ]
+    },
+    {
+      "id": "slot-q2-004",
+      "instructorId": "e0000000-0000-0000-0000-000000000001",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "courseSlug": "quantum-computing-foundations",
+      "startAt": "2026-11-14T16:00:00.000Z",
+      "endAt": "2026-11-14T16:45:00.000Z",
+      "durationMinutes": 45,
+      "timezone": "Asia/Kolkata",
+      "status": "available",
+      "supportedTypes": [
+        "quantum_doubt_clearing",
+        "quantum_interview_prep",
+        "career_guidance"
+      ]
+    }
+  ],
   "mentorshipSessions": [
     {
       "id": "sess-q1-001",
+      "slotId": "slot-q2-demo",
       "courseSlug": "quantum-computing-foundations",
       "instructorSlug": "dr-aravind-vaidya",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
       "studentName": "Ridhesh Walavalkar",
       "studentEmail": "walavalkarridhesh@gmail.com",
-      "sessionType": "interview_prep",
+      "sessionType": "quantum_interview_prep",
       "scheduledAt": "2026-11-08T15:30:00.000Z",
       "durationMinutes": 45,
       "meetingUrl": "https://meet.google.com/pmu-quantum-vip",
@@ -663,5 +933,99 @@
       "studentNotes": "Reviewing statevector compilation and preparing for quantum engineering research intern interview.",
       "instructorNotes": "Student has completed Module 1 & 2 simulations. Prepare Bell state compilation problem."
     }
-  ]
+  ],
+  "pendingApprovals": [
+    {
+      "id": "appr-001",
+      "itemType": "lesson",
+      "courseSlug": "quantum-computing-foundations",
+      "courseTitle": "Quantum Computing Foundations",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "instructorSlug": "dr-aravind-vaidya",
+      "title": "Variational Quantum Eigensolver (VQE) Deep Dive",
+      "summary": "Covers Hamiltonian expectation evaluation on NISQ hardware and classical gradient optimization.",
+      "submittedAt": "2026-11-02T14:20:00.000Z",
+      "status": "pending_review"
+    },
+    {
+      "id": "appr-002",
+      "itemType": "question",
+      "courseSlug": "quantum-computing-foundations",
+      "courseTitle": "Quantum Computing Foundations",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "instructorSlug": "dr-aravind-vaidya",
+      "title": "CHSH Inequality Violation Calculation Problem",
+      "summary": "Numerical problem calculating the expectation value ⟨A0B0⟩ + ⟨A0B1⟩ + ⟨A1B0⟩ - ⟨A1B1⟩ for maximally entangled Bell state.",
+      "submittedAt": "2026-11-02T16:45:00.000Z",
+      "status": "pending_review"
+    },
+    {
+      "id": "appr-003",
+      "itemType": "quiz",
+      "courseSlug": "quantum-computing-foundations",
+      "courseTitle": "Quantum Computing Foundations",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "instructorSlug": "dr-aravind-vaidya",
+      "title": "Quantum Error Mitigation & Zero Noise Extrapolation Quiz",
+      "summary": "Advanced diagnostic evaluating Richardson extrapolation and Pauli twirling methods.",
+      "submittedAt": "2026-11-03T08:10:00.000Z",
+      "status": "pending_review"
+    }
+  ],
+  "certificates": [
+    {
+      "code": "PMU-QC-2026-8F2A19",
+      "studentTarget": "walavalkarridhesh@gmail.com",
+      "studentName": "Ridhesh Walavalkar",
+      "courseSlug": "quantum-computing-foundations",
+      "courseTitle": "Quantum Computing Foundations",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "issueDate": "2026-11-03T10:00:00.000Z",
+      "status": "issued",
+      "verificationUrl": "https://prepmeupai.in/prepmeup/verify-certificate/PMU-QC-2026-8F2A19"
+    }
+  ],
+  "studentQuantumProgress": {
+    "walavalkarridhesh@gmail.com": {
+      "completedLessons": [
+        "lesson-q1-01",
+        "lesson-q1-02",
+        "lesson-q1-03",
+        "lesson-q1-04",
+        "lesson-q2-01",
+        "lesson-q2-02",
+        "lesson-q2-03",
+        "lesson-q2-04",
+        "lesson-q3-01",
+        "lesson-q3-02",
+        "lesson-q3-03",
+        "lesson-q3-04",
+        "lesson-q4-01",
+        "lesson-q4-02",
+        "lesson-q4-03",
+        "lesson-q4-04",
+        "lesson-q5-01",
+        "lesson-q5-02",
+        "lesson-q5-03",
+        "lesson-q5-04"
+      ],
+      "completedSimulations": [
+        "qubit-state-visualizer",
+        "superposition-explorer",
+        "circuit-builder",
+        "entanglement-demonstrator",
+        "grover-search"
+      ],
+      "passedQuizzes": [
+        "quiz-quantum-01",
+        "quiz-quantum-02",
+        "quiz-quantum-03",
+        "quiz-quantum-04",
+        "quiz-quantum-05"
+      ],
+      "completionPercentage": 100,
+      "certificateStatus": "issued",
+      "certificateCode": "PMU-QC-2026-8F2A19"
+    }
+  }
 }

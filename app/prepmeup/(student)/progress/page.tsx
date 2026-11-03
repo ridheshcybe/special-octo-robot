@@ -44,24 +44,53 @@ interface ProgressStats {
   }[];
 }
 
+interface QuantumProgressStats {
+  completedLessonsCount: number;
+  totalLessons: number;
+  completedSimulationsCount: number;
+  totalSimulations: number;
+  passedQuizzesCount: number;
+  totalQuizzes: number;
+  completionPercentage: number;
+  certificateStatus: string;
+  certificateCode?: string;
+  moduleStats: Array<{
+    moduleNumber: number;
+    title: string;
+    completedLessons: number;
+    totalLessons: number;
+    quizPassed: boolean;
+    percentage: number;
+  }>;
+}
+
 export default function StudentProgressDashboard() {
   const [stats, setStats] = useState<ProgressStats | null>(null);
+  const [quantumStats, setQuantumStats] = useState<QuantumProgressStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [expandedAttemptId, setExpandedAttemptId] = useState<string | null>(null);
+  const [selectedTrack, setSelectedTrack] = useState<"btech-cse-aiml" | "quantum-computing">("btech-cse-aiml");
 
   const loadProgress = () => {
     setLoading(true);
     setErrorMsg(null);
-    fetch("/api/prepmeup/progress", { cache: "no-store" })
-      .then(async (res) => {
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok || !data.ok) {
-          throw new Error(data.error || `Failed to load progress (HTTP ${res.status}).`);
+    Promise.all([
+      fetch("/api/prepmeup/progress", { cache: "no-store" }).then((r) => r.json()),
+      fetch("/api/prepmeup/progress/quantum", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ ok: false })),
+    ])
+      .then(([btechRes, qRes]) => {
+        if (btechRes?.ok) {
+          setStats(btechRes.stats);
+          if (btechRes.stats.recentAttempts?.length > 0) {
+            setExpandedAttemptId(btechRes.stats.recentAttempts[0].id);
+          }
+        } else {
+          throw new Error(btechRes?.error || "Failed to load progress.");
         }
-        setStats(data.stats);
-        if (data.stats.recentAttempts?.length > 0) {
-          setExpandedAttemptId(data.stats.recentAttempts[0].id);
+
+        if (qRes?.ok && qRes.progress) {
+          setQuantumStats(qRes.progress);
         }
       })
       .catch((err: any) => {
@@ -127,84 +156,280 @@ export default function StudentProgressDashboard() {
     <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
       {/* Top Banner */}
       <div className="pmu-card" style={{ padding: "28px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span className="pmu-badge">📈 Semester 1 Mastery Analytics</span>
-          <span className="font-mono" style={{ fontSize: "11px", color: "#4ade80" }}>
-            ✓ Submission Error Diagnostics &amp; Explanations Enabled
-          </span>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span className="pmu-badge">📈 Academic Mastery Analytics</span>
+            <span className="font-mono" style={{ fontSize: "11px", color: "#4ade80" }}>
+              ✓ Dynamic Progress &amp; Certificate Eligibility
+            </span>
+          </div>
+
+          {/* Track Switcher */}
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button
+              type="button"
+              onClick={() => setSelectedTrack("btech-cse-aiml")}
+              className="font-mono"
+              style={{
+                padding: "6px 14px",
+                fontSize: "11px",
+                fontWeight: 700,
+                borderRadius: "6px",
+                border: selectedTrack === "btech-cse-aiml" ? "1px solid #ff3b1d" : "1px solid #26262c",
+                backgroundColor: selectedTrack === "btech-cse-aiml" ? "rgba(255,59,29,0.15)" : "#08080a",
+                color: selectedTrack === "btech-cse-aiml" ? "#ff6a3d" : "#807f78",
+                cursor: "pointer",
+              }}
+            >
+              B.Tech CSE AI/ML
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedTrack("quantum-computing")}
+              className="font-mono"
+              style={{
+                padding: "6px 14px",
+                fontSize: "11px",
+                fontWeight: 700,
+                borderRadius: "6px",
+                border: selectedTrack === "quantum-computing" ? "1px solid #ff3b1d" : "1px solid #26262c",
+                backgroundColor: selectedTrack === "quantum-computing" ? "rgba(255,59,29,0.15)" : "#08080a",
+                color: selectedTrack === "quantum-computing" ? "#ff6a3d" : "#807f78",
+                cursor: "pointer",
+              }}
+            >
+              ⚛️ Quantum Computing Track
+            </button>
+          </div>
         </div>
+
         <h1
           className="font-display"
           style={{
-            marginTop: "12px",
+            marginTop: "16px",
             fontSize: "clamp(28px, 4vw, 42px)",
             lineHeight: 0.98,
             textTransform: "uppercase",
             color: "#f3f1ea",
           }}
         >
-          Academic Progress, Errors &amp; Submission Review
+          {selectedTrack === "quantum-computing"
+            ? "Quantum Computing Track Progress"
+            : "Academic Progress, Errors & Submission Review"}
         </h1>
         <p style={{ marginTop: "8px", maxWidth: "700px", fontSize: "14px", lineHeight: 1.6, color: "#a19f95" }}>
-          Track subject completion, quiz accuracy trends, and inspect detailed error logs and step-by-step faculty derivations for every recent submission.
+          {selectedTrack === "quantum-computing"
+            ? "Monitor your completion of theoretical lessons, interactive hardware simulations, and module assessments towards your verified Quantum Scholar certification."
+            : "Track subject completion, quiz accuracy trends, and inspect detailed error logs and step-by-step faculty derivations for every recent submission."}
         </p>
       </div>
 
-      {/* KPI Cards */}
-      <div className="pmu-grid-4">
-        <div className="pmu-card" style={{ padding: "22px" }}>
-          <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
-            Syllabus Covered
-          </span>
-          <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#f3f1ea", marginTop: "8px" }}>
-            {stats.overallCompletion}%
-          </div>
-          <span className="font-mono" style={{ fontSize: "11px", color: "#4ade80", marginTop: "6px", display: "block" }}>
-            ✓ On Schedule
-          </span>
-        </div>
+      {selectedTrack === "quantum-computing" ? (
+        /* Quantum Track Dashboard */
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+          {/* Quantum KPIs */}
+          <div className="pmu-grid-4">
+            <div className="pmu-card" style={{ padding: "22px" }}>
+              <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
+                Quantum Mastery
+              </span>
+              <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#f3f1ea", marginTop: "8px" }}>
+                {quantumStats?.completionPercentage || 0}%
+              </div>
+              <span className="font-mono" style={{ fontSize: "11px", color: "#4ade80", marginTop: "6px", display: "block" }}>
+                Curriculum Progress
+              </span>
+            </div>
 
-        <div className="pmu-card" style={{ padding: "22px" }}>
-          <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
-            Average Accuracy
-          </span>
-          <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#ff6a3d", marginTop: "8px" }}>
-            {stats.averageAccuracy}%
-          </div>
-          <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "6px", display: "block" }}>
-            Across all submissions
-          </span>
-        </div>
+            <div className="pmu-card" style={{ padding: "22px" }}>
+              <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
+                Lessons Completed
+              </span>
+              <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#ff6a3d", marginTop: "8px" }}>
+                {quantumStats?.completedLessonsCount || 0} / 20
+              </div>
+              <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "6px", display: "block" }}>
+                5 Modules Covered
+              </span>
+            </div>
 
-        <div className="pmu-card" style={{ padding: "22px" }}>
-          <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
-            Quizzes Completed
-          </span>
-          <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#f3f1ea", marginTop: "8px" }}>
-            {(() => {
-              const count = typeof stats.quizzesCompleted === "number" ? stats.quizzesCompleted : stats.totalQuizzesAttempted;
-              return count < 10 ? `0${count}` : count;
-            })()}
-          </div>
-          <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "6px", display: "block" }}>
-            {typeof stats.codingSubmissionsCount === "number" && stats.codingSubmissionsCount > 0
-              ? `+ ${stats.codingSubmissionsCount} Coding Lab${stats.codingSubmissionsCount > 1 ? "s" : ""}`
-              : "Graded & archived"}
-          </span>
-        </div>
+            <div className="pmu-card" style={{ padding: "22px" }}>
+              <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
+                Hardware Simulations
+              </span>
+              <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#f3f1ea", marginTop: "8px" }}>
+                {quantumStats?.completedSimulationsCount || 0} / 5
+              </div>
+              <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "6px", display: "block" }}>
+                Interactive Labs
+              </span>
+            </div>
 
-        <div className="pmu-card" style={{ padding: "22px" }}>
-          <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
-            Study Time Logged
-          </span>
-          <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#4ade80", marginTop: "8px" }}>
-            {stats.studyHours}h
+            <div className="pmu-card" style={{ padding: "22px" }}>
+              <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
+                Module Quizzes Passed
+              </span>
+              <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#4ade80", marginTop: "8px" }}>
+                {quantumStats?.passedQuizzesCount || 0} / 5
+              </div>
+              <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "6px", display: "block" }}>
+                Passing: &ge; 60%
+              </span>
+            </div>
           </div>
-          <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "6px", display: "block" }}>
-            {typeof stats.studyMinutes === "number" ? `${stats.studyMinutes} mins active practice` : "Active in-app time"}
-          </span>
+
+          {/* Module Breakdown & Certificate Status */}
+          <div className="pmu-grid-3">
+            <div style={{ gridColumn: "span 2", display: "flex", flexDirection: "column", gap: "16px" }}>
+              <div className="pmu-card" style={{ padding: "28px" }}>
+                <h2 className="font-display" style={{ fontSize: "24px", textTransform: "uppercase", color: "#f3f1ea" }}>
+                  Module Breakdown
+                </h2>
+                <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "18px" }}>
+                  {(quantumStats?.moduleStats || []).map((m) => (
+                    <div key={m.moduleNumber} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div>
+                          <strong style={{ fontSize: "14px", color: "#f3f1ea" }}>
+                            Mod {m.moduleNumber}: {m.title}
+                          </strong>
+                          <span className="font-mono" style={{ fontSize: "11px", color: "#807f78", marginLeft: "8px" }}>
+                            {m.completedLessons}/{m.totalLessons} lessons
+                          </span>
+                        </div>
+                        <span
+                          className="font-mono"
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: 700,
+                            color: m.quizPassed ? "#4ade80" : "#807f78",
+                          }}
+                        >
+                          {m.quizPassed ? "✓ Quiz Passed" : "Quiz Pending"}
+                        </span>
+                      </div>
+                      <div style={{ width: "100%", height: "6px", borderRadius: "3px", backgroundColor: "#1e1e24" }}>
+                        <div
+                          style={{
+                            width: `${m.percentage}%`,
+                            height: "100%",
+                            borderRadius: "3px",
+                            backgroundColor: m.percentage === 100 ? "#4ade80" : "#ff3b1d",
+                            transition: "width 0.3s ease",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Certificate Status Card */}
+            <div>
+              <div
+                className="pmu-card"
+                style={{
+                  padding: "26px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "16px",
+                  border:
+                    quantumStats?.certificateStatus === "issued"
+                      ? "1px solid rgba(74,222,128,0.4)"
+                      : "1px solid #26262c",
+                }}
+              >
+                <span className="pmu-badge">Official Credential</span>
+                <h3 className="font-display" style={{ fontSize: "22px", color: "#f3f1ea", textTransform: "uppercase" }}>
+                  Quantum Certification
+                </h3>
+                <p style={{ fontSize: "13px", color: "#a19f95", lineHeight: 1.5 }}>
+                  Status:{" "}
+                  <strong
+                    style={{
+                      color:
+                        quantumStats?.certificateStatus === "issued"
+                          ? "#4ade80"
+                          : quantumStats?.certificateStatus === "eligible"
+                          ? "#ff6a3d"
+                          : "#807f78",
+                    }}
+                  >
+                    {quantumStats?.certificateStatus?.toUpperCase().replace("_", " ") || "IN PROGRESS"}
+                  </strong>
+                </p>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "8px" }}>
+                  <Link href="/prepmeup/certificates" className="pmu-btn-primary" style={{ textAlign: "center", fontSize: "12px" }}>
+                    View Certificate Status 🎓
+                  </Link>
+                  <Link href="/prepmeup/mentorship" className="pmu-btn-secondary" style={{ textAlign: "center", fontSize: "12px" }}>
+                    Book 1-on-1 Faculty Mentorship 📅
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        /* B.Tech Semester 1 Dashboard (Original) */
+        <>
+          {/* KPI Cards */}
+          <div className="pmu-grid-4">
+            <div className="pmu-card" style={{ padding: "22px" }}>
+              <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
+                Syllabus Covered
+              </span>
+              <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#f3f1ea", marginTop: "8px" }}>
+                {stats.overallCompletion}%
+              </div>
+              <span className="font-mono" style={{ fontSize: "11px", color: "#4ade80", marginTop: "6px", display: "block" }}>
+                ✓ On Schedule
+              </span>
+            </div>
+
+            <div className="pmu-card" style={{ padding: "22px" }}>
+              <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
+                Average Accuracy
+              </span>
+              <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#ff6a3d", marginTop: "8px" }}>
+                {stats.averageAccuracy}%
+              </div>
+              <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "6px", display: "block" }}>
+                Across all submissions
+              </span>
+            </div>
+
+            <div className="pmu-card" style={{ padding: "22px" }}>
+              <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
+                Quizzes Completed
+              </span>
+              <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#f3f1ea", marginTop: "8px" }}>
+                {(() => {
+                  const count = typeof stats.quizzesCompleted === "number" ? stats.quizzesCompleted : stats.totalQuizzesAttempted;
+                  return count < 10 ? `0${count}` : count;
+                })()}
+              </div>
+              <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "6px", display: "block" }}>
+                {typeof stats.codingSubmissionsCount === "number" && stats.codingSubmissionsCount > 0
+                  ? `+ ${stats.codingSubmissionsCount} Coding Lab${stats.codingSubmissionsCount > 1 ? "s" : ""}`
+                  : "Graded & archived"}
+              </span>
+            </div>
+
+            <div className="pmu-card" style={{ padding: "22px" }}>
+              <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
+                Study Time Logged
+              </span>
+              <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#4ade80", marginTop: "8px" }}>
+                {stats.studyHours}h
+              </div>
+              <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "6px", display: "block" }}>
+                {typeof stats.studyMinutes === "number" ? `${stats.studyMinutes} mins active practice` : "Active in-app time"}
+              </span>
+            </div>
+          </div>
 
       {/* Subject-Wise Mastery Bars */}
       <div className="pmu-card" style={{ padding: "28px" }}>
@@ -467,6 +692,8 @@ export default function StudentProgressDashboard() {
           )}
         </div>
       </div>
+      </>
+      )}
     </div>
   );
 }
