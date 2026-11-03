@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { requestMentorshipSession } from "@/app/prepmeup/_lib/trackStore";
+import { requestMentorshipSession, consumeMentorshipSession } from "@/app/prepmeup/_lib/trackStore";
 import { resolveSessionIdentity } from "@/app/prepmeup/_lib/studentStore";
+import { canBookQuantumMentorship } from "@/lib/prepmeup/access";
 
 const RequestSchema = z.object({
   slotId: z.string().min(1, "Slot ID is required"),
@@ -19,6 +20,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { ok: false, error: "Authentication required. Please sign in to request 1:1 mentorship." },
         { status: 401 }
+      );
+    }
+
+    const studentId = identity.canonicalId;
+
+    // Entitlement Guard: verify student has Semester Pass or active Mentorship Pack
+    const canBook = canBookQuantumMentorship(studentId);
+    if (!canBook) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "No active 1-on-1 mentorship entitlement found. Please purchase a Quantum Mentorship Pack or enroll in Quantum Semester Pass.",
+          requiresEntitlement: true,
+        },
+        { status: 403 }
       );
     }
 
@@ -44,6 +60,9 @@ export async function POST(req: NextRequest) {
     if (!result.success) {
       return NextResponse.json({ ok: false, error: result.error }, { status: 409 });
     }
+
+    // Consume 1 session from pack
+    consumeMentorshipSession(studentId);
 
     return NextResponse.json({
       ok: true,

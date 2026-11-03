@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { updateMentorshipSession, getStudentMentorshipSessions } from "@/app/prepmeup/_lib/trackStore";
+import { updateMentorshipSession, getStudentMentorshipSessions, refundMentorshipSession } from "@/app/prepmeup/_lib/trackStore";
 import { resolveSessionIdentity } from "@/app/prepmeup/_lib/studentStore";
 
 export async function PATCH(
@@ -30,7 +30,11 @@ export async function PATCH(
 
     if (action === "cancel") {
       const updated = updateMentorshipSession(sessionId, { status: "cancelled" });
-      return NextResponse.json({ ok: true, session: updated.session });
+      // Refund the mentorship credit if session was not completed
+      if (session.status !== "completed") {
+        refundMentorshipSession(identity.canonicalId);
+      }
+      return NextResponse.json({ ok: true, session: updated.session, refunded: true });
     }
 
     if (studentNotes) {

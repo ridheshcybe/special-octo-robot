@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 import { MOCK_QUIZZES } from "@/app/prepmeup/_lib/quizData";
 import { getQuantumQuizById, checkUserCourseAccess } from "@/app/prepmeup/_lib/trackStore";
+import { canAccessQuantumQuiz } from "@/lib/prepmeup/access";
 
 export async function POST(
   req: NextRequest,
@@ -31,9 +32,9 @@ export async function POST(
     // Check if this is a Quantum Quiz
     const quantumQuiz = getQuantumQuizById(quizId);
     if (quantumQuiz) {
-      // Access check: only free preview quiz is accessible unless user has course access or admin
+      // Access check using central access service
       const isFreePreview = Boolean(quantumQuiz.isFreePreview);
-      const hasAccess = isFreePreview || Boolean(adminSession?.value) || checkUserCourseAccess(studentId, "quantum-computing-foundations");
+      const hasAccess = Boolean(adminSession?.value) || canAccessQuantumQuiz(studentId, quantumQuiz);
 
       if (!hasAccess) {
         return NextResponse.json(

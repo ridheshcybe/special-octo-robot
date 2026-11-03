@@ -185,6 +185,69 @@ export interface StudentQuantumProgress {
   certificateCode?: string;
 }
 
+export interface QuantumEnrollment {
+  id: string;
+  userId: string;
+  courseId: string;
+  trackId: string;
+  accessType: "free_preview" | "semester_pass" | "mentorship_pack" | "admin_granted";
+  status: "active" | "expired" | "cancelled" | "revoked";
+  startsAt: string;
+  expiresAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface QuantumOrder {
+  id: string;
+  userId: string;
+  courseId: string;
+  productType: "semester_pass" | "mentorship_pack";
+  razorpayOrderId: string;
+  amountInPaise: number;
+  currency: string;
+  status: "created" | "pending" | "paid" | "failed" | "expired" | "refunded";
+  metadata?: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface QuantumPayment {
+  id: string;
+  orderId: string;
+  userId: string;
+  razorpayPaymentId: string;
+  razorpaySignature?: string;
+  amountInPaise: number;
+  currency: string;
+  status: "created" | "authorized" | "captured" | "failed" | "refunded";
+  verificationStatus: "pending" | "verified" | "failed";
+  webhookStatus: "pending" | "received" | "processed" | "failed";
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface MentorshipPack {
+  id: string;
+  userId: string;
+  courseId: string;
+  packType: string;
+  totalSessions: number;
+  usedSessions: number;
+  status: "active" | "exhausted" | "expired" | "revoked";
+  expiresAt: string;
+  createdAt: string;
+}
+
+export interface EarlyAdopterRedemption {
+  id: string;
+  userId: string;
+  courseId: string;
+  redemptionNumber: number;
+  status: "claimed" | "revoked";
+  createdAt: string;
+}
+
 interface TrackStoreState {
   tracks: Track[];
   instructors: Instructor[];
@@ -198,6 +261,11 @@ interface TrackStoreState {
   pendingApprovals: PendingApprovalItem[];
   certificates: QuantumCertificate[];
   studentQuantumProgress: Record<string, StudentQuantumProgress>;
+  enrollments: QuantumEnrollment[];
+  orders: QuantumOrder[];
+  payments: QuantumPayment[];
+  mentorshipPacks: MentorshipPack[];
+  earlyAdopterRedemptions: EarlyAdopterRedemption[];
 }
 
 let cachedState: TrackStoreState | null = null;
@@ -206,7 +274,7 @@ function getDataFilePath(): string {
   return path.join(process.cwd(), "deploy", "cms", "quantum_track_data.json");
 }
 
-function loadState(): TrackStoreState {
+export function loadState(): TrackStoreState {
   if (cachedState) return cachedState;
 
   try {
@@ -220,6 +288,11 @@ function loadState(): TrackStoreState {
       if (!Array.isArray(cachedState!.pendingApprovals)) cachedState!.pendingApprovals = [];
       if (!Array.isArray(cachedState!.certificates)) cachedState!.certificates = [];
       if (!cachedState!.studentQuantumProgress) cachedState!.studentQuantumProgress = {};
+      if (!Array.isArray(cachedState!.enrollments)) cachedState!.enrollments = [];
+      if (!Array.isArray(cachedState!.orders)) cachedState!.orders = [];
+      if (!Array.isArray(cachedState!.payments)) cachedState!.payments = [];
+      if (!Array.isArray(cachedState!.mentorshipPacks)) cachedState!.mentorshipPacks = [];
+      if (!Array.isArray(cachedState!.earlyAdopterRedemptions)) cachedState!.earlyAdopterRedemptions = [];
       return cachedState!;
     }
   } catch (err) {
@@ -240,6 +313,11 @@ function loadState(): TrackStoreState {
     pendingApprovals: [],
     certificates: [],
     studentQuantumProgress: {},
+    enrollments: [],
+    orders: [],
+    payments: [],
+    mentorshipPacks: [],
+    earlyAdopterRedemptions: [],
   };
 
   return cachedState;
@@ -845,5 +923,383 @@ export function checkUserCourseAccess(
     }
   }
 
+  // Check Quantum Enrollment
+  const enrollment = getQuantumEnrollment(userTarget, courseSlug);
+  if (enrollment && enrollment.status === "active") {
+    return { hasAccess: true, isFreePreviewOnly: false, role: "student" };
+  }
+
   return { hasAccess: false, isFreePreviewOnly: true, role: "student" };
+}
+
+// ----------------------------------------------------------------------------
+// Phase Q3: Quantum Commercial Enrollment, Orders & Mentorship Entitlements
+// ----------------------------------------------------------------------------
+
+export function getQuantumEnrollment(
+  userTarget: string,
+  courseId = "quantum-computing-foundations"
+): QuantumEnrollment | null {
+  const state = loadState();
+  const key = userTarget.toLowerCase();
+  const now = new Date();
+
+  // Find active enrollment
+  const enr = state.enrollments.find(
+    (e) =>
+      e.userId.toLowerCase() === key &&
+      (e.courseId === courseId || e.courseId === "quantum-computing-foundations") &&
+      e.status === "active"
+  );
+
+  if (!enr) return null;
+
+  // Check expiration
+  if (enr.expiresAt && new Date(enr.expiresAt) < now) {
+    enr.status = "expired";
+    persistState();
+    return null;
+  }
+
+  return enr;
+}
+
+export function getAllQuantumEnrollments(): QuantumEnrollment[] {
+  const state = loadState();
+  return [...state.enrollments];
+}
+
+export function createOrExtendQuantumEnrollment(params: {
+  userId: string;
+  courseId?: string;
+  accessType: "free_preview" | "semester_pass" | "mentorship_pack" | "admin_granted";
+  months?: number;
+}): QuantumEnrollment {
+  const state = loadState();
+  const courseId = params.courseId || "quantum-computing-foundations";
+  const now = new Date();
+  const months = params.months || 6;
+  const expiresAt = new Date(now.getTime() + months * 30 * 24 * 60 * 60 * 1000).toISOString();
+
+  // Check if active enrollment exists
+  const existing = state.enrollments.find(
+    (e) =>
+      e.userId.toLowerCase() === params.userId.toLowerCase() &&
+      e.courseId === courseId &&
+      e.status === "active"
+  );
+
+  if (existing) {
+    existing.accessType = params.accessType;
+    existing.expiresAt = expiresAt;
+    existing.updatedAt = now.toISOString();
+    persistState();
+    return existing;
+  }
+
+  const newEnr: QuantumEnrollment = {
+    id: `enr-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    userId: params.userId,
+    courseId,
+    trackId: "quantum-computing",
+    accessType: params.accessType,
+    status: "active",
+    startsAt: now.toISOString(),
+    expiresAt: params.accessType === "free_preview" ? undefined : expiresAt,
+    createdAt: now.toISOString(),
+    updatedAt: now.toISOString(),
+  };
+
+  state.enrollments.push(newEnr);
+  persistState();
+  return newEnr;
+}
+
+export function revokeQuantumEnrollment(enrollmentId: string): boolean {
+  const state = loadState();
+  const enr = state.enrollments.find((e) => e.id === enrollmentId);
+  if (!enr) return false;
+  enr.status = "revoked";
+  enr.updatedAt = new Date().toISOString();
+  persistState();
+  return true;
+}
+
+// Mentorship packs
+export function getQuantumMentorshipPacks(
+  userId: string,
+  courseId = "quantum-computing-foundations"
+): MentorshipPack[] {
+  const state = loadState();
+  const key = userId.toLowerCase();
+  const now = new Date();
+
+  return state.mentorshipPacks.filter((p) => {
+    if (p.userId.toLowerCase() !== key) return false;
+    if (p.courseId !== courseId && p.courseId !== "quantum-computing-foundations") return false;
+    // Check expiry
+    if (p.status === "active" && p.expiresAt && new Date(p.expiresAt) < now) {
+      p.status = "expired";
+      persistState();
+      return false;
+    }
+    return p.status === "active" && p.usedSessions < p.totalSessions;
+  });
+}
+
+export function createMentorshipPack(params: {
+  userId: string;
+  courseId?: string;
+  totalSessions?: number;
+  validityDays?: number;
+}): MentorshipPack {
+  const state = loadState();
+  const courseId = params.courseId || "quantum-computing-foundations";
+  const now = new Date();
+  const days = params.validityDays || 90;
+  const expiresAt = new Date(now.getTime() + days * 24 * 60 * 60 * 1000).toISOString();
+
+  const pack: MentorshipPack = {
+    id: `pack-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    userId: params.userId,
+    courseId,
+    packType: "single_session",
+    totalSessions: params.totalSessions || 1,
+    usedSessions: 0,
+    status: "active",
+    expiresAt,
+    createdAt: now.toISOString(),
+  };
+
+  state.mentorshipPacks.push(pack);
+  persistState();
+  return pack;
+}
+
+export function consumeMentorshipSession(
+  userId: string,
+  courseId = "quantum-computing-foundations"
+): { success: boolean; packId?: string; error?: string } {
+  const state = loadState();
+  const activePacks = getQuantumMentorshipPacks(userId, courseId);
+
+  if (activePacks.length === 0) {
+    return { success: false, error: "No active mentorship sessions or packs available." };
+  }
+
+  const pack = activePacks[0];
+  pack.usedSessions += 1;
+  if (pack.usedSessions >= pack.totalSessions) {
+    pack.status = "exhausted";
+  }
+  persistState();
+  return { success: true, packId: pack.id };
+}
+
+export function refundMentorshipSession(
+  userId: string,
+  courseId = "quantum-computing-foundations"
+): boolean {
+  const state = loadState();
+  const key = userId.toLowerCase();
+  // Find a pack with usedSessions > 0 to refund
+  const pack = state.mentorshipPacks.find(
+    (p) =>
+      p.userId.toLowerCase() === key &&
+      (p.courseId === courseId || p.courseId === "quantum-computing-foundations") &&
+      p.usedSessions > 0
+  );
+
+  if (!pack) return false;
+  pack.usedSessions = Math.max(0, pack.usedSessions - 1);
+  if (pack.status === "exhausted") {
+    pack.status = "active";
+  }
+  persistState();
+  return true;
+}
+
+// Early adopter counter
+export function getEarlyAdopterCount(courseId = "quantum-computing-foundations"): number {
+  const state = loadState();
+  return state.earlyAdopterRedemptions.filter(
+    (r) => r.courseId === courseId && r.status === "claimed"
+  ).length;
+}
+
+export function claimEarlyAdopterSeat(
+  userId: string,
+  courseId = "quantum-computing-foundations",
+  limit = 10
+): { success: boolean; redemptionNumber?: number; error?: string } {
+  const state = loadState();
+  const key = userId.toLowerCase();
+
+  // Check if user already claimed
+  const existing = state.earlyAdopterRedemptions.find(
+    (r) => r.userId.toLowerCase() === key && r.courseId === courseId && r.status === "claimed"
+  );
+  if (existing) {
+    return {
+      success: false,
+      error: "You have already claimed an Early Adopter 100% discount redemption.",
+      redemptionNumber: existing.redemptionNumber,
+    };
+  }
+
+  // Count active claims atomically
+  const currentCount = getEarlyAdopterCount(courseId);
+  if (currentCount >= limit) {
+    return {
+      success: false,
+      error: `All ${limit} Early Adopter seats have been claimed. Please enroll via standard checkout.`,
+    };
+  }
+
+  const redemptionNumber = currentCount + 1;
+  const newClaim: EarlyAdopterRedemption = {
+    id: `ea-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    userId,
+    courseId,
+    redemptionNumber,
+    status: "claimed",
+    createdAt: new Date().toISOString(),
+  };
+
+  state.earlyAdopterRedemptions.push(newClaim);
+
+  // Automatically activate Semester Pass enrollment
+  createOrExtendQuantumEnrollment({
+    userId,
+    courseId,
+    accessType: "semester_pass",
+    months: 6,
+  });
+
+  // Also include 1 mentorship session benefit
+  createMentorshipPack({
+    userId,
+    courseId,
+    totalSessions: 1,
+    validityDays: 180,
+  });
+
+  persistState();
+  return { success: true, redemptionNumber };
+}
+
+// Quantum Orders & Payments
+export function createQuantumOrder(params: {
+  userId: string;
+  courseId?: string;
+  productType: "semester_pass" | "mentorship_pack";
+  razorpayOrderId: string;
+  amountInPaise: number;
+  metadata?: any;
+}): QuantumOrder {
+  const state = loadState();
+  const now = new Date().toISOString();
+
+  const order: QuantumOrder = {
+    id: `ord-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    userId: params.userId,
+    courseId: params.courseId || "quantum-computing-foundations",
+    productType: params.productType,
+    razorpayOrderId: params.razorpayOrderId,
+    amountInPaise: params.amountInPaise,
+    currency: "INR",
+    status: "created",
+    metadata: params.metadata || {},
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  state.orders.push(order);
+  persistState();
+  return order;
+}
+
+export function getQuantumOrderByRazorpayId(razorpayOrderId: string): QuantumOrder | null {
+  const state = loadState();
+  return state.orders.find((o) => o.razorpayOrderId === razorpayOrderId) || null;
+}
+
+export function updateQuantumOrderStatus(
+  razorpayOrderId: string,
+  status: "paid" | "failed" | "refunded",
+  paymentDetails?: {
+    razorpayPaymentId?: string;
+    razorpaySignature?: string;
+    amountInPaise?: number;
+    verificationStatus?: "verified" | "failed";
+  }
+): boolean {
+  const state = loadState();
+  const order = state.orders.find((o) => o.razorpayOrderId === razorpayOrderId);
+  if (!order) return false;
+
+  order.status = status;
+  order.updatedAt = new Date().toISOString();
+
+  if (paymentDetails?.razorpayPaymentId) {
+    const existingPay = state.payments.find(
+      (p) => p.razorpayPaymentId === paymentDetails.razorpayPaymentId
+    );
+    if (!existingPay) {
+      const newPay: QuantumPayment = {
+        id: `pay-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+        orderId: order.id,
+        userId: order.userId,
+        razorpayPaymentId: paymentDetails.razorpayPaymentId,
+        razorpaySignature: paymentDetails.razorpaySignature,
+        amountInPaise: paymentDetails.amountInPaise || order.amountInPaise,
+        currency: "INR",
+        status: status === "paid" ? "captured" : status === "refunded" ? "refunded" : "failed",
+        verificationStatus: paymentDetails.verificationStatus || "verified",
+        webhookStatus: "processed",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      state.payments.push(newPay);
+    }
+  }
+
+  // If paid, provision entitlements
+  if (status === "paid") {
+    if (order.productType === "semester_pass") {
+      createOrExtendQuantumEnrollment({
+        userId: order.userId,
+        courseId: order.courseId,
+        accessType: "semester_pass",
+        months: 6,
+      });
+      // Semester pass also includes 1 mentorship session benefit
+      createMentorshipPack({
+        userId: order.userId,
+        courseId: order.courseId,
+        totalSessions: 1,
+        validityDays: 180,
+      });
+    } else if (order.productType === "mentorship_pack") {
+      createMentorshipPack({
+        userId: order.userId,
+        courseId: order.courseId,
+        totalSessions: 1,
+        validityDays: 90,
+      });
+    }
+  }
+
+  persistState();
+  return true;
+}
+
+export function getAllQuantumOrders(): QuantumOrder[] {
+  const state = loadState();
+  return [...state.orders];
+}
+
+export function getAllQuantumPayments(): QuantumPayment[] {
+  const state = loadState();
+  return [...state.payments];
 }

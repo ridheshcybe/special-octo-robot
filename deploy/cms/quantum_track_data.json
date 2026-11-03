@@ -1027,5 +1027,84 @@
       "certificateStatus": "issued",
       "certificateCode": "PMU-QC-2026-8F2A19"
     }
-  }
+  },
+  "enrollments": [
+    {
+      "id": "enr-001",
+      "userId": "usr-certified-scholar-01",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-10-01T00:00:00.000Z",
+      "expiresAt": "2027-04-01T00:00:00.000Z",
+      "createdAt": "2026-10-01T00:00:00.000Z",
+      "updatedAt": "2026-10-01T00:00:00.000Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-001",
+      "userId": "usr-certified-scholar-01",
+      "courseId": "quantum-computing-foundations",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_quantum_seed_001",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "studentName": "Aarav Sharma",
+        "studentPhone": "+919876543210"
+      },
+      "createdAt": "2026-10-01T00:00:00.000Z",
+      "updatedAt": "2026-10-01T00:05:00.000Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay-001",
+      "orderId": "ord-001",
+      "userId": "usr-certified-scholar-01",
+      "razorpayPaymentId": "pay_quantum_seed_001",
+      "razorpaySignature": "seed_sig_001",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-10-01T00:05:00.000Z",
+      "updatedAt": "2026-10-01T00:05:00.000Z"
+    }
+  ],
+  "mentorshipPacks": [
+    {
+      "id": "pack-001",
+      "userId": "usr-certified-scholar-01",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-01-01T00:00:00.000Z",
+      "createdAt": "2026-10-01T00:05:00.000Z"
+    }
+  ],
+  "earlyAdopterRedemptions": [
+    {
+      "id": "ea-001",
+      "userId": "usr-early-001",
+      "courseId": "quantum-computing-foundations",
+      "redemptionNumber": 1,
+      "status": "claimed",
+      "createdAt": "2026-10-02T10:00:00.000Z"
+    },
+    {
+      "id": "ea-002",
+      "userId": "usr-early-002",
+      "courseId": "quantum-computing-foundations",
+      "redemptionNumber": 2,
+      "status": "claimed",
+      "createdAt": "2026-10-02T11:00:00.000Z"
+    }
+  ]
 }

@@ -580,7 +580,13 @@ export default function AdminDashboardPage() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
-          <Link href="/prepmeup/admin/content-studio" className="pmu-btn-primary" style={{ padding: "0.5rem 1rem", fontSize: "0.75rem" }}>
+          <Link href="/prepmeup/admin/quantum-payments" className="pmu-btn-primary" style={{ padding: "0.5rem 1rem", fontSize: "0.75rem" }}>
+            💳 Quantum Payments →
+          </Link>
+          <Link href="/prepmeup/admin/approvals" className="pmu-btn-secondary" style={{ padding: "0.5rem 1rem", fontSize: "0.75rem" }}>
+            🛡️ Content Approvals
+          </Link>
+          <Link href="/prepmeup/admin/content-studio" className="pmu-btn-secondary" style={{ padding: "0.5rem 1rem", fontSize: "0.75rem" }}>
             🎨 Split-Pane Studio →
           </Link>
           <Link href="/prepmeup" className="pmu-btn-secondary" style={{ padding: "0.5rem 1rem", fontSize: "0.75rem" }}>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { getLessonById, checkUserCourseAccess } from "../../../../_lib/trackStore";
+import { canAccessQuantumLesson } from "@/lib/prepmeup/access";
 import { RichMathMarkdown } from "@/app/prepmeup/_components/RichMathMarkdown";
 
 interface Props {
@@ -47,6 +48,8 @@ export default async function LessonViewerPage({ params }: Props) {
 
   const access = checkUserCourseAccess(userIdentifier, courseSlug);
   const isLocked = !lesson.isFreePreview && !access.hasAccess;
+  // Central access verification
+  const isAuthorized = canAccessQuantumLesson(userIdentifier, lesson, courseSlug);
 
   return (
     <div className="pmu-root" style={{ minHeight: "100vh", padding: "32px 20px" }}>
@@ -125,8 +128,8 @@ export default async function LessonViewerPage({ params }: Props) {
               &quot;{lesson.title}&quot; is part of the comprehensive {course.title} curriculum. Unlock full access to all 5 modules, interactive simulations, live 1:1 mentorship, and course certificates.
             </p>
 
-            <div style={{ marginTop: "24px", display: "flex", justifyContent: "center", gap: "14px" }}>
-              <Link href="/prepmeup/checkout" className="pmu-btn-primary" style={{ padding: "14px 28px", fontSize: "14px" }}>
+            <div style={{ marginTop: "24px", display: "flex", justifyContent: "center", gap: "14px", flexWrap: "wrap" }}>
+              <Link href="/prepmeup/quantum/pricing" className="pmu-btn-primary" style={{ padding: "14px 28px", fontSize: "14px" }}>
                 Unlock Quantum Track (₹{course.priceInr}) →
               </Link>
               <Link href={`/prepmeup/courses/${course.slug}/learn/lesson-q1-01`} className="pmu-btn-secondary" style={{ padding: "14px 24px", fontSize: "14px" }}>
