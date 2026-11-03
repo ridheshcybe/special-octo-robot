@@ -3,9 +3,10 @@ import { cookies } from "next/headers";
 import fs from "fs";
 import path from "path";
 import { DEFAULT_CALENDAR_SLOTS, type CalendarSlot, type AdminSession } from "@/app/api/prepmeup/admin/manage/route";
+import { resolvePersistentDataDir } from "@/app/prepmeup/_lib/studentStore";
 
 function getStateFilePath(): string {
-  return path.join(process.cwd(), "deploy", "cms", "admin_state.json");
+  return path.join(resolvePersistentDataDir(), "admin_state.json");
 }
 
 function loadStateData() {

@@ -2,7 +2,14 @@ import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 import { retrieveSyllabusGrounding, solveAcademicDoubt } from "@/lib/prepmeup/ai-tutor";
-import { recordDoubt, getStudentActivity } from "@/app/prepmeup/_lib/studentStore";
+import {
+  recordDoubt,
+  getStudentActivity,
+  resolveSessionIdentity,
+  StorageUnavailableError,
+} from "@/app/prepmeup/_lib/studentStore";
+
+export const dynamic = "force-dynamic";
 
 // In-memory sliding window for AI doubt rate limiting (max 15 queries per hour per user)
 const doubtRateLimitMap = new Map<string, number[]>();
@@ -10,110 +17,91 @@ const doubtRateLimitMap = new Map<string, number[]>();
 export async function GET(req: NextRequest) {
   try {
     const cookieStore = await cookies();
-    const studentSession = cookieStore.get("pmu-session");
-    const adminSession = cookieStore.get("pmu-admin-session");
+    const identity = resolveSessionIdentity(cookieStore);
 
-    if (!studentSession?.value && !adminSession?.value) {
-      return NextResponse.json({ ok: false, error: "Please log in." }, { status: 401 });
+    if (!identity) {
+      return NextResponse.json(
+        { ok: false, error: "Please log in to view your doubt history." },
+        { status: 401, headers: { "Cache-Control": "no-store" } }
+      );
     }
 
-    let studentId = "mock-student-id";
-    if (studentSession?.value) {
+    const studentId = identity.canonicalId;
+
+    // 1. Check durable student activity store first (throws StorageUnavailableError on store corruption)
+    const activity = getStudentActivity(studentId, identity.aliases);
+    const activeThreads = activity.doubts.map((d) => ({
+      id: d.id,
+      title: d.title,
+      status: "answered",
+      created_at: d.createdAt,
+      messages: [
+        {
+          id: `msg-q-${d.id}`,
+          sender_type: "student" as const,
+          message_text: d.queryText,
+          created_at: d.createdAt,
+        },
+        {
+          id: `msg-a-${d.id}`,
+          sender_type: "ai" as const,
+          message_text: d.answerText,
+          is_grounded_in_syllabus: d.isGrounded,
+          created_at: d.createdAt,
+        },
+      ],
+    }));
+
+    // 2. Also merge any Supabase threads if serviceClient is available and studentId is a UUID
+    const serviceClient = createPmuServiceClient();
+    if (serviceClient && /^[0-9a-f-]{36}$/i.test(studentId)) {
       try {
-        const parsed = JSON.parse(studentSession.value);
-        if (parsed.userId) studentId = parsed.userId;
+        const { data: supaThreads, error } = await serviceClient
+          .from("pmu_doubts")
+          .select("*, messages:pmu_doubt_messages(*)")
+          .eq("student_id", studentId)
+          .order("updated_at", { ascending: false });
+
+        if (!error && supaThreads && supaThreads.length > 0) {
+          for (const st of supaThreads) {
+            if (!activeThreads.some((t) => t.id === st.id)) {
+              activeThreads.push(st);
+            }
+          }
+        }
       } catch {}
     }
 
-    const serviceClient = createPmuServiceClient();
-    if (serviceClient && studentId !== "mock-student-id") {
-      const { data: threads, error } = await serviceClient
-        .from("pmu_doubts")
-        .select("*, messages:pmu_doubt_messages(*)")
-        .eq("student_id", studentId)
-        .order("updated_at", { ascending: false });
-
-      if (!error && threads) {
-        return NextResponse.json({ ok: true, threads });
-      }
-    }
-
-    // Check in-memory activity store for student's doubts
-    const activity = getStudentActivity(studentId);
-    if (activity.doubts.length > 0) {
-      const activeThreads = activity.doubts.map((d) => ({
-        id: d.id,
-        title: d.title,
-        status: "answered",
-        created_at: d.createdAt,
-        messages: [
-          {
-            id: `msg-q-${d.id}`,
-            sender_type: "student",
-            message_text: d.queryText,
-            created_at: d.createdAt,
-          },
-          {
-            id: `msg-a-${d.id}`,
-            sender_type: "ai",
-            message_text: d.answerText,
-            is_grounded_in_syllabus: d.isGrounded,
-            created_at: d.createdAt,
-          },
-        ],
-      }));
-      return NextResponse.json({ ok: true, threads: activeThreads });
-    }
-
-    // Default mock thread
-    return NextResponse.json({
-      ok: true,
-      threads: [
-        {
-          id: "doubt-1",
-          title: "Eigenvalues of Orthogonal Matrices",
-          status: "answered",
-          created_at: new Date().toISOString(),
-          messages: [
-            {
-              id: "msg-1",
-              sender_type: "student",
-              message_text: "Why are the eigenvalues of an orthogonal matrix always of unit magnitude?",
-              created_at: new Date().toISOString(),
-            },
-            {
-              id: "msg-2",
-              sender_type: "ai",
-              message_text: "For an orthogonal matrix $Q$, we have $Q^T Q = I$. If $Q v = \\lambda v$, taking norms gives $\\|Q v\\| = \\|v\\| \\implies |\\lambda| \\|v\\| = \\|v\\| \\implies |\\lambda| = 1$.",
-              is_grounded_in_syllabus: true,
-              created_at: new Date().toISOString(),
-            },
-          ],
-        },
-      ],
-    });
+    return NextResponse.json(
+      { ok: true, studentId, threads: activeThreads },
+      { headers: { "Cache-Control": "no-store, max-age=0" } }
+    );
   } catch (err: any) {
-    return NextResponse.json({ ok: false, error: err.message }, { status: 500 });
+    const status = err instanceof StorageUnavailableError ? 503 : 500;
+    return NextResponse.json(
+      {
+        ok: false,
+        code: err instanceof StorageUnavailableError ? err.code : "DOUBTS_READ_ERROR",
+        error: err.message || "Failed to load doubt history from persistent storage.",
+      },
+      { status, headers: { "Cache-Control": "no-store" } }
+    );
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
     const cookieStore = await cookies();
-    const studentSession = cookieStore.get("pmu-session");
-    const adminSession = cookieStore.get("pmu-admin-session");
+    const identity = resolveSessionIdentity(cookieStore);
 
-    if (!studentSession?.value && !adminSession?.value) {
-      return NextResponse.json({ ok: false, error: "Please log in to ask doubts." }, { status: 401 });
+    if (!identity) {
+      return NextResponse.json(
+        { ok: false, error: "Please log in to ask doubts." },
+        { status: 401, headers: { "Cache-Control": "no-store" } }
+      );
     }
 
-    let studentId = "mock-student-id";
-    if (studentSession?.value) {
-      try {
-        const parsed = JSON.parse(studentSession.value);
-        if (parsed.userId) studentId = parsed.userId;
-      } catch {}
-    }
+    const studentId = identity.canonicalId;
 
     // Rate Limiting (15 queries per hour)
     const now = Date.now();
@@ -154,42 +142,45 @@ export async function POST(req: NextRequest) {
       isGrounded,
     });
 
-    let doubtId = "doubt-" + Date.now();
+    let doubtId = body.doubtId || `doubt-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
     const serviceClient = createPmuServiceClient();
 
-    if (serviceClient && studentId !== "mock-student-id") {
-      const { data: thread } = await serviceClient
-        .from("pmu_doubts")
-        .insert({
-          student_id: studentId,
-          subject_id: subjectId || null,
-          topic_id: topicId || null,
-          title: queryText.slice(0, 60),
-          status: "answered",
-        })
-        .select("id")
-        .single();
+    if (serviceClient && /^[0-9a-f-]{36}$/i.test(studentId)) {
+      try {
+        const { data: thread } = await serviceClient
+          .from("pmu_doubts")
+          .insert({
+            student_id: studentId,
+            subject_id: subjectId || null,
+            topic_id: topicId || null,
+            title: queryText.slice(0, 60),
+            status: "answered",
+          })
+          .select("id")
+          .single();
 
-      if (thread) {
-        doubtId = thread.id;
-        // Insert student message
-        await serviceClient.from("pmu_doubt_messages").insert({
-          doubt_id: doubtId,
-          sender_type: "student",
-          message_text: queryText,
-        });
+        if (thread) {
+          doubtId = thread.id;
+          // Insert student message
+          await serviceClient.from("pmu_doubt_messages").insert({
+            doubt_id: doubtId,
+            sender_type: "student",
+            message_text: queryText,
+          });
 
-        // Insert AI answer
-        await serviceClient.from("pmu_doubt_messages").insert({
-          doubt_id: doubtId,
-          sender_type: "ai",
-          message_text: solution.responseText,
-          extracted_ocr_text: solution.extractedOcrText || null,
-          is_grounded_in_syllabus: solution.isGrounded,
-        });
-      }
+          // Insert AI answer
+          await serviceClient.from("pmu_doubt_messages").insert({
+            doubt_id: doubtId,
+            sender_type: "ai",
+            message_text: solution.responseText,
+            extracted_ocr_text: solution.extractedOcrText || null,
+            is_grounded_in_syllabus: solution.isGrounded,
+          });
+        }
+      } catch {}
     }
 
+    const createdAt = new Date().toISOString();
     recordDoubt(studentId, {
       id: doubtId,
       title: queryText.slice(0, 60),
@@ -197,20 +188,33 @@ export async function POST(req: NextRequest) {
       answerText: solution.responseText,
       subjectName,
       isGrounded: solution.isGrounded,
-      createdAt: new Date().toISOString(),
+      createdAt,
     });
 
-    return NextResponse.json({
-      ok: true,
-      data: {
-        doubtId,
-        title: queryText.slice(0, 60),
-        answer: solution.responseText,
-        isGrounded: solution.isGrounded,
-        extractedOcrText: solution.extractedOcrText,
+    return NextResponse.json(
+      {
+        ok: true,
+        data: {
+          doubtId,
+          studentId,
+          title: queryText.slice(0, 60),
+          answer: solution.responseText,
+          isGrounded: solution.isGrounded,
+          extractedOcrText: solution.extractedOcrText,
+          createdAt,
+        },
       },
-    });
+      { headers: { "Cache-Control": "no-store" } }
+    );
   } catch (err: any) {
-    return NextResponse.json({ ok: false, error: err.message || "Failed to solve doubt." }, { status: 500 });
+    const status = err instanceof StorageUnavailableError ? 503 : 500;
+    return NextResponse.json(
+      {
+        ok: false,
+        code: err instanceof StorageUnavailableError ? err.code : "DOUBT_WRITE_ERROR",
+        error: err.message || "Failed to solve or persist doubt.",
+      },
+      { status, headers: { "Cache-Control": "no-store" } }
+    );
   }
 }

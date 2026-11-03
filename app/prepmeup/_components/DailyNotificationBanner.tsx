@@ -77,7 +77,7 @@ export function DailyNotificationBanner() {
               letterSpacing: "0.06em",
             }}
           >
-            New Daily Drop:
+            Daily Revision Capsule:
           </span>
           <span style={{ fontSize: "13px", fontWeight: 600, color: "#f3f1ea" }}>
             {dailyNote.topic}

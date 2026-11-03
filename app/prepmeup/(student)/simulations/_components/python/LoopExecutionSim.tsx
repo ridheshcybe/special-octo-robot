@@ -16,7 +16,7 @@ export function LoopExecutionSim() {
     { line: 2, i: 4, total: 6, cond: "4 in range(1, 5) -> True", console: "Adding 1 -> total is 1\nAdding 2 -> total is 3\nAdding 3 -> total is 6\n" },
     { line: 3, i: 4, total: 10, cond: "total += 4", console: "Adding 1 -> total is 1\nAdding 2 -> total is 3\nAdding 3 -> total is 6\nAdding 4 -> total is 10\n" },
     { line: 2, i: 5, total: 10, cond: "5 in range(1, 5) -> False (Loop Terminates)", console: "Adding 1 -> total is 1\nAdding 2 -> total is 3\nAdding 3 -> total is 6\nAdding 4 -> total is 10\n" },
-    { line: 4, i: 4, total: 10, cond: "print(final)", console: "Adding 1 -> total is 1\nAdding 2 -> total is 3\nAdding 3 -> total is 6\nAdding 4 -> total is 10\nFinal total is 10\n" },
+    { line: 4, i: 4, total: 10, cond: "Final total is 10", console: "Adding 1 -> total is 1\nAdding 2 -> total is 3\nAdding 3 -> total is 6\nAdding 4 -> total is 10\nFinal total is 10\n" },
   ];
 
   const current = loopTrace[step];

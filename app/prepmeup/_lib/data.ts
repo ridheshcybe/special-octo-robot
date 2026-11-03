@@ -124,7 +124,7 @@ export const FALLBACK_SUBJECTS: PmuSubject[] = [
     credit_units: 1,
     icon: "🏛️",
     is_published: true,
-    module_count: 4,
+    module_count: 5,
   },
 ];
 
@@ -836,6 +836,18 @@ const iksDetail = {
       topics: [
         { id: "t-iks-7", module_id: "m-iks-4", topic_number: 1, title: "Krishi Shastra & Traditional Water Harvesting", slug: "krishi-shastra-water-harvesting", description: "Rainwater management, stepwells (Baolis/Vavs), check dams, and organic soil ecology.", estimated_reading_minutes: 20, is_sample: false, is_published: true },
         { id: "t-iks-8", module_id: "m-iks-4", topic_number: 2, title: "Economic Thought & Historic Trade Networks", slug: "arthashastra-and-trade-networks", description: "Kautilya's Arthashastra economic principles, guild systems (Shrenis), and maritime silk/spice routes.", estimated_reading_minutes: 20, is_sample: false, is_published: true },
+      ],
+    },
+    {
+      id: "m-iks-5",
+      subject_id: "sub-cse1006",
+      module_number: 5,
+      title: "Module V: Classical Indian Astronomy, Ecology & Health Systems",
+      description: "Siddhantic astronomy, planetary models, Ayurveda tridosha physiology, and sustainable ecological practices.",
+      is_published: true,
+      topics: [
+        { id: "t-iks-9", module_id: "m-iks-5", topic_number: 1, title: "Siddhantic Astronomy & Trigonometric Tables", slug: "siddhantic-astronomy-trigonometry", description: "Surya Siddhanta, Aryabhata's sine (Jya) tables, earth's axial rotation, and eclipse geometry.", estimated_reading_minutes: 20, is_sample: false, is_published: true },
+        { id: "t-iks-10", module_id: "m-iks-5", topic_number: 2, title: "Ayurveda, Sushruta Samhita & Ecological Harmony", slug: "ayurveda-sushruta-ecology", description: "Preventive medicine, surgical instruments in Sushruta Samhita, and sacred grove biodiversity.", estimated_reading_minutes: 20, is_sample: false, is_published: true },
       ],
     },
   ],

@@ -4,7 +4,7 @@ import { checkAndIncrementVerifyAttempts, resetVerifyAttempts } from "@/app/prep
 import { verifyTwilioOtp } from "@/app/prepmeup/_lib/twilioVerify";
 import { verifyEmailOtp } from "@/app/prepmeup/_lib/emailOtp";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
-import { recordUserPresence, recordGlobalActivity } from "@/app/prepmeup/_lib/studentStore";
+import { recordUserPresence, recordGlobalActivity, canonicalizeStudentKey } from "@/app/prepmeup/_lib/studentStore";
 
 export async function POST(req: NextRequest) {
   try {
@@ -61,10 +61,9 @@ export async function POST(req: NextRequest) {
     // Code verified: reset attempt counter
     resetVerifyAttempts(target.value);
 
-    // 4. Supabase User Management
+    // 4. Canonical User ID & Supabase User Management
     const serviceClient = createPmuServiceClient();
-    const sanitizedIdSuffix = target.value.replace(/[^a-zA-Z0-9]/g, "_").slice(0, 32);
-    let userId: string = `mock_pmu_user_${sanitizedIdSuffix}`;
+    let userId: string = canonicalizeStudentKey(target.value);
     let isProfileComplete = true;
     let fullName = target.type === "email" ? target.value.split("@")[0] : "Student";
     let college = "";

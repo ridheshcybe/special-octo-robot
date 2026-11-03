@@ -34,33 +34,35 @@ export async function POST(
     let questionsList: any[] = [];
 
     if (serviceClient) {
-      const { data: quizRow } = await serviceClient
-        .from("pmu_quizzes")
-        .select("*")
-        .eq("id", quizId)
-        .eq("is_published", true)
-        .maybeSingle();
+      try {
+        const { data: quizRow } = await serviceClient
+          .from("pmu_quizzes")
+          .select("*")
+          .eq("id", quizId)
+          .eq("is_published", true)
+          .maybeSingle();
 
-      if (quizRow) {
-        quiz = quizRow;
-        const { data: questions } = await serviceClient
-          .from("pmu_quiz_questions")
-          .select("marks, question_order, question:pmu_questions(*)")
-          .eq("quiz_id", quizId)
-          .order("question_order", { ascending: true });
+        if (quizRow) {
+          quiz = quizRow;
+          const { data: questions } = await serviceClient
+            .from("pmu_quiz_questions")
+            .select("marks, question_order, question:pmu_questions(*)")
+            .eq("quiz_id", quizId)
+            .order("question_order", { ascending: true });
 
-        if (questions) {
-          questionsList = questions.map((item: any) => ({
-            id: item.question.id,
-            question_type: item.question.question_type,
-            question_text: item.question.question_text,
-            options: item.question.options,
-            marks: item.marks || item.question.marks,
-            difficulty: item.question.difficulty,
-            // Scrub out correct_answer and explanation for student runner
-          }));
+          if (questions) {
+            questionsList = questions.map((item: any) => ({
+              id: item.question.id,
+              question_type: item.question.question_type,
+              question_text: item.question.question_text,
+              options: item.question.options,
+              marks: item.marks || item.question.marks,
+              difficulty: item.question.difficulty,
+              // Scrub out correct_answer and explanation for student runner
+            }));
+          }
         }
-      }
+      } catch {}
     }
 
     // Fallback to verified mock if not found in db
@@ -81,19 +83,21 @@ export async function POST(
     let attemptId = `attempt-${Date.now()}`;
 
     // 2. Insert Attempt row with status = 'in_progress'
-    if (serviceClient && studentId !== "mock-student-id") {
-      const { data: attemptRow } = await serviceClient
-        .from("pmu_quiz_attempts")
-        .insert({
-          quiz_id: quiz.id,
-          student_id: studentId,
-          total_marks: quiz.total_marks,
-          status: "in_progress",
-        })
-        .select("id")
-        .single();
+    if (serviceClient && studentId !== "mock-student-id" && /^[0-9a-f-]{36}$/i.test(studentId)) {
+      try {
+        const { data: attemptRow } = await serviceClient
+          .from("pmu_quiz_attempts")
+          .insert({
+            quiz_id: quiz.id,
+            student_id: studentId,
+            total_marks: quiz.total_marks,
+            status: "in_progress",
+          })
+          .select("id")
+          .single();
 
-      if (attemptRow) attemptId = attemptRow.id;
+        if (attemptRow) attemptId = attemptRow.id;
+      } catch {}
     }
 
     return NextResponse.json({

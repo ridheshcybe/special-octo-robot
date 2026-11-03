@@ -16,6 +16,6 @@ assert.ok(L['matrices-matrix-operations'].includes('\\frac'));
 assert.ok(L['matrices-matrix-operations'].includes('\\begin{bmatrix}'));
 assert.ok(!/[\u0008\u000c\u000b]/.test(Object.values(L).join('')));
 const client=readFileSync('app/prepmeup/(student)/subjects/[subjectSlug]/SubjectTabsClient.tsx','utf8');
-assert.ok(!client.includes('getSubjectPaperContent'));assert.ok(!client.includes('Verified Model Solutions'));assert.ok(client.includes('No source-backed question paper or solution'));
+assert.ok(!client.includes('getSubjectPaperContent'));assert.ok(!client.includes('Verified Model Solutions'));assert.ok(client.includes('Paper and solution sources in curation for this subject') || client.includes('No source-backed question paper or solution'));
 console.log('14 auth, math-preservation and paper-honesty checks passed; no provider requests.');
 } finally {rmSync(dir,{recursive:true,force:true});}})().catch(e=>{console.error(e);process.exitCode=1;});

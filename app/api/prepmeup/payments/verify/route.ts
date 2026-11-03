@@ -6,6 +6,16 @@ import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 import { verifyRazorpaySignature } from "@/lib/prepmeup/razorpay";
 import { logger } from "@/lib/logger";
 import { sendAccessConfirmationEmail } from "@/app/prepmeup/_lib/emailOtp";
+import {
+  canonicalizeStudentKey,
+  resolveSessionIdentity,
+  recordUserPresence,
+  resolvePersistentDataDir,
+} from "@/app/prepmeup/_lib/studentStore";
+import {
+  generateSquadInviteCodesForOrder,
+  trackReferralAction,
+} from "@/lib/prepmeup/growthEngine";
 
 export async function POST(req: NextRequest) {
   try {
@@ -76,95 +86,173 @@ export async function POST(req: NextRequest) {
     });
 
     const cleanedPhone = String(whatsappNumber).replace(/\D/g, "").slice(-10);
-    let studentId = email
-      ? `em-${email.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, "_").slice(0, 28)}`
-      : cleanedPhone
-      ? `wa-${cleanedPhone}`
-      : "paid-student-id";
+    let resolvedEmail = email?.trim().toLowerCase() || "";
     let resolvedName = fullName?.trim() || "Engineering Student";
     let resolvedPhone = cleanedPhone ? `+91${cleanedPhone}` : "+919820743178";
-    let resolvedEmail = email?.trim().toLowerCase() || "";
 
-    if (studentSession?.value) {
-      try {
-        const parsed = JSON.parse(studentSession.value);
-        if (parsed.userId) studentId = parsed.userId;
-        if (parsed.fullName && !fullName?.trim()) resolvedName = parsed.fullName;
-        if (parsed.phone && !cleanedPhone) resolvedPhone = parsed.phone;
-        if (parsed.email && !resolvedEmail) resolvedEmail = parsed.email;
-      } catch {}
+    const identity = resolveSessionIdentity(cookieStore);
+    if (identity) {
+      if (identity.email && !resolvedEmail) resolvedEmail = identity.email;
+      if (identity.fullName && !fullName?.trim()) resolvedName = identity.fullName;
+      if (identity.phone && !cleanedPhone) resolvedPhone = identity.phone;
     }
+
+    const studentId = canonicalizeStudentKey(
+      resolvedEmail || identity?.canonicalId || (cleanedPhone ? `wa-${cleanedPhone}` : "paid-student-id")
+    );
 
     const targetSemesterId = semesterId || "a1111111-1111-4111-8111-111111111111";
     const serviceClient = createPmuServiceClient();
 
     // 2. Reconcile Payment and Provision Access in Supabase when configured
     if (serviceClient && /^[0-9a-f-]{36}$/i.test(studentId)) {
-      await serviceClient
-        .from("pmu_payments")
-        .update({
-          razorpay_payment_id,
-          status: "paid",
-          updated_at: new Date().toISOString(),
-        })
-        .eq("razorpay_order_id", razorpay_order_id);
+      try {
+        await serviceClient
+          .from("pmu_payments")
+          .update({
+            razorpay_payment_id,
+            status: "paid",
+            updated_at: new Date().toISOString(),
+          })
+          .eq("razorpay_order_id", razorpay_order_id);
 
-      const accessType =
-        tier === "tier3"
-          ? "paid_tier3_unlimited"
-          : tier === "tier2"
-          ? "paid_tier2_pro"
-          : "paid_tier1_basic";
+        const accessType =
+          tier === "tier3"
+            ? "paid_tier3_unlimited"
+            : tier === "tier2"
+            ? "paid_tier2_pro"
+            : "paid_tier1_basic";
 
-      await serviceClient.from("pmu_subscriptions").upsert(
-        {
-          user_id: studentId,
-          student_id: studentId,
-          semester_id: targetSemesterId,
-          status: "active",
-          access_type: accessType,
-          starts_at: new Date().toISOString(),
-          expires_at: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
-        },
-        { onConflict: "user_id,semester_id" }
-      );
+        await serviceClient.from("pmu_subscriptions").upsert(
+          {
+            user_id: studentId,
+            student_id: studentId,
+            semester_id: targetSemesterId,
+            status: "active",
+            access_type: accessType,
+            starts_at: new Date().toISOString(),
+            expires_at: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
+          },
+          { onConflict: "user_id,semester_id" }
+        );
+      } catch (supaErr) {
+        console.warn("[PAYMENT_VERIFY] Supabase update skipped/failed, falling back to local persistence:", supaErr);
+      }
     }
 
-    // Automatically record initial booked 1:1 mentorship session into admin state if provided
+    // Persist paid tier to durable student store
+    try {
+      recordUserPresence({
+        userId: studentId,
+        name: resolvedName,
+        target: resolvedEmail || resolvedPhone || `${studentId}@student.dypiu.ac.in`,
+        type: resolvedEmail ? "email" : "phone",
+        tier:
+          tier === "tier3"
+            ? "Tier 3 VIP Unlimited (₹499)"
+            : tier === "tier2"
+            ? "Tier 2 Pro (₹199)"
+            : "Tier 1 Pass (₹99)",
+        branch: "B.Tech CSE AI/ML",
+        activity: `Verified ${tier.toUpperCase()} Payment (${razorpay_order_id})`,
+        page: "/prepmeup/pricing",
+      });
+    } catch (storeErr) {
+      console.warn("[PAYMENT_VERIFY] Could not persist user presence:", storeErr);
+    }
+
+    // Automatically record initial booked 1:1 mentorship session into admin state if provided (Idempotent by orderId/paymentId)
+    let isDuplicateVerification = false;
     if (mentorSlot || tier === "tier3" || tier === "tier2") {
       try {
-        const stateFile = path.join(process.cwd(), "deploy", "cms", "admin_state.json");
+        const dataDir = resolvePersistentDataDir();
+        const stateFile = path.join(dataDir, "admin_state.json");
         let stateObj: any = {};
         if (fs.existsSync(stateFile)) {
           stateObj = JSON.parse(fs.readFileSync(stateFile, "utf-8"));
         }
-        if (!stateObj.sessions) stateObj.sessions = [];
+        if (!Array.isArray(stateObj.sessions)) stateObj.sessions = [];
+        if (!Array.isArray(stateObj.verifiedPayments)) stateObj.verifiedPayments = [];
 
-        const newSessionRecord = {
-          id: `sess-${Date.now()}`,
-          studentName: resolvedName,
-          whatsapp: resolvedPhone,
-          tier: tier as "tier1" | "tier2" | "tier3",
-          topic: mentorTopic || "1:1 Live Mentorship & Academic / Career Onboarding",
-          slot: mentorSlot || "Scheduled upon booking confirmation",
-          date: new Date().toISOString().slice(0, 10),
-          time: "Flexible / Student Calendar",
-          status: "scheduled",
-          meetUrl: "https://meet.google.com/pmu-vip-room",
-          notes: `Auto-created upon ${tier.toUpperCase()} checkout verification (Order: ${razorpay_order_id}).`,
-          updatedAt: new Date().toISOString(),
-        };
+        const alreadyVerified =
+          stateObj.verifiedPayments.some(
+            (p: any) =>
+              p.orderId === razorpay_order_id || p.paymentId === razorpay_payment_id
+          ) ||
+          stateObj.sessions.some(
+            (s: any) =>
+              s.orderId === razorpay_order_id ||
+              s.paymentId === razorpay_payment_id ||
+              (typeof s.notes === "string" && s.notes.includes(razorpay_order_id))
+          );
 
-        stateObj.sessions.unshift(newSessionRecord);
-        fs.mkdirSync(path.dirname(stateFile), { recursive: true });
-        fs.writeFileSync(stateFile, JSON.stringify(stateObj, null, 2), "utf-8");
+        if (alreadyVerified) {
+          isDuplicateVerification = true;
+        } else {
+          stateObj.verifiedPayments.unshift({
+            orderId: razorpay_order_id,
+            paymentId: razorpay_payment_id,
+            studentId,
+            tier,
+            verifiedAt: new Date().toISOString(),
+          });
+
+          const newSessionRecord = {
+            id: `sess-${razorpay_order_id.replace(/[^a-zA-Z0-9]/g, "")}`,
+            orderId: razorpay_order_id,
+            paymentId: razorpay_payment_id,
+            studentId,
+            studentName: resolvedName,
+            whatsapp: resolvedPhone,
+            tier: tier as "tier1" | "tier2" | "tier3",
+            topic: mentorTopic || "1:1 Live Mentorship & Academic / Career Onboarding",
+            slot: mentorSlot || "Scheduled upon booking confirmation",
+            date: new Date().toISOString().slice(0, 10),
+            time: "Flexible / Student Calendar",
+            status: "scheduled",
+            meetUrl: "https://meet.google.com/pmu-vip-room",
+            notes: `Auto-created upon ${tier.toUpperCase()} checkout verification (Order: ${razorpay_order_id}).`,
+            updatedAt: new Date().toISOString(),
+          };
+
+          stateObj.sessions.unshift(newSessionRecord);
+          fs.mkdirSync(path.dirname(stateFile), { recursive: true });
+          fs.writeFileSync(stateFile, JSON.stringify(stateObj, null, 2), "utf-8");
+        }
       } catch (sessErr) {
         console.warn("[Session Auto-Schedule] Could not save session record:", sessErr);
       }
+    } else {
+      // Even for tier1 without mentorSlot, track idempotency in admin_state.json
+      try {
+        const dataDir = resolvePersistentDataDir();
+        const stateFile = path.join(dataDir, "admin_state.json");
+        let stateObj: any = {};
+        if (fs.existsSync(stateFile)) {
+          stateObj = JSON.parse(fs.readFileSync(stateFile, "utf-8"));
+        }
+        if (!Array.isArray(stateObj.verifiedPayments)) stateObj.verifiedPayments = [];
+        const alreadyVerified = stateObj.verifiedPayments.some(
+          (p: any) => p.orderId === razorpay_order_id || p.paymentId === razorpay_payment_id
+        );
+        if (alreadyVerified) {
+          isDuplicateVerification = true;
+        } else {
+          stateObj.verifiedPayments.unshift({
+            orderId: razorpay_order_id,
+            paymentId: razorpay_payment_id,
+            studentId,
+            tier,
+            verifiedAt: new Date().toISOString(),
+          });
+          fs.mkdirSync(path.dirname(stateFile), { recursive: true });
+          fs.writeFileSync(stateFile, JSON.stringify(stateObj, null, 2), "utf-8");
+        }
+      } catch {}
     }
 
-    // 3. Send Access Confirmation & Receipt Email to Student (Non-blocking)
-    if (resolvedEmail) {
+    // 3. Send Access Confirmation & Receipt Email to Student (Non-blocking, skip on duplicate replay)
+    if (resolvedEmail && !isDuplicateVerification) {
       sendAccessConfirmationEmail({
         email: resolvedEmail,
         fullName: resolvedName,
@@ -178,12 +266,37 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const priceMap: Record<string, number> = { tier1: 99, tier2: 199, tier3: 499 };
+    const priceMap: Record<string, number> = { tier1: 99, tier2: 199, tier2_squad: 449, tier3: 499 };
     const amountRupees = priceMap[tier] || 199;
+    const effectiveSessionTier = tier === "tier2_squad" ? "tier2" : tier;
+
+    // If a referral code was used, record referral conversion
+    if (typeof body.promoCode === "string" && body.promoCode.trim().toUpperCase().startsWith("REF-") && !isDuplicateVerification) {
+      try {
+        trackReferralAction(body.promoCode.trim(), "conversion", resolvedName);
+      } catch {}
+    }
+
+    // If this is the 3-Friend Study Squad Bundle, generate 2 redeemable friend codes (idempotent by orderId)
+    let squadInviteCodes: string[] = [];
+    if (tier === "tier2_squad") {
+      try {
+        const createdInvites = generateSquadInviteCodesForOrder({
+          orderId: razorpay_order_id,
+          buyerId: studentId,
+          buyerName: resolvedName,
+        });
+        squadInviteCodes = createdInvites.map((inv) => inv.code);
+      } catch (sqErr) {
+        console.warn("[PAYMENT_VERIFY] Could not generate squad codes:", sqErr);
+      }
+    }
 
     const tierSuccessMessage =
       tier === "tier3"
         ? "Razorpay payment verified! Tier 3 (₹499): Premium 1:1 VIP Unlimited Live Mentorship Sessions + Pro AI is now active."
+        : tier === "tier2_squad"
+        ? `Razorpay payment verified! Your Tier 2 Pro Pass is active + 2 Study Squad Invite Codes (${squadInviteCodes.join(", ")}) are ready for your friends!`
         : tier === "tier2"
         ? "Razorpay payment verified! Tier 2 (₹199): Premium AI + 1:1 Human Support + Internship & Career Support is now active."
         : "Razorpay payment verified! Tier 1 (₹99): Semester 1 Basic Access is now active.";
@@ -191,10 +304,15 @@ export async function POST(req: NextRequest) {
     const response = NextResponse.json({
       ok: true,
       verified: true,
+      duplicate: isDuplicateVerification,
       message: tierSuccessMessage,
       data: {
         accessGranted: true,
-        tier,
+        duplicate: isDuplicateVerification,
+        studentId,
+        tier: effectiveSessionTier,
+        purchasedBundle: tier,
+        squadInviteCodes,
         orderId: razorpay_order_id,
         paymentId: razorpay_payment_id,
         amountRupees,
@@ -216,7 +334,7 @@ export async function POST(req: NextRequest) {
         fullName: resolvedName,
         branch: "B.Tech CSE AI/ML",
         currentSemester: 1,
-        tier,
+        tier: effectiveSessionTier,
         paidOrderId: razorpay_order_id,
         paidPaymentId: razorpay_payment_id,
       }),

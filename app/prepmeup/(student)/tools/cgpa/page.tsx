@@ -610,6 +610,34 @@ $$\\text{SGPA} = \\frac{\\sum_{i=1}^{n} (C_i \\cdot G_i)}{\\sum_{i=1}^{n} C_i}, 
                 ? "✨ First Class With Distinction"
                 : "✓ Good Academic Standing"}
             </div>
+
+            <a
+              href={`https://wa.me/?text=${encodeURIComponent(
+                `🎯 My projected B.Tech Sem-1 SGPA is *${sgpaFormatted} / 10.00* (${totalCredits} Credits) on the PrepMeUp AICTE Calculator!\n\nCalculate your exact SGPA & CGPA target here:\n👉 https://prepmeupai.in/prepmeup/tools/cgpa`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                fetch("/api/prepmeup/growth/autopilot", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ action: "track_share" }),
+                }).catch(() => {});
+              }}
+              className="pmu-btn-primary"
+              style={{
+                marginTop: "12px",
+                width: "100%",
+                backgroundColor: "#22c55e",
+                color: "#08080a",
+                textDecoration: "none",
+                textAlign: "center",
+                fontSize: "11.5px",
+                padding: "10px 14px",
+              }}
+            >
+              📲 Share My Target SGPA on WhatsApp →
+            </a>
           </div>
 
           {/* 10-Point Grade Scale Reference */}

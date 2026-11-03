@@ -47,6 +47,7 @@ export default function DoubtsPage() {
   const [threads, setThreads] = useState<DoubtThread[]>([]);
   const [activeThreadId, setActiveThreadId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [showVideoModal, setShowVideoModal] = useState(false);
 
   // Composer state
@@ -59,17 +60,22 @@ export default function DoubtsPage() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const fetchThreads = async () => {
+    setLoading(true);
+    setErrorMsg(null);
     try {
-      const res = await fetch("/api/prepmeup/doubts");
-      const data = await res.json();
-      if (data.ok && data.threads) {
+      const res = await fetch("/api/prepmeup/doubts", { cache: "no-store" });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || `Failed to load doubt history (HTTP ${res.status}).`);
+      }
+      if (Array.isArray(data.threads)) {
         setThreads(data.threads);
         if (data.threads.length > 0 && !activeThreadId) {
           setActiveThreadId(data.threads[0].id);
         }
       }
-    } catch {
-      // Fallback
+    } catch (err: any) {
+      setErrorMsg(err?.message || "Unable to load doubt history from storage.");
     } finally {
       setLoading(false);
     }
@@ -276,6 +282,35 @@ export default function DoubtsPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxHeight: "380px", overflowY: "auto" }}>
               {loading ? (
                 <p style={{ fontSize: "12px", color: "#807f78" }}>Loading threads…</p>
+              ) : errorMsg ? (
+                <div
+                  role="alert"
+                  style={{
+                    padding: "12px",
+                    borderRadius: "8px",
+                    border: "1px solid rgba(239,68,68,0.45)",
+                    backgroundColor: "rgba(70,8,9,0.28)",
+                    fontSize: "12px",
+                    color: "#fca5a5",
+                  }}
+                >
+                  <strong style={{ display: "block", color: "#f87171", marginBottom: "4px" }}>
+                    ⚠️ Storage Error
+                  </strong>
+                  <span>{errorMsg}</span>
+                  <button
+                    type="button"
+                    onClick={fetchThreads}
+                    className="pmu-btn-secondary"
+                    style={{ marginTop: "8px", padding: "6px 10px", fontSize: "11px", width: "100%" }}
+                  >
+                    ↻ Retry Loading Doubts
+                  </button>
+                </div>
+              ) : filteredThreads.length === 0 ? (
+                <p style={{ fontSize: "12px", color: "#807f78", padding: "8px 0" }}>
+                  No doubts asked yet under this account. Submit a question on the right or pick a sample prompt below.
+                </p>
               ) : (
                 filteredThreads.map((t) => {
                   const isActive = activeThread?.id === t.id;

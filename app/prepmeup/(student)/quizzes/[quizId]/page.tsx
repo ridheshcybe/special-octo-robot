@@ -399,6 +399,28 @@ export default function QuizRunnerPage({ params }: QuizRunnerPageProps) {
             <Link href="/prepmeup/progress" className="pmu-btn-primary">
               View in Progress Dashboard →
             </Link>
+            <a
+              href={`https://wa.me/?text=${encodeURIComponent(
+                `⚡ *PrepMeUp Quiz Challenge!*\nI just scored *${resultData.score}/${resultData.totalMarks} (${resultData.percentage}%)* on *${quizMeta?.title || "B.Tech Sem-1 Module Quiz"}*!\n\nBet you can't beat my score in 15 mins 👀\n👉 https://prepmeupai.in/prepmeup/quizzes/${quizId}`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                fetch("/api/prepmeup/growth/autopilot", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ action: "track_share" }),
+                }).catch(() => {});
+              }}
+              className="pmu-btn-primary"
+              style={{
+                backgroundColor: "#22c55e",
+                color: "#08080a",
+                textDecoration: "none",
+              }}
+            >
+              📲 Challenge a Batchmate on WhatsApp →
+            </a>
           </div>
         </div>
 

@@ -143,8 +143,10 @@ export default function CodingHelperPage() {
 
   // Submission & Evaluation State
   const [submissionResult, setSubmissionResult] = useState<{
+    submissionId?: string;
     submittedAt: string;
     passedAll: boolean;
+    saveError?: string | null;
     errorDiagnostic: string | null;
     consoleOutput: string;
     testResults: { name: string; inputRepr: string; expectedRepr: string; actualRepr: string; passed: boolean }[];
@@ -162,57 +164,48 @@ export default function CodingHelperPage() {
     setAiFeedback(null);
   };
 
-  const handleRunAndSubmit = () => {
+  const handleRunAndSubmit = async () => {
     setExecuting(true);
-    setTimeout(() => {
-      const trimmed = code.trim();
-      let errorDiag: string | null = null;
-      let passedAll = true;
+    const trimmed = code.trim();
+    let errorDiag: string | null = null;
+    let passedAll = true;
 
-      if (!trimmed.includes("def ")) {
-        errorDiag = "SyntaxError / StructureError: Missing function definition (`def ...`). Ensure you keep the required function signature.";
-        passedAll = false;
-      } else if (trimmed.includes("len(arr) + 1")) {
-        errorDiag =
-          "IndexError: list index out of range at `for j in range(i + 1, len(arr) + 1):` — In Python, 0-indexed lists of length N have valid indices `0` to `N - 1`. Using `len(arr) + 1` accesses `arr[len(arr)]` which raises an IndexError.";
-        passedAll = false;
-      } else if (trimmed.includes("# Bug: Forgot to subtract center element")) {
-        errorDiag =
-          "Logical Assertion Error on Odd-Sized Matrix: Your code returned `30` instead of `25` for `[[1,2,3],[4,5,6],[7,8,9]]` because the center element `mat[1][1] = 5` lies on both diagonals and was counted twice.";
-        passedAll = false;
-      } else if (!trimmed.includes("return")) {
-        errorDiag = "Missing Return Statement: Your function implicitly returns `None` on all inputs because no `return` statement was executed.";
-        passedAll = false;
-      }
+    if (!trimmed.includes("def ")) {
+      errorDiag = "SyntaxError / StructureError: Missing function definition (`def ...`). Ensure you keep the required function signature.";
+      passedAll = false;
+    } else if (trimmed.includes("len(arr) + 1")) {
+      errorDiag =
+        "IndexError: list index out of range at `for j in range(i + 1, len(arr) + 1):` — In Python, 0-indexed lists of length N have valid indices `0` to `N - 1`. Using `len(arr) + 1` accesses `arr[len(arr)]` which raises an IndexError.";
+      passedAll = false;
+    } else if (trimmed.includes("# Bug: Forgot to subtract center element")) {
+      errorDiag =
+        "Logical Assertion Error on Odd-Sized Matrix: Your code returned `30` instead of `25` for `[[1,2,3],[4,5,6],[7,8,9]]` because the center element `mat[1][1] = 5` lies on both diagonals and was counted twice.";
+      passedAll = false;
+    } else if (!trimmed.includes("return")) {
+      errorDiag = "Missing Return Statement: Your function implicitly returns `None` on all inputs because no `return` statement was executed.";
+      passedAll = false;
+    }
 
-      const testResults = problem.testCases.map((tc, idx) => {
-        if (!passedAll && idx === 0) {
-          return {
-            ...tc,
-            actualRepr: errorDiag?.includes("IndexError") ? "IndexError: list index out of range" : "Wrong Output (30)",
-            passed: false,
-          };
-        }
+    const testResults = problem.testCases.map((tc, idx) => {
+      if (!passedAll && idx === 0) {
         return {
           ...tc,
-          actualRepr: tc.expectedRepr,
-          passed: passedAll,
+          actualRepr: errorDiag?.includes("IndexError") ? "IndexError: list index out of range" : "Wrong Output (30)",
+          passed: false,
         };
-      });
+      }
+      return {
+        ...tc,
+        actualRepr: tc.expectedRepr,
+        passed: passedAll,
+      };
+    });
 
-      setSubmissionResult({
-        submittedAt: new Date().toLocaleTimeString(),
-        passedAll,
-        errorDiagnostic: errorDiag,
-        consoleOutput: passedAll
-          ? `>>> Python 3.12 (Pyodide WebAssembly)\nExample 1: ${problem.examples[0].output}\nExample 2: ${problem.examples[1].output}\n[All ${problem.testCases.length}/${problem.testCases.length} Unit Test Cases Passed in 0.03s]`
-          : `>>> Python 3.12 (Pyodide WebAssembly)\nTraceback / Test Failure:\n${errorDiag}`,
-        testResults,
-      });
-      setExecuting(false);
+    let submissionId: string | undefined;
+    let saveError: string | null = null;
 
-      // Record to server activity store so submission shows up in Progress audit log
-      fetch("/api/prepmeup/coding/debug", {
+    try {
+      const res = await fetch("/api/prepmeup/coding/debug", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -221,9 +214,31 @@ export default function CodingHelperPage() {
           problemTitle: problem.title,
           errorOutput: passedAll ? undefined : (errorDiag || "Test failure"),
           requestType: "submit",
+          recordSubmission: true,
         }),
-      }).catch(() => {});
-    }, 350);
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        saveError = data.error || `Could not save submission to history (HTTP ${res.status}).`;
+      } else {
+        submissionId = data.data?.submissionId;
+      }
+    } catch (err: any) {
+      saveError = err?.message || "Network error while saving submission to history.";
+    }
+
+    setSubmissionResult({
+      submissionId,
+      submittedAt: new Date().toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata" }) + " IST",
+      passedAll,
+      saveError,
+      errorDiagnostic: errorDiag,
+      consoleOutput: passedAll
+        ? `>>> Python 3.12 (Pyodide WebAssembly)\nExample 1: ${problem.examples[0].output}\nExample 2: ${problem.examples[1].output}\n[All ${problem.testCases.length}/${problem.testCases.length} Unit Test Cases Passed in 0.03s]`
+        : `>>> Python 3.12 (Pyodide WebAssembly)\nTraceback / Test Failure:\n${errorDiag}`,
+      testResults,
+    });
+    setExecuting(false);
   };
 
   const handleRequestAi = async (type: "explain" | "fix" | "optimize" | "hint") => {
@@ -239,6 +254,7 @@ export default function CodingHelperPage() {
           code,
           errorOutput: submissionResult?.errorDiagnostic || undefined,
           requestType: type,
+          recordSubmission: false,
         }),
       });
 
@@ -477,10 +493,31 @@ export default function CodingHelperPage() {
                     </div>
                     <div className="font-mono" style={{ fontSize: "11px", color: "#a19f95" }}>
                       Submitted at {submissionResult.submittedAt}
+                      {submissionResult.submissionId ? ` • Receipt ID: ${submissionResult.submissionId}` : ""}
                     </div>
                   </div>
                 </div>
               </div>
+
+              {submissionResult.saveError && (
+                <div
+                  role="alert"
+                  style={{
+                    marginBottom: "16px",
+                    padding: "12px 16px",
+                    borderRadius: "8px",
+                    border: "1px solid rgba(239,68,68,0.5)",
+                    backgroundColor: "rgba(70,8,9,0.35)",
+                    fontSize: "12.5px",
+                    color: "#fca5a5",
+                  }}
+                >
+                  <strong style={{ display: "block", color: "#f87171", marginBottom: "4px" }}>
+                    ⚠️ History Persistence Warning:
+                  </strong>
+                  {submissionResult.saveError}
+                </div>
+              )}
 
               {/* Error Diagnostic Box if Failed */}
               {submissionResult.errorDiagnostic && (

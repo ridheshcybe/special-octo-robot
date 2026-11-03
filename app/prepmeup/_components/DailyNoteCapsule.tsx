@@ -135,7 +135,33 @@ export function DailyNoteCapsule({ initialData }: { initialData?: DailyNoteData 
           </span>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+          <a
+            href={`https://wa.me/?text=${encodeURIComponent(
+              `🔥 *Today's B.Tech Sem-1 Daily Capsule (${data.subjectCode}):*\n📌 ${data.topic}\n\n⚡ 60-Sec Takeaway: ${(data.summary[0] || "").replace(/\$/g, "")}\n\n👉 Take the 3-question quiz on PrepMeUp: https://prepmeupai.in/prepmeup`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+              fetch("/api/prepmeup/growth/autopilot", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ action: "track_share" }),
+              }).catch(() => {});
+            }}
+            className="font-mono"
+            style={{
+              fontSize: "11px",
+              color: "#08080a",
+              backgroundColor: "#22c55e",
+              padding: "4px 10px",
+              borderRadius: "4px",
+              fontWeight: 700,
+              textDecoration: "none",
+            }}
+          >
+            📲 Share Capsule on WhatsApp
+          </a>
           <span
             className="font-mono"
             style={{

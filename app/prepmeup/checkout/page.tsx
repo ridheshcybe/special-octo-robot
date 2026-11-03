@@ -13,7 +13,7 @@ declare global {
 }
 
 export default function RazorpayCheckoutPage() {
-  const [tier, setTier] = useState<"tier1" | "tier2" | "tier3">("tier3");
+  const [tier, setTier] = useState<"tier1" | "tier2" | "tier2_squad" | "tier3">("tier3");
   const [fullName, setFullName] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
@@ -23,6 +23,17 @@ export default function RazorpayCheckoutPage() {
   const [mentorSlot, setMentorSlot] = useState("Today, 7:00 PM – 7:30 PM IST");
   const [paymentMethod, setPaymentMethod] = useState<"upi" | "card" | "netbanking">("upi");
   const [upiId, setUpiId] = useState("");
+
+  // Promo / Referral / Squad Invite Code state
+  const [promoCode, setPromoCode] = useState("");
+  const [promoStatus, setPromoStatus] = useState<{
+    valid: boolean;
+    kind: string;
+    discountRupees: number;
+    finalPriceRupees: number;
+    message: string;
+  } | null>(null);
+  const [redeemingSquad, setRedeemingSquad] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,15 +53,79 @@ export default function RazorpayCheckoutPage() {
     orderId: string;
     paymentId: string;
     amountRupees: number;
-    tier: "tier1" | "tier2" | "tier3";
+    tier: "tier1" | "tier2" | "tier2_squad" | "tier3";
+    squadInviteCodes?: string[];
     paidAt: string;
   } | null>(null);
+
+  const handleApplyPromoCode = async (codeToValidate?: string, tierToUse?: string) => {
+    const clean = (codeToValidate ?? promoCode).trim().toUpperCase();
+    if (!clean) return;
+    try {
+      const res = await fetch("/api/prepmeup/growth/autopilot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "validate_code",
+          code: clean,
+          tier: tierToUse ?? tier,
+        }),
+      });
+      const json = await res.json();
+      if (json?.ok && json.data) {
+        setPromoStatus(json.data);
+      }
+    } catch {}
+  };
+
+  const handleRedeemSquadSeat = async () => {
+    setError(null);
+    setRedeemingSquad(true);
+    try {
+      const res = await fetch("/api/prepmeup/growth/autopilot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "redeem_squad_invite",
+          code: promoCode.trim(),
+          fullName: fullName.trim() || "Squad Student",
+          whatsappNumber: whatsapp,
+          email: email.trim(),
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.ok) {
+        throw new Error(json.error || "Could not redeem Squad Pass.");
+      }
+      setReceipt({
+        orderId: json.data.orderId,
+        paymentId: json.data.paymentId,
+        amountRupees: 0,
+        tier: "tier2",
+        paidAt: new Date().toLocaleString("en-IN", {
+          dateStyle: "medium",
+          timeStyle: "short",
+        }),
+      });
+    } catch (err: any) {
+      setError(err.message || "Squad invite redemption failed.");
+    } finally {
+      setRedeemingSquad(false);
+    }
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     const paramTier = params.get("tier");
-    if (paramTier === "tier1" || paramTier === "tier2" || paramTier === "tier3") {
+    let resolvedTier: "tier1" | "tier2" | "tier2_squad" | "tier3" = "tier3";
+    if (
+      paramTier === "tier1" ||
+      paramTier === "tier2" ||
+      paramTier === "tier2_squad" ||
+      paramTier === "tier3"
+    ) {
+      resolvedTier = paramTier;
       setTier(paramTier);
     }
     const paramTopic = params.get("topic");
@@ -61,9 +136,23 @@ export default function RazorpayCheckoutPage() {
     if (paramPhone) setWhatsapp(paramPhone);
     const paramEmail = params.get("email");
     if (paramEmail) setEmail(paramEmail);
+
+    const paramCode =
+      params.get("code") ||
+      (typeof localStorage !== "undefined" ? localStorage.getItem("pmu_referral_code") : null);
+    if (paramCode && paramCode.trim()) {
+      const cleanCode = paramCode.trim().toUpperCase();
+      setPromoCode(cleanCode);
+      handleApplyPromoCode(cleanCode, resolvedTier);
+    }
   }, []);
 
-  const priceRupees = tier === "tier3" ? 499 : tier === "tier2" ? 199 : 99;
+  const basePriceRupees =
+    tier === "tier3" ? 499 : tier === "tier2_squad" ? 449 : tier === "tier2" ? 199 : 99;
+  const priceRupees =
+    promoStatus?.valid && promoStatus.kind !== "squad_invite"
+      ? Math.max(1, basePriceRupees - promoStatus.discountRupees)
+      : basePriceRupees;
 
   const loadRazorpayScript = (): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -95,6 +184,7 @@ export default function RazorpayCheckoutPage() {
           razorpay_payment_id: paymentId,
           razorpay_signature: signature,
           tier,
+          promoCode: promoStatus?.valid ? promoCode.trim() : "",
           fullName: fullName.trim() || "Engineering Student",
           whatsappNumber: whatsapp,
           email,
@@ -114,6 +204,7 @@ export default function RazorpayCheckoutPage() {
         paymentId,
         amountRupees: priceRupees,
         tier,
+        squadInviteCodes: json.data?.squadInviteCodes || [],
         paidAt: new Date().toLocaleString("en-IN", {
           dateStyle: "medium",
           timeStyle: "short",
@@ -143,6 +234,7 @@ export default function RazorpayCheckoutPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           tier,
+          promoCode: promoStatus?.valid ? promoCode.trim() : "",
           fullName: fullName.trim() || "Engineering Student",
           whatsappNumber: cleanedPhone,
           email: email.trim(),
@@ -397,6 +489,62 @@ export default function RazorpayCheckoutPage() {
                 </div>
               </div>
 
+              {Array.isArray(receipt.squadInviteCodes) && receipt.squadInviteCodes.length > 0 && (
+                <div
+                  style={{
+                    marginTop: "20px",
+                    padding: "20px",
+                    borderRadius: "10px",
+                    border: "1px solid rgba(34,197,94,0.45)",
+                    backgroundColor: "rgba(34,197,94,0.1)",
+                  }}
+                >
+                  <span className="font-mono" style={{ fontSize: "11px", color: "#4ade80", fontWeight: 700, textTransform: "uppercase" }}>
+                    🎟️ Your 2 Friend Squad Invite Codes (100% Off Tier 2 Pro):
+                  </span>
+                  <p style={{ fontSize: "13px", color: "#d1fae5", marginTop: "4px" }}>
+                    Forward these 2 codes to your roommates — when they enter them on the Checkout page, their Tier 2 Pro Pass activates for ₹0!
+                  </p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "12px" }}>
+                    {receipt.squadInviteCodes.map((sc) => (
+                      <code
+                        key={sc}
+                        className="font-mono"
+                        style={{
+                          padding: "8px 14px",
+                          borderRadius: "6px",
+                          backgroundColor: "#08080a",
+                          border: "1px solid #22c55e",
+                          color: "#4ade80",
+                          fontSize: "14px",
+                          fontWeight: 700,
+                        }}
+                      >
+                        {sc}
+                      </code>
+                    ))}
+                  </div>
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent(
+                      `🎉 I just unlocked our 3-Friend Study Squad Pass on PrepMeUp!\n\nUse one of these 100%-off Squad Invite Codes at checkout to activate your Tier 2 Pro Pass for ₹0:\n👉 Code 1: *${receipt.squadInviteCodes[0]}*\n👉 Code 2: *${receipt.squadInviteCodes[1] || ""}*\n\nRedeem here: https://prepmeupai.in/prepmeup/checkout?tier=tier2&code=${receipt.squadInviteCodes[0]}`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pmu-btn-primary"
+                    style={{
+                      marginTop: "14px",
+                      width: "100%",
+                      backgroundColor: "#22c55e",
+                      color: "#08080a",
+                      textDecoration: "none",
+                      textAlign: "center",
+                    }}
+                  >
+                    📲 Send Invite Codes to Friends on WhatsApp →
+                  </a>
+                </div>
+              )}
+
               <div style={{ marginTop: "24px", display: "flex", flexWrap: "wrap", gap: "12px" }}>
                 <Link href="/prepmeup/dashboard" className="pmu-btn-primary" style={{ flex: 1 }}>
                   Enter Student Dashboard →
@@ -618,33 +766,115 @@ export default function RazorpayCheckoutPage() {
                         <li style={{ color: "#71717a" }}>Does not include 1:1 Human Mentorship or Internship &amp; Career Support</li>
                       </ul>
                     </button>
+
+                    {/* Option: 3-Friend Study Squad Bundle (₹449 = ₹149/Student) */}
+                    <button
+                      type="button"
+                      onClick={() => setTier("tier2_squad")}
+                      style={{
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "18px",
+                        borderRadius: "10px",
+                        border: tier === "tier2_squad" ? "2px solid #22c55e" : "1px solid #26262c",
+                        backgroundColor: tier === "tier2_squad" ? "rgba(34,197,94,0.12)" : "#08080a",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <span
+                            style={{
+                              display: "inline-flex",
+                              height: "18px",
+                              width: "18px",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              borderRadius: "9999px",
+                              border: tier === "tier2_squad" ? "5px solid #22c55e" : "2px solid #52525b",
+                            }}
+                          />
+                          <span style={{ fontSize: "14px", fontWeight: 800, color: "#f3f1ea", textTransform: "uppercase" }}>
+                            👥 3-Friend Study Squad Bundle (3 × Tier 2 Passes)
+                          </span>
+                        </div>
+                        <span className="font-display" style={{ fontSize: "26px", color: "#4ade80" }}>
+                          ₹449
+                        </span>
+                      </div>
+                      <p style={{ marginTop: "6px", fontSize: "12px", color: "#a19f95", lineHeight: 1.55 }}>
+                        Just <strong style={{ color: "#4ade80" }}>₹149 per student</strong>! Activates your Tier 2 Pro Pass immediately + generates <strong>2 single-use 100%-off Squad Invite Codes</strong> on your receipt for 2 classmates.
+                      </p>
+                    </button>
                   </div>
 
-                  {/* Link to Tier 0 Free Beta */}
+                  {/* Promo / Referral / Squad Invite Code Redemption Box */}
                   <div
                     style={{
-                      marginTop: "16px",
-                      padding: "12px 14px",
-                      borderRadius: "8px",
-                      border: "1px dashed rgba(255,59,29,0.35)",
-                      backgroundColor: "rgba(255,59,29,0.05)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      flexWrap: "wrap",
-                      gap: "8px",
+                      marginTop: "18px",
+                      padding: "16px",
+                      borderRadius: "10px",
+                      border: "1px solid #26262c",
+                      backgroundColor: "#08080a",
                     }}
                   >
-                    <span style={{ fontSize: "12px", color: "#d4d2c8" }}>
-                      Joining as one of the <strong>First 10 Beta Testers</strong>?
-                    </span>
-                    <Link
-                      href="/prepmeup#pricing"
-                      className="font-mono"
-                      style={{ fontSize: "11px", fontWeight: 700, color: "#ff6a3d", textDecoration: "underline" }}
-                    >
-                      Claim Tier 0 (₹0 Free Beta) →
-                    </Link>
+                    <label className="pmu-label">
+                      Have a Promo, Referral, or Friend&apos;s Squad Invite Code?
+                    </label>
+                    <div style={{ display: "flex", gap: "8px", marginTop: "8px", flexWrap: "wrap" }}>
+                      <input
+                        type="text"
+                        value={promoCode}
+                        onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                        placeholder="e.g. EXAM50, DYPIU25, REF-XXXX, or SQUAD-XXXX"
+                        className="pmu-input font-mono"
+                        style={{ flex: 1, minWidth: "180px", fontSize: "12.5px" }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleApplyPromoCode()}
+                        className="pmu-btn-secondary"
+                        style={{ padding: "8px 16px", fontSize: "11px" }}
+                      >
+                        Apply Code
+                      </button>
+                    </div>
+
+                    {promoStatus && (
+                      <div
+                        style={{
+                          marginTop: "10px",
+                          padding: "10px 12px",
+                          borderRadius: "6px",
+                          fontSize: "12px",
+                          backgroundColor: promoStatus.valid ? "rgba(34,197,94,0.12)" : "rgba(239,68,68,0.12)",
+                          border: promoStatus.valid ? "1px solid rgba(34,197,94,0.4)" : "1px solid rgba(239,68,68,0.4)",
+                          color: promoStatus.valid ? "#86efac" : "#fca5a5",
+                        }}
+                      >
+                        {promoStatus.message}
+                        {promoStatus.valid && promoStatus.kind === "squad_invite" && (
+                          <button
+                            type="button"
+                            disabled={redeemingSquad}
+                            onClick={handleRedeemSquadSeat}
+                            className="pmu-btn-primary"
+                            style={{
+                              marginTop: "10px",
+                              width: "100%",
+                              backgroundColor: "#22c55e",
+                              color: "#08080a",
+                              fontSize: "12px",
+                              padding: "10px",
+                            }}
+                          >
+                            {redeemingSquad
+                              ? "Activating Your Squad Pass…"
+                              : "🎟️ Redeem Free Squad Seat Now (₹0 Due) →"}
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

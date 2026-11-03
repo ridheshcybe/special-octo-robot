@@ -3,6 +3,7 @@ import { PrepMeUpNav } from "../_components/PrepMeUpNav";
 import { PrepMeUpFooter } from "../_components/PrepMeUpFooter";
 import { CalendarBookingScheduler } from "../_components/CalendarBookingScheduler";
 import { VideoSessionBookingForm } from "../_components/VideoSessionBookingForm";
+import { LandingInteractiveTrial } from "../_components/LandingInteractiveTrial";
 
 function SectionEyebrow({ children, centered = false }: { children: string; centered?: boolean }) {
   return (
@@ -62,7 +63,7 @@ export default function PrepMeUpLandingPage() {
       slug: "indian-science-engineering-and-technology",
       code: "CSE1006",
       desc: "Ancient Indian mathematics, Sulba Sutras geometry, Panini formal linguistics, metallurgy (Wootz steel), and water harvesting.",
-      modules: "4 Modules • IKS Foundations",
+      modules: "5 Modules • IKS Foundations",
       badge: "Knowledge Systems",
     },
   ];
@@ -210,9 +211,10 @@ export default function PrepMeUpLandingPage() {
               }}
             >
               The dedicated academic learning copilot for first-year engineering students.
-              LaTeX-typeset notes, available study materials, adaptive quizzes, interactive simulations,
-              and <strong>Tier 0 Free Beta Access (First 10)</strong>, <strong>Tier 1 Basic Access (₹99)</strong>,
-              or <strong>Tier 2 (₹199): Premium AI + 1:1 Human Support + Exclusive Internship &amp; Career Support</strong>.
+              LaTeX-typeset notes across all 6 Semester 1 subjects (30 modules, 93 topics), adaptive quizzes, interactive simulations,
+              and <strong>Tier 1 Basic Access (₹99)</strong>,{" "}
+              <strong>Tier 2 Pro AI + Career &amp; 1 Included 1:1 Session (₹199)</strong>, or{" "}
+              <strong>Tier 3 VIP Unlimited 1:1 Live Mentorship (₹499)</strong>.
             </p>
 
             <div
@@ -226,7 +228,7 @@ export default function PrepMeUpLandingPage() {
               }}
             >
               <Link href="#pricing" className="pmu-btn-primary">
-                Claim Tier 0 Free Beta / View Pricing →
+                Explore Semester 1 Passes &amp; Pricing →
               </Link>
               <Link href="/prepmeup/tools/cgpa" className="pmu-btn-secondary">
                 🎯 SGPA &amp; CGPA Calculator
@@ -238,14 +240,6 @@ export default function PrepMeUpLandingPage() {
 
             {/* Quick Metrics Bar */}
             <div className="pmu-metrics-grid">
-              <div>
-                <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#ff3b1d" }}>
-                  ₹0
-                </p>
-                <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#807f78" }}>
-                  Tier 0: First 10 Free
-                </p>
-              </div>
               <div>
                 <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#f3f1ea" }}>
                   ₹99
@@ -259,15 +253,23 @@ export default function PrepMeUpLandingPage() {
                   ₹199
                 </p>
                 <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#807f78" }}>
-                  Tier 2: AI + 1:1 Human
+                  Tier 2: AI + Career + 1 Session
+                </p>
+              </div>
+              <div>
+                <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#4ade80" }}>
+                  ₹499
+                </p>
+                <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#807f78" }}>
+                  Tier 3: Unlimited 1:1 VIP
                 </p>
               </div>
               <div>
                 <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#f3f1ea" }}>
-                  24/7
+                  93
                 </p>
                 <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#807f78" }}>
-                  AI + Human Mentors
+                  Topics Across 30 Modules
                 </p>
               </div>
             </div>
@@ -331,6 +333,9 @@ export default function PrepMeUpLandingPage() {
           </div>
         </div>
       </section>
+
+      {/* 2B. ZERO-LOGIN INTERACTIVE LIVE SIMULATOR & GUEST AI DOUBT TRIAL */}
+      <LandingInteractiveTrial />
 
       {/* 3. SUBJECTS SECTION */}
       <section id="subjects" className="pmu-section">
@@ -704,12 +709,52 @@ export default function PrepMeUpLandingPage() {
             </div>
           </div>
 
+          {/* 3-Friend Study Squad Bundle Callout */}
+          <div
+            className="pmu-card-highlight"
+            style={{
+              marginTop: "2rem",
+              padding: "1.75rem 2rem",
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "1.25rem",
+              borderColor: "rgba(34,197,94,0.45)",
+            }}
+          >
+            <div style={{ maxWidth: "42rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
+                <span className="pmu-badge" style={{ backgroundColor: "rgba(34,197,94,0.16)", color: "#4ade80", borderColor: "rgba(34,197,94,0.4)" }}>
+                  👥 3-Friend Study Squad Bundle
+                </span>
+                <span className="font-mono" style={{ fontSize: "12px", color: "#4ade80", fontWeight: 700 }}>
+                  ₹149 / Student • Save ₹148 vs Individual Tier 2
+                </span>
+              </div>
+              <h3 className="font-display" style={{ fontSize: "1.75rem", textTransform: "uppercase", color: "#f3f1ea" }}>
+                Split Tier 2 Pro With 2 Roommates for ₹449 Total
+              </h3>
+              <p style={{ marginTop: "4px", fontSize: "13.5px", color: "#a19f95", lineHeight: 1.55 }}>
+                Your Tier 2 Pro Pass activates immediately, and your receipt gives you <strong>2 instant 100%-off Squad Invite Codes</strong> (<code>SQUAD-XXXX</code>) for your 2 friends to redeem at ₹0!
+              </p>
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+              <Link href="/prepmeup/checkout?tier=tier2_squad" className="pmu-btn-primary" style={{ backgroundColor: "#22c55e", color: "#08080a" }}>
+                Get 3-Friend Squad Pass (₹449) →
+              </Link>
+              <Link href="/prepmeup/checkout?tier=tier2&code=EXAM50" className="pmu-btn-secondary">
+                Have a Squad / Promo Code? Redeem →
+              </Link>
+            </div>
+          </div>
+
           {/* Interactive Calendar Scheduler Embed on Marketing Page */}
           <div style={{ marginTop: "3.5rem" }}>
             <CalendarBookingScheduler initialTier="guest" />
           </div>
 
-          {/* Founding Beta Testers & Testimonials Wall */}
+          {/* Verifiable Curriculum Coverage & Technical Specifications Wall */}
           <div
             style={{
               marginTop: "3.5rem",
@@ -721,36 +766,36 @@ export default function PrepMeUpLandingPage() {
           >
             <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginBottom: "1.5rem" }}>
               <div>
-                <span className="pmu-badge pmu-badge-accent">Student Experiences &amp; Early Review Highlights</span>
+                <span className="pmu-badge pmu-badge-accent">Verifiable Platform Coverage</span>
                 <h3 className="font-display" style={{ marginTop: "0.5rem", fontSize: "1.65rem", textTransform: "uppercase", color: "#f3f1ea" }}>
-                  What Semester 1 Engineering Students Say
+                  Semester 1 Curriculum &amp; Workbench Inventory
                 </h3>
               </div>
               <span className="font-mono" style={{ fontSize: "12px", color: "#4ade80", fontWeight: 700 }}>
-                ★ 4.9 / 5.0 Student Satisfaction Rating
+                ✓ 6 Subjects • 30 Modules • 93 Topic Notes • 17 Simulators
               </span>
             </div>
 
             <div className="pmu-grid-3">
               {[
                 {
-                  quote: "The rendered LaTeX derivations for Cayley-Hamilton and RK4 in CSE1001 saved me hours before my mid-sem exam.",
-                  author: "Engineering Student Reviewer",
-                  meta: "B.Tech CSE AI/ML • Sem 1",
+                  spec: "30 Modules & 93 LaTeX Topic Notes across ACM (16), BEE (17), COA (18), Web Technologies (15), Python (17), and IKS (10).",
+                  title: "Complete Syllabus Note Coverage",
+                  meta: "CSE1001 – CSE1006 • AY 2026-27",
                 },
                 {
-                  quote: "Interactive BEE KVL/KCL simulations plus the 1:1 human mentor call made mesh analysis click in 20 minutes.",
-                  author: "First-Year B.Tech Student",
-                  meta: "B.Tech CSE AI/ML • Sem 1",
+                  spec: "17 interactive browser-native engineering simulators covering Ohm's Law, KCL/KVL mesh circuits, AC oscilloscopes, Python call stacks, and 5-stage RISC CPU pipelines.",
+                  title: "Interactive Visual Laboratories",
+                  meta: "BEE, COA, Web, ACM, Python & IKS",
                 },
                 {
-                  quote: "Having sample Input/Output test cases and step-by-step error explanations in the Python lab is a game changer.",
-                  author: "Semester 1 Cohort Member",
-                  meta: "B.Tech CSE AI/ML • Sem 1",
+                  spec: "Python 3.12 coding workbench with automated test-case verification, timed topic quizzes with instant grading, and 24/7 syllabus-grounded AI doubt solving.",
+                  title: "Practice & Assessment Engine",
+                  meta: "Quizzes • Coding Lab • AI Copilot",
                 },
               ].map((item) => (
                 <div
-                  key={item.author}
+                  key={item.title}
                   style={{
                     padding: "1.25rem",
                     borderRadius: "0.75rem",
@@ -762,11 +807,11 @@ export default function PrepMeUpLandingPage() {
                     gap: "0.875rem",
                   }}
                 >
-                  <p style={{ fontSize: "0.8125rem", lineHeight: 1.6, color: "#d4d2c8", fontStyle: "italic" }}>
-                    &ldquo;{item.quote}&rdquo;
+                  <p style={{ fontSize: "0.8125rem", lineHeight: 1.6, color: "#d4d2c8" }}>
+                    {item.spec}
                   </p>
                   <div style={{ borderTop: "1px solid rgba(243,241,234,0.08)", paddingTop: "0.625rem" }}>
-                    <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#ff6a3d" }}>{item.author}</div>
+                    <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#ff6a3d" }}>{item.title}</div>
                     <div className="font-mono" style={{ fontSize: "0.6875rem", color: "#807f78" }}>{item.meta}</div>
                   </div>
                 </div>

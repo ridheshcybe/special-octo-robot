@@ -290,6 +290,34 @@ $$Z = \\frac{X - \\mu}{\\sigma}, \\qquad \\text{Percentile} = \\Phi(Z) \\times 1
                   ? "🌟 Upper Quartile Distinction (A+ / A Band)"
                   : "📈 Solid Standing • Room for Revision Boost"}
               </div>
+
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(
+                  `🏆 My predicted B.Tech Sem-1 standing is *Rank #${estimatedRank} (${percentile}%ile)* out of ${batchSize} students on PrepMeUp!\n\nCheck your expected rank & percentile:\n👉 https://prepmeupai.in/prepmeup/tools/rank-percentile`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  fetch("/api/prepmeup/growth/autopilot", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ action: "track_share" }),
+                  }).catch(() => {});
+                }}
+                className="pmu-btn-primary"
+                style={{
+                  marginTop: "12px",
+                  width: "100%",
+                  backgroundColor: "#22c55e",
+                  color: "#08080a",
+                  textDecoration: "none",
+                  textAlign: "center",
+                  fontSize: "11.5px",
+                  padding: "10px 14px",
+                }}
+              >
+                📲 Share Predicted Rank on WhatsApp →
+              </a>
             </>
           )}
         </div>

@@ -9,6 +9,7 @@ import {
   type PmuNote,
   type PmuPastPaper,
 } from "./data";
+import { resolvePersistentDataDir } from "./studentStore";
 
 function getSupabaseClient() {
   const url = process.env.NEXT_PUBLIC_PMU_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -21,7 +22,7 @@ function getSupabaseClient() {
 
 function getAdminStateCustomContent(slug: string, subjectCode: string) {
   try {
-    const p = path.join(process.cwd(), "deploy", "cms", "admin_state.json");
+    const p = path.join(resolvePersistentDataDir(), "admin_state.json");
     if (fs.existsSync(p)) {
       const state = JSON.parse(fs.readFileSync(p, "utf-8"));
       const isMatch = (c: string) => {
@@ -77,7 +78,7 @@ export async function getPmuSubjects(): Promise<PmuSubject[]> {
       credit_units: sub.credit_units,
       icon: sub.icon,
       is_published: sub.is_published,
-      module_count: (sub.pmu_modules as unknown as [{ count: number }])?.[0]?.count ?? 4,
+      module_count: (sub.pmu_modules as unknown as [{ count: number }])?.[0]?.count ?? 5,
     }));
   } catch {
     return FALLBACK_SUBJECTS;

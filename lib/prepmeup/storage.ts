@@ -3,6 +3,7 @@ import path from "path";
 import { FALLBACK_SUBJECTS } from "@/app/prepmeup/_lib/data";
 import { DEFAULT_CALENDAR_SLOTS, type CalendarSlot, type AdminNote, type AdminModule, type AdminPyq, type AdminSession, type PlatformSettings, type AdminSubject } from "@/app/api/prepmeup/admin/manage/route";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
+import { resolvePersistentDataDir } from "@/app/prepmeup/_lib/studentStore";
 
 export interface PersistentState {
   settings: PlatformSettings;
@@ -130,21 +131,20 @@ In Fundamentals of Web Technologies (CSE1004), client-server communication relie
 ];
 
 export function getPersistentStateFilePath(): string {
-  const customDir = process.env.PREPMEUP_DATA_DIR;
-  if (customDir) {
-    return path.join(customDir, "admin_state.json");
-  }
-  return path.join(process.cwd(), "deploy", "cms", "admin_state.json");
+  return path.join(resolvePersistentDataDir(), "admin_state.json");
 }
 
 let cachedState: PersistentState | null = null;
+let cachedMtimeMs = 0;
 
 export function loadPersistentState(): PersistentState {
-  if (cachedState) return cachedState;
-
   const filePath = getPersistentStateFilePath();
   try {
     if (fs.existsSync(filePath)) {
+      const stat = fs.statSync(filePath);
+      if (cachedState && stat.mtimeMs === cachedMtimeMs && cachedMtimeMs > 0) {
+        return cachedState;
+      }
       const raw = fs.readFileSync(filePath, "utf-8");
       const parsed = JSON.parse(raw);
       cachedState = {
@@ -165,10 +165,12 @@ export function loadPersistentState(): PersistentState {
         activities: parsed.activities || [],
         lastUpdated: parsed.lastUpdated || new Date().toISOString(),
       };
+      cachedMtimeMs = stat.mtimeMs;
       return cachedState;
     }
   } catch (err) {
-    console.warn("[Storage] Could not parse local state file, initializing baseline:", err);
+    console.warn("[Storage] Could not parse local state file, returning cached or baseline without overwriting:", err);
+    if (cachedState) return cachedState;
   }
 
   // Initialize and write baseline to disk so it never starts from zero

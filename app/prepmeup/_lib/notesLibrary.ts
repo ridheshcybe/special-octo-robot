@@ -1935,4 +1935,49 @@ Classical India served as the epicenter of Afro-Eurasian trade:
 - **Maritime Indian Ocean Trade:**
   - Export of textiles (muslin, calico), spices (black pepper/Malabar gold), gemstones, and Wootz steel to the Roman Empire, Southeast Asia (Suvarnabhumi), and China.
   - Navigation codified in treatises with astrolabes, magnetic compasses (*Matsya Yantra*), and monsoon wind sailing schedules.`,
+  "siddhantic-astronomy-trigonometry": String.raw`### 1. Siddhantic Astronomy & Aryabhata's Planetary Model
+Classical Indian mathematical astronomy (*Jyotisha / Ganita*) transitioned from calendaric Vedanga Jyotisha to rigorous trigonometric planetary models in the **Siddhantic era** (5th–12th century CE), led by **Aryabhata** (*Aryabhatiya*, 499 CE), **Varahamihira** (*Pancha-Siddhantika*), **Brahmagupta** (*Brahmasphutasiddhanta*, 628 CE), and **Bhaskara II** (*Siddhanta Shiromani*, 1150 CE).
+
+- **Earth's Axial Rotation (Aryabhata, Golapada 9):**
+  Aryabhata explicitly proposed that the Earth rotates on its own axis once per sidereal day while the stars remain stationary, comparing the apparent westward motion of stars to a passenger on a moving boat observing stationary riverbanks moving backward:
+  $$T_{\text{sidereal}} \approx 23\text{ hours } 56\text{ minutes } 4.1\text{ seconds}$$
+- **Heliocentric Epicycles & Eclipse Geometry:**
+  Replaced mythical explanations of eclipses with rigorous geometric shadow calculations using lunar nodal intersections (*Rahu* and *Ketu* as ascending/descending orbital nodes) and angular diameters of the Sun, Moon, and Earth's umbra.
+
+---
+
+### 2. Invention of Modern Trigonometry (*Jya* and *Koti-Jya*)
+Unlike Greek chord geometry, Indian mathematicians defined trigonometric ratios based on the **half-chord** (*Ardha-Jya*), which is the direct ancestor of the modern sine function:
+$$\text{Jya}(\theta) = R \sin\theta, \qquad \text{Koti-Jya}(\theta) = R \cos\theta, \qquad \text{Utkrama-Jya}(\theta) = R(1 - \cos\theta)$$
+- **Aryabhata's Sine Table:** Using radius $R = 3438'$ (since $\frac{180 \times 60}{\pi} \approx 3437.75$ arcminutes), Aryabhata tabulated 24 sine differences at intervals of $\Delta\theta = 3^\circ 45' = 225'$ using a second-order finite-difference recurrence relation equivalent to the differential equation $\frac{d^2(\sin\theta)}{d\theta^2} = -\sin\theta$:
+  $$\Delta_2 \text{Jya}_k = -\left(\frac{\Delta\theta}{R}\right)^2 \text{Jya}_k \approx -\frac{\text{Jya}_k}{225}$$
+
+---
+
+### 3. Kerala School of Astronomy & Infinite Series (Madhava, c. 1400 CE)
+Two centuries before Newton and Leibniz, **Madhava of Sangamagrama** and **Nilakantha Somayaji** (*Tantrasangraha*) derived power series expansions for trigonometric functions to compute high-precision planetary longitudes:
+$$\sin x = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \dots, \qquad \frac{\pi}{4} = 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \dots$$`,
+  "ayurveda-sushruta-ecology": String.raw`### 1. Foundations of Ayurveda & Tridosha Systems Biology
+*Ayurveda* (the Science of Life, an Upaveda of the Atharvaveda) is codified in the **Brihat-Trayi** (Great Triad): *Charaka Samhita* (internal medicine & diagnostics), *Sushruta Samhita* (surgery & anatomy), and *Ashtanga Hridaya* (Vagbhata).
+
+- **Panchamahabhuta & Tridosha Equilibrium:**
+  Physiological homeostasis (*Swasthya*) is modeled as a dynamic balance among three regulatory bio-systems (*Doshas*):
+  1. **Vata (Air + Ether):** Kinetic signaling, neural impulse transmission, respiration, and circulation.
+  2. **Pitta (Fire + Water):** Metabolic enzymatic transformations, thermoregulation, and digestion (*Agni*).
+  3. **Kapha (Earth + Water):** Structural cohesion, synovial lubrication, and immune resilience (*Ojas*).
+- **Eightfold Clinical Diagnostics (*Ashtavidha Pariksha*):** Systematic evaluation of pulse (*Nadi*), urine (*Mutra*), stool (*Mala*), tongue (*Jihva*), voice (*Shabda*), touch/skin (*Sparsha*), vision (*Drik*), and physique (*Akriti*).
+
+---
+
+### 2. Sushruta Samhita & Surgical Engineering
+Compiled by **Acharya Sushruta** (c. 600 BCE), the *Sushruta Samhita* documents 300+ surgical procedures across 8 surgical categories (*Ashtavidha Shastra Karma*: excision, incision, scraping, puncturing, probing, extraction, drainage, and suturing):
+- **121 Precision Instruments:** Categorized into **101 Yantras** (blunt forceps, speculums, magnets, tubular endoscopes) and **20 Shastras** (scalpels, lancets, bone saws, trocars) forged from high-carbon tempered steel.
+- **Reconstructive Plastic Surgery (*Nasa Sandhana*):** Pioneered pedicle forehead flap **rhinoplasty** (reconstructing nasal tissue using a rotated vascularized skin graft from the forehead), otoplasty, and cataract couching (*Linga Nasha*).
+- **Asepsis & Training:** Mandated thermal sterilization of instruments (heating until red-hot), medicated fumigation (*Dhoopana*), and pre-clinical surgical simulation (*Yogya*) on gourds, leather bags, and lotus stems before human operations.
+
+---
+
+### 3. Sacred Groves (*Devarai / Kavus*) & Ecological Conservation
+Traditional Indian environmental ethics integrated biodiversity conservation into community governance:
+- **Sacred Groves (*Devarai* in Maharashtra, *Orans* in Rajasthan, *Kavus* in Kerala):** Virgin forest patches surrounding water catchments protected from logging and hunting, acting as in-situ gene banks for medicinal flora and keystone pollinators.`,
 };

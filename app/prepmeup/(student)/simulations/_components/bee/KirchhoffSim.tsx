@@ -26,6 +26,12 @@ export function KirchhoffSim() {
   const i2 = det !== 0 ? (a1 * c2 - a2 * c1) / det : 0;
   const i3 = i1 - i2; // Current down middle branch
 
+  const i1Rounded = Number(i1.toFixed(2));
+  const i2Rounded = Number(i2.toFixed(2));
+  const i3Rounded = Number(i3.toFixed(2));
+  const sumI1I2Rounded = Number((i1Rounded + i2Rounded).toFixed(2));
+  const diffI1I2Rounded = Number((i1Rounded - i2Rounded).toFixed(2));
+
   return (
     <div className="space-y-6">
       {/* Controls */}
@@ -119,15 +125,20 @@ export function KirchhoffSim() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div className="rounded-xl border border-[rgba(243,241,234,0.1)] bg-[#111114] p-4 text-center">
           <span className="text-[10px] font-bold uppercase text-[#807f78]">Loop 1 Mesh Current (I_1)</span>
-          <p className="mt-1 font-mono text-2xl font-bold text-[#ff6a3d]">{i1.toFixed(2)} A</p>
+          <p className="mt-1 font-mono text-2xl font-bold text-[#ff6a3d]">{i1Rounded.toFixed(2)} A</p>
+          <span className="text-[10px] font-mono text-[#807f78]">Exact: {i1.toFixed(3)} A</span>
         </div>
         <div className="rounded-xl border border-[rgba(243,241,234,0.1)] bg-[#111114] p-4 text-center">
           <span className="text-[10px] font-bold uppercase text-[#807f78]">Middle Branch Current (I_3 = I_1 - I_2)</span>
-          <p className="mt-1 font-mono text-2xl font-bold text-[#4ade80]">{i3.toFixed(2)} A</p>
+          <p className="mt-1 font-mono text-2xl font-bold text-[#4ade80]">{diffI1I2Rounded.toFixed(2)} A</p>
+          <span className="text-[10px] font-mono text-[#807f78]">
+            I1 + I2 = {sumI1I2Rounded.toFixed(2)} A • Exact I3: {i3.toFixed(3)} A
+          </span>
         </div>
         <div className="rounded-xl border border-[rgba(243,241,234,0.1)] bg-[#111114] p-4 text-center">
           <span className="text-[10px] font-bold uppercase text-[#807f78]">Loop 2 Mesh Current (I_2)</span>
-          <p className="mt-1 font-mono text-2xl font-bold text-[#ff6a3d]">{i2.toFixed(2)} A</p>
+          <p className="mt-1 font-mono text-2xl font-bold text-[#ff6a3d]">{i2Rounded.toFixed(2)} A</p>
+          <span className="text-[10px] font-mono text-[#807f78]">Exact: {i2.toFixed(3)} A</span>
         </div>
       </div>
     </div>

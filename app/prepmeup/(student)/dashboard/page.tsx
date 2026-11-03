@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { getPmuSubjects } from "../../_lib/queries";
 import { CalendarBookingScheduler } from "../../_components/CalendarBookingScheduler";
 import { DailyNoteCapsule } from "../../_components/DailyNoteCapsule";
+import { StudentGrowthAutopilotCard } from "../../_components/StudentGrowthAutopilotCard";
 import { getStoredDailyNote } from "@/lib/prepmeup/dailyNotes";
 
 export default async function StudentDashboardPage() {
@@ -91,12 +92,15 @@ export default async function StudentDashboardPage() {
       {/* Daily High-Yield Academic Capsule (Updated Daily with Notes, Quiz & Summary) */}
       <DailyNoteCapsule initialData={dailyNote} />
 
+      {/* Campus Referral & Automated Daily WhatsApp Broadcast Hub */}
+      <StudentGrowthAutopilotCard />
+
       {/* Quick KPI Strip */}
       <div className="pmu-grid-4">
         {[
-          { label: "Active Subjects", value: "06", sub: "28 Core Modules Unlocked" },
+          { label: "Active Subjects", value: "06", sub: "30 Modules • 93 Topic Notes" },
           { label: "AI Doubt Quota", value: "24/7", sub: "Step-by-Step LaTeX & Code" },
-          { label: "Interactive Labs", value: "15+", sub: "Atlas Suite, BEE & Python Sims" },
+          { label: "Interactive Labs", value: "17", sub: "Atlas Suite, BEE & Python Sims" },
           { label: "Pass Status", value: tier === "tier3" ? "PREMIUM 1:1" : (tier === "tier2" ? "PRO PASS" : "STARTER PASS"), sub: tier === "tier1" ? "Free Syllabus & Sample Access" : "180-Day Semester 1 Access" },
         ].map((stat) => (
           <div key={stat.label} className="pmu-card" style={{ padding: "22px" }}>
@@ -163,7 +167,7 @@ export default async function StudentDashboardPage() {
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
                   <span className="pmu-badge">{subj.code}</span>
                   <span className="font-mono" style={{ fontSize: "11px", color: "#807f78" }}>
-                    {subj.credit_units} Credits • {subj.module_count ?? 4} Modules
+                    {subj.credit_units} Credits • {subj.module_count ?? 5} Modules
                   </span>
                 </div>
                 <h3
@@ -187,7 +191,7 @@ export default async function StudentDashboardPage() {
                 }}
               >
                 <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95" }}>
-                  {subj.module_count ?? 4} Modules • Notes &amp; Solved PYQs
+                  {subj.module_count ?? 5} Modules • Notes &amp; Solved PYQs
                 </span>
                 <Link
                   href={`/prepmeup/subjects/${subj.slug}`}

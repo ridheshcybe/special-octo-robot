@@ -9,7 +9,9 @@ interface ProgressStats {
   overallCompletion: number;
   averageAccuracy: number;
   totalQuizzesAttempted: number;
+  quizzesCompleted?: number;
   studyHours: number;
+  studyMinutes?: number;
   codingSubmissionsCount?: number;
   doubtsCount?: number;
   subjectsProgress: {
@@ -45,21 +47,31 @@ interface ProgressStats {
 export default function StudentProgressDashboard() {
   const [stats, setStats] = useState<ProgressStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [expandedAttemptId, setExpandedAttemptId] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetch("/api/prepmeup/progress")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.ok) {
-          setStats(data.stats);
-          if (data.stats.recentAttempts?.length > 0) {
-            setExpandedAttemptId(data.stats.recentAttempts[0].id);
-          }
+  const loadProgress = () => {
+    setLoading(true);
+    setErrorMsg(null);
+    fetch("/api/prepmeup/progress", { cache: "no-store" })
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || `Failed to load progress (HTTP ${res.status}).`);
+        }
+        setStats(data.stats);
+        if (data.stats.recentAttempts?.length > 0) {
+          setExpandedAttemptId(data.stats.recentAttempts[0].id);
         }
       })
-      .catch(() => {})
+      .catch((err: any) => {
+        setErrorMsg(err?.message || "Unable to load progress history from storage.");
+      })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadProgress();
   }, []);
 
   if (loading) {
@@ -68,6 +80,44 @@ export default function StudentProgressDashboard() {
         title="Computing Academic Mastery & Submission Logs…"
         subtitle="Play with the digital logic gate while your progress metrics load!"
       />
+    );
+  }
+
+  if (errorMsg) {
+    return (
+      <div
+        className="pmu-card"
+        role="alert"
+        style={{
+          padding: "32px",
+          border: "1px solid rgba(239, 68, 68, 0.5)",
+          backgroundColor: "rgba(70, 8, 9, 0.25)",
+        }}
+      >
+        <span className="pmu-badge" style={{ backgroundColor: "rgba(239,68,68,0.2)", color: "#f87171" }}>
+          ⚠️ Storage / Read Error
+        </span>
+        <h2
+          className="font-display"
+          style={{ marginTop: "12px", fontSize: "28px", textTransform: "uppercase", color: "#f87171" }}
+        >
+          Unable to Load Saved Progress History
+        </h2>
+        <p style={{ marginTop: "8px", fontSize: "14px", lineHeight: 1.6, color: "#fca5a5" }}>
+          {errorMsg}
+        </p>
+        <p style={{ marginTop: "6px", fontSize: "12.5px", color: "#a19f95" }}>
+          Your saved quiz attempts, coding submissions, and doubts have not been cleared. Please retry loading your history.
+        </p>
+        <div style={{ marginTop: "18px", display: "flex", gap: "12px" }}>
+          <button type="button" onClick={loadProgress} className="pmu-btn-primary">
+            ↻ Retry Loading History
+          </button>
+          <Link href="/prepmeup/dashboard" className="pmu-btn-secondary">
+            ← Return to Dashboard
+          </Link>
+        </div>
+      </div>
     );
   }
 
@@ -131,22 +181,27 @@ export default function StudentProgressDashboard() {
             Quizzes Completed
           </span>
           <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#f3f1ea", marginTop: "8px" }}>
-            {stats.totalQuizzesAttempted < 10 ? `0${stats.totalQuizzesAttempted}` : stats.totalQuizzesAttempted}
+            {(() => {
+              const count = typeof stats.quizzesCompleted === "number" ? stats.quizzesCompleted : stats.totalQuizzesAttempted;
+              return count < 10 ? `0${count}` : count;
+            })()}
           </div>
           <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "6px", display: "block" }}>
-            Graded &amp; archived
+            {typeof stats.codingSubmissionsCount === "number" && stats.codingSubmissionsCount > 0
+              ? `+ ${stats.codingSubmissionsCount} Coding Lab${stats.codingSubmissionsCount > 1 ? "s" : ""}`
+              : "Graded & archived"}
           </span>
         </div>
 
         <div className="pmu-card" style={{ padding: "22px" }}>
           <span className="font-mono" style={{ fontSize: "11px", textTransform: "uppercase", color: "#807f78" }}>
-            Study Hours Logged
+            Study Time Logged
           </span>
           <div className="font-display" style={{ fontSize: "40px", lineHeight: 1, color: "#4ade80", marginTop: "8px" }}>
             {stats.studyHours}h
           </div>
           <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95", marginTop: "6px", display: "block" }}>
-            Active in-app time
+            {typeof stats.studyMinutes === "number" ? `${stats.studyMinutes} mins active practice` : "Active in-app time"}
           </span>
         </div>
       </div>
@@ -157,7 +212,7 @@ export default function StudentProgressDashboard() {
           Subject-by-Subject Mastery
         </h2>
         <p style={{ marginTop: "4px", fontSize: "13px", color: "#a19f95" }}>
-          Unit completion meters and test accuracy across all 4 Semester 1 courses.
+          Unit completion meters and test accuracy across all {stats.subjectsProgress.length} Semester 1 courses.
         </p>
 
         <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "18px" }}>
