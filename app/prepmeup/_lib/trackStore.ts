@@ -974,12 +974,22 @@ export function createOrExtendQuantumEnrollment(params: {
   courseId?: string;
   accessType: "free_preview" | "semester_pass" | "mentorship_pack" | "admin_granted";
   months?: number;
+  durationDays?: number;
+  expiresAt?: string;
+  notes?: string;
 }): QuantumEnrollment {
   const state = loadState();
   const courseId = params.courseId || "quantum-computing-foundations";
   const now = new Date();
-  const months = params.months || 6;
-  const expiresAt = new Date(now.getTime() + months * 30 * 24 * 60 * 60 * 1000).toISOString();
+  let expiresAt: string;
+  if (params.expiresAt) {
+    expiresAt = params.expiresAt;
+  } else if (typeof params.durationDays === "number") {
+    expiresAt = new Date(now.getTime() + params.durationDays * 24 * 60 * 60 * 1000).toISOString();
+  } else {
+    const months = params.months || 6;
+    expiresAt = new Date(now.getTime() + months * 30 * 24 * 60 * 60 * 1000).toISOString();
+  }
 
   // Check if active enrollment exists
   const existing = state.enrollments.find(
@@ -1015,9 +1025,12 @@ export function createOrExtendQuantumEnrollment(params: {
   return newEnr;
 }
 
-export function revokeQuantumEnrollment(enrollmentId: string): boolean {
+export function revokeQuantumEnrollment(enrollmentIdOrUserId: string): boolean {
   const state = loadState();
-  const enr = state.enrollments.find((e) => e.id === enrollmentId);
+  const key = enrollmentIdOrUserId.toLowerCase();
+  const enr = state.enrollments.find(
+    (e) => e.id === enrollmentIdOrUserId || (e.userId.toLowerCase() === key && e.status === "active")
+  );
   if (!enr) return false;
   enr.status = "revoked";
   enr.updatedAt = new Date().toISOString();

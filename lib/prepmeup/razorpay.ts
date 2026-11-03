@@ -65,5 +65,11 @@ export function verifyRazorpayWebhookSignature(
     .update(rawBody)
     .digest("hex");
 
-  return expectedSignature === signature;
+  try {
+    const expectedBuf = Buffer.from(expectedSignature, "utf-8");
+    const sigBuf = Buffer.from(signature, "utf-8");
+    return expectedBuf.length === sigBuf.length && crypto.timingSafeEqual(expectedBuf, sigBuf);
+  } catch {
+    return false;
+  }
 }
