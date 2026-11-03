@@ -8,12 +8,12 @@ export async function POST(req: NextRequest) {
   try {
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "127.0.0.1";
 
-    // 1. IP Rate limit check (max 20 / hr)
+    // 1. IP Rate limit check (max 10 / 10 min)
     const ipCheck = await checkIpRateLimit(ip);
     if (!ipCheck.allowed) {
       return NextResponse.json(
         { ok: false, error: `Too many requests from your network. Try again in ${ipCheck.retryAfterSec}s.` },
-        { status: 429 }
+        { status: 429, headers: { "Retry-After": String(ipCheck.retryAfterSec || 60) } }
       );
     }
 
@@ -38,6 +38,14 @@ export async function POST(req: NextRequest) {
 
     // A. Free Email OTP Flow (Resend API or Hostinger SMTP)
     if (target.type === "email") {
+      const emailRateCheck = await checkPhoneOtpRateLimit(target.value);
+      if (!emailRateCheck.allowed) {
+        return NextResponse.json(
+          { ok: false, error: `Please wait ${emailRateCheck.retryAfterSec}s before requesting a new code.` },
+          { status: 429, headers: { "Retry-After": String(emailRateCheck.retryAfterSec || 60) } }
+        );
+      }
+
       const sendResult = await sendEmailOtp(target.value);
       if (!sendResult.success) {
         return NextResponse.json(
@@ -62,7 +70,7 @@ export async function POST(req: NextRequest) {
     if (!phoneCheck.allowed) {
       return NextResponse.json(
         { ok: false, error: `Please wait ${phoneCheck.retryAfterSec}s before requesting a new code.` },
-        { status: 429 }
+        { status: 429, headers: { "Retry-After": String(phoneCheck.retryAfterSec || 60) } }
       );
     }
 

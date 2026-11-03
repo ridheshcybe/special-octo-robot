@@ -38,13 +38,27 @@ export default function CheckoutClient({ initialProduct, initialEarlyAdopter }: 
       })
       .catch(() => {});
 
-    // Dynamically inject Razorpay script if not already present
+    // Dynamically inject Razorpay Standard Checkout script strictly on this checkout page.
+    // NOTE ON SUBRESOURCE INTEGRITY (SRI):
+    // Razorpay Standard Checkout (checkout.razorpay.com/v1/checkout.js) is a rolling-release
+    // dynamic script continuously updated upstream by Razorpay for bank 3DS, UPI protocol shifts,
+    // and security patches. Pinning a static SRI hash is explicitly unsupported by Razorpay and would
+    // trigger critical payment outages upon upstream updates. Security is instead hardened via
+    // strict Content Security Policy (script-src https://checkout.razorpay.com and frame-src
+    // https://api.razorpay.com https://checkout.razorpay.com) scoped specifically to /prepmeup routes.
+    let scriptElement: HTMLScriptElement | null = null;
     if (typeof window !== "undefined" && !window.Razorpay) {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.async = true;
-      document.body.appendChild(script);
+      scriptElement = document.createElement("script");
+      scriptElement.src = "https://checkout.razorpay.com/v1/checkout.js";
+      scriptElement.async = true;
+      document.body.appendChild(scriptElement);
     }
+
+    return () => {
+      if (scriptElement && scriptElement.parentNode) {
+        scriptElement.parentNode.removeChild(scriptElement);
+      }
+    };
   }, []);
 
   const basePrice = productType === "semester_pass" ? 999 : 499;

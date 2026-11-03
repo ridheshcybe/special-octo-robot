@@ -30,12 +30,12 @@ export async function POST(req: NextRequest) {
     }
     const code = otpResult.data;
 
-    // 2. Brute-force protection: Max 5 verification attempts per target
-    const attemptCheck = checkAndIncrementVerifyAttempts(target.value);
+    // 2. Brute-force protection: Max 5 verification attempts per target (durable)
+    const attemptCheck = await checkAndIncrementVerifyAttempts(target.value);
     if (!attemptCheck.allowed) {
       return NextResponse.json(
         { ok: false, error: "Maximum verification attempts exceeded. Please request a new code." },
-        { status: 429 }
+        { status: 429, headers: { "Retry-After": String(attemptCheck.retryAfterSec || 600) } }
       );
     }
 

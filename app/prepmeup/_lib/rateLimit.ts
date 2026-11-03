@@ -1,11 +1,16 @@
 /**
  * Rate Limiter for PrepMeUp AI Auth & Sensitive Endpoints.
+ * Phase C0 Hardened: Durable Rate Limiting with Redis REST, Supabase, and TrackStore atomic fallbacks.
  * 
  * Supports:
  * 1. Upstash Redis REST API (zero latency over HTTP, distributed across serverless instances)
  *    Configured via `UPSTASH_REDIS_REST_URL` & `UPSTASH_REDIS_REST_TOKEN`.
- * 2. In-memory sliding-window fallback for local development or instances without Upstash.
+ * 2. Supabase PostgreSQL `pmu_rate_limit_events` table (durable across instances).
+ * 3. Atomic TrackStore file-backed sliding window fallback.
  */
+
+import { checkAndIncrementDurableRateLimit } from "./trackStore";
+import { createPmuServiceClient } from "./supabaseServer";
 
 interface RateRecord {
   timestamps: number[];
@@ -59,142 +64,176 @@ async function upstashCommand<T = unknown>(command: (string | number)[]): Promis
   }
 }
 
+export interface DurableRateLimitResult {
+  allowed: boolean;
+  remaining: number;
+  retryAfterSec?: number;
+}
+
 /**
- * Check rate limit for sending OTPs to a specific mobile number:
- * Max 5 attempts per 15 minutes, with a 60-second cooldown between consecutive sends.
+ * General-purpose durable rate limit function
+ */
+export async function checkDurableRateLimit({
+  bucketKey,
+  identifier,
+  limit,
+  windowSeconds,
+}: {
+  bucketKey: string;
+  identifier: string;
+  limit: number;
+  windowSeconds: number;
+}): Promise<DurableRateLimitResult> {
+  const sanitizedId = identifier.trim().toLowerCase() || "anonymous";
+
+  // 1. Upstash Redis Check
+  const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
+  if (upstashUrl) {
+    const key = `pmu:rl:${bucketKey}:${sanitizedId}`;
+    const now = Date.now();
+    try {
+      await upstashCommand(["ZREMRANGEBYSCORE", key, "-inf", now - windowSeconds * 1000]);
+      const count = await upstashCommand<number>(["ZCARD", key]);
+
+      if (count !== null && count >= limit) {
+        return {
+          allowed: false,
+          remaining: 0,
+          retryAfterSec: Math.max(1, Math.floor(windowSeconds / 2)),
+        };
+      }
+
+      await upstashCommand(["ZADD", key, now, `${now}_${Math.random()}`]);
+      await upstashCommand(["EXPIRE", key, windowSeconds]);
+      return {
+        allowed: true,
+        remaining: Math.max(0, limit - ((count || 0) + 1)),
+      };
+    } catch {
+      // Fallback to database / file store
+    }
+  }
+
+  // 2. Supabase DB Check if service role is available
+  const serviceClient = createPmuServiceClient();
+  if (serviceClient) {
+    try {
+      const nowIso = new Date().toISOString();
+      const { data: existing } = await serviceClient
+        .from("pmu_rate_limit_events")
+        .select("*")
+        .eq("bucket_key", bucketKey)
+        .eq("identifier", sanitizedId)
+        .maybeSingle();
+
+      const nowMs = Date.now();
+      if (!existing || new Date(existing.expires_at).getTime() <= nowMs) {
+        // Upsert new window
+        const expiresAtIso = new Date(nowMs + windowSeconds * 1000).toISOString();
+        await serviceClient.from("pmu_rate_limit_events").upsert(
+          {
+            bucket_key: bucketKey,
+            identifier: sanitizedId,
+            count: 1,
+            window_start: nowIso,
+            expires_at: expiresAtIso,
+          },
+          { onConflict: "bucket_key,identifier" }
+        );
+        return { allowed: true, remaining: limit - 1 };
+      }
+
+      if (existing.count >= limit) {
+        const retryAfterSec = Math.max(
+          1,
+          Math.ceil((new Date(existing.expires_at).getTime() - nowMs) / 1000)
+        );
+        return { allowed: false, remaining: 0, retryAfterSec };
+      }
+
+      await serviceClient
+        .from("pmu_rate_limit_events")
+        .update({ count: existing.count + 1 })
+        .eq("id", existing.id);
+
+      return { allowed: true, remaining: limit - (existing.count + 1) };
+    } catch {
+      // Fallback to trackStore
+    }
+  }
+
+  // 3. Durable File-backed / In-Memory atomic TrackStore
+  const res = checkAndIncrementDurableRateLimit({
+    bucketKey,
+    identifier: sanitizedId,
+    limit,
+    windowSeconds,
+  });
+
+  return {
+    allowed: res.allowed,
+    remaining: res.remaining,
+    retryAfterSec: res.retryAfterSec,
+  };
+}
+
+/**
+ * Check rate limit for sending OTPs to a specific mobile number or email:
+ * Default: 3 attempts per 10 minutes (600s).
  */
 export async function checkPhoneOtpRateLimit(phone: string): Promise<{ allowed: boolean; retryAfterSec?: number }> {
-  const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
-  if (upstashUrl) {
-    const key = `pmu:ratelimit:phone:${phone}`;
-    const now = Date.now();
-    const windowSec = 15 * 60;
-
-    // Upstash ZREMRANGEBYSCORE + ZADD + ZCOUNT pipeline equivalent
-    try {
-      await upstashCommand(["ZREMRANGEBYSCORE", key, "-inf", now - windowSec * 1000]);
-      const count = await upstashCommand<number>(["ZCARD", key]);
-
-      if (count !== null && count >= 5) {
-        return { allowed: false, retryAfterSec: 300 };
-      }
-
-      await upstashCommand(["ZADD", key, now, `${now}`]);
-      await upstashCommand(["EXPIRE", key, windowSec]);
-      return { allowed: true };
-    } catch {
-      // Fallback cleanly to in-memory if Redis error occurs
-    }
-  }
-
-  // In-memory sliding window fallback
-  const now = Date.now();
-  const windowMs = 15 * 60 * 1000;
-  const maxRequests = 5;
-
-  let record = phoneRequestMap.get(phone);
-  if (!record) {
-    record = { timestamps: [] };
-    phoneRequestMap.set(phone, record);
-  }
-
-  record.timestamps = record.timestamps.filter((t) => now - t < windowMs);
-
-  if (record.timestamps.length > 0) {
-    const last = record.timestamps[record.timestamps.length - 1];
-    const diff = Math.floor((now - last) / 1000);
-    if (diff < 60) {
-      return { allowed: false, retryAfterSec: 60 - diff };
-    }
-  }
-
-  if (record.timestamps.length >= maxRequests) {
-    const oldest = record.timestamps[0];
-    const retryAfterSec = Math.ceil((windowMs - (now - oldest)) / 1000);
-    return { allowed: false, retryAfterSec };
-  }
-
-  record.timestamps.push(now);
-  return { allowed: true };
+  const result = await checkDurableRateLimit({
+    bucketKey: "otp_send_phone",
+    identifier: phone,
+    limit: 3,
+    windowSeconds: 10 * 60,
+  });
+  return { allowed: result.allowed, retryAfterSec: result.retryAfterSec };
 }
 
 /**
- * Check rate limit per client IP address. Max 15 OTP requests per hour.
+ * Check rate limit per client IP address for OTP sending:
+ * Default: 10 per 10 minutes.
  */
 export async function checkIpOtpRateLimit(ip: string): Promise<{ allowed: boolean; retryAfterSec?: number }> {
-  const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
-  if (upstashUrl) {
-    const key = `pmu:ratelimit:ip:${ip}`;
-    const now = Date.now();
-    const windowSec = 60 * 60;
-
-    try {
-      await upstashCommand(["ZREMRANGEBYSCORE", key, "-inf", now - windowSec * 1000]);
-      const count = await upstashCommand<number>(["ZCARD", key]);
-      if (count !== null && count >= 15) {
-        return { allowed: false, retryAfterSec: 600 };
-      }
-      await upstashCommand(["ZADD", key, now, `${now}`]);
-      await upstashCommand(["EXPIRE", key, windowSec]);
-      return { allowed: true };
-    } catch {
-      // Fallback cleanly
-    }
-  }
-
-  const now = Date.now();
-  const windowMs = 60 * 60 * 1000;
-  const maxRequests = 15;
-
-  let record = ipRequestMap.get(ip);
-  if (!record) {
-    record = { timestamps: [] };
-    ipRequestMap.set(ip, record);
-  }
-
-  record.timestamps = record.timestamps.filter((t) => now - t < windowMs);
-
-  if (record.timestamps.length >= maxRequests) {
-    const oldest = record.timestamps[0];
-    const retryAfterSec = Math.ceil((windowMs - (now - oldest)) / 1000);
-    return { allowed: false, retryAfterSec };
-  }
-
-  record.timestamps.push(now);
-  return { allowed: true };
+  const result = await checkDurableRateLimit({
+    bucketKey: "otp_send_ip",
+    identifier: ip,
+    limit: 10,
+    windowSeconds: 10 * 60,
+  });
+  return { allowed: result.allowed, retryAfterSec: result.retryAfterSec };
 }
 
 /**
- * Record an OTP verification attempt for a phone number.
- * Allows maximum 5 failed attempts per OTP code window.
+ * Record an OTP verification attempt for a phone number or email.
+ * Allows maximum 5 failed attempts per OTP code window (10 minutes).
+ * Now backed durably by checkDurableRateLimit across serverless instances.
  */
-export function recordOtpVerificationAttempt(phone: string): { allowed: boolean; remainingAttempts: number } {
-  const now = Date.now();
-  const maxAttempts = 5;
-  const ttlMs = 10 * 60 * 1000;
-
-  let record = otpVerifyAttemptMap.get(phone);
-  if (!record || now > record.expiresAt) {
-    record = { attempts: 0, expiresAt: now + ttlMs };
-    otpVerifyAttemptMap.set(phone, record);
-  }
-
-  record.attempts += 1;
-  const remaining = Math.max(0, maxAttempts - record.attempts);
-
-  if (record.attempts > maxAttempts) {
-    return { allowed: false, remainingAttempts: 0 };
-  }
-
-  return { allowed: true, remainingAttempts: remaining };
+export async function recordOtpVerificationAttempt(
+  phone: string
+): Promise<{ allowed: boolean; remainingAttempts: number; retryAfterSec?: number }> {
+  const res = await checkDurableRateLimit({
+    bucketKey: "otp_verify",
+    identifier: phone,
+    limit: 5,
+    windowSeconds: 10 * 60,
+  });
+  return {
+    allowed: res.allowed,
+    remainingAttempts: res.remaining,
+    retryAfterSec: res.retryAfterSec,
+  };
 }
 
 /**
- * Aliases for backwards compatibility with Phase 2 verification handlers
+ * Aliases for backwards compatibility with verification handlers
  */
-export function checkAndIncrementVerifyAttempts(phone: string): { allowed: boolean; attemptsLeft: number } {
-  const res = recordOtpVerificationAttempt(phone);
-  return { allowed: res.allowed, attemptsLeft: res.remainingAttempts };
+export async function checkAndIncrementVerifyAttempts(
+  phone: string
+): Promise<{ allowed: boolean; attemptsLeft: number; retryAfterSec?: number }> {
+  const res = await recordOtpVerificationAttempt(phone);
+  return { allowed: res.allowed, attemptsLeft: res.remainingAttempts, retryAfterSec: res.retryAfterSec };
 }
 
 export function resetVerifyAttempts(phone: string): void {

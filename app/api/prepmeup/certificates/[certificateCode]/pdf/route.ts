@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getCertificateByCode } from "@/app/prepmeup/_lib/trackStore";
+import { checkDurableRateLimit } from "@/app/prepmeup/_lib/rateLimit";
 
 export const dynamic = "force-dynamic";
 
@@ -8,6 +9,23 @@ export async function GET(
   { params }: { params: Promise<{ certificateCode: string }> }
 ) {
   try {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "127.0.0.1";
+
+    // Rate limit: 10 certificate PDF generations per user/IP per 1 hour
+    const rateCheck = await checkDurableRateLimit({
+      bucketKey: "certificate_pdf_download",
+      identifier: ip,
+      limit: 10,
+      windowSeconds: 60 * 60,
+    });
+
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        { ok: false, error: `Certificate PDF generation rate limit exceeded. Try again in ${rateCheck.retryAfterSec}s.` },
+        { status: 429, headers: { "Retry-After": String(rateCheck.retryAfterSec || 60) } }
+      );
+    }
+
     const { certificateCode } = await params;
     const cert = getCertificateByCode(certificateCode);
 

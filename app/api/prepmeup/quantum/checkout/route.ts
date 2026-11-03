@@ -9,6 +9,7 @@ import {
 } from "@/app/prepmeup/_lib/trackStore";
 import { hasQuantumSemesterPass } from "@/lib/prepmeup/access";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
+import { checkDurableRateLimit } from "@/app/prepmeup/_lib/rateLimit";
 
 export const dynamic = "force-dynamic";
 
@@ -25,10 +26,45 @@ export async function POST(req: NextRequest) {
     }
 
     const studentId = identity.canonicalId;
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "127.0.0.1";
+
     const body = await req.json().catch(() => ({}));
     const productType = body.productType === "mentorship_pack" ? "mentorship_pack" : "semester_pass";
     const courseSlug = body.courseSlug || "quantum-computing-foundations";
     const claimEarlyAdopter = Boolean(body.claimEarlyAdopter);
+
+    // Rate limit check:
+    // If claiming early adopter: 5 per user/IP per 1 hour
+    if (claimEarlyAdopter) {
+      const eaCheck = await checkDurableRateLimit({
+        bucketKey: "quantum_early_adopter_claim",
+        identifier: `${studentId}_${ip}`,
+        limit: 5,
+        windowSeconds: 60 * 60,
+      });
+
+      if (!eaCheck.allowed) {
+        return NextResponse.json(
+          { ok: false, error: `Too many early-adopter claim attempts. Try again in ${eaCheck.retryAfterSec}s.` },
+          { status: 429, headers: { "Retry-After": String(eaCheck.retryAfterSec || 60) } }
+        );
+      }
+    }
+
+    // General Quantum checkout rate limit: 10 per user/IP per 1 hour
+    const checkoutCheck = await checkDurableRateLimit({
+      bucketKey: "quantum_checkout",
+      identifier: `${studentId}_${ip}`,
+      limit: 10,
+      windowSeconds: 60 * 60,
+    });
+
+    if (!checkoutCheck.allowed) {
+      return NextResponse.json(
+        { ok: false, error: `Too many checkout attempts. Please try again in ${checkoutCheck.retryAfterSec}s.` },
+        { status: 429, headers: { "Retry-After": String(checkoutCheck.retryAfterSec || 60) } }
+      );
+    }
 
     // 1. Check existing access
     if (productType === "semester_pass") {

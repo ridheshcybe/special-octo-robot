@@ -133,6 +133,15 @@ export interface MentorshipSlot {
   supportedTypes: string[];
 }
 
+export interface MentorshipSessionAuditEntry {
+  transition: string;
+  fromStatus: string;
+  toStatus: string;
+  timestamp: string;
+  actor: string;
+  details?: Record<string, any>;
+}
+
 export interface MentorshipSessionItem {
   id: string;
   slotId?: string;
@@ -148,6 +157,11 @@ export interface MentorshipSessionItem {
   status: "requested" | "confirmed" | "completed" | "cancelled" | "rescheduled";
   studentNotes: string;
   instructorNotes: string;
+  isRefunded?: boolean;
+  isConsumed?: boolean;
+  rescheduledFromSlotId?: string;
+  lastRescheduledAt?: string;
+  auditTrail?: MentorshipSessionAuditEntry[];
 }
 
 export interface PendingApprovalItem {
@@ -248,6 +262,29 @@ export interface EarlyAdopterRedemption {
   createdAt: string;
 }
 
+export interface WebhookEventRecord {
+  id: string;
+  provider: string;
+  eventId: string;
+  eventType: string;
+  payload: any;
+  status: "received" | "processing" | "processed" | "failed" | "ignored";
+  attempts: number;
+  errorMessage?: string;
+  receivedAt: string;
+  processedAt?: string;
+}
+
+export interface RateLimitEventRecord {
+  id: string;
+  bucketKey: string;
+  identifier: string;
+  count: number;
+  windowStart: number;
+  expiresAt: number;
+  createdAt: string;
+}
+
 interface TrackStoreState {
   tracks: Track[];
   instructors: Instructor[];
@@ -266,6 +303,8 @@ interface TrackStoreState {
   payments: QuantumPayment[];
   mentorshipPacks: MentorshipPack[];
   earlyAdopterRedemptions: EarlyAdopterRedemption[];
+  webhookEvents?: WebhookEventRecord[];
+  rateLimitEvents?: RateLimitEventRecord[];
 }
 
 let cachedState: TrackStoreState | null = null;
@@ -293,6 +332,8 @@ export function loadState(): TrackStoreState {
       if (!Array.isArray(cachedState!.payments)) cachedState!.payments = [];
       if (!Array.isArray(cachedState!.mentorshipPacks)) cachedState!.mentorshipPacks = [];
       if (!Array.isArray(cachedState!.earlyAdopterRedemptions)) cachedState!.earlyAdopterRedemptions = [];
+      if (!Array.isArray(cachedState!.webhookEvents)) cachedState!.webhookEvents = [];
+      if (!Array.isArray(cachedState!.rateLimitEvents)) cachedState!.rateLimitEvents = [];
       return cachedState!;
     }
   } catch (err) {
@@ -318,12 +359,14 @@ export function loadState(): TrackStoreState {
     payments: [],
     mentorshipPacks: [],
     earlyAdopterRedemptions: [],
+    webhookEvents: [],
+    rateLimitEvents: [],
   };
 
   return cachedState;
 }
 
-function persistState() {
+export function persistState() {
   if (!cachedState) return;
   try {
     const filePath = getDataFilePath();
@@ -576,9 +619,41 @@ export function updateMentorshipSession(
   const index = state.mentorshipSessions.findIndex((s) => s.id === sessionId);
   if (index === -1) return { success: false };
 
+  const current = state.mentorshipSessions[index];
+
+  // Prevent double refund if already refunded
+  if (updates.status === "cancelled" && current.status !== "cancelled" && !current.isRefunded) {
+    if (current.status !== "completed") {
+      refundMentorshipSession(current.studentEmail);
+      updates.isRefunded = true;
+    }
+  }
+
+  // If marked completed, mark isConsumed if not already
+  if (updates.status === "completed" && !current.isConsumed) {
+    updates.isConsumed = true;
+  }
+
+  // Audit trail entry
+  const auditTrail: MentorshipSessionAuditEntry[] = [...(current.auditTrail || [])];
+  if (updates.status && updates.status !== current.status) {
+    auditTrail.push({
+      transition: `${current.status}->${updates.status}`,
+      fromStatus: current.status,
+      toStatus: updates.status,
+      timestamp: new Date().toISOString(),
+      actor: updates.status === "cancelled" ? "student" : updates.status === "completed" ? "instructor" : "system",
+      details: {
+        isRefunded: updates.isRefunded ?? current.isRefunded,
+        isConsumed: updates.isConsumed ?? current.isConsumed,
+      },
+    });
+  }
+
   const updated: MentorshipSessionItem = {
-    ...state.mentorshipSessions[index],
+    ...current,
     ...updates,
+    auditTrail,
   };
   state.mentorshipSessions[index] = updated;
 
@@ -1038,6 +1113,19 @@ export function revokeQuantumEnrollment(enrollmentIdOrUserId: string): boolean {
   return true;
 }
 
+export function getAllMentorshipPacksForUser(
+  userId: string,
+  courseId = "quantum-computing-foundations"
+): MentorshipPack[] {
+  const state = loadState();
+  const key = userId.toLowerCase();
+  return state.mentorshipPacks.filter((p) => {
+    if (p.userId.toLowerCase() !== key) return false;
+    if (p.courseId !== courseId && p.courseId !== "quantum-computing-foundations") return false;
+    return true;
+  });
+}
+
 // Mentorship packs
 export function getQuantumMentorshipPacks(
   userId: string,
@@ -1315,4 +1403,217 @@ export function getAllQuantumOrders(): QuantumOrder[] {
 export function getAllQuantumPayments(): QuantumPayment[] {
   const state = loadState();
   return [...state.payments];
+}
+
+// ----------------------------------------------------------------------------
+// Phase C0: Persistent Razorpay Webhook Idempotency
+// ----------------------------------------------------------------------------
+export function recordWebhookEventAtomic(event: {
+  provider?: string;
+  eventId: string;
+  eventType: string;
+  payload: any;
+}): { isDuplicate: boolean; event: WebhookEventRecord } {
+  const state = loadState();
+  if (!state.webhookEvents) state.webhookEvents = [];
+
+  const provider = event.provider || "razorpay";
+  const existing = state.webhookEvents.find(
+    (e) => e.provider === provider && e.eventId === event.eventId
+  );
+
+  if (existing) {
+    existing.attempts = (existing.attempts || 1) + 1;
+    persistState();
+    return { isDuplicate: true, event: existing };
+  }
+
+  const record: WebhookEventRecord = {
+    id: `wh_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    provider,
+    eventId: event.eventId,
+    eventType: event.eventType,
+    payload: event.payload,
+    status: "processing",
+    attempts: 1,
+    receivedAt: new Date().toISOString(),
+  };
+
+  state.webhookEvents.push(record);
+  persistState();
+  return { isDuplicate: false, event: record };
+}
+
+export function updateWebhookEventStatus(
+  eventId: string,
+  status: "processed" | "failed" | "ignored",
+  errorMessage?: string,
+  provider = "razorpay"
+): boolean {
+  const state = loadState();
+  if (!state.webhookEvents) return false;
+
+  const found = state.webhookEvents.find(
+    (e) => e.provider === provider && e.eventId === eventId
+  );
+  if (!found) return false;
+
+  found.status = status;
+  if (errorMessage) found.errorMessage = errorMessage;
+  if (status === "processed") found.processedAt = new Date().toISOString();
+  persistState();
+  return true;
+}
+
+// ----------------------------------------------------------------------------
+// Phase C0: Durable Rate Limit Store (Database / CMS fallback)
+// ----------------------------------------------------------------------------
+export function checkAndIncrementDurableRateLimit(params: {
+  bucketKey: string;
+  identifier: string;
+  limit: number;
+  windowSeconds: number;
+}): { allowed: boolean; remaining: number; retryAfterSec?: number; count: number } {
+  const state = loadState();
+  if (!state.rateLimitEvents) state.rateLimitEvents = [];
+
+  const now = Date.now();
+  const windowMs = params.windowSeconds * 1000;
+  const key = `${params.bucketKey}:${params.identifier}`;
+
+  let record = state.rateLimitEvents.find(
+    (r) => r.bucketKey === params.bucketKey && r.identifier === params.identifier
+  );
+
+  if (!record || now >= record.expiresAt) {
+    // Reset window
+    if (!record) {
+      record = {
+        id: `rl_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+        bucketKey: params.bucketKey,
+        identifier: params.identifier,
+        count: 1,
+        windowStart: now,
+        expiresAt: now + windowMs,
+        createdAt: new Date().toISOString(),
+      };
+      state.rateLimitEvents.push(record);
+    } else {
+      record.count = 1;
+      record.windowStart = now;
+      record.expiresAt = now + windowMs;
+    }
+
+    persistState();
+    return {
+      allowed: true,
+      remaining: Math.max(0, params.limit - 1),
+      count: 1,
+    };
+  }
+
+  // Active window
+  if (record.count >= params.limit) {
+    const retryAfterSec = Math.max(1, Math.ceil((record.expiresAt - now) / 1000));
+    return {
+      allowed: false,
+      remaining: 0,
+      retryAfterSec,
+      count: record.count,
+    };
+  }
+
+  record.count += 1;
+  persistState();
+
+  return {
+    allowed: true,
+    remaining: Math.max(0, params.limit - record.count),
+    count: record.count,
+  };
+}
+
+// ----------------------------------------------------------------------------
+// Phase C0: Reschedule Mentorship Session Correctly
+// ----------------------------------------------------------------------------
+export function rescheduleMentorshipSession(
+  sessionId: string,
+  newSlotId: string,
+  actorIdentifier: string
+): { success: boolean; session?: MentorshipSessionItem; error?: string } {
+  const state = loadState();
+  const index = state.mentorshipSessions.findIndex((s) => s.id === sessionId);
+  if (index === -1) {
+    return { success: false, error: "Mentorship session not found." };
+  }
+
+  const session = state.mentorshipSessions[index];
+  const isAuthorized =
+    session.studentEmail.toLowerCase() === actorIdentifier.toLowerCase() ||
+    session.studentName.toLowerCase().includes(actorIdentifier.toLowerCase()) ||
+    actorIdentifier === "admin";
+
+  if (!isAuthorized) {
+    return { success: false, error: "Unauthorized to reschedule this session." };
+  }
+
+  if (session.status === "completed") {
+    return { success: false, error: "Cannot reschedule a completed session." };
+  }
+
+  if (session.status === "cancelled") {
+    return { success: false, error: "Cannot reschedule a cancelled session." };
+  }
+
+  // Find target slot
+  const newSlot = state.mentorshipSlots.find((s) => s.id === newSlotId);
+  if (!newSlot) {
+    return { success: false, error: "Target mentorship slot not found." };
+  }
+
+  if (newSlot.status !== "available") {
+    return { success: false, error: "Target mentorship slot is not available." };
+  }
+
+  // Free previous slot if still marked booked/requested
+  if (session.slotId) {
+    const prevSlot = state.mentorshipSlots.find((s) => s.id === session.slotId);
+    if (prevSlot && prevSlot.id !== newSlotId) {
+      prevSlot.status = "available";
+    }
+  }
+
+  // Reserve new slot
+  newSlot.status = "booked";
+
+  const auditTrail: MentorshipSessionAuditEntry[] = [...(session.auditTrail || [])];
+  auditTrail.push({
+    transition: "rescheduled",
+    fromStatus: session.status,
+    toStatus: "confirmed",
+    timestamp: new Date().toISOString(),
+    actor: actorIdentifier,
+    details: {
+      fromSlotId: session.slotId,
+      toSlotId: newSlot.id,
+      scheduledAt: newSlot.startAt,
+    },
+  });
+
+  // Update session without refunding or re-consuming credits
+  const updatedSession: MentorshipSessionItem = {
+    ...session,
+    rescheduledFromSlotId: session.slotId,
+    slotId: newSlot.id,
+    scheduledAt: newSlot.startAt,
+    durationMinutes: newSlot.durationMinutes,
+    status: "confirmed",
+    lastRescheduledAt: new Date().toISOString(),
+    auditTrail,
+  };
+
+  state.mentorshipSessions[index] = updatedSession;
+  persistState();
+
+  return { success: true, session: updatedSession };
 }
