@@ -525,58 +525,283 @@
     },
     {
       "id": "lesson-c1-01",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
       "moduleId": "m0000000-0000-0000-0000-000000000011",
+      "moduleNumber": 1,
       "lessonNumber": 1,
       "title": "The Ethical Hacker Mindset & Legal Boundaries",
-      "slug": "the-ethical-hacker-mindset-and-legal-boundaries",
-      "description": "Understanding the boundary between authorized security auditing and illegal computer trespass under IT Act & international laws.",
-      "contentMarkdown": "# The Ethical Hacker Mindset\n\nSecurity is fundamentally about authorization and intent...",
+      "description": "Module 1 lesson covering the ethical hacker mindset & legal boundaries.",
+      "lessonType": "video",
+      "duration": "20 min",
       "isFreePreview": true,
-      "duration": "20 min"
+      "status": "published",
+      "contentMarkdown": "# The Ethical Hacker Mindset & Legal Boundaries\n\nComprehensive defensive security module lesson."
     },
     {
       "id": "lesson-c1-02",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
       "moduleId": "m0000000-0000-0000-0000-000000000011",
+      "moduleNumber": 1,
       "lessonNumber": 2,
-      "title": "The CIA Triad & Threat Modeling",
-      "slug": "the-cia-triad-and-threat-modeling",
-      "description": "Confidentiality, Integrity, and Availability alongside STRIDE threat modeling framework.",
-      "contentMarkdown": "# CIA Triad in Production Systems\n\nSecurity controls must be measured against business impact...",
+      "title": "The CIA Triad & Threat Modeling in Practice",
+      "description": "Module 1 lesson covering the cia triad & threat modeling in practice.",
+      "lessonType": "pdf",
+      "duration": "25 min",
       "isFreePreview": false,
-      "duration": "25 min"
+      "status": "published",
+      "contentMarkdown": "# The CIA Triad & Threat Modeling in Practice\n\nComprehensive defensive security module lesson."
     },
     {
       "id": "lesson-c1-03",
-      "moduleId": "m0000000-0000-0000-0000-000000000012",
-      "lessonNumber": 1,
-      "title": "TCP/IP Handshake & Packet Inspection",
-      "slug": "tcp-ip-handshake-and-packet-inspection",
-      "description": "Deep dive into SYN, SYN-ACK, ACK and Wireshark dissection of standard network traffic.",
-      "contentMarkdown": "# TCP Mechanics\n\nEvery network interaction begins with state synchronization...",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000011",
+      "moduleNumber": 1,
+      "lessonNumber": 3,
+      "title": "Attack Surfaces & Defense in Depth Architecture",
+      "description": "Module 1 lesson covering attack surfaces & defense in depth architecture.",
+      "lessonType": "video",
+      "duration": "22 min",
       "isFreePreview": false,
-      "duration": "30 min"
+      "status": "published",
+      "contentMarkdown": "# Attack Surfaces & Defense in Depth Architecture\n\nComprehensive defensive security module lesson."
     },
     {
       "id": "lesson-c1-04",
-      "moduleId": "m0000000-0000-0000-0000-000000000013",
-      "lessonNumber": 1,
-      "title": "OWASP Top 10: Injection and Broken Access Control",
-      "slug": "owasp-top-10-injection-and-broken-access-control",
-      "description": "Understanding the mechanics of SQL Injection and IDOR vulnerabilities and parameterized remediation.",
-      "contentMarkdown": "# Web Vulnerability Taxonomy\n\nWeb applications process untrusted user input...",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000011",
+      "moduleNumber": 1,
+      "lessonNumber": 4,
+      "title": "Module 1 Assessment: Ethics & Security Mindset",
+      "description": "Module 1 lesson covering module 1 assessment: ethics & security mindset.",
+      "lessonType": "quiz",
+      "duration": "15 min",
       "isFreePreview": false,
-      "duration": "35 min"
+      "status": "published",
+      "contentMarkdown": "# Module 1 Assessment: Ethics & Security Mindset\n\nComprehensive defensive security module lesson."
     },
     {
-      "id": "lesson-c1-05",
+      "id": "lesson-c2-01",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000012",
+      "moduleNumber": 2,
+      "lessonNumber": 1,
+      "title": "TCP/IP Handshake & Packet Inspection",
+      "description": "Module 2 lesson covering tcp/ip handshake & packet inspection.",
+      "lessonType": "video",
+      "duration": "30 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# TCP/IP Handshake & Packet Inspection\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c2-02",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000012",
+      "moduleNumber": 2,
+      "lessonNumber": 2,
+      "title": "Port States & SYN Stealth Scanning Theory",
+      "description": "Module 2 lesson covering port states & syn stealth scanning theory.",
+      "lessonType": "simulation",
+      "duration": "28 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# Port States & SYN Stealth Scanning Theory\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c2-03",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000012",
+      "moduleNumber": 2,
+      "lessonNumber": 3,
+      "title": "Service Version Fingerprinting & Banner Grabbing",
+      "description": "Module 2 lesson covering service version fingerprinting & banner grabbing.",
+      "lessonType": "pdf",
+      "duration": "25 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# Service Version Fingerprinting & Banner Grabbing\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c2-04",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000012",
+      "moduleNumber": 2,
+      "lessonNumber": 4,
+      "title": "Module 2 Practical: Nmap Reconnaissance Checkpoint",
+      "description": "Module 2 lesson covering module 2 practical: nmap reconnaissance checkpoint.",
+      "lessonType": "quiz",
+      "duration": "20 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# Module 2 Practical: Nmap Reconnaissance Checkpoint\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c3-01",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000013",
+      "moduleNumber": 3,
+      "lessonNumber": 1,
+      "title": "HTTP Headers, CORS & Cookie Security Flags",
+      "description": "Module 3 lesson covering http headers, cors & cookie security flags.",
+      "lessonType": "video",
+      "duration": "30 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# HTTP Headers, CORS & Cookie Security Flags\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c3-02",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000013",
+      "moduleNumber": 3,
+      "lessonNumber": 2,
+      "title": "OWASP Top 10: SQL Injection Mechanics",
+      "description": "Module 3 lesson covering owasp top 10: sql injection mechanics.",
+      "lessonType": "simulation",
+      "duration": "35 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# OWASP Top 10: SQL Injection Mechanics\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c3-03",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000013",
+      "moduleNumber": 3,
+      "lessonNumber": 3,
+      "title": "Parameterized Queries & Input Sanitization",
+      "description": "Module 3 lesson covering parameterized queries & input sanitization.",
+      "lessonType": "coding_lab",
+      "duration": "30 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# Parameterized Queries & Input Sanitization\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c3-04",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000013",
+      "moduleNumber": 3,
+      "lessonNumber": 4,
+      "title": "Module 3 Defense Lab: Securing Web Endpoints",
+      "description": "Module 3 lesson covering module 3 defense lab: securing web endpoints.",
+      "lessonType": "quiz",
+      "duration": "25 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# Module 3 Defense Lab: Securing Web Endpoints\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c4-01",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
       "moduleId": "m0000000-0000-0000-0000-000000000014",
+      "moduleNumber": 4,
       "lessonNumber": 1,
       "title": "SOC Operations & Event Log Correlation",
-      "slug": "soc-operations-and-event-log-correlation",
-      "description": "How Security Operations Center analysts parse auth.log, Windows Event IDs, and detect lateral movement.",
-      "contentMarkdown": "# SOC Telemetry & Triage\n\nDetecting anomalies requires establishing clean baselines...",
+      "description": "Module 4 lesson covering soc operations & event log correlation.",
+      "lessonType": "video",
+      "duration": "30 min",
       "isFreePreview": false,
-      "duration": "30 min"
+      "status": "published",
+      "contentMarkdown": "# SOC Operations & Event Log Correlation\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c4-02",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000014",
+      "moduleNumber": 4,
+      "lessonNumber": 2,
+      "title": "SIEM Triage: Analyzing Authentication Anomalies",
+      "description": "Module 4 lesson covering siem triage: analyzing authentication anomalies.",
+      "lessonType": "simulation",
+      "duration": "35 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# SIEM Triage: Analyzing Authentication Anomalies\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c4-03",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000014",
+      "moduleNumber": 4,
+      "lessonNumber": 3,
+      "title": "Incident Containment & Firewall Quarantine Playbooks",
+      "description": "Module 4 lesson covering incident containment & firewall quarantine playbooks.",
+      "lessonType": "pdf",
+      "duration": "28 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# Incident Containment & Firewall Quarantine Playbooks\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c4-04",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000014",
+      "moduleNumber": 4,
+      "lessonNumber": 4,
+      "title": "Module 4 SOC Simulation Checkpoint",
+      "description": "Module 4 lesson covering module 4 soc simulation checkpoint.",
+      "lessonType": "quiz",
+      "duration": "20 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# Module 4 SOC Simulation Checkpoint\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c5-01",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000015",
+      "moduleNumber": 5,
+      "lessonNumber": 1,
+      "title": "CTF Methodologies: Deconstruction & Forensics",
+      "description": "Module 5 lesson covering ctf methodologies: deconstruction & forensics.",
+      "lessonType": "video",
+      "duration": "25 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# CTF Methodologies: Deconstruction & Forensics\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c5-02",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000015",
+      "moduleNumber": 5,
+      "lessonNumber": 2,
+      "title": "Classical Cryptography: Base64, Hex & XOR Ciphers",
+      "description": "Module 5 lesson covering classical cryptography: base64, hex & xor ciphers.",
+      "lessonType": "simulation",
+      "duration": "35 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# Classical Cryptography: Base64, Hex & XOR Ciphers\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c5-03",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000015",
+      "moduleNumber": 5,
+      "lessonNumber": 3,
+      "title": "Reverse Engineering Simple Cryptographic Artifacts",
+      "description": "Module 5 lesson covering reverse engineering simple cryptographic artifacts.",
+      "lessonType": "coding_lab",
+      "duration": "40 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# Reverse Engineering Simple Cryptographic Artifacts\n\nComprehensive defensive security module lesson."
+    },
+    {
+      "id": "lesson-c5-04",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleId": "m0000000-0000-0000-0000-000000000015",
+      "moduleNumber": 5,
+      "lessonNumber": 4,
+      "title": "Capstone CTF Challenge: Capture the Flags",
+      "description": "Module 5 lesson covering capstone ctf challenge: capture the flags.",
+      "lessonType": "quiz",
+      "duration": "45 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "# Capstone CTF Challenge: Capture the Flags\n\nComprehensive defensive security module lesson."
     }
   ],
   "quizzes": [
@@ -1800,6 +2025,94 @@
       "pointsAwarded": 25,
       "attemptNumber": 2,
       "createdAt": "2026-11-04T13:13:02.921Z"
+    },
+    {
+      "id": "att-1793801159825-u1bkh",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "auditor-1793801159824",
+      "submittedFlag": "PMU{fake_flag}",
+      "isCorrect": false,
+      "pointsAwarded": 0,
+      "attemptNumber": 1,
+      "createdAt": "2026-11-04T14:05:59.825Z"
+    },
+    {
+      "id": "att-1793801159826-seahq",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "auditor-1793801159824",
+      "submittedFlag": "PMU{h3ad3r_s3cur1ty_mast3r}",
+      "isCorrect": true,
+      "pointsAwarded": 25,
+      "attemptNumber": 2,
+      "createdAt": "2026-11-04T14:05:59.826Z"
+    },
+    {
+      "id": "att-1793801183927-u3tu2",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "auditor-1793801183925",
+      "submittedFlag": "PMU{fake_flag}",
+      "isCorrect": false,
+      "pointsAwarded": 0,
+      "attemptNumber": 1,
+      "createdAt": "2026-11-04T14:06:23.927Z"
+    },
+    {
+      "id": "att-1793801183928-td7le",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "auditor-1793801183925",
+      "submittedFlag": "PMU{h3ad3r_s3cur1ty_mast3r}",
+      "isCorrect": true,
+      "pointsAwarded": 25,
+      "attemptNumber": 2,
+      "createdAt": "2026-11-04T14:06:23.928Z"
+    },
+    {
+      "id": "att-1793801205831-ipprm",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "auditor-1793801205829",
+      "submittedFlag": "PMU{fake_flag}",
+      "isCorrect": false,
+      "pointsAwarded": 0,
+      "attemptNumber": 1,
+      "createdAt": "2026-11-04T14:06:45.831Z"
+    },
+    {
+      "id": "att-1793801205833-1oxz1",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "auditor-1793801205829",
+      "submittedFlag": "PMU{h3ad3r_s3cur1ty_mast3r}",
+      "isCorrect": true,
+      "pointsAwarded": 25,
+      "attemptNumber": 2,
+      "createdAt": "2026-11-04T14:06:45.833Z"
+    },
+    {
+      "id": "att-1793801215110-6l65e",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "test-user-cyber-1793801215108",
+      "submittedFlag": "PMU{wrong_guess}",
+      "isCorrect": false,
+      "pointsAwarded": 0,
+      "attemptNumber": 1,
+      "createdAt": "2026-11-04T14:06:55.110Z"
+    },
+    {
+      "id": "att-1793801215111-0eong",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "test-user-cyber-1793801215108",
+      "submittedFlag": "PMU{h3ad3r_s3cur1ty_mast3r}",
+      "isCorrect": true,
+      "pointsAwarded": 25,
+      "attemptNumber": 2,
+      "createdAt": "2026-11-04T14:06:55.111Z"
     }
   ],
   "cyberLabProgress": [
@@ -1814,6 +2127,54 @@
       "startedAt": "2026-11-04T13:13:02.920Z",
       "completedAt": "2026-11-04T13:13:02.921Z",
       "lastAttemptAt": "2026-11-04T13:13:02.921Z"
+    },
+    {
+      "id": "prog-1793801159826-knwld",
+      "userId": "auditor-1793801159824",
+      "labId": "lab-c1-01",
+      "status": "completed",
+      "tasksCompleted": 1,
+      "totalTasks": 1,
+      "score": 25,
+      "startedAt": "2026-11-04T14:05:59.826Z",
+      "completedAt": "2026-11-04T14:05:59.826Z",
+      "lastAttemptAt": "2026-11-04T14:05:59.826Z"
+    },
+    {
+      "id": "prog-1793801183927-zavd4",
+      "userId": "auditor-1793801183925",
+      "labId": "lab-c1-01",
+      "status": "completed",
+      "tasksCompleted": 1,
+      "totalTasks": 1,
+      "score": 25,
+      "startedAt": "2026-11-04T14:06:23.927Z",
+      "completedAt": "2026-11-04T14:06:23.928Z",
+      "lastAttemptAt": "2026-11-04T14:06:23.928Z"
+    },
+    {
+      "id": "prog-1793801205832-stkry",
+      "userId": "auditor-1793801205829",
+      "labId": "lab-c1-01",
+      "status": "completed",
+      "tasksCompleted": 1,
+      "totalTasks": 1,
+      "score": 25,
+      "startedAt": "2026-11-04T14:06:45.832Z",
+      "completedAt": "2026-11-04T14:06:45.833Z",
+      "lastAttemptAt": "2026-11-04T14:06:45.833Z"
+    },
+    {
+      "id": "prog-1793801215110-aavwh",
+      "userId": "test-user-cyber-1793801215108",
+      "labId": "lab-c1-01",
+      "status": "completed",
+      "tasksCompleted": 1,
+      "totalTasks": 1,
+      "score": 25,
+      "startedAt": "2026-11-04T14:06:55.110Z",
+      "completedAt": "2026-11-04T14:06:55.111Z",
+      "lastAttemptAt": "2026-11-04T14:06:55.111Z"
     }
   ],
   "labAcceptances": [
@@ -1823,6 +2184,46 @@
       "labId": "lab-c1-01",
       "policyVersion": "1.0",
       "acceptedAt": "2026-11-04T13:13:02.918Z",
+      "metadata": {
+        "test": true
+      }
+    },
+    {
+      "id": "acc-1793801159824-xha5s",
+      "userId": "auditor-1793801159824",
+      "labId": "lab-c1-01",
+      "policyVersion": "1.0",
+      "acceptedAt": "2026-11-04T14:05:59.824Z",
+      "metadata": {
+        "testAudit": true
+      }
+    },
+    {
+      "id": "acc-1793801183925-40o49",
+      "userId": "auditor-1793801183925",
+      "labId": "lab-c1-01",
+      "policyVersion": "1.0",
+      "acceptedAt": "2026-11-04T14:06:23.925Z",
+      "metadata": {
+        "testAudit": true
+      }
+    },
+    {
+      "id": "acc-1793801205829-9bep5",
+      "userId": "auditor-1793801205829",
+      "labId": "lab-c1-01",
+      "policyVersion": "1.0",
+      "acceptedAt": "2026-11-04T14:06:45.829Z",
+      "metadata": {
+        "testAudit": true
+      }
+    },
+    {
+      "id": "acc-1793801215108-nwd7h",
+      "userId": "test-user-cyber-1793801215108",
+      "labId": "lab-c1-01",
+      "policyVersion": "1.0",
+      "acceptedAt": "2026-11-04T14:06:55.108Z",
       "metadata": {
         "test": true
       }
@@ -1977,6 +2378,42 @@
       "windowStart": 1793797992329,
       "expiresAt": 1793798052329,
       "createdAt": "2026-11-04T13:13:12.329Z"
+    },
+    {
+      "id": "rl_1793801159828_pqr1r",
+      "bucketKey": "cyber_flag_submit",
+      "identifier": "audit-rl-1793801159827",
+      "count": 10,
+      "windowStart": 1793801159828,
+      "expiresAt": 1793801219828,
+      "createdAt": "2026-11-04T14:05:59.828Z"
+    },
+    {
+      "id": "rl_1793801183929_yi9w3",
+      "bucketKey": "cyber_flag_submit",
+      "identifier": "audit-rl-1793801183929",
+      "count": 10,
+      "windowStart": 1793801183929,
+      "expiresAt": 1793801243929,
+      "createdAt": "2026-11-04T14:06:23.929Z"
+    },
+    {
+      "id": "rl_1793801205836_hjzzd",
+      "bucketKey": "cyber_flag_submit",
+      "identifier": "audit-rl-1793801205835",
+      "count": 10,
+      "windowStart": 1793801205835,
+      "expiresAt": 1793801265835,
+      "createdAt": "2026-11-04T14:06:45.836Z"
+    },
+    {
+      "id": "rl_1793801215114_90yzh",
+      "bucketKey": "cyber_flag_submit",
+      "identifier": "test-user-cyber-1793801215108:test-limit",
+      "count": 1,
+      "windowStart": 1793801215114,
+      "expiresAt": 1793801275114,
+      "createdAt": "2026-11-04T14:06:55.114Z"
     }
   ]
 }

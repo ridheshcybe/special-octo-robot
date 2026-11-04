@@ -30,7 +30,7 @@ const OFFENSIVE_TRIGGERS: Array<{ pattern: RegExp; reason: string }> = [
     reason: "Credential harvesting and phishing.",
   },
   {
-    pattern: /\b(reverse\s+shell\s+one-liner|msfvenom\s+payload|eternalblue\s+exploit\s+code)\b/i,
+    pattern: /\b(reverse\s+shell|msfvenom|metasploit|meterpreter|eternalblue|shellcode|exploit\s+code|exploit\s+payload)\b/i,
     reason: "Weaponized exploit generation.",
   },
   {
@@ -82,7 +82,14 @@ In professional cybersecurity, real-world security practices are governed by str
   let aiResponse = "";
   let isDefensiveGrounded = true;
 
-  if (qLower.includes("header") || qLower.includes("csp") || qLower.includes("hsts") || qLower.includes("cookie")) {
+  if (
+    qLower.includes("header") ||
+    qLower.includes("csp") ||
+    qLower.includes("content security policy") ||
+    qLower.includes("hsts") ||
+    qLower.includes("cookie") ||
+    qLower.includes("xss")
+  ) {
     aiResponse = `### HTTP Security Headers & Cookie Hardening Best Practices
 
 Modern web application defense relies heavily on enforcing strict browser response headers to mitigate XSS, Clickjacking, and Man-in-the-Middle attacks.
