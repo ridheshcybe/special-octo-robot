@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CSS3 Web Page</title>
+
+    <style>
+        /* Page styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f2f2f2;
+        }
+
+        /* Header */
+        header {
+            background-color: #f48888;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #555;
+            text-align: center;
+            padding: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 20px;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            color: yellow;
+        }
+
+        /* Main content */
+        main {
+            width: 80%;
+            margin: 30px auto;
+        }
+
+        .box {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px #aaa;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        /* Button */
+        .btn {
+            background-color: #333;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #777;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>My CSS3 Web Page</h1>
+        <p>Web Page Styling using CSS3</p>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <main>
+
+        <div class="box">
+            <h2>Welcome</h2>
+            <p>
+                CSS3 is used to style and design HTML webpages.
+                It provides colors, fonts, borders, spacing,
+                shadows, rounded corners and interactive effects.
+            </p>
+
+            <button class="btn">Learn More</button>
+        </div>
+
+        <div class="box">
+            <h2>CSS3 Features</h2>
+
+            <ul>
+                <li>Colors and Backgrounds</li>
+                <li>Fonts and Text Effects</li>
+                <li>Borders and Rounded Corners</li>
+                <li>Box Shadows</li>
+                <li>Hover Effects</li>
+                <li>Responsive Design</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 My CSS3 Web Page</p>
+    </footer>
+
+</body>
+
+</html>

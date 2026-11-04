@@ -1,0 +1,1606 @@
+{
+  "tracks": [
+    {
+      "id": "11111111-2222-3333-4444-555555550001",
+      "slug": "btech-cse-aiml",
+      "title": "B.Tech CSE AI/ML",
+      "description": "University-aligned engineering curriculum covering Semester 1 through graduation with AI-augmented exam preparation, notes, and coding labs.",
+      "icon": "terminal",
+      "status": "published",
+      "displayOrder": 1,
+      "courseCount": 6,
+      "badge": "Active Semester 1"
+    },
+    {
+      "id": "11111111-2222-3333-4444-555555550002",
+      "slug": "quantum-computing",
+      "title": "Quantum Computing",
+      "description": "From Hilbert spaces and Bloch spheres to quantum algorithms and Qiskit circuit compilation. Master next-generation computational physics.",
+      "icon": "cpu",
+      "status": "published",
+      "displayOrder": 2,
+      "courseCount": 1,
+      "badge": "Phase Q1 Live"
+    },
+    {
+      "id": "11111111-2222-3333-4444-555555550003",
+      "slug": "cybersecurity",
+      "title": "CyberSecurity",
+      "description": "Defensive security engineering, cryptographic protocols, cloud penetration testing, and security operations fundamentals.",
+      "icon": "shield",
+      "status": "coming_soon",
+      "displayOrder": 3,
+      "courseCount": 0,
+      "badge": "Coming Soon"
+    }
+  ],
+  "instructors": [
+    {
+      "id": "e0000000-0000-0000-0000-000000000001",
+      "slug": "dr-aravind-vaidya",
+      "fullName": "Dr. Aravind Vaidya, PhD",
+      "title": "Lead Quantum Information Scientist & Curriculum Director",
+      "bio": "Ph.D. in Quantum Information and Condensed Matter Physics. Over a decade of research across superconducting circuit electrodynamics, variational quantum algorithms, and Qiskit quantum compilation. Passionate about bringing rigorous, simulation-first quantum mechanics education to engineers.",
+      "qualifications": "Ph.D. in Quantum Information Science, M.Sc. Theoretical Physics",
+      "expertise": [
+        "Quantum Computing",
+        "Qiskit",
+        "Cirq",
+        "PennyLane",
+        "Bloch Sphere Geometry",
+        "Superconducting Qubits"
+      ],
+      "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+      "linkedinUrl": "https://linkedin.com/in/dr-aravind-vaidya-quantum",
+      "githubUrl": "https://github.com/dr-vaidya-quantum",
+      "websiteUrl": "https://quantum-foundations.prepmeupai.in",
+      "status": "active",
+      "rating": 4.95,
+      "studentsMentored": 142
+    }
+  ],
+  "courses": [
+    {
+      "id": "c0000000-0000-0000-0000-000000000001",
+      "trackSlug": "quantum-computing",
+      "instructorSlug": "dr-aravind-vaidya",
+      "instructorId": "e0000000-0000-0000-0000-000000000001",
+      "slug": "quantum-computing-foundations",
+      "title": "Quantum Computing Foundations",
+      "subtitle": "From Qubits and Superposition to Qiskit Circuit Simulation & Grover Search",
+      "description": "Master quantum computational principles from foundational linear algebra to practical quantum circuit development. Learn statevectors, unitary transformations, multi-qubit entanglement, Deutsch-Jozsa and Grover search algorithms with interactive browser simulations and guided Qiskit labs.",
+      "level": "beginner",
+      "language": "English",
+      "format": "hybrid",
+      "prerequisite": "Basic Python & High-School Linear Algebra (Vectors & Matrices)",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80",
+      "status": "published",
+      "isFreePreviewEnabled": true,
+      "durationHours": 18,
+      "totalLessons": 20,
+      "simulationsCount": 5,
+      "quizzesCount": 5,
+      "includesMentorship": true,
+      "includesCertificate": true,
+      "priceInr": 299,
+      "tools": [
+        "Qiskit",
+        "Cirq",
+        "PennyLane",
+        "Browser Bloch Simulator",
+        "Statevector Engine"
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "m0000000-0000-0000-0000-000000000001",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleNumber": 1,
+      "title": "Quantum Computing Essentials",
+      "description": "Foundational principles: classical bits versus quantum bits, linear algebraic statevectors, Born rule measurements, and 3D Bloch sphere projections.",
+      "status": "published"
+    },
+    {
+      "id": "m0000000-0000-0000-0000-000000000002",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleNumber": 2,
+      "title": "Quantum Gates and Circuits",
+      "description": "Unitary transformations in Hilbert space: Pauli X, Y, Z gates, Hadamard transformation, phase S and T gates, and multi-qubit CNOT architectures.",
+      "status": "published"
+    },
+    {
+      "id": "m0000000-0000-0000-0000-000000000003",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleNumber": 3,
+      "title": "Entanglement and Correlation",
+      "description": "Composite systems, Kronecker tensor products, Bell state synthesis, GHZ states, EPR non-local correlations, and quantum teleportation foundations.",
+      "status": "published"
+    },
+    {
+      "id": "m0000000-0000-0000-0000-000000000004",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleNumber": 4,
+      "title": "Quantum Algorithms",
+      "description": "Quantum computational speedups: Deutsch-Jozsa oracle problem, Grover amplitude amplification search, Quantum Phase Estimation (QPE), and Shor overview.",
+      "status": "published"
+    },
+    {
+      "id": "m0000000-0000-0000-0000-000000000005",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleNumber": 5,
+      "title": "Quantum Programming with Qiskit",
+      "description": "Translating quantum circuits to production code: QuantumCircuit API, StatevectorSampler, AerSimulator, noisy backend simulation, and execution diagnostics.",
+      "status": "published"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-q1-01",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000001",
+      "moduleNumber": 1,
+      "lessonNumber": 1,
+      "title": "Classical vs Quantum Computing: The Paradigm Shift",
+      "description": "Compare discrete classical bits with two-state quantum physical systems. Understand why state superposition unlocks exponential Hilbert state dimensions.",
+      "lessonType": "video",
+      "duration": "14 min",
+      "isFreePreview": true,
+      "status": "published",
+      "videoUrl": "https://www.youtube.com/embed/QuR969uMICM",
+      "simulationId": "sim-bloch-sphere",
+      "simulationSlug": "qubit-state-visualizer",
+      "quizId": "quiz-quantum-01",
+      "contentMarkdown": "### Classical Bits vs. Two-Level Quantum Qubits\n\nIn classical information theory, a bit is constrained to a binary deterministic state:\n\n$$b \\in \\{0, 1\\}$$\n\nIn quantum mechanics, a **quantum bit (qubit)** is a normalized unit vector in a 2-dimensional complex Hilbert space $\\mathcal{H} = \\mathbb{C}^2$. Using Dirac's bra-ket notation, the canonical computational basis states are:\n\n$$|0\\rangle = \\begin{bmatrix} 1 \\\\ 0 \\end{bmatrix}, \\quad |1\\rangle = \\begin{bmatrix} 0 \\\\ 1 \\end{bmatrix}$$\n\nA qubit can reside in an arbitrary linear combination (superposition) of these basis vectors:\n\n$$|\\psi\\rangle = \\alpha |0\\rangle + \\beta |1\\rangle, \\quad \\alpha, \\beta \\in \\mathbb{C}$$\n\nSubject to the **Born rule normalization condition**:\n\n$$|\\alpha|^2 + |\\beta|^2 = 1$$\n\nWhere $|\\alpha|^2$ represents the probability of observing outcome $0$, and $|\\beta|^2$ represents the probability of observing outcome $1$ upon computational basis projective measurement."
+    },
+    {
+      "id": "lesson-q1-02",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000001",
+      "moduleNumber": 1,
+      "lessonNumber": 2,
+      "title": "Qubits, Superposition & Normalization",
+      "description": "Dirac Bra-Ket notation, statevectors |ψ⟩ = α|0⟩ + β|1⟩, and the fundamental normalization condition |α|² + |β|² = 1.",
+      "lessonType": "pdf",
+      "duration": "20 min read",
+      "isFreePreview": false,
+      "status": "published",
+      "simulationId": "sim-superposition",
+      "simulationSlug": "superposition-explorer",
+      "quizId": "quiz-quantum-01",
+      "contentMarkdown": "### Dirac Bra-Ket Notation and Statevectors\n\nEvery quantum state is represented as a state ket $|\\psi\\rangle$. The dual Hermitian adjoint vector is the bra $\\langle\\psi| = (|\\psi\\rangle)^\\dagger$.\n\nThe inner product between two states $|\\phi\\rangle$ and $|\\psi\\rangle$ yields a complex scalar:\n\n$$\\langle\\phi|\\psi\\rangle$$\n\nTwo states are orthogonal if $\\langle\\phi|\\psi\\rangle = 0$. For our computational basis:\n\n$$\\langle 0|0\\rangle = 1, \\quad \\langle 1|1\\rangle = 1, \\quad \\langle 0|1\\rangle = 0, \\quad \\langle 1|0\\rangle = 0$$\n\nWhen we have an arbitrary state $|\\psi\\rangle = \\alpha|0\\rangle + \\beta|1\\rangle$, the inner product with itself validates normalization:\n\n$$\\langle\\psi|\\psi\\rangle = (|\\alpha|^2\\langle 0|0\\rangle + \\alpha^*\\beta\\langle 0|1\\rangle + \\beta^*\\alpha\\langle 1|0\\rangle + |\\beta|^2\\langle 1|1\\rangle) = |\\alpha|^2 + |\\beta|^2 = 1$$"
+    },
+    {
+      "id": "lesson-q1-03",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000001",
+      "moduleNumber": 1,
+      "lessonNumber": 3,
+      "title": "The Measurement Postulate & Born Rule",
+      "description": "Wavefunction collapse under projective Hermitian observables. Calculating probabilities and expected values.",
+      "lessonType": "pdf",
+      "duration": "18 min read",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### The Measurement Postulate\n\nQuantum measurement is irreversible and invasive. When a qubit in state $|\\psi\\rangle = \\alpha|0\\rangle + \\beta|1\\rangle$ is measured along the Z-basis:\n\n1. Outcome $0$ occurs with probability $P(0) = |\\alpha|^2$. Post-measurement state collapses to $|0\\rangle$.\n2. Outcome $1$ occurs with probability $P(1) = |\\beta|^2$. Post-measurement state collapses to $|1\\rangle$.\n\nOnce measured, subsequent measurements will deterministically yield the same collapsed outcome unless acted upon by a unitary operator."
+    },
+    {
+      "id": "lesson-q1-04",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000001",
+      "moduleNumber": 1,
+      "lessonNumber": 4,
+      "title": "The Bloch Sphere Geometry",
+      "description": "Map any pure single-qubit state to the surface of a unit 3D sphere parameterized by polar angle θ and azimuthal phase φ.",
+      "lessonType": "simulation",
+      "duration": "25 min lab",
+      "isFreePreview": false,
+      "status": "published",
+      "simulationSlug": "qubit-state-visualizer",
+      "contentMarkdown": "### Parameterization on the Bloch Sphere\n\nBecause global phase factors $e^{i\\gamma}$ are physically unobservable, any pure qubit state can be uniquely written using two real angles $\\theta \\in [0, \\pi]$ and $\\phi \\in [0, 2\\pi)$:\n\n$$|\\psi\\rangle = \\cos\\left(\\frac{\\theta}{2}\\right)|0\\rangle + e^{i\\phi}\\sin\\left(\\frac{\\theta}{2}\\right)|1\\rangle$$\n\nThis maps directly to the unit sphere in Cartesian space $\\mathbb{R}^3$ with Bloch vector:\n\n$$\\vec{r} = \\begin{bmatrix} \\sin\\theta \\cos\\phi \\\\ \\sin\\theta \\sin\\phi \\\\ \\cos\\theta \\end{bmatrix}$$\n\n- The North Pole $(\\theta = 0)$ corresponds to $|0\\rangle$.\n- The South Pole $(\\theta = \\pi)$ corresponds to $|1\\rangle$.\n- Points on the equator $(\\theta = \\pi/2)$ correspond to equal superpositions with different relative phases."
+    },
+    {
+      "id": "lesson-q2-01",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000002",
+      "moduleNumber": 2,
+      "lessonNumber": 1,
+      "title": "Single-Qubit Unitary Rotations",
+      "description": "Mathematical constraints on quantum gates: unitarity U†U = I and probability preservation.",
+      "lessonType": "video",
+      "duration": "16 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### Unitary Operators\n\nIn quantum mechanics, all valid closed-system quantum gates are linear unitary operators $U$ acting on state vectors:\n\n$$U^\\dagger U = U U^\\dagger = I$$\n\nUnitary matrices preserve the inner product and the Euclidean vector norm: $\\|U|\\psi\\rangle\\| = \\||\\psi\\rangle\\| = 1$."
+    },
+    {
+      "id": "lesson-q2-02",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000002",
+      "moduleNumber": 2,
+      "lessonNumber": 2,
+      "title": "Pauli Operators (X, Y, Z) and the Hadamard Transform",
+      "description": "Bit flips, phase flips, and the creation of unbiased superpositions with the Hadamard matrix.",
+      "lessonType": "simulation",
+      "duration": "22 min lab",
+      "isFreePreview": false,
+      "status": "published",
+      "simulationSlug": "circuit-builder",
+      "contentMarkdown": "### The Fundamental Quantum Gate Set\n\n1. **Pauli-X (Bit Flip):**\n   $$X = \\begin{bmatrix} 0 & 1 \\\\ 1 & 0 \\end{bmatrix}, \\quad X|0\\rangle = |1\\rangle, \\quad X|1\\rangle = |0\\rangle$$\n\n2. **Pauli-Z (Phase Flip):**\n   $$Z = \\begin{bmatrix} 1 & 0 \\\\ 0 & -1 \\end{bmatrix}, \\quad Z|0\\rangle = |0\\rangle, \\quad Z|1\\rangle = -|1\\rangle$$\n\n3. **Hadamard Gate (Basis Change):**\n   $$H = \\frac{1}{\\sqrt{2}}\\begin{bmatrix} 1 & 1 \\\\ 1 & -1 \\end{bmatrix}, \\quad H|0\\rangle = \\frac{|0\\rangle + |1\\rangle}{\\sqrt{2}} = |+\\rangle, \\quad H|1\\rangle = \\frac{|0\\rangle - |1\\rangle}{\\sqrt{2}} = |-\\rangle$$"
+    },
+    {
+      "id": "lesson-q2-03",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000002",
+      "moduleNumber": 2,
+      "lessonNumber": 3,
+      "title": "Phase Gates: S Gate and T Gate",
+      "description": "Quarter-turn π/2 and eighth-turn π/4 Z-rotations and their role in universal quantum gate synthesis.",
+      "lessonType": "pdf",
+      "duration": "15 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### Phase S and T Gates\n\n$$S = \\begin{bmatrix} 1 & 0 \\\\ 0 & i \\end{bmatrix} = \\begin{bmatrix} 1 & 0 \\\\ 0 & e^{i\\pi/2} \\end{bmatrix}, \\quad T = \\begin{bmatrix} 1 & 0 \\\\ 0 & e^{i\\pi/4} \\end{bmatrix}$$\n\nNotice that $S = T^2$ and $Z = S^2 = T^4$. The combination of $H$ and $T$ gates generates a dense subset of $SU(2)$, forming a universal single-qubit gate library by the Solovay-Kitaev theorem."
+    },
+    {
+      "id": "lesson-q2-04",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000002",
+      "moduleNumber": 2,
+      "lessonNumber": 4,
+      "title": "Multi-Qubit Gates & Controlled-NOT (CNOT)",
+      "description": "2-qubit tensor operators, reversible XOR logic, and entangling gate truth tables.",
+      "lessonType": "video",
+      "duration": "24 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### Controlled-NOT (CX / CNOT)\n\nThe CNOT gate acts on two qubits (control and target). If the control is $|1\\rangle$, it flips the target qubit:\n\n$$CNOT = \\begin{bmatrix} 1 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 \\\\ 0 & 0 & 0 & 1 \\\\ 0 & 0 & 1 & 0 \\end{bmatrix}$$\n\n$$CNOT|00\\rangle = |00\\rangle, \\quad CNOT|01\\rangle = |01\\rangle, \\quad CNOT|10\\rangle = |11\\rangle, \\quad CNOT|11\\rangle = |10\\rangle$$"
+    },
+    {
+      "id": "lesson-q3-01",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000003",
+      "moduleNumber": 3,
+      "lessonNumber": 1,
+      "title": "Composite Quantum Registers & Tensor Products",
+      "description": "Formulating state space of N qubits with 2^N dimensional complex vectors.",
+      "lessonType": "pdf",
+      "duration": "18 min read",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### Multi-Qubit Hilbert Spaces and the Tensor Product\n\nWhen multiple independent qubits are combined into a quantum register, their joint state lives in the tensor product space $\\mathcal{H}_1 \\otimes \\mathcal{H}_2 \\dots \\otimes \\mathcal{H}_n$:\n\n$$|00\\rangle = |0\\rangle \\otimes |0\\rangle = \\begin{bmatrix} 1 \\\\ 0 \\end{bmatrix} \\otimes \\begin{bmatrix} 1 \\\\ 0 \\end{bmatrix} = \\begin{bmatrix} 1 \\\\ 0 \\\\ 0 \\\\ 0 \\end{bmatrix}$$\n\nFor $n$ qubits, the dimension of the statevector grows as $2^n$. Just 50 qubits require over $1.125 \\times 10^{15}$ complex amplitudes, exceeding the memory of any classical supercomputer."
+    },
+    {
+      "id": "lesson-q3-02",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000003",
+      "moduleNumber": 3,
+      "lessonNumber": 2,
+      "title": "The Four Canonical Bell States",
+      "description": "Constructing maximally entangled bipartite pairs |Φ+⟩, |Φ-⟩, |Ψ+⟩, and |Ψ-⟩.",
+      "lessonType": "simulation",
+      "duration": "25 min lab",
+      "isFreePreview": false,
+      "status": "published",
+      "simulationSlug": "entanglement-demonstrator",
+      "contentMarkdown": "### The Maximally Entangled Bell Basis\n\nBy passing $|00\\rangle$ through a Hadamard gate on qubit 0 followed by a CNOT targeted on qubit 1, we synthesize the Bell state:\n\n$$|\\Phi^+\\rangle = \\frac{|00\\rangle + |11\\rangle}{\\sqrt{2}}$$\n\nNotice that this state **cannot** be factored into a product of individual single-qubit states $(\\alpha|0\\rangle + \\beta|1\\rangle) \\otimes (\\gamma|0\\rangle + \\delta|1\\rangle)$. The physical state belongs strictly to the collective pair."
+    },
+    {
+      "id": "lesson-q3-03",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000003",
+      "moduleNumber": 3,
+      "lessonNumber": 3,
+      "title": "EPR Paradox and Bell Inequality Violation",
+      "description": "Einstein-Podolsky-Rosen argument, hidden variables, and experimental proof of non-locality.",
+      "lessonType": "video",
+      "duration": "22 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### Non-Locality & Clauser-Horne-Shimony-Holt (CHSH) Inequality\n\nClassical local realism demands that measurements on spatially separated particles satisfy $|S| \\le 2$. Quantum mechanical entangled states violate this bound up to Cirel'son's bound:\n\n$$|S_{\\text{quantum}}| = 2\\sqrt{2} \\approx 2.828 > 2$$\n\nProving that physical reality cannot simultaneously be local and predetermined by classical hidden variables."
+    },
+    {
+      "id": "lesson-q3-04",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000003",
+      "moduleNumber": 3,
+      "lessonNumber": 4,
+      "title": "Multi-Party GHZ and W Entangled States",
+      "description": "Tripartite and N-qubit genuine entanglement configurations and their quantum communication roles.",
+      "lessonType": "pdf",
+      "duration": "20 min read",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### Greenberger-Horne-Zeilinger (GHZ) State\n\n$$|\\text{GHZ}\\rangle = \\frac{|000\\rangle + |111\\rangle}{\\sqrt{2}}$$\n\nIf any one of the three qubits in a GHZ state is traced out or lost to the environment, the remaining two qubits drop completely into an unentangled mixed state, showcasing maximal non-robust multipartite entanglement."
+    },
+    {
+      "id": "lesson-q4-01",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000004",
+      "moduleNumber": 4,
+      "lessonNumber": 1,
+      "title": "The Deutsch-Jozsa Quantum Oracle Algorithm",
+      "description": "Proving quantum speedup: evaluating whether an unknown function is constant or balanced in a single evaluation.",
+      "lessonType": "video",
+      "duration": "26 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### Deutsch-Jozsa Algorithm & Phase Kickback\n\nGiven an oracle function $f: \\{0,1\\}^n \\to \\{0,1\\}$ that is guaranteed to be either constant (same output for all inputs) or balanced (outputs 0 on half, 1 on half):\n\n- **Classical worst-case queries**: $2^{n-1} + 1$\n- **Quantum queries**: Exactly $1$\n\nUsing an ancilla qubit initialized in $|-\\rangle$, the oracle encodes $f(x)$ into the phase: $(-1)^{f(x)}|x\\rangle$. Applying Hadamard gates yields destructive interference for all non-zero states if balanced."
+    },
+    {
+      "id": "lesson-q4-02",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000004",
+      "moduleNumber": 4,
+      "lessonNumber": 2,
+      "title": "Grover’s Amplitude Amplification Algorithm",
+      "description": "Searching unsorted databases with quadratic speedup O(√N). The Phase Oracle and Grover Diffusion Operator.",
+      "lessonType": "simulation",
+      "duration": "30 min lab",
+      "isFreePreview": false,
+      "status": "published",
+      "simulationSlug": "grover-search",
+      "contentMarkdown": "### Grover's Algorithm: Amplitude Amplification\n\nFor an unstructured database of $N = 2^n$ elements with a single marked item $\\omega$:\n\n1. **Initialize uniform superposition**: $|s\\rangle = \\frac{1}{\\sqrt{N}}\\sum_{x=0}^{N-1} |x\\rangle$\n2. **Apply Phase Oracle $U_f$**: Invert the phase of the target marked state: $|\\omega\\rangle \\to -|\\omega\\rangle$\n3. **Apply Diffusion Operator $U_s = 2|s\\rangle\\langle s| - I$**: Inversion about the mean amplitude\n\nRepeating this sequence approximately $\\frac{\\pi}{4}\\sqrt{N}$ times rotates the quantum state vector directly onto the marked target with near 100% probability."
+    },
+    {
+      "id": "lesson-q4-03",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000004",
+      "moduleNumber": 4,
+      "lessonNumber": 3,
+      "title": "Quantum Phase Estimation (QPE) Principles",
+      "description": "Estimating the phase corresponding to an eigenvalue of a unitary operator with high precision.",
+      "lessonType": "pdf",
+      "duration": "24 min read",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### Quantum Phase Estimation (QPE)\n\nGiven a unitary operator $U$ with eigenvector $|u\\rangle$ such that $U|u\\rangle = e^{2\\pi i \\theta}|u\\rangle$, QPE uses controlled-$U^{2^j}$ gates and the Inverse Quantum Fourier Transform ($QFT^\\dagger$) to write the binary fraction of $\\theta$ directly onto an $m$-qubit measurement register."
+    },
+    {
+      "id": "lesson-q4-04",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000004",
+      "moduleNumber": 4,
+      "lessonNumber": 4,
+      "title": "Shor’s Factoring Algorithm Architectural Overview",
+      "description": "Polynomial-time prime factorization: period finding via Quantum Fourier Transform (QFT).",
+      "lessonType": "video",
+      "duration": "28 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### Shor's Algorithm: Exponential Speedup\n\nShor's algorithm factors large composite integers $N = p \\cdot q$ in polynomial time $O((\\log N)^3)$, dismantling RSA public-key cryptography. It reduces the problem of integer factoring to finding the period $r$ of the modular exponential function $f(x) = a^x \\pmod N$, executed via quantum modular exponentiation and QFT."
+    },
+    {
+      "id": "lesson-q5-01",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000005",
+      "moduleNumber": 5,
+      "lessonNumber": 1,
+      "title": "Introduction to Qiskit SDK & Circuit Architecture",
+      "description": "Installing Qiskit, importing QuantumCircuit, allocating quantum and classical registers, and compiling gates.",
+      "lessonType": "coding_lab",
+      "duration": "30 min lab",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### Qiskit 1.0+ Standard Architecture\n\n```python\nfrom qiskit import QuantumCircuit\n\n# Create a circuit with 2 qubits and 2 classical measurement bits\nqc = QuantumCircuit(2, 2)\n\n# Apply Hadamard to Qubit 0\nqc.h(0)\n\n# Apply CNOT with Control=0, Target=1\nqc.cx(0, 1)\n\n# Measure both qubits into classical bits\nqc.measure([0, 1], [0, 1])\n\nprint(qc.draw(output='text'))\n```"
+    },
+    {
+      "id": "lesson-q5-02",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000005",
+      "moduleNumber": 5,
+      "lessonNumber": 2,
+      "title": "Building & Visualizing Circuits in Code",
+      "description": "Draw circuits in ASCII, LaTeX, and Matplotlib. Inspect unitary matrices and circuit depth analysis.",
+      "lessonType": "coding_lab",
+      "duration": "25 min lab",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### Inspecting Circuit Properties\n\n```python\n# Circuit depth and operator counts\nprint('Circuit Depth:', qc.depth())\nprint('Gate Operations:', qc.count_ops())\n```"
+    },
+    {
+      "id": "lesson-q5-03",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000005",
+      "moduleNumber": 5,
+      "lessonNumber": 3,
+      "title": "Executing on AerSimulator & Statevector Sampler",
+      "description": "Configuring shots, extracting measurement counts dictionaries, and plotting probability histograms.",
+      "lessonType": "coding_lab",
+      "duration": "35 min lab",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### Sampling Measurement Distributions\n\n```python\nfrom qiskit_aer import AerSimulator\n\nsimulator = AerSimulator()\nresult = simulator.run(qc, shots=1024).result()\ncounts = result.get_counts()\nprint('Measurement Shots Distribution:', counts)\n# Output: {'00': 518, '11': 506} for Bell State\n```"
+    },
+    {
+      "id": "lesson-q5-04",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleId": "m0000000-0000-0000-0000-000000000005",
+      "moduleNumber": 5,
+      "lessonNumber": 4,
+      "title": "Analyzing Quantum Noise & Hardware Topology",
+      "description": "Thermal relaxation T1, dephasing T2, CNOT gate error rates, and quantum volume metrics overview.",
+      "lessonType": "video",
+      "duration": "28 min",
+      "isFreePreview": false,
+      "status": "published",
+      "contentMarkdown": "### NISQ Era Constraints\n\nIn real physical superconducting transmons:\n- $T_1$ Relaxation Time: Energy dissipation from $|1\\rangle \\to |0\\rangle$ (typically $100-300\\,\\mu\\text{s}$).\n- $T_2$ Dephasing Time: Loss of relative phase coherence $\\phi$.\n- Gate Fidelity: 2-qubit CNOT errors typically range around $0.1\\% - 1.0\\%$, requiring error mitigation."
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "quiz-quantum-01",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleNumber": 1,
+      "title": "Quantum Computing Essentials Diagnostic Quiz",
+      "description": "5 conceptual questions covering Dirac notation, statevector normalization, measurement probabilities, and the Bloch sphere.",
+      "isFreePreview": true,
+      "status": "published",
+      "durationMinutes": 15,
+      "totalMarks": 5,
+      "passingScore": 60,
+      "questions": [
+        {
+          "id": "q1-01",
+          "text": "For a valid pure qubit state |ψ⟩ = α|0⟩ + β|1⟩, what fundamental constraint must the complex coefficients satisfy?",
+          "options": [
+            "α + β = 1",
+            "|α|² + |β|² = 1",
+            "|α| = |β|",
+            "α² + β² = 0"
+          ],
+          "correctIndex": 1,
+          "explanation": "According to the Born rule normalization condition, the sum of the moduli squared must equal 1 so the probabilities sum to 100%."
+        },
+        {
+          "id": "q1-02",
+          "text": "What does the North Pole (θ = 0) of the Bloch sphere represent?",
+          "options": [
+            "The state |1⟩",
+            "The equal superposition state |+⟩",
+            "The computational basis state |0⟩",
+            "A maximally mixed state"
+          ],
+          "correctIndex": 2,
+          "explanation": "At θ = 0, cos(θ/2) = 1 and sin(θ/2) = 0, which corresponds precisely to the state |0⟩."
+        },
+        {
+          "id": "q1-03",
+          "text": "If a qubit in state (|0⟩ + √3|1⟩)/2 is measured in the computational basis, what is the probability of measuring 1?",
+          "options": [
+            "25% (1/4)",
+            "50% (1/2)",
+            "75% (3/4)",
+            "100% (1)"
+          ],
+          "correctIndex": 2,
+          "explanation": "P(1) = |β|² = |√3/2|² = 3/4 = 75%."
+        },
+        {
+          "id": "q1-04",
+          "text": "What happens to the quantum state immediately after a projective measurement yields outcome 0?",
+          "options": [
+            "The state remains in superposition",
+            "The state instantaneously collapses to |0⟩",
+            "The state is erased to vacuum",
+            "The state flips to |1⟩"
+          ],
+          "correctIndex": 1,
+          "explanation": "Under the measurement postulate, the wavefunction collapses onto the corresponding eigenstate |0⟩."
+        },
+        {
+          "id": "q1-05",
+          "text": "Why can an arbitrary global phase factor e^(iγ) be factored out and omitted from statevectors?",
+          "options": [
+            "Because complex numbers are imaginary",
+            "Because global phase has no observable physical effect on measurement probabilities",
+            "Because classical computers cannot compute phase",
+            "Because unitary gates cancel all phases"
+          ],
+          "correctIndex": 1,
+          "explanation": "The global phase factor e^(iγ) does not alter inner products |⟨ϕ|ψ⟩|² or any physical expectation value."
+        }
+      ]
+    },
+    {
+      "id": "quiz-quantum-02",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleNumber": 2,
+      "title": "Module 2 Assessment: Unitary Gates & Circuits",
+      "description": "Pauli transformations, Hadamard rotation matrices, phase logic, and CNOT reversible matrix calculations.",
+      "isFreePreview": false,
+      "status": "published",
+      "durationMinutes": 20,
+      "totalMarks": 5,
+      "passingScore": 60,
+      "questions": [
+        {
+          "id": "q2-01",
+          "text": "Applying the Hadamard gate H to basis state |0⟩ yields which state?",
+          "options": [
+            "|1⟩",
+            "(|0⟩ + |1⟩) / √2",
+            "(|0⟩ - |1⟩) / √2",
+            "i|1⟩"
+          ],
+          "correctIndex": 1,
+          "explanation": "H|0⟩ = (|0⟩ + |1⟩)/√2 = |+⟩."
+        },
+        {
+          "id": "q2-02",
+          "text": "Which Pauli matrix corresponds to a quantum bit flip?",
+          "options": [
+            "Pauli-X",
+            "Pauli-Y",
+            "Pauli-Z",
+            "Identity I"
+          ],
+          "correctIndex": 0,
+          "explanation": "The Pauli-X operator swaps amplitudes between |0⟩ and |1⟩, acting as a quantum NOT gate."
+        },
+        {
+          "id": "q2-03",
+          "text": "What is the relation between the Phase S gate and the T gate?",
+          "options": [
+            "S = T²",
+            "T = S²",
+            "S = T⁴",
+            "S = T†"
+          ],
+          "correctIndex": 0,
+          "explanation": "Since T introduces a π/4 phase and S introduces a π/2 phase, S = T²."
+        },
+        {
+          "id": "q2-04",
+          "text": "What is the truth table result of CNOT applied to input state |10⟩?",
+          "options": [
+            "|00⟩",
+            "|10⟩",
+            "|11⟩",
+            "|01⟩"
+          ],
+          "correctIndex": 2,
+          "explanation": "Since the control qubit is 1, CNOT flips the target qubit from 0 to 1, producing |11⟩."
+        },
+        {
+          "id": "q2-05",
+          "text": "Why must all quantum gates in closed physical systems be unitary?",
+          "options": [
+            "To prevent overheating in dilution refrigerators",
+            "To conserve quantum state normalization and inner product probabilities",
+            "Because classical gates are reversible",
+            "To eliminate noise"
+          ],
+          "correctIndex": 1,
+          "explanation": "Unitary operators satisfy U†U = I, ensuring the Euclidean length of the statevector remains 1."
+        }
+      ]
+    },
+    {
+      "id": "quiz-quantum-03",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleNumber": 3,
+      "title": "Module 3 Assessment: Entanglement, Bell States & Non-Locality",
+      "description": "Testing Kronecker tensor multiplication, Bell basis state projection, and CHSH inequality concepts.",
+      "isFreePreview": false,
+      "status": "published",
+      "durationMinutes": 20,
+      "totalMarks": 5,
+      "passingScore": 60,
+      "questions": [
+        {
+          "id": "q3-01",
+          "text": "Which circuit produces the Bell state (|00⟩ + |11⟩)/√2 from input |00⟩?",
+          "options": [
+            "H on Qubit 0 followed by CNOT(0 -> 1)",
+            "X on Qubit 0 followed by H on Qubit 1",
+            "CNOT(0 -> 1) followed by H on Qubit 0",
+            "Z on Qubit 0 followed by X on Qubit 1"
+          ],
+          "correctIndex": 0,
+          "explanation": "H on q0 creates (|0⟩+|1⟩)/√2 ⊗ |0⟩ = (|00⟩+|10⟩)/√2. The subsequent CNOT flips the target only on |10⟩, creating (|00⟩+|11⟩)/√2."
+        },
+        {
+          "id": "q3-02",
+          "text": "If Alice and Bob share Bell state |Φ+⟩, and Alice measures her qubit to be 1, what will Bob measure?",
+          "options": [
+            "0 with 100% certainty",
+            "1 with 100% certainty",
+            "0 or 1 with 50% probability",
+            "The state will remain in superposition"
+          ],
+          "correctIndex": 1,
+          "explanation": "For |Φ+⟩ = (|00⟩+|11⟩)/√2, Alice's measurement collapses the system to |11⟩, ensuring Bob measures 1."
+        },
+        {
+          "id": "q3-03",
+          "text": "What is Cirel'son's upper bound for quantum violation of the CHSH inequality?",
+          "options": [
+            "2",
+            "2√2 (≈ 2.828)",
+            "4",
+            "√2"
+          ],
+          "correctIndex": 1,
+          "explanation": "While classical local realism limits |S| ≤ 2, quantum entangled states achieve up to 2√2."
+        },
+        {
+          "id": "q3-04",
+          "text": "Can entangled particles be used for instantaneous faster-than-light communication?",
+          "options": [
+            "Yes, using quantum internet routers",
+            "No, because local measurements yield random outcomes without classical coordination",
+            "Yes, for short distances under 1 km",
+            "Only with superconducting circuits"
+          ],
+          "correctIndex": 1,
+          "explanation": "The No-Communication theorem proves that local measurements cannot transmit information faster than light."
+        },
+        {
+          "id": "q3-05",
+          "text": "How many qubits are required to synthesize a GHZ state?",
+          "options": [
+            "2 qubits",
+            "3 or more qubits",
+            "Exactly 1 qubit",
+            "Only even numbers of qubits"
+          ],
+          "correctIndex": 1,
+          "explanation": "The standard GHZ state |GHZ⟩ = (|000⟩+|111⟩)/√2 is defined across 3 or more qubits."
+        }
+      ]
+    },
+    {
+      "id": "quiz-quantum-04",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleNumber": 4,
+      "title": "Module 4 Assessment: Quantum Oracles & Search Algorithms",
+      "description": "Evaluating Deutsch-Jozsa phase kickback and Grover iteration counting for optimal target amplification.",
+      "isFreePreview": false,
+      "status": "published",
+      "durationMinutes": 25,
+      "totalMarks": 5,
+      "passingScore": 60,
+      "questions": [
+        {
+          "id": "q4-01",
+          "text": "What is the asymptotic query complexity of Grover's search algorithm for an unsorted list of N elements?",
+          "options": [
+            "O(N)",
+            "O(log N)",
+            "O(√N)",
+            "O(1)"
+          ],
+          "correctIndex": 2,
+          "explanation": "Grover's algorithm provides a quadratic speedup over classical O(N), requiring O(√N) oracle queries."
+        },
+        {
+          "id": "q4-02",
+          "text": "In the Deutsch-Jozsa algorithm, how many evaluations of the oracle function f(x) are required to determine if f is constant or balanced?",
+          "options": [
+            "2^(n-1) + 1 evaluations",
+            "Exactly 1 evaluation",
+            "n evaluations",
+            "√N evaluations"
+          ],
+          "correctIndex": 1,
+          "explanation": "Quantum interference allows evaluating whether f is constant or balanced in a single query."
+        },
+        {
+          "id": "q4-03",
+          "text": "What is the mathematical definition of the Grover diffusion operator?",
+          "options": [
+            "U_s = 2|s⟩⟨s| - I",
+            "U_s = |s⟩⟨s| + I",
+            "U_s = H ⊗ H",
+            "U_s = e^(iHt)"
+          ],
+          "correctIndex": 0,
+          "explanation": "The diffusion operator reflects quantum state amplitudes about the uniform mean amplitude."
+        },
+        {
+          "id": "q4-04",
+          "text": "What is the primary quantum subroutine behind Shor's factoring algorithm?",
+          "options": [
+            "Quantum Phase Estimation & Quantum Fourier Transform (QFT)",
+            "Grover search",
+            "Bloch sphere rotation",
+            "Error syndrome decoding"
+          ],
+          "correctIndex": 0,
+          "explanation": "Shor's algorithm reduces factoring to order finding via Quantum Phase Estimation using the QFT."
+        },
+        {
+          "id": "q4-05",
+          "text": "For N = 4 items (2 qubits), how many Grover iterations are required for 100% target amplification?",
+          "options": [
+            "Exactly 1 iteration",
+            "2 iterations",
+            "4 iterations",
+            "8 iterations"
+          ],
+          "correctIndex": 0,
+          "explanation": "R ≈ (π/4)√4 = π/2 ≈ 1 iteration rotates the initial state directly onto the target."
+        }
+      ]
+    },
+    {
+      "id": "quiz-quantum-05",
+      "courseSlug": "quantum-computing-foundations",
+      "moduleNumber": 5,
+      "title": "Module 5 Practical Assessment: Qiskit Circuit Engineering",
+      "description": "Syntax diagnostic on QuantumCircuit methods, StatevectorSampler execution, and measurement histogram decoding.",
+      "isFreePreview": false,
+      "status": "published",
+      "durationMinutes": 25,
+      "totalMarks": 5,
+      "passingScore": 60,
+      "questions": [
+        {
+          "id": "q5-01",
+          "text": "In Qiskit, which class is instantiated to create a quantum circuit with 3 qubits and 3 classical bits?",
+          "options": [
+            "QuantumCircuit(3, 3)",
+            "QuantumRegister(3, 3)",
+            "CircuitEngine(3, 3)",
+            "QiskitModel(3, 3)"
+          ],
+          "correctIndex": 0,
+          "explanation": "QuantumCircuit(num_qubits, num_clbits) allocates both quantum and classical registers."
+        },
+        {
+          "id": "q5-02",
+          "text": "Which method on a QuantumCircuit object adds a Hadamard gate to qubit 0?",
+          "options": [
+            "qc.h(0)",
+            "qc.hadamard(0)",
+            "qc.gate_h([0])",
+            "qc.apply('H', 0)"
+          ],
+          "correctIndex": 0,
+          "explanation": "qc.h(0) is the standard Qiskit API method for appending a Hadamard gate."
+        },
+        {
+          "id": "q5-03",
+          "text": "What does circuit depth measure in quantum computing?",
+          "options": [
+            "The physical depth of the dilution refrigerator",
+            "The longest sequence of dependent gate operations on any qubit",
+            "The number of classical bits",
+            "The time taken to compile"
+          ],
+          "correctIndex": 1,
+          "explanation": "Circuit depth represents the critical path duration in discrete time-steps."
+        },
+        {
+          "id": "q5-04",
+          "text": "What physical process does T1 relaxation time describe in superconducting qubits?",
+          "options": [
+            "Loss of relative quantum phase",
+            "Energy dissipation from excited state |1⟩ down to ground state |0⟩",
+            "Microwave pulse reflection",
+            "Readout resonator ringdown"
+          ],
+          "correctIndex": 1,
+          "explanation": "T1 is the longitudinal relaxation time measuring energy loss from |1⟩ to |0⟩."
+        },
+        {
+          "id": "q5-05",
+          "text": "Which Qiskit simulator module is typically used to sample shot counts with realistic noise models?",
+          "options": [
+            "AerSimulator from qiskit_aer",
+            "StatevectorEngine from qiskit_core",
+            "BasicSim from qiskit_base",
+            "NoiseBackend from qiskit_math"
+          ],
+          "correctIndex": 0,
+          "explanation": "AerSimulator provides high-performance C++ backend simulation with customizable noise."
+        }
+      ]
+    }
+  ],
+  "simulations": [
+    {
+      "id": "sim-qubit-bloch-sphere",
+      "slug": "qubit-state-visualizer",
+      "title": "Qubit State Visualizer",
+      "subtitle": "Interactive 3D Bloch Sphere & Statevector Inspector",
+      "description": "Visualize pure single-qubit states on the unit Bloch sphere. Apply X, Y, Z, Hadamard, S, and T gates in real time to observe unitary rotations, statevector coordinates, and measurement probabilities.",
+      "moduleNumber": 1,
+      "isFreePreview": true,
+      "formula": "|\\psi\\rangle = \\cos(\\theta/2)|0\\rangle + e^{i\\phi}\\sin(\\theta/2)|1\\rangle",
+      "relatedLessonId": "lesson-q1-04"
+    },
+    {
+      "id": "sim-superposition",
+      "slug": "superposition-explorer",
+      "title": "Superposition Explorer",
+      "subtitle": "Quantum Interference & Statistical Collapse Engine",
+      "description": "Create tunable quantum superpositions using Hadamard and unitary bias rotations. Observe theoretical amplitudes versus empirical distributions across thousands of simulated measurement shots.",
+      "moduleNumber": 1,
+      "isFreePreview": false,
+      "formula": "P(0) = |\\alpha|^2, \\quad P(1) = |\\beta|^2, \\quad |\\alpha|^2 + |\\beta|^2 = 1",
+      "relatedLessonId": "lesson-q1-02"
+    },
+    {
+      "id": "sim-circuit-builder",
+      "slug": "circuit-builder",
+      "title": "Quantum Circuit Builder",
+      "subtitle": "Drag-and-Drop Multi-Qubit Circuit Simulator",
+      "description": "Construct multi-qubit quantum circuits across 1 to 3 qubits. Place Hadamard, Pauli, Phase, and Controlled-NOT gates onto circuit timelines and observe real-time statevector evolution and probability bars.",
+      "moduleNumber": 2,
+      "isFreePreview": false,
+      "formula": "|\\psi_{\\text{final}}\\rangle = (U_k \\dots U_2 U_1)|\\psi_{\\text{init}}\\rangle",
+      "relatedLessonId": "lesson-q2-02"
+    },
+    {
+      "id": "sim-entanglement-demonstrator",
+      "slug": "entanglement-demonstrator",
+      "title": "Entanglement Demonstrator",
+      "subtitle": "Bell State Synthesis & Correlated Measurement Telemetry",
+      "description": "Generate the four maximally entangled Bell states. Measure Qubit A and observe instantaneous correlated collapse on Qubit B, validating non-local correlations and the EPR paradox.",
+      "moduleNumber": 3,
+      "isFreePreview": false,
+      "formula": "|\\Phi^+\\rangle = \\frac{|00\\rangle + |11\\rangle}{\\sqrt{2}}, \\quad P(01) = P(10) = 0",
+      "relatedLessonId": "lesson-q3-02"
+    },
+    {
+      "id": "sim-grover-search",
+      "slug": "grover-search",
+      "title": "Grover's Search Visualizer",
+      "subtitle": "Amplitude Amplification & Geometric Rotation Engine",
+      "description": "Explore quantum search across 2-qubit (4 items) and 3-qubit (8 items) registers. Step through phase oracle marking and diffusion inversion about the mean to observe target probability amplification.",
+      "moduleNumber": 4,
+      "isFreePreview": false,
+      "formula": "U_{\\text{Grover}} = (2|s\\rangle\\langle s| - I) U_f",
+      "relatedLessonId": "lesson-q4-02"
+    }
+  ],
+  "mentorshipSlots": [
+    {
+      "id": "slot-q2-001",
+      "instructorId": "e0000000-0000-0000-0000-000000000001",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "courseSlug": "quantum-computing-foundations",
+      "startAt": "2026-11-10T10:00:00.000Z",
+      "endAt": "2026-11-10T10:45:00.000Z",
+      "durationMinutes": 45,
+      "timezone": "Asia/Kolkata",
+      "status": "available",
+      "supportedTypes": [
+        "quantum_doubt_clearing",
+        "quantum_interview_prep",
+        "career_guidance"
+      ]
+    },
+    {
+      "id": "slot-q2-002",
+      "instructorId": "e0000000-0000-0000-0000-000000000001",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "courseSlug": "quantum-computing-foundations",
+      "startAt": "2026-11-10T15:30:00.000Z",
+      "endAt": "2026-11-10T16:15:00.000Z",
+      "durationMinutes": 45,
+      "timezone": "Asia/Kolkata",
+      "status": "available",
+      "supportedTypes": [
+        "quantum_doubt_clearing",
+        "quantum_interview_prep",
+        "career_guidance"
+      ]
+    },
+    {
+      "id": "slot-q2-003",
+      "instructorId": "e0000000-0000-0000-0000-000000000001",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "courseSlug": "quantum-computing-foundations",
+      "startAt": "2026-11-12T11:00:00.000Z",
+      "endAt": "2026-11-12T11:45:00.000Z",
+      "durationMinutes": 45,
+      "timezone": "Asia/Kolkata",
+      "status": "available",
+      "supportedTypes": [
+        "quantum_doubt_clearing",
+        "quantum_interview_prep",
+        "career_guidance"
+      ]
+    },
+    {
+      "id": "slot-q2-004",
+      "instructorId": "e0000000-0000-0000-0000-000000000001",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "courseSlug": "quantum-computing-foundations",
+      "startAt": "2026-11-14T16:00:00.000Z",
+      "endAt": "2026-11-14T16:45:00.000Z",
+      "durationMinutes": 45,
+      "timezone": "Asia/Kolkata",
+      "status": "available",
+      "supportedTypes": [
+        "quantum_doubt_clearing",
+        "quantum_interview_prep",
+        "career_guidance"
+      ]
+    }
+  ],
+  "mentorshipSessions": [
+    {
+      "id": "sess-q1-001",
+      "slotId": "slot-q2-demo",
+      "courseSlug": "quantum-computing-foundations",
+      "instructorSlug": "dr-aravind-vaidya",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "studentName": "Ridhesh Walavalkar",
+      "studentEmail": "walavalkarridhesh@gmail.com",
+      "sessionType": "quantum_interview_prep",
+      "scheduledAt": "2026-11-08T15:30:00.000Z",
+      "durationMinutes": 45,
+      "meetingUrl": "https://meet.google.com/pmu-quantum-vip",
+      "status": "confirmed",
+      "studentNotes": "Reviewing statevector compilation and preparing for quantum engineering research intern interview.",
+      "instructorNotes": "Student has completed Module 1 & 2 simulations. Prepare Bell state compilation problem."
+    }
+  ],
+  "pendingApprovals": [
+    {
+      "id": "appr-001",
+      "itemType": "lesson",
+      "courseSlug": "quantum-computing-foundations",
+      "courseTitle": "Quantum Computing Foundations",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "instructorSlug": "dr-aravind-vaidya",
+      "title": "Variational Quantum Eigensolver (VQE) Deep Dive",
+      "summary": "Covers Hamiltonian expectation evaluation on NISQ hardware and classical gradient optimization.",
+      "submittedAt": "2026-11-02T14:20:00.000Z",
+      "status": "pending_review"
+    },
+    {
+      "id": "appr-002",
+      "itemType": "question",
+      "courseSlug": "quantum-computing-foundations",
+      "courseTitle": "Quantum Computing Foundations",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "instructorSlug": "dr-aravind-vaidya",
+      "title": "CHSH Inequality Violation Calculation Problem",
+      "summary": "Numerical problem calculating the expectation value ⟨A0B0⟩ + ⟨A0B1⟩ + ⟨A1B0⟩ - ⟨A1B1⟩ for maximally entangled Bell state.",
+      "submittedAt": "2026-11-02T16:45:00.000Z",
+      "status": "pending_review"
+    },
+    {
+      "id": "appr-003",
+      "itemType": "quiz",
+      "courseSlug": "quantum-computing-foundations",
+      "courseTitle": "Quantum Computing Foundations",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "instructorSlug": "dr-aravind-vaidya",
+      "title": "Quantum Error Mitigation & Zero Noise Extrapolation Quiz",
+      "summary": "Advanced diagnostic evaluating Richardson extrapolation and Pauli twirling methods.",
+      "submittedAt": "2026-11-03T08:10:00.000Z",
+      "status": "pending_review"
+    }
+  ],
+  "certificates": [
+    {
+      "code": "PMU-QC-2026-8F2A19",
+      "studentTarget": "walavalkarridhesh@gmail.com",
+      "studentName": "Ridhesh Walavalkar",
+      "courseSlug": "quantum-computing-foundations",
+      "courseTitle": "Quantum Computing Foundations",
+      "instructorName": "Dr. Aravind Vaidya, PhD",
+      "issueDate": "2026-11-03T10:00:00.000Z",
+      "status": "issued",
+      "verificationUrl": "https://prepmeupai.in/prepmeup/verify-certificate/PMU-QC-2026-8F2A19"
+    }
+  ],
+  "studentQuantumProgress": {
+    "walavalkarridhesh@gmail.com": {
+      "completedLessons": [
+        "lesson-q1-01",
+        "lesson-q1-02",
+        "lesson-q1-03",
+        "lesson-q1-04",
+        "lesson-q2-01",
+        "lesson-q2-02",
+        "lesson-q2-03",
+        "lesson-q2-04",
+        "lesson-q3-01",
+        "lesson-q3-02",
+        "lesson-q3-03",
+        "lesson-q3-04",
+        "lesson-q4-01",
+        "lesson-q4-02",
+        "lesson-q4-03",
+        "lesson-q4-04",
+        "lesson-q5-01",
+        "lesson-q5-02",
+        "lesson-q5-03",
+        "lesson-q5-04"
+      ],
+      "completedSimulations": [
+        "qubit-state-visualizer",
+        "superposition-explorer",
+        "circuit-builder",
+        "entanglement-demonstrator",
+        "grover-search"
+      ],
+      "passedQuizzes": [
+        "quiz-quantum-01",
+        "quiz-quantum-02",
+        "quiz-quantum-03",
+        "quiz-quantum-04",
+        "quiz-quantum-05"
+      ],
+      "completionPercentage": 100,
+      "certificateStatus": "issued",
+      "certificateCode": "PMU-QC-2026-8F2A19"
+    }
+  },
+  "enrollments": [
+    {
+      "id": "enr-001",
+      "userId": "usr-certified-scholar-01",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-10-01T00:00:00.000Z",
+      "expiresAt": "2027-04-01T00:00:00.000Z",
+      "createdAt": "2026-10-01T00:00:00.000Z",
+      "updatedAt": "2026-10-01T00:00:00.000Z"
+    },
+    {
+      "id": "enr-1793779502192-a978",
+      "userId": "usr_c3_quantum_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.192Z",
+      "expiresAt": "2027-05-03T08:05:02.191Z",
+      "createdAt": "2026-11-04T08:05:02.192Z",
+      "updatedAt": "2026-11-04T08:05:02.192Z"
+    },
+    {
+      "id": "enr-1793779502364-6f83",
+      "userId": "usr_c3_allaccess_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.364Z",
+      "expiresAt": "2027-05-03T08:05:02.362Z",
+      "createdAt": "2026-11-04T08:05:02.364Z",
+      "updatedAt": "2026-11-04T08:05:02.364Z"
+    },
+    {
+      "id": "enr-1793779502420-a5be",
+      "userId": "usr_c3_early1_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.420Z",
+      "expiresAt": "2027-05-03T08:05:02.418Z",
+      "createdAt": "2026-11-04T08:05:02.420Z",
+      "updatedAt": "2026-11-04T08:05:02.420Z"
+    },
+    {
+      "id": "enr-1793779502452-4e8b",
+      "userId": "usr_c3_early2_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.452Z",
+      "expiresAt": "2027-05-03T08:05:02.450Z",
+      "createdAt": "2026-11-04T08:05:02.452Z",
+      "updatedAt": "2026-11-04T08:05:02.452Z"
+    },
+    {
+      "id": "enr-1793779502487-3c6f",
+      "userId": "usr_c3_early3_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.487Z",
+      "expiresAt": "2027-05-03T08:05:02.484Z",
+      "createdAt": "2026-11-04T08:05:02.487Z",
+      "updatedAt": "2026-11-04T08:05:02.487Z"
+    },
+    {
+      "id": "enr-1793779502519-b135",
+      "userId": "usr_c3_early4_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.519Z",
+      "expiresAt": "2027-05-03T08:05:02.517Z",
+      "createdAt": "2026-11-04T08:05:02.519Z",
+      "updatedAt": "2026-11-04T08:05:02.519Z"
+    },
+    {
+      "id": "enr-1793779502565-9f9e",
+      "userId": "usr_c3_early5_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.565Z",
+      "expiresAt": "2027-05-03T08:05:02.563Z",
+      "createdAt": "2026-11-04T08:05:02.565Z",
+      "updatedAt": "2026-11-04T08:05:02.565Z"
+    },
+    {
+      "id": "enr-1793779502593-d876",
+      "userId": "usr_c3_early6_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.593Z",
+      "expiresAt": "2027-05-03T08:05:02.591Z",
+      "createdAt": "2026-11-04T08:05:02.593Z",
+      "updatedAt": "2026-11-04T08:05:02.593Z"
+    },
+    {
+      "id": "enr-1793779502628-895a",
+      "userId": "usr_c3_early7_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.628Z",
+      "expiresAt": "2027-05-03T08:05:02.625Z",
+      "createdAt": "2026-11-04T08:05:02.628Z",
+      "updatedAt": "2026-11-04T08:05:02.628Z"
+    },
+    {
+      "id": "enr-1793779502679-a6c7",
+      "userId": "usr_c3_early8_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.679Z",
+      "expiresAt": "2027-05-03T08:05:02.677Z",
+      "createdAt": "2026-11-04T08:05:02.679Z",
+      "updatedAt": "2026-11-04T08:05:02.679Z"
+    },
+    {
+      "id": "enr-1793779502732-0ede",
+      "userId": "usr_c3_early9_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.732Z",
+      "expiresAt": "2027-05-03T08:05:02.727Z",
+      "createdAt": "2026-11-04T08:05:02.732Z",
+      "updatedAt": "2026-11-04T08:05:02.732Z"
+    },
+    {
+      "id": "enr-1793779502770-880d",
+      "userId": "usr_c3_early10_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.770Z",
+      "expiresAt": "2027-05-03T08:05:02.768Z",
+      "createdAt": "2026-11-04T08:05:02.770Z",
+      "updatedAt": "2026-11-04T08:05:02.770Z"
+    },
+    {
+      "id": "enr-1793779738114-8f20",
+      "userId": "usr_c3_wh_quantum_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:08:58.114Z",
+      "expiresAt": "2027-05-03T08:08:58.112Z",
+      "createdAt": "2026-11-04T08:08:58.114Z",
+      "updatedAt": "2026-11-04T08:08:58.114Z"
+    },
+    {
+      "id": "enr-1793779738421-82fc",
+      "userId": "usr_c3_wh_dup_example_com",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:08:58.421Z",
+      "expiresAt": "2027-05-03T08:08:58.419Z",
+      "createdAt": "2026-11-04T08:08:58.421Z",
+      "updatedAt": "2026-11-04T08:08:58.421Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-001",
+      "userId": "usr-certified-scholar-01",
+      "courseId": "quantum-computing-foundations",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_quantum_seed_001",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "studentName": "Aarav Sharma",
+        "studentPhone": "+919876543210"
+      },
+      "createdAt": "2026-10-01T00:00:00.000Z",
+      "updatedAt": "2026-10-01T00:05:00.000Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay-001",
+      "orderId": "ord-001",
+      "userId": "usr-certified-scholar-01",
+      "razorpayPaymentId": "pay_quantum_seed_001",
+      "razorpaySignature": "seed_sig_001",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-10-01T00:05:00.000Z",
+      "updatedAt": "2026-10-01T00:05:00.000Z"
+    }
+  ],
+  "mentorshipPacks": [
+    {
+      "id": "pack-001",
+      "userId": "usr-certified-scholar-01",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-01-01T00:00:00.000Z",
+      "createdAt": "2026-10-01T00:05:00.000Z"
+    }
+  ],
+  "earlyAdopterRedemptions": [
+    {
+      "id": "ea-001",
+      "userId": "usr-early-001",
+      "courseId": "quantum-computing-foundations",
+      "redemptionNumber": 1,
+      "status": "claimed",
+      "createdAt": "2026-10-02T10:00:00.000Z"
+    },
+    {
+      "id": "ea-002",
+      "userId": "usr-early-002",
+      "courseId": "quantum-computing-foundations",
+      "redemptionNumber": 2,
+      "status": "claimed",
+      "createdAt": "2026-10-02T11:00:00.000Z"
+    }
+  ],
+  "webhookEvents": [
+    {
+      "id": "wh_1793779503361_1d1rx3x",
+      "provider": "razorpay",
+      "eventId": "evt_1793779503361",
+      "eventType": "payment.captured",
+      "payload": {
+        "event": "payment.captured"
+      },
+      "status": "ignored",
+      "attempts": 1,
+      "receivedAt": "2026-11-04T08:05:03.361Z"
+    }
+  ],
+  "rateLimitEvents": [
+    {
+      "id": "rl_1793779502105_h3gnp",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_btech_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502105,
+      "expiresAt": 1793783102105,
+      "createdAt": "2026-11-04T08:05:02.105Z"
+    },
+    {
+      "id": "rl_1793779502173_txgd2",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_quantum_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502173,
+      "expiresAt": 1793783102173,
+      "createdAt": "2026-11-04T08:05:02.173Z"
+    },
+    {
+      "id": "rl_1793779502204_m76b6",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_cyber_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502204,
+      "expiresAt": 1793783102204,
+      "createdAt": "2026-11-04T08:05:02.204Z"
+    },
+    {
+      "id": "rl_1793779502345_japgp",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_allaccess_example_com_::ffff:127.0.0.1",
+      "count": 2,
+      "windowStart": 1793779502345,
+      "expiresAt": 1793783102345,
+      "createdAt": "2026-11-04T08:05:02.345Z"
+    },
+    {
+      "id": "rl_1793779502407_5wn4x",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_early1_example_com_::ffff:127.0.0.1",
+      "count": 2,
+      "windowStart": 1793779502407,
+      "expiresAt": 1793783102407,
+      "createdAt": "2026-11-04T08:05:02.407Z"
+    },
+    {
+      "id": "rl_1793779502408_8a75i",
+      "bucketKey": "unified_early_adopter_claim",
+      "identifier": "usr_c3_early1_example_com_::ffff:127.0.0.1",
+      "count": 2,
+      "windowStart": 1793779502408,
+      "expiresAt": 1793783102408,
+      "createdAt": "2026-11-04T08:05:02.408Z"
+    },
+    {
+      "id": "rl_1793779502438_7qkij",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_early2_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502438,
+      "expiresAt": 1793783102438,
+      "createdAt": "2026-11-04T08:05:02.438Z"
+    },
+    {
+      "id": "rl_1793779502440_f1p29",
+      "bucketKey": "unified_early_adopter_claim",
+      "identifier": "usr_c3_early2_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502440,
+      "expiresAt": 1793783102440,
+      "createdAt": "2026-11-04T08:05:02.440Z"
+    },
+    {
+      "id": "rl_1793779502470_nzuvl",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_early3_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502470,
+      "expiresAt": 1793783102470,
+      "createdAt": "2026-11-04T08:05:02.470Z"
+    },
+    {
+      "id": "rl_1793779502471_sa2ub",
+      "bucketKey": "unified_early_adopter_claim",
+      "identifier": "usr_c3_early3_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502471,
+      "expiresAt": 1793783102471,
+      "createdAt": "2026-11-04T08:05:02.471Z"
+    },
+    {
+      "id": "rl_1793779502502_lw0yy",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_early4_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502502,
+      "expiresAt": 1793783102502,
+      "createdAt": "2026-11-04T08:05:02.502Z"
+    },
+    {
+      "id": "rl_1793779502503_nzbab",
+      "bucketKey": "unified_early_adopter_claim",
+      "identifier": "usr_c3_early4_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502503,
+      "expiresAt": 1793783102503,
+      "createdAt": "2026-11-04T08:05:02.503Z"
+    },
+    {
+      "id": "rl_1793779502549_a2ilc",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_early5_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502549,
+      "expiresAt": 1793783102549,
+      "createdAt": "2026-11-04T08:05:02.549Z"
+    },
+    {
+      "id": "rl_1793779502551_lem48",
+      "bucketKey": "unified_early_adopter_claim",
+      "identifier": "usr_c3_early5_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502551,
+      "expiresAt": 1793783102551,
+      "createdAt": "2026-11-04T08:05:02.551Z"
+    },
+    {
+      "id": "rl_1793779502580_65oqs",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_early6_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502580,
+      "expiresAt": 1793783102580,
+      "createdAt": "2026-11-04T08:05:02.580Z"
+    },
+    {
+      "id": "rl_1793779502581_wrtwj",
+      "bucketKey": "unified_early_adopter_claim",
+      "identifier": "usr_c3_early6_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502581,
+      "expiresAt": 1793783102581,
+      "createdAt": "2026-11-04T08:05:02.581Z"
+    },
+    {
+      "id": "rl_1793779502611_o3fcz",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_early7_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502611,
+      "expiresAt": 1793783102611,
+      "createdAt": "2026-11-04T08:05:02.611Z"
+    },
+    {
+      "id": "rl_1793779502612_01rlp",
+      "bucketKey": "unified_early_adopter_claim",
+      "identifier": "usr_c3_early7_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502612,
+      "expiresAt": 1793783102612,
+      "createdAt": "2026-11-04T08:05:02.612Z"
+    },
+    {
+      "id": "rl_1793779502658_fqsg5",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_early8_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502658,
+      "expiresAt": 1793783102658,
+      "createdAt": "2026-11-04T08:05:02.658Z"
+    },
+    {
+      "id": "rl_1793779502659_rettx",
+      "bucketKey": "unified_early_adopter_claim",
+      "identifier": "usr_c3_early8_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502659,
+      "expiresAt": 1793783102659,
+      "createdAt": "2026-11-04T08:05:02.659Z"
+    },
+    {
+      "id": "rl_1793779502705_bin09",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_early9_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502705,
+      "expiresAt": 1793783102705,
+      "createdAt": "2026-11-04T08:05:02.705Z"
+    },
+    {
+      "id": "rl_1793779502708_0xji3",
+      "bucketKey": "unified_early_adopter_claim",
+      "identifier": "usr_c3_early9_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502708,
+      "expiresAt": 1793783102708,
+      "createdAt": "2026-11-04T08:05:02.708Z"
+    },
+    {
+      "id": "rl_1793779502751_ok9y2",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_early10_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502751,
+      "expiresAt": 1793783102751,
+      "createdAt": "2026-11-04T08:05:02.751Z"
+    },
+    {
+      "id": "rl_1793779502752_ayf1p",
+      "bucketKey": "unified_early_adopter_claim",
+      "identifier": "usr_c3_early10_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502752,
+      "expiresAt": 1793783102752,
+      "createdAt": "2026-11-04T08:05:02.752Z"
+    },
+    {
+      "id": "rl_1793779502798_mkluu",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_early11_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502798,
+      "expiresAt": 1793783102798,
+      "createdAt": "2026-11-04T08:05:02.798Z"
+    },
+    {
+      "id": "rl_1793779502800_m52hq",
+      "bucketKey": "unified_early_adopter_claim",
+      "identifier": "usr_c3_early11_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779502800,
+      "expiresAt": 1793783102800,
+      "createdAt": "2026-11-04T08:05:02.800Z"
+    },
+    {
+      "id": "rl_1793779738058_anf60",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_wh_quantum_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779738058,
+      "expiresAt": 1793783338058,
+      "createdAt": "2026-11-04T08:08:58.058Z"
+    },
+    {
+      "id": "rl_1793779738167_3gcja",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_wh_badsig_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779738167,
+      "expiresAt": 1793783338167,
+      "createdAt": "2026-11-04T08:08:58.167Z"
+    },
+    {
+      "id": "rl_1793779738213_6m06q",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_wh_amount_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779738213,
+      "expiresAt": 1793783338213,
+      "createdAt": "2026-11-04T08:08:58.213Z"
+    },
+    {
+      "id": "rl_1793779738259_g77zi",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_wh_failed_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779738259,
+      "expiresAt": 1793783338259,
+      "createdAt": "2026-11-04T08:08:58.259Z"
+    },
+    {
+      "id": "rl_1793779738401_so8n6",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_wh_dup_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779738401,
+      "expiresAt": 1793783338401,
+      "createdAt": "2026-11-04T08:08:58.401Z"
+    },
+    {
+      "id": "rl_1793779738493_lsqc1",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_mentor_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779738493,
+      "expiresAt": 1793783338493,
+      "createdAt": "2026-11-04T08:08:58.493Z"
+    },
+    {
+      "id": "rl_1793779738705_8eq2t",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_allmentor_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779738705,
+      "expiresAt": 1793783338705,
+      "createdAt": "2026-11-04T08:08:58.705Z"
+    },
+    {
+      "id": "rl_1793779830680_l6p5q",
+      "bucketKey": "unified_checkout",
+      "identifier": "usr_c3_expired_example_com_::ffff:127.0.0.1",
+      "count": 1,
+      "windowStart": 1793779830680,
+      "expiresAt": 1793783430680,
+      "createdAt": "2026-11-04T08:10:30.680Z"
+    }
+  ]
+}

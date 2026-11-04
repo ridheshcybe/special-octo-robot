@@ -1,0 +1,209 @@
+{
+  "enrollments": [
+    {
+      "id": "cyb-enr-1793779502231-bf91e6",
+      "userId": "usr_c3_cyber_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.231Z",
+      "expiresAt": "2027-05-03T08:05:02.227Z",
+      "source": "unified:cybersecurity-semester-pass",
+      "createdAt": "2026-11-04T08:05:02.231Z",
+      "updatedAt": "2026-11-04T08:05:02.231Z"
+    },
+    {
+      "id": "cyb-enr-1793779502364-1122fe",
+      "userId": "usr_c3_allaccess_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.364Z",
+      "expiresAt": "2027-05-03T08:05:02.362Z",
+      "source": "unified:prepmeup-all-access-pass",
+      "createdAt": "2026-11-04T08:05:02.364Z",
+      "updatedAt": "2026-11-04T08:05:02.364Z"
+    },
+    {
+      "id": "cyb-enr-1793779502422-0ab8ee",
+      "userId": "usr_c3_early1_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.422Z",
+      "expiresAt": "2027-05-03T08:05:02.418Z",
+      "source": "unified:prepmeup-all-access-pass",
+      "createdAt": "2026-11-04T08:05:02.422Z",
+      "updatedAt": "2026-11-04T08:05:02.422Z"
+    },
+    {
+      "id": "cyb-enr-1793779502454-db44f1",
+      "userId": "usr_c3_early2_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.454Z",
+      "expiresAt": "2027-05-03T08:05:02.450Z",
+      "source": "unified:prepmeup-all-access-pass",
+      "createdAt": "2026-11-04T08:05:02.454Z",
+      "updatedAt": "2026-11-04T08:05:02.454Z"
+    },
+    {
+      "id": "cyb-enr-1793779502487-b6167c",
+      "userId": "usr_c3_early3_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.487Z",
+      "expiresAt": "2027-05-03T08:05:02.484Z",
+      "source": "unified:prepmeup-all-access-pass",
+      "createdAt": "2026-11-04T08:05:02.487Z",
+      "updatedAt": "2026-11-04T08:05:02.487Z"
+    },
+    {
+      "id": "cyb-enr-1793779502526-bc1ba2",
+      "userId": "usr_c3_early4_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.526Z",
+      "expiresAt": "2027-05-03T08:05:02.517Z",
+      "source": "unified:prepmeup-all-access-pass",
+      "createdAt": "2026-11-04T08:05:02.526Z",
+      "updatedAt": "2026-11-04T08:05:02.526Z"
+    },
+    {
+      "id": "cyb-enr-1793779502566-8995c2",
+      "userId": "usr_c3_early5_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.566Z",
+      "expiresAt": "2027-05-03T08:05:02.563Z",
+      "source": "unified:prepmeup-all-access-pass",
+      "createdAt": "2026-11-04T08:05:02.566Z",
+      "updatedAt": "2026-11-04T08:05:02.566Z"
+    },
+    {
+      "id": "cyb-enr-1793779502594-34627f",
+      "userId": "usr_c3_early6_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.594Z",
+      "expiresAt": "2027-05-03T08:05:02.591Z",
+      "source": "unified:prepmeup-all-access-pass",
+      "createdAt": "2026-11-04T08:05:02.594Z",
+      "updatedAt": "2026-11-04T08:05:02.594Z"
+    },
+    {
+      "id": "cyb-enr-1793779502629-66ec2e",
+      "userId": "usr_c3_early7_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.629Z",
+      "expiresAt": "2027-05-03T08:05:02.625Z",
+      "source": "unified:prepmeup-all-access-pass",
+      "createdAt": "2026-11-04T08:05:02.629Z",
+      "updatedAt": "2026-11-04T08:05:02.629Z"
+    },
+    {
+      "id": "cyb-enr-1793779502688-a231f4",
+      "userId": "usr_c3_early8_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.688Z",
+      "expiresAt": "2027-05-03T08:05:02.677Z",
+      "source": "unified:prepmeup-all-access-pass",
+      "createdAt": "2026-11-04T08:05:02.688Z",
+      "updatedAt": "2026-11-04T08:05:02.688Z"
+    },
+    {
+      "id": "cyb-enr-1793779502733-3fc03e",
+      "userId": "usr_c3_early9_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.733Z",
+      "expiresAt": "2027-05-03T08:05:02.727Z",
+      "source": "unified:prepmeup-all-access-pass",
+      "createdAt": "2026-11-04T08:05:02.733Z",
+      "updatedAt": "2026-11-04T08:05:02.733Z"
+    },
+    {
+      "id": "cyb-enr-1793779502777-c98faf",
+      "userId": "usr_c3_early10_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T08:05:02.777Z",
+      "expiresAt": "2027-05-03T08:05:02.768Z",
+      "source": "unified:prepmeup-all-access-pass",
+      "createdAt": "2026-11-04T08:05:02.777Z",
+      "updatedAt": "2026-11-04T08:05:02.777Z"
+    },
+    {
+      "id": "cyb-enr-1793779738320-3e8502",
+      "userId": "usr_c3_wh_amount_example_com",
+      "courseId": "cybersecurity-foundations",
+      "accessType": "semester_pass",
+      "status": "revoked",
+      "startsAt": "2026-11-04T08:08:58.320Z",
+      "expiresAt": "2027-05-03T08:08:58.318Z",
+      "source": "unified:cybersecurity-semester-pass",
+      "createdAt": "2026-11-04T08:08:58.320Z",
+      "updatedAt": "2026-11-04T08:08:58.338Z"
+    }
+  ],
+  "orders": [],
+  "payments": [],
+  "mentorshipPacks": [],
+  "earlyAdopterRedemptions": [],
+  "certificates": [],
+  "progress": {
+    "usr_c3_cyber_example_com": {
+      "completedLessons": [],
+      "completedLabs": [
+        "cyb-lab-02"
+      ],
+      "completedCtfChallenges": [],
+      "passedQuizzes": [],
+      "finalAssessmentPassed": false,
+      "updatedAt": "2026-11-04T08:05:02.282Z"
+    },
+    "usr_c3_nopass_example_com": {
+      "completedLessons": [
+        "cyb-l1-01"
+      ],
+      "completedLabs": [],
+      "completedCtfChallenges": [],
+      "passedQuizzes": [],
+      "finalAssessmentPassed": false,
+      "updatedAt": "2026-11-04T08:05:02.313Z"
+    },
+    "usr_c3_allaccess_example_com": {
+      "completedLessons": [],
+      "completedLabs": [
+        "cyb-lab-03"
+      ],
+      "completedCtfChallenges": [],
+      "passedQuizzes": [],
+      "finalAssessmentPassed": false,
+      "updatedAt": "2026-11-04T08:05:02.377Z"
+    },
+    "usr_c3_expired_example_com": {
+      "completedLessons": [
+        "cyb-l1-01"
+      ],
+      "completedLabs": [],
+      "completedCtfChallenges": [],
+      "passedQuizzes": [],
+      "finalAssessmentPassed": false,
+      "updatedAt": "2026-11-04T08:10:30.633Z"
+    }
+  },
+  "bookings": [],
+  "webhookEvents": []
+}

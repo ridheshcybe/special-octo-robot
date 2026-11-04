@@ -1,0 +1,96 @@
+{
+  "users": [
+    {
+      "id": "usr_walavalkarridhesh_gmail_com",
+      "name": "Ridhesh Walavalkar",
+      "target": "walavalkarridhesh@gmail.com",
+      "type": "email",
+      "college": "D.Y. Patil International University, Akurdi",
+      "branch": "B.Tech CSE AI/ML",
+      "role": "admin",
+      "tier": "Tier 3 VIP Unlimited (₹499)",
+      "registeredAt": "2026-10-24T10:00:00.000Z",
+      "lastSeenAt": "2026-10-30T10:01:30.440Z",
+      "lastActivity": "Completed Quiz & Coding Lab Submissions",
+      "currentPath": "/prepmeup/progress",
+      "isOnline": true,
+      "stats": {
+        "quizzesCompleted": 1,
+        "doubtsAsked": 0,
+        "codingSubmissions": 2,
+        "studyMinutes": 16
+      }
+    }
+  ],
+  "studentRecords": {
+    "usr_walavalkarridhesh_gmail_com": {
+      "quizAttempts": [
+        {
+          "id": "attempt-1793354361635",
+          "quizId": "quiz-acm-01",
+          "quizTitle": "Linear Algebra & Eigenvalue Foundations",
+          "score": 3,
+          "totalMarks": 5,
+          "percentage": 60,
+          "timeSpentSeconds": 360,
+          "breakdown": [],
+          "submittedAt": "2026-10-30T09:59:21.635Z"
+        }
+      ],
+      "codingSubmissions": [
+        {
+          "id": "code-1793353786907-t7jy3",
+          "problemId": "python-lab-1",
+          "problemTitle": "Find First Duplicate Element in O(N) Time",
+          "code": "def find_first_duplicate(arr):\n    seen = set()\n    for num in arr:\n        if num in seen:\n            return num\n        seen.add(num)\n    return -1",
+          "language": "python",
+          "status": "accepted",
+          "submittedAt": "2026-10-30T09:49:46.907Z"
+        },
+        {
+          "id": "code-1793353179691-wtqa0",
+          "problemId": "python-lab-1",
+          "problemTitle": "Find First Duplicate Element in O(N) Time",
+          "code": "def find_first_duplicate(arr):\n    seen = set()\n    for num in arr:\n        if num in seen:\n            return num\n        seen.add(num)\n    return -1",
+          "language": "python",
+          "status": "accepted",
+          "submittedAt": "2026-10-30T09:39:39.691Z"
+        }
+      ],
+      "doubts": []
+    }
+  },
+  "activities": [
+    {
+      "id": "act-1793354361635-6zwyy",
+      "userId": "usr_walavalkarridhesh_gmail_com",
+      "userName": "Ridhesh Walavalkar",
+      "userTarget": "walavalkarridhesh@gmail.com",
+      "actionType": "quiz",
+      "title": "Quiz Attempted: Linear Algebra & Eigenvalue Foundations",
+      "details": "Scored 3/5 (60%)",
+      "timestamp": "2026-10-30T09:59:21.635Z"
+    },
+    {
+      "id": "act-1793353786907-t7jy3",
+      "userId": "usr_walavalkarridhesh_gmail_com",
+      "userName": "Ridhesh Walavalkar",
+      "userTarget": "walavalkarridhesh@gmail.com",
+      "actionType": "code",
+      "title": "Code Sandbox Submission",
+      "details": "Problem: Find First Duplicate Element in O(N) Time — Status: accepted",
+      "timestamp": "2026-10-30T09:49:46.907Z"
+    },
+    {
+      "id": "act-1793353179691-wtqa0",
+      "userId": "usr_walavalkarridhesh_gmail_com",
+      "userName": "Ridhesh Walavalkar",
+      "userTarget": "walavalkarridhesh@gmail.com",
+      "actionType": "code",
+      "title": "Code Sandbox Submission",
+      "details": "Problem: Find First Duplicate Element in O(N) Time — Status: accepted",
+      "timestamp": "2026-10-30T09:39:39.691Z"
+    }
+  ],
+  "lastUpdated": "2026-10-30T11:48:08.206Z"
+}

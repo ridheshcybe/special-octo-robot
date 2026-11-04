@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # --------------------------------------------------------------------------
+  # 1. Edge Reverse Proxy (Nginx) - Routes, caches, rate limits, and fails over
+  # --------------------------------------------------------------------------
+  hybrid_proxy:
+    image: nginx:alpine
+    container_name: pmu_hybrid_proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-hybrid.conf:/etc/nginx/nginx.conf:ro
+      - ./fallback.html:/usr/share/nginx/html/fallback.html:ro
+      - ../../public/atlas.html:/usr/share/nginx/html/atlas.html:ro
+      - nginx_cache:/var/cache/nginx
+      - nginx_logs:/var/log/nginx
+    extra_hosts:
+      # If bridging to host network or specific VPN tunnel IP
+      - "host.docker.internal:host-gateway"
+    networks:
+      - hybrid_network
+
+  # --------------------------------------------------------------------------
+  # 2. Secure Cloudflare Edge Ingress (Zero Open Ports to Internet)
+  # --------------------------------------------------------------------------
+  cloudflared_edge:
+    image: cloudflare/cloudflared:latest
+    container_name: pmu_cloudflared_edge
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    networks:
+      - hybrid_network
+    depends_on:
+      - hybrid_proxy
+
+volumes:
+  nginx_cache:
+  nginx_logs:
+
+networks:
+  hybrid_network:
+    driver: bridge
