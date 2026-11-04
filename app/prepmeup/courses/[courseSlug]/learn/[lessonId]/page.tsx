@@ -129,10 +129,18 @@ export default async function LessonViewerPage({ params }: Props) {
             </p>
 
             <div style={{ marginTop: "24px", display: "flex", justifyContent: "center", gap: "14px", flexWrap: "wrap" }}>
-              <Link href="/prepmeup/quantum/pricing" className="pmu-btn-primary" style={{ padding: "14px 28px", fontSize: "14px" }}>
-                Unlock Quantum Track (₹{course.priceInr}) →
+              <Link
+                href={course.slug.includes("cybersecurity") ? "/prepmeup/cybersecurity/pricing" : "/prepmeup/quantum/pricing"}
+                className="pmu-btn-primary"
+                style={{ padding: "14px 28px", fontSize: "14px" }}
+              >
+                {course.slug.includes("cybersecurity") ? "View Pass & Waitlist →" : `Unlock Quantum Track (₹${course.priceInr}) →`}
               </Link>
-              <Link href={`/prepmeup/courses/${course.slug}/learn/lesson-q1-01`} className="pmu-btn-secondary" style={{ padding: "14px 24px", fontSize: "14px" }}>
+              <Link
+                href={`/prepmeup/courses/${course.slug}/learn/${course.slug.includes("cybersecurity") ? "lesson-c1-01" : "lesson-q1-01"}`}
+                className="pmu-btn-secondary"
+                style={{ padding: "14px 24px", fontSize: "14px" }}
+              >
                 Try Free Preview Lesson 1.1
               </Link>
             </div>

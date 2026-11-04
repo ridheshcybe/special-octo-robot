@@ -5,6 +5,8 @@ import {
   CourseLesson,
   QuantumQuiz,
   QuantumSimulationMeta,
+  CyberLab,
+  CyberIncidentCase,
 } from "@/app/prepmeup/_lib/trackStore";
 
 export interface QuantumAccessSummary {
@@ -187,4 +189,49 @@ export function getQuantumAccessSummary(
     canAccessPaidContent: hasSemesterPass,
     canBookMentorship: availableMentorshipSessions > 0,
   };
+}
+
+/**
+ * Checks whether user can access a specific CyberSecurity lab
+ */
+export function canAccessCyberLab(
+  userId: string | null | undefined,
+  lab: { isFreePreview?: boolean } | null | undefined,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): boolean {
+  if (!lab) return false;
+  if (lab.isFreePreview) return true;
+  if (!userId) return false;
+  const access = checkUserCourseAccess(userId, courseId);
+  return access.hasAccess;
+}
+
+/**
+ * Checks whether user can view a specific CyberSecurity lesson
+ */
+export function canAccessCyberLesson(
+  userId: string | null | undefined,
+  lesson: { isFreePreview?: boolean } | null | undefined,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): boolean {
+  if (!lesson) return false;
+  if (lesson.isFreePreview) return true;
+  if (!userId) return false;
+  const access = checkUserCourseAccess(userId, courseId);
+  return access.hasAccess;
+}
+
+/**
+ * Checks whether user can access a specific CyberSecurity incident case
+ */
+export function canAccessCyberIncidentCase(
+  userId: string | null | undefined,
+  incidentCase: { isFreePreview?: boolean } | null | undefined,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): boolean {
+  if (!incidentCase) return false;
+  if (incidentCase.isFreePreview) return true;
+  if (!userId) return false;
+  const access = checkUserCourseAccess(userId, courseId);
+  return access.hasAccess;
 }

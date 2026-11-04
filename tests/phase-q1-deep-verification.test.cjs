@@ -17,7 +17,13 @@ const data = JSON.parse(fs.readFileSync(cmsDataPath, "utf-8"));
 const tracks = data.tracks;
 assert.ok(tracks.some((t) => t.slug === "quantum-computing" && t.status === "published"));
 assert.ok(tracks.some((t) => t.slug === "btech-cse-aiml" && t.status === "published"));
-assert.ok(tracks.some((t) => t.slug === "cybersecurity" && t.status === "coming_soon"));
+assert.ok(
+  tracks.some(
+    (t) =>
+      t.slug === "cybersecurity" &&
+      (t.status === "coming_soon" || t.status === "published")
+  )
+);
 
 // Course checks
 const qCourse = data.courses.find((c) => c.slug === "quantum-computing-foundations");

@@ -16,7 +16,9 @@ const rawCms = JSON.parse(fs.readFileSync(cmsDataPath, "utf-8"));
 // Verification 2: Quantum Quiz Publishing, Attempt, Scoring, and Review
 // -----------------------------------------------------------------------------
 console.log("\n[Audit 2] Quantum Quiz Publishing, Attempt, Scoring & Review...");
-const quizzes = rawCms.quizzes;
+const quizzes = rawCms.quizzes.filter(
+  (q) => !q.courseSlug || q.courseSlug === "quantum-computing-foundations"
+);
 assert.equal(quizzes.length, 5, "5 Quantum quizzes must exist");
 
 // Free preview diagnostic quiz

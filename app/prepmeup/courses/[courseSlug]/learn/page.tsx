@@ -52,18 +52,28 @@ export default async function CourseLearnDashboardPage({ params }: Props) {
                 {course.title}
               </h1>
               <p style={{ fontSize: "15px", color: "#807f78", maxWidth: "700px", marginTop: "4px" }}>
-                Master quantum mechanics and circuit engineering step by step. Complete lessons, run interactive simulations, and take diagnostic assessments.
+                {course.description || "Master core concepts step by step. Complete lessons, run interactive labs, and take diagnostic assessments."}
               </p>
             </div>
 
             <div style={{ display: "flex", gap: "10px" }}>
-              <Link
-                href="/prepmeup/simulations/quantum"
-                className="pmu-btn-secondary"
-                style={{ padding: "12px 20px", fontSize: "13px" }}
-              >
-                🔬 Quantum Simulators →
-              </Link>
+              {course.slug.includes("cybersecurity") ? (
+                <Link
+                  href="/prepmeup/cybersecurity/labs"
+                  className="pmu-btn-secondary"
+                  style={{ padding: "12px 20px", fontSize: "13px" }}
+                >
+                  🛡️ Cyber Labs &amp; CTF →
+                </Link>
+              ) : (
+                <Link
+                  href="/prepmeup/simulations/quantum"
+                  className="pmu-btn-secondary"
+                  style={{ padding: "12px 20px", fontSize: "13px" }}
+                >
+                  🔬 Quantum Simulators →
+                </Link>
+              )}
             </div>
           </div>
         </div>

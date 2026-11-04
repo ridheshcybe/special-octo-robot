@@ -109,8 +109,12 @@ const freeSims = data.simulations.filter((s) => s.isFreePreview);
 assert.equal(freeSims.length, 1, "Exactly one simulation must be free preview");
 assert.equal(freeSims[0].slug, "qubit-state-visualizer");
 
-// Exactly 1 free preview quiz
-const freeQuizzes = data.quizzes.filter((q) => q.isFreePreview);
+// Exactly 1 free preview quiz for Quantum
+const freeQuizzes = data.quizzes.filter(
+  (q) =>
+    (!q.courseSlug || q.courseSlug === "quantum-computing-foundations") &&
+    q.isFreePreview
+);
 assert.equal(freeQuizzes.length, 1, "Exactly one quiz must be free preview");
 assert.ok(["draft", "published"].includes(freeQuizzes[0].status), "Quiz status must be draft or published");
 

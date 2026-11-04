@@ -61,21 +61,42 @@ export default async function TrackDetailPage({ params }: Props) {
               </p>
             </div>
 
-            <div style={{ display: "flex", gap: "10px" }}>
-              <Link
-                href="/prepmeup/simulations/quantum"
-                className="pmu-btn-secondary"
-                style={{ padding: "12px 20px", fontSize: "13px" }}
-              >
-                🔬 Quantum Simulators →
-              </Link>
-              <Link
-                href="/prepmeup/courses/quantum-computing-foundations/learn"
-                className="pmu-btn-primary"
-                style={{ padding: "12px 24px", fontSize: "13px" }}
-              >
-                Start Free Preview →
-              </Link>
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+              {track.slug === "cybersecurity" ? (
+                <>
+                  <Link
+                    href="/prepmeup/cybersecurity/labs"
+                    className="pmu-btn-secondary"
+                    style={{ padding: "12px 20px", fontSize: "13px" }}
+                  >
+                    🛡️ Browser Labs &amp; CTF →
+                  </Link>
+                  <Link
+                    href="/prepmeup/cybersecurity/labs/http-header-and-cookie-security-analyzer"
+                    className="pmu-btn-primary"
+                    style={{ padding: "12px 24px", fontSize: "13px" }}
+                  >
+                    Launch Free Lab 1 →
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/prepmeup/simulations/quantum"
+                    className="pmu-btn-secondary"
+                    style={{ padding: "12px 20px", fontSize: "13px" }}
+                  >
+                    🔬 Quantum Simulators →
+                  </Link>
+                  <Link
+                    href="/prepmeup/courses/quantum-computing-foundations/learn"
+                    className="pmu-btn-primary"
+                    style={{ padding: "12px 24px", fontSize: "13px" }}
+                  >
+                    Start Free Preview →
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

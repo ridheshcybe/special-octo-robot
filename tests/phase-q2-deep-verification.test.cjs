@@ -51,7 +51,9 @@ console.log("\n[Test 2] Verifying Quantum Quizzes Activation and Free Preview Lo
 const cmsData = JSON.parse(
   fs.readFileSync(path.join(process.cwd(), "deploy", "cms", "quantum_track_data.json"), "utf-8")
 );
-const quizzes = cmsData.quizzes;
+const quizzes = cmsData.quizzes.filter(
+  (q) => !q.courseSlug || q.courseSlug === "quantum-computing-foundations"
+);
 assert.ok(Array.isArray(quizzes), "Quizzes array must exist in quantum_track_data.json");
 assert.equal(quizzes.length, 5, "Must have exactly 5 module quizzes for Quantum course");
 

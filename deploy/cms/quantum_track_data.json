@@ -26,12 +26,12 @@
       "id": "11111111-2222-3333-4444-555555550003",
       "slug": "cybersecurity",
       "title": "CyberSecurity",
-      "description": "Defensive security engineering, cryptographic protocols, cloud penetration testing, and security operations fundamentals.",
+      "description": "Defensive security engineering, ethical reconnaissance, SOC operations, and browser-sandboxed CTF challenges.",
       "icon": "shield",
-      "status": "coming_soon",
+      "status": "published",
       "displayOrder": 3,
-      "courseCount": 0,
-      "badge": "Coming Soon"
+      "courseCount": 1,
+      "badge": "Phase C1 Live"
     }
   ],
   "instructors": [
@@ -57,6 +57,28 @@
       "status": "active",
       "rating": 4.95,
       "studentsMentored": 142
+    },
+    {
+      "id": "e0000000-0000-0000-0000-000000000003",
+      "slug": "dr-marcus-weber",
+      "fullName": "Dr. Marcus Weber, PhD",
+      "title": "Principal Security Architect & Offensive Security Specialist",
+      "bio": "Ph.D. in Information Security & Applied Cryptography from ETH Zurich. Former senior security engineer at Red Hat and lead technical auditor for cloud native infrastructure. Dedicated to training the next generation of ethical security engineers with rigorous hands-on browser labs.",
+      "qualifications": "Ph.D. in Computer Science (Applied Cryptography), OSCP, CISSP",
+      "expertise": [
+        "Network Security",
+        "SOC Operations",
+        "Penetration Testing Concepts",
+        "Applied Cryptography",
+        "Incident Response"
+      ],
+      "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+      "linkedinUrl": "https://linkedin.com/in/dr-marcus-weber-demo",
+      "githubUrl": "https://github.com/dr-marcus-weber",
+      "websiteUrl": "https://cyber-foundations.prepmeupai.in",
+      "status": "active",
+      "rating": 4.96,
+      "studentsMentored": 980
     }
   ],
   "courses": [
@@ -83,7 +105,48 @@
       "includesMentorship": true,
       "includesCertificate": true,
       "priceInr": 299,
-      "tools": ["Qiskit", "Cirq", "PennyLane", "Browser Bloch Simulator", "Statevector Engine"]
+      "tools": [
+        "Qiskit",
+        "Cirq",
+        "PennyLane",
+        "Browser Bloch Simulator",
+        "Statevector Engine"
+      ]
+    },
+    {
+      "id": "c0000000-0000-0000-0000-000000000003",
+      "trackSlug": "cybersecurity",
+      "instructorSlug": "dr-marcus-weber",
+      "instructorId": "e0000000-0000-0000-0000-000000000003",
+      "slug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "title": "CyberSecurity Foundations: Ethical Hacking, SOC & CTF",
+      "subtitle": "Defensive Security, Reconnaissance, Web Application Protection & Hands-on CTFs",
+      "description": "A comprehensive, hands-on path from security fundamentals to active defense. Learn ethical reconnaissance, inspect network telemetry, analyze synthetic SOC alerts, and capture flags in strictly controlled browser sandboxes.",
+      "level": "beginner",
+      "language": "English",
+      "format": "hybrid",
+      "prerequisite": "Basic networking concepts and terminal/Linux familiarity",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80",
+      "status": "published",
+      "isFreePreviewEnabled": true,
+      "durationHours": 24,
+      "rating": 4.96,
+      "enrolledCount": 420,
+      "moduleCount": 5,
+      "lessonCount": 20,
+      "totalLessons": 20,
+      "simulationsCount": 5,
+      "quizzesCount": 5,
+      "includesMentorship": true,
+      "includesCertificate": true,
+      "priceInr": 999,
+      "tools": [
+        "Browser Sandbox",
+        "Wireshark Concepts",
+        "Nmap Simulator",
+        "Burp Suite Concepts",
+        "SOC Timeline Inspector"
+      ]
     }
   ],
   "modules": [
@@ -125,6 +188,46 @@
       "moduleNumber": 5,
       "title": "Quantum Programming with Qiskit",
       "description": "Translating quantum circuits to production code: QuantumCircuit API, StatevectorSampler, AerSimulator, noisy backend simulation, and execution diagnostics.",
+      "status": "published"
+    },
+    {
+      "id": "m0000000-0000-0000-0000-000000000011",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleNumber": 1,
+      "title": "Cybersecurity Mindset and Ethics",
+      "description": "CIA triad, threat actor models, attack surface reduction, legal boundaries, and responsible disclosure.",
+      "status": "published"
+    },
+    {
+      "id": "m0000000-0000-0000-0000-000000000012",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleNumber": 2,
+      "title": "Networking and Reconnaissance",
+      "description": "IP, DNS, TCP three-way handshake, port states, safe scanning theory, and Nmap concepts.",
+      "status": "published"
+    },
+    {
+      "id": "m0000000-0000-0000-0000-000000000013",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleNumber": 3,
+      "title": "Web Application Security",
+      "description": "HTTP request structures, session fixation, OWASP Top 10 vulnerabilities, and defensive input sanitization.",
+      "status": "published"
+    },
+    {
+      "id": "m0000000-0000-0000-0000-000000000014",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleNumber": 4,
+      "title": "SOC and Incident Investigation",
+      "description": "Log analysis, SIEM correlation, alert triaging, email headers, and malware sandbox triage concepts.",
+      "status": "published"
+    },
+    {
+      "id": "m0000000-0000-0000-0000-000000000015",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleNumber": 5,
+      "title": "CTF Problem Solving",
+      "description": "Forensic data extraction, Base64/XOR cryptography, web flags, and systematic problem solving methodologies.",
       "status": "published"
     }
   ],
@@ -419,6 +522,61 @@
       "isFreePreview": false,
       "status": "published",
       "contentMarkdown": "### NISQ Era Constraints\n\nIn real physical superconducting transmons:\n- $T_1$ Relaxation Time: Energy dissipation from $|1\\rangle \\to |0\\rangle$ (typically $100-300\\,\\mu\\text{s}$).\n- $T_2$ Dephasing Time: Loss of relative phase coherence $\\phi$.\n- Gate Fidelity: 2-qubit CNOT errors typically range around $0.1\\% - 1.0\\%$, requiring error mitigation."
+    },
+    {
+      "id": "lesson-c1-01",
+      "moduleId": "m0000000-0000-0000-0000-000000000011",
+      "lessonNumber": 1,
+      "title": "The Ethical Hacker Mindset & Legal Boundaries",
+      "slug": "the-ethical-hacker-mindset-and-legal-boundaries",
+      "description": "Understanding the boundary between authorized security auditing and illegal computer trespass under IT Act & international laws.",
+      "contentMarkdown": "# The Ethical Hacker Mindset\n\nSecurity is fundamentally about authorization and intent...",
+      "isFreePreview": true,
+      "duration": "20 min"
+    },
+    {
+      "id": "lesson-c1-02",
+      "moduleId": "m0000000-0000-0000-0000-000000000011",
+      "lessonNumber": 2,
+      "title": "The CIA Triad & Threat Modeling",
+      "slug": "the-cia-triad-and-threat-modeling",
+      "description": "Confidentiality, Integrity, and Availability alongside STRIDE threat modeling framework.",
+      "contentMarkdown": "# CIA Triad in Production Systems\n\nSecurity controls must be measured against business impact...",
+      "isFreePreview": false,
+      "duration": "25 min"
+    },
+    {
+      "id": "lesson-c1-03",
+      "moduleId": "m0000000-0000-0000-0000-000000000012",
+      "lessonNumber": 1,
+      "title": "TCP/IP Handshake & Packet Inspection",
+      "slug": "tcp-ip-handshake-and-packet-inspection",
+      "description": "Deep dive into SYN, SYN-ACK, ACK and Wireshark dissection of standard network traffic.",
+      "contentMarkdown": "# TCP Mechanics\n\nEvery network interaction begins with state synchronization...",
+      "isFreePreview": false,
+      "duration": "30 min"
+    },
+    {
+      "id": "lesson-c1-04",
+      "moduleId": "m0000000-0000-0000-0000-000000000013",
+      "lessonNumber": 1,
+      "title": "OWASP Top 10: Injection and Broken Access Control",
+      "slug": "owasp-top-10-injection-and-broken-access-control",
+      "description": "Understanding the mechanics of SQL Injection and IDOR vulnerabilities and parameterized remediation.",
+      "contentMarkdown": "# Web Vulnerability Taxonomy\n\nWeb applications process untrusted user input...",
+      "isFreePreview": false,
+      "duration": "35 min"
+    },
+    {
+      "id": "lesson-c1-05",
+      "moduleId": "m0000000-0000-0000-0000-000000000014",
+      "lessonNumber": 1,
+      "title": "SOC Operations & Event Log Correlation",
+      "slug": "soc-operations-and-event-log-correlation",
+      "description": "How Security Operations Center analysts parse auth.log, Windows Event IDs, and detect lateral movement.",
+      "contentMarkdown": "# SOC Telemetry & Triage\n\nDetecting anomalies requires establishing clean baselines...",
+      "isFreePreview": false,
+      "duration": "30 min"
     }
   ],
   "quizzes": [
@@ -791,6 +949,64 @@
           "explanation": "AerSimulator provides high-performance C++ backend simulation with customizable noise."
         }
       ]
+    },
+    {
+      "id": "quiz-cyber-01",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleNumber": 1,
+      "title": "Module 1 Diagnostic: Security Mindset & Ethics Quiz",
+      "description": "Test your grasp of the CIA triad, threat actor classifications, legal boundaries, and responsible disclosure.",
+      "status": "draft",
+      "isFreePreview": true,
+      "questions": [
+        {
+          "id": "qc-01",
+          "questionText": "Which pillar of the CIA triad is violated by unauthorized data alteration?",
+          "options": [
+            "Confidentiality",
+            "Integrity",
+            "Availability",
+            "Non-repudiation"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "Integrity ensures information is accurate and has not been tampered with by unauthorized parties."
+        },
+        {
+          "id": "qc-02",
+          "questionText": "Under cybersecurity law, what fundamentally distinguishes ethical hacking from cybercrime?",
+          "options": [
+            "The tools used (e.g. Kali Linux)",
+            "Explicit, written authorization and scope boundaries",
+            "Whether the target uses encryption",
+            "The speed of the network scan"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "Authorization is the absolute legal boundary. Conducting tests without authorization constitutes illegal computer trespass."
+        }
+      ]
+    },
+    {
+      "id": "quiz-cyber-02",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "moduleNumber": 2,
+      "title": "Module 2: Networking & Reconnaissance Quiz",
+      "description": "Assesses TCP three-way handshakes, port state interpretations, and Nmap scan flags.",
+      "status": "draft",
+      "isFreePreview": false,
+      "questions": [
+        {
+          "id": "qc-03",
+          "questionText": "In a standard TCP three-way handshake, what packet does the client send first?",
+          "options": [
+            "ACK",
+            "SYN",
+            "SYN-ACK",
+            "RST"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "The client sends a SYN packet to synchronize sequence numbers."
+        }
+      ]
     }
   ],
   "simulations": [
@@ -914,6 +1130,42 @@
         "quantum_interview_prep",
         "career_guidance"
       ]
+    },
+    {
+      "id": "slot_a_1793797866010",
+      "instructorSlug": "dr-elena-rostova",
+      "instructorName": "Dr. Elena Rostova",
+      "startAt": "2026-11-05T13:11:06.010Z",
+      "endAt": "2026-11-05T13:56:06.010Z",
+      "durationMinutes": 45,
+      "status": "available"
+    },
+    {
+      "id": "slot_b_1793797866010",
+      "instructorSlug": "dr-elena-rostova",
+      "instructorName": "Dr. Elena Rostova",
+      "startAt": "2026-11-06T13:11:06.010Z",
+      "endAt": "2026-11-06T13:56:06.010Z",
+      "durationMinutes": 45,
+      "status": "available"
+    },
+    {
+      "id": "slot_a_1793797992363",
+      "instructorSlug": "dr-elena-rostova",
+      "instructorName": "Dr. Elena Rostova",
+      "startAt": "2026-11-05T13:13:12.363Z",
+      "endAt": "2026-11-05T13:58:12.363Z",
+      "durationMinutes": 45,
+      "status": "available"
+    },
+    {
+      "id": "slot_b_1793797992363",
+      "instructorSlug": "dr-elena-rostova",
+      "instructorName": "Dr. Elena Rostova",
+      "startAt": "2026-11-06T13:13:12.363Z",
+      "endAt": "2026-11-06T13:58:12.363Z",
+      "durationMinutes": 45,
+      "status": "available"
     }
   ],
   "mentorshipSessions": [
@@ -932,6 +1184,90 @@
       "status": "confirmed",
       "studentNotes": "Reviewing statevector compilation and preparing for quantum engineering research intern interview.",
       "instructorNotes": "Student has completed Module 1 & 2 simulations. Prepare Bell state compilation problem."
+    },
+    {
+      "id": "session_resched_1793797866010",
+      "slotId": "slot_b_1793797866010",
+      "courseSlug": "quantum-computing-foundations",
+      "instructorSlug": "dr-elena-rostova",
+      "instructorName": "Dr. Elena Rostova",
+      "studentName": "Reschedule Test Student",
+      "studentEmail": "student_resched_1793797866008@example.com",
+      "sessionType": "quantum_doubt_clearing",
+      "scheduledAt": "2026-11-06T13:11:06.010Z",
+      "durationMinutes": 45,
+      "status": "cancelled",
+      "studentNotes": "Initial booking",
+      "instructorNotes": "",
+      "rescheduledFromSlotId": "slot_a_1793797866010",
+      "lastRescheduledAt": "2026-11-04T13:11:06.010Z",
+      "auditTrail": [
+        {
+          "transition": "rescheduled",
+          "fromStatus": "confirmed",
+          "toStatus": "confirmed",
+          "timestamp": "2026-11-04T13:11:06.010Z",
+          "actor": "student_resched_1793797866008@example.com",
+          "details": {
+            "fromSlotId": "slot_a_1793797866010",
+            "toSlotId": "slot_b_1793797866010",
+            "scheduledAt": "2026-11-06T13:11:06.010Z"
+          }
+        },
+        {
+          "transition": "confirmed->cancelled",
+          "fromStatus": "confirmed",
+          "toStatus": "cancelled",
+          "timestamp": "2026-11-04T13:11:06.012Z",
+          "actor": "student",
+          "details": {
+            "isRefunded": true
+          }
+        }
+      ],
+      "isRefunded": true
+    },
+    {
+      "id": "session_resched_1793797992363",
+      "slotId": "slot_b_1793797992363",
+      "courseSlug": "quantum-computing-foundations",
+      "instructorSlug": "dr-elena-rostova",
+      "instructorName": "Dr. Elena Rostova",
+      "studentName": "Reschedule Test Student",
+      "studentEmail": "student_resched_1793797992360@example.com",
+      "sessionType": "quantum_doubt_clearing",
+      "scheduledAt": "2026-11-06T13:13:12.363Z",
+      "durationMinutes": 45,
+      "status": "cancelled",
+      "studentNotes": "Initial booking",
+      "instructorNotes": "",
+      "rescheduledFromSlotId": "slot_a_1793797992363",
+      "lastRescheduledAt": "2026-11-04T13:13:12.365Z",
+      "auditTrail": [
+        {
+          "transition": "rescheduled",
+          "fromStatus": "confirmed",
+          "toStatus": "confirmed",
+          "timestamp": "2026-11-04T13:13:12.364Z",
+          "actor": "student_resched_1793797992360@example.com",
+          "details": {
+            "fromSlotId": "slot_a_1793797992363",
+            "toSlotId": "slot_b_1793797992363",
+            "scheduledAt": "2026-11-06T13:13:12.363Z"
+          }
+        },
+        {
+          "transition": "confirmed->cancelled",
+          "fromStatus": "confirmed",
+          "toStatus": "cancelled",
+          "timestamp": "2026-11-04T13:13:12.368Z",
+          "actor": "student",
+          "details": {
+            "isRefunded": true
+          }
+        }
+      ],
+      "isRefunded": true
     }
   ],
   "pendingApprovals": [
@@ -1040,6 +1376,30 @@
       "expiresAt": "2027-04-01T00:00:00.000Z",
       "createdAt": "2026-10-01T00:00:00.000Z",
       "updatedAt": "2026-10-01T00:00:00.000Z"
+    },
+    {
+      "id": "enr-1793797865966-92f5",
+      "userId": "student_webhook_sec_1793797865959",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T13:11:05.966Z",
+      "expiresAt": "2027-05-03T13:11:05.966Z",
+      "createdAt": "2026-11-04T13:11:05.966Z",
+      "updatedAt": "2026-11-04T13:11:05.966Z"
+    },
+    {
+      "id": "enr-1793797992292-b767",
+      "userId": "student_webhook_sec_1793797992281",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T13:13:12.292Z",
+      "expiresAt": "2027-05-03T13:13:12.292Z",
+      "createdAt": "2026-11-04T13:13:12.292Z",
+      "updatedAt": "2026-11-04T13:13:12.292Z"
     }
   ],
   "orders": [
@@ -1058,6 +1418,32 @@
       },
       "createdAt": "2026-10-01T00:00:00.000Z",
       "updatedAt": "2026-10-01T00:05:00.000Z"
+    },
+    {
+      "id": "ord-1793797865962-aec8",
+      "userId": "student_webhook_sec_1793797865959",
+      "courseId": "quantum-computing-foundations",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_wh_sec_1793797865959",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {},
+      "createdAt": "2026-11-04T13:11:05.961Z",
+      "updatedAt": "2026-11-04T13:11:05.966Z"
+    },
+    {
+      "id": "ord-1793797992285-8b04",
+      "userId": "student_webhook_sec_1793797992281",
+      "courseId": "quantum-computing-foundations",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_wh_sec_1793797992281",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {},
+      "createdAt": "2026-11-04T13:13:12.284Z",
+      "updatedAt": "2026-11-04T13:13:12.292Z"
     }
   ],
   "payments": [
@@ -1074,6 +1460,32 @@
       "webhookStatus": "processed",
       "createdAt": "2026-10-01T00:05:00.000Z",
       "updatedAt": "2026-10-01T00:05:00.000Z"
+    },
+    {
+      "id": "pay-1793797865966-87e5",
+      "orderId": "ord-1793797865962-aec8",
+      "userId": "student_webhook_sec_1793797865959",
+      "razorpayPaymentId": "pay_wh_sec_1793797865964",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T13:11:05.966Z",
+      "updatedAt": "2026-11-04T13:11:05.966Z"
+    },
+    {
+      "id": "pay-1793797992292-b460",
+      "orderId": "ord-1793797992285-8b04",
+      "userId": "student_webhook_sec_1793797992281",
+      "razorpayPaymentId": "pay_wh_sec_1793797992289",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T13:13:12.292Z",
+      "updatedAt": "2026-11-04T13:13:12.292Z"
     }
   ],
   "mentorshipPacks": [
@@ -1087,6 +1499,50 @@
       "status": "active",
       "expiresAt": "2027-01-01T00:00:00.000Z",
       "createdAt": "2026-10-01T00:05:00.000Z"
+    },
+    {
+      "id": "pack-1793797865967-9acb",
+      "userId": "student_webhook_sec_1793797865959",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T13:11:05.967Z",
+      "createdAt": "2026-11-04T13:11:05.967Z"
+    },
+    {
+      "id": "pack-1793797866008-f57e",
+      "userId": "student_resched_1793797866008@example.com",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T13:11:06.008Z",
+      "createdAt": "2026-11-04T13:11:06.008Z"
+    },
+    {
+      "id": "pack-1793797992293-0f50",
+      "userId": "student_webhook_sec_1793797992281",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T13:13:12.293Z",
+      "createdAt": "2026-11-04T13:13:12.293Z"
+    },
+    {
+      "id": "pack-1793797992360-7baf",
+      "userId": "student_resched_1793797992360@example.com",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T13:13:12.360Z",
+      "createdAt": "2026-11-04T13:13:12.360Z"
     }
   ],
   "earlyAdopterRedemptions": [
@@ -1105,6 +1561,422 @@
       "redemptionNumber": 2,
       "status": "claimed",
       "createdAt": "2026-10-02T11:00:00.000Z"
+    }
+  ],
+  "cyberLabs": [
+    {
+      "id": "lab-c1-01",
+      "courseId": "c0000000-0000-0000-0000-000000000003",
+      "moduleId": "m0000000-0000-0000-0000-000000000011",
+      "lessonId": "lesson-c1-01",
+      "title": "HTTP Header & Cookie Security Analyzer",
+      "slug": "http-header-and-cookie-security-analyzer",
+      "description": "Inspect synthetic HTTP response headers, identify missing CSP/HSTS/SameSite protections, and capture the security audit flag.",
+      "difficulty": "beginner",
+      "labType": "guided_lab",
+      "environmentType": "browser_sandbox",
+      "estimatedMinutes": 25,
+      "isFreePreview": true,
+      "status": "published",
+      "tasks": [
+        {
+          "id": "task-c1-01",
+          "labId": "lab-c1-01",
+          "taskNumber": 1,
+          "title": "Identify Missing Security Headers",
+          "instructions": "Inspect the simulated HTTP response from the payment gateway demo. Identify which header fails the Strict-Transport-Security test and submit the discovered remediation flag.",
+          "hint": "Check the response headers tab in the interactive inspector. The flag is formatted as PMU{...}",
+          "expectedFlagHash": "7ae84c24d75b847f4f52c15576e62f6db9b9f253950d703131eeec6b13783e55",
+          "flagFormat": "PMU{...}",
+          "points": 25
+        }
+      ],
+      "sandboxConfig": {
+        "interactiveType": "header_inspector",
+        "initialState": {
+          "targetUrl": "https://shop.demo-sandbox.internal/api/checkout",
+          "headers": {
+            "Content-Type": "application/json",
+            "X-Frame-Options": "DENY",
+            "X-Content-Type-Options": "nosniff",
+            "Strict-Transport-Security": "MISSING: required 2-year max-age"
+          }
+        }
+      }
+    },
+    {
+      "id": "lab-c1-02",
+      "courseId": "c0000000-0000-0000-0000-000000000003",
+      "moduleId": "m0000000-0000-0000-0000-000000000012",
+      "lessonId": "lesson-c1-03",
+      "title": "Nmap & Port Reconnaissance Simulator",
+      "slug": "nmap-and-port-reconnaissance-simulator",
+      "description": "Simulate safe port discovery across a sandbox subnet, analyze service banners, and locate unauthorized listening services.",
+      "difficulty": "beginner",
+      "labType": "simulation",
+      "environmentType": "browser_sandbox",
+      "estimatedMinutes": 30,
+      "isFreePreview": false,
+      "status": "published",
+      "tasks": [
+        {
+          "id": "task-c1-02",
+          "labId": "lab-c1-02",
+          "taskNumber": 1,
+          "title": "Scan Subnet and Find Unauthorized Open Port",
+          "instructions": "Run a SYN stealth scan against the internal subnet. Locate the server running an unauthorized service and uncover the service flag.",
+          "hint": "Type: nmap -sV 192.168.1.15 in the terminal emulator.",
+          "expectedFlagHash": "7b27724f73b46b564dd6bfa27d5aed954c7e475aa1a2eb18d2b4ad2813ce46c9",
+          "flagFormat": "PMU{...}",
+          "points": 30
+        }
+      ],
+      "sandboxConfig": {
+        "interactiveType": "nmap_simulator"
+      }
+    },
+    {
+      "id": "lab-c1-03",
+      "courseId": "c0000000-0000-0000-0000-000000000003",
+      "moduleId": "m0000000-0000-0000-0000-000000000013",
+      "lessonId": "lesson-c1-04",
+      "title": "Web Defense: SQL Injection & Sanitization Sandbox",
+      "slug": "web-defense-sql-injection-and-sanitization-sandbox",
+      "description": "Analyze how unsanitized string concatenation allows auth bypass and rewrite the query using parameterized statements to extract the flag.",
+      "difficulty": "intermediate",
+      "labType": "ctf_challenge",
+      "environmentType": "browser_sandbox",
+      "estimatedMinutes": 40,
+      "isFreePreview": false,
+      "status": "published",
+      "tasks": [
+        {
+          "id": "task-c1-03",
+          "labId": "lab-c1-03",
+          "taskNumber": 1,
+          "title": "Bypass Authentication & Patch Query",
+          "instructions": "Test the authentication query with SQL injection payload. Then switch to the patch tab and parameterize the query to generate the defense flag.",
+          "hint": "Use standard SQL payload in username: admin or 1=1--",
+          "expectedFlagHash": "e7779ef46508dface08e68c5a3350525b6915bf999d93941bbfaa335e335a1e1",
+          "flagFormat": "PMU{...}",
+          "points": 35
+        }
+      ],
+      "sandboxConfig": {
+        "interactiveType": "sqli_sandbox"
+      }
+    },
+    {
+      "id": "lab-c1-04",
+      "courseId": "c0000000-0000-0000-0000-000000000003",
+      "moduleId": "m0000000-0000-0000-0000-000000000014",
+      "lessonId": "lesson-c1-05",
+      "title": "SOC Analyst Incident Log Investigation",
+      "slug": "soc-analyst-incident-log-investigation",
+      "description": "Investigate an alert surge in synthetic Apache & SSH logs, identify the attacker brute-force IP, and uncover the exfiltrated credential flag.",
+      "difficulty": "intermediate",
+      "labType": "investigation",
+      "environmentType": "browser_sandbox",
+      "estimatedMinutes": 35,
+      "isFreePreview": false,
+      "status": "published",
+      "tasks": [
+        {
+          "id": "task-c1-04",
+          "labId": "lab-c1-04",
+          "taskNumber": 1,
+          "title": "Detect Compromised User Account & Exfiltration",
+          "instructions": "Filter by sshd and identify which user was compromised after 3 failed password attempts. Review the sudo command and capture the incident flag.",
+          "hint": "Check the incident case 101 log entries. Look for sudo /bin/cat.",
+          "expectedFlagHash": "2555876d84702c38a6112e06789bf334b3475bc6cd1a4beffc589757b1e2a77c",
+          "flagFormat": "PMU{...}",
+          "points": 35
+        }
+      ],
+      "sandboxConfig": {
+        "interactiveType": "soc_log_viewer"
+      }
+    },
+    {
+      "id": "lab-c1-05",
+      "courseId": "c0000000-0000-0000-0000-000000000003",
+      "moduleId": "m0000000-0000-0000-0000-000000000015",
+      "title": "Steganography & Crypto Flag Hunter",
+      "slug": "steganography-and-crypto-flag-hunter",
+      "description": "Decode nested Base64 strings, reverse XOR byte masking, and recover the CTF master flag from synthetic forensic artifacts.",
+      "difficulty": "intermediate",
+      "labType": "ctf_challenge",
+      "environmentType": "browser_sandbox",
+      "estimatedMinutes": 35,
+      "isFreePreview": false,
+      "status": "published",
+      "tasks": [
+        {
+          "id": "task-c1-05",
+          "labId": "lab-c1-05",
+          "taskNumber": 1,
+          "title": "Reverse XOR Byte Masking and Extract Master Flag",
+          "instructions": "Use the interactive byte decoder to unmask the hidden ciphertext with XOR key 0x5A.",
+          "hint": "Enter the encoded payload in the CTF byte tool.",
+          "expectedFlagHash": "34d3193c57c713022ada9e7f9365e45f05569a965a68fb0fe341dd02438276a6",
+          "flagFormat": "PMU{...}",
+          "points": 50
+        }
+      ],
+      "sandboxConfig": {
+        "interactiveType": "crypto_ctf"
+      }
+    }
+  ],
+  "cyberIncidentCases": [
+    {
+      "id": "case-c1-01",
+      "courseId": "c0000000-0000-0000-0000-000000000003",
+      "title": "Incident Investigation 101: SSH Brute Force Surge",
+      "description": "A sudden spike in failed SSH authentications was alerted by the IDS. Review the raw syslog lines, find the offending external IP address, identify the compromised account, and submit the remediation flag.",
+      "difficulty": "beginner",
+      "isFreePreview": true,
+      "status": "published",
+      "logData": [
+        {
+          "timestamp": "2026-11-04T02:14:01Z",
+          "service": "sshd",
+          "status": "Failed password for root from 198.51.100.42 port 49152 ssh2"
+        },
+        {
+          "timestamp": "2026-11-04T02:14:03Z",
+          "service": "sshd",
+          "status": "Failed password for admin from 198.51.100.42 port 49153 ssh2"
+        },
+        {
+          "timestamp": "2026-11-04T02:14:07Z",
+          "service": "sshd",
+          "status": "Failed password for deploy from 198.51.100.42 port 49154 ssh2"
+        },
+        {
+          "timestamp": "2026-11-04T02:14:15Z",
+          "service": "sshd",
+          "status": "Accepted password for devops from 198.51.100.42 port 49155 ssh2"
+        },
+        {
+          "timestamp": "2026-11-04T02:14:18Z",
+          "service": "sudo",
+          "status": "devops : TTY=pts/0 ; PWD=/home/devops ; USER=root ; COMMAND=/bin/cat /etc/shadow"
+        }
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "prompt": "What is the source IP of the attacker?",
+          "correctAnswer": "198.51.100.42"
+        },
+        {
+          "id": "q2",
+          "prompt": "Which username was successfully compromised?",
+          "correctAnswer": "devops"
+        }
+      ]
+    }
+  ],
+  "cyberLabAttempts": [
+    {
+      "id": "att-1793797982920-m8nbn",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "test-user-cyber-1793797982918",
+      "submittedFlag": "PMU{wrong_guess}",
+      "isCorrect": false,
+      "pointsAwarded": 0,
+      "attemptNumber": 1,
+      "createdAt": "2026-11-04T13:13:02.920Z"
+    },
+    {
+      "id": "att-1793797982921-zcfa6",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "test-user-cyber-1793797982918",
+      "submittedFlag": "PMU{h3ad3r_s3cur1ty_mast3r}",
+      "isCorrect": true,
+      "pointsAwarded": 25,
+      "attemptNumber": 2,
+      "createdAt": "2026-11-04T13:13:02.921Z"
+    }
+  ],
+  "cyberLabProgress": [
+    {
+      "id": "prog-1793797982920-9vng4",
+      "userId": "test-user-cyber-1793797982918",
+      "labId": "lab-c1-01",
+      "status": "completed",
+      "tasksCompleted": 1,
+      "totalTasks": 1,
+      "score": 25,
+      "startedAt": "2026-11-04T13:13:02.920Z",
+      "completedAt": "2026-11-04T13:13:02.921Z",
+      "lastAttemptAt": "2026-11-04T13:13:02.921Z"
+    }
+  ],
+  "labAcceptances": [
+    {
+      "id": "acc-1793797982918-temhn",
+      "userId": "test-user-cyber-1793797982918",
+      "labId": "lab-c1-01",
+      "policyVersion": "1.0",
+      "acceptedAt": "2026-11-04T13:13:02.918Z",
+      "metadata": {
+        "test": true
+      }
+    }
+  ],
+  "webhookEvents": [
+    {
+      "id": "wh_1793797865964_3p61f8v",
+      "provider": "razorpay",
+      "eventId": "evt_test_sec_1793797865959",
+      "eventType": "payment.captured",
+      "payload": {
+        "event_id": "evt_test_sec_1793797865959",
+        "event": "payment.captured",
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_wh_sec_1793797865964",
+              "order_id": "order_wh_sec_1793797865959",
+              "amount": 99900,
+              "status": "captured"
+            }
+          }
+        }
+      },
+      "status": "processed",
+      "attempts": 2,
+      "receivedAt": "2026-11-04T13:11:05.964Z",
+      "processedAt": "2026-11-04T13:11:05.969Z"
+    },
+    {
+      "id": "wh_1793797992290_pe8zv33",
+      "provider": "razorpay",
+      "eventId": "evt_test_sec_1793797992281",
+      "eventType": "payment.captured",
+      "payload": {
+        "event_id": "evt_test_sec_1793797992281",
+        "event": "payment.captured",
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_wh_sec_1793797992289",
+              "order_id": "order_wh_sec_1793797992281",
+              "amount": 99900,
+              "status": "captured"
+            }
+          }
+        }
+      },
+      "status": "processed",
+      "attempts": 2,
+      "receivedAt": "2026-11-04T13:13:12.290Z",
+      "processedAt": "2026-11-04T13:13:12.296Z"
+    }
+  ],
+  "rateLimitEvents": [
+    {
+      "id": "rl_1793797865971_rm5eb",
+      "bucketKey": "otp_send_phone",
+      "identifier": "sec_user_1793797865970",
+      "count": 3,
+      "windowStart": 1793797865971,
+      "expiresAt": 1793798465971,
+      "createdAt": "2026-11-04T13:11:05.971Z"
+    },
+    {
+      "id": "rl_1793797865973_a8hkw",
+      "bucketKey": "otp_verify",
+      "identifier": "sec_user_1793797865970",
+      "count": 5,
+      "windowStart": 1793797865973,
+      "expiresAt": 1793798465973,
+      "createdAt": "2026-11-04T13:11:05.973Z"
+    },
+    {
+      "id": "rl_1793797865977_snq3r",
+      "bucketKey": "quantum_early_adopter_claim",
+      "identifier": "sec_user_1793797865970",
+      "count": 5,
+      "windowStart": 1793797865977,
+      "expiresAt": 1793801465977,
+      "createdAt": "2026-11-04T13:11:05.977Z"
+    },
+    {
+      "id": "rl_1793797865981_a0z07",
+      "bucketKey": "certificate_pdf_download",
+      "identifier": "sec_user_1793797865970",
+      "count": 10,
+      "windowStart": 1793797865981,
+      "expiresAt": 1793801465981,
+      "createdAt": "2026-11-04T13:11:05.981Z"
+    },
+    {
+      "id": "rl_1793797865988_bj7sv",
+      "bucketKey": "certificate_public_verify",
+      "identifier": "sec_user_1793797865970",
+      "count": 30,
+      "windowStart": 1793797865988,
+      "expiresAt": 1793797925988,
+      "createdAt": "2026-11-04T13:11:05.988Z"
+    },
+    {
+      "id": "rl_1793797982923_ff2e5",
+      "bucketKey": "cyber_flag_submit",
+      "identifier": "test-user-cyber-1793797982918:test-limit",
+      "count": 1,
+      "windowStart": 1793797982923,
+      "expiresAt": 1793798042923,
+      "createdAt": "2026-11-04T13:13:02.923Z"
+    },
+    {
+      "id": "rl_1793797992300_b7qt6",
+      "bucketKey": "otp_send_phone",
+      "identifier": "sec_user_1793797992299",
+      "count": 3,
+      "windowStart": 1793797992300,
+      "expiresAt": 1793798592300,
+      "createdAt": "2026-11-04T13:13:12.300Z"
+    },
+    {
+      "id": "rl_1793797992305_o84s5",
+      "bucketKey": "otp_verify",
+      "identifier": "sec_user_1793797992299",
+      "count": 5,
+      "windowStart": 1793797992305,
+      "expiresAt": 1793798592305,
+      "createdAt": "2026-11-04T13:13:12.305Z"
+    },
+    {
+      "id": "rl_1793797992312_qrvd6",
+      "bucketKey": "quantum_early_adopter_claim",
+      "identifier": "sec_user_1793797992299",
+      "count": 5,
+      "windowStart": 1793797992312,
+      "expiresAt": 1793801592312,
+      "createdAt": "2026-11-04T13:13:12.312Z"
+    },
+    {
+      "id": "rl_1793797992318_szzxz",
+      "bucketKey": "certificate_pdf_download",
+      "identifier": "sec_user_1793797992299",
+      "count": 10,
+      "windowStart": 1793797992318,
+      "expiresAt": 1793801592318,
+      "createdAt": "2026-11-04T13:13:12.318Z"
+    },
+    {
+      "id": "rl_1793797992329_tk5au",
+      "bucketKey": "certificate_public_verify",
+      "identifier": "sec_user_1793797992299",
+      "count": 30,
+      "windowStart": 1793797992329,
+      "expiresAt": 1793798052329,
+      "createdAt": "2026-11-04T13:13:12.329Z"
     }
   ]
 }

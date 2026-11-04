@@ -12,7 +12,9 @@ export type RateLimitType =
   | "ai_doubts"
   | "cert_pdf"
   | "cert_verify"
-  | "public_stats";
+  | "public_stats"
+  | "cyber_flag_submit"
+  | "cyber_ai_doubt";
 
 export interface RateLimitConfig {
   requests: number;
@@ -39,6 +41,10 @@ export const RATE_LIMIT_CONFIGS: Record<RateLimitType, RateLimitConfig> = {
   cert_verify: { requests: 30, windowMs: 60 * 1000, windowSeconds: 60, upstashWindow: "1 m" },
   // 8. Public stats: max 60 requests per IP per minute
   public_stats: { requests: 60, windowMs: 60 * 1000, windowSeconds: 60, upstashWindow: "1 m" },
+  // 9. CyberSecurity flag submissions: max 10 requests per minute
+  cyber_flag_submit: { requests: 10, windowMs: 60 * 1000, windowSeconds: 60, upstashWindow: "1 m" },
+  // 10. Cyber AI doubt: max 20 requests per 10 minutes
+  cyber_ai_doubt: { requests: 20, windowMs: 10 * 60 * 1000, windowSeconds: 600, upstashWindow: "10 m" },
 };
 
 let redisClient: Redis | null = null;

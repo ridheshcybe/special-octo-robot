@@ -65,7 +65,16 @@ export default async function CourseDetailPage({ params }: Props) {
               </p>
             </div>
 
-            <div style={{ display: "flex", gap: "10px" }}>
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+              {course.slug.includes("cybersecurity") && (
+                <Link
+                  href="/prepmeup/cybersecurity/labs"
+                  className="pmu-btn-secondary"
+                  style={{ padding: "14px 20px", fontSize: "14px" }}
+                >
+                  🛡️ Hands-on Labs &amp; CTF →
+                </Link>
+              )}
               <Link
                 href={`/prepmeup/courses/${course.slug}/learn`}
                 className="pmu-btn-primary"

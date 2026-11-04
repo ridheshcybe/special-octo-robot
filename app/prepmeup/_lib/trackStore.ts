@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 import { getAppOverallMetrics, getAllAppUsers } from "./studentStore";
 
 export interface Track {
@@ -285,6 +286,86 @@ export interface RateLimitEventRecord {
   createdAt: string;
 }
 
+export interface CyberLabTask {
+  id: string;
+  labId: string;
+  taskNumber: number;
+  title: string;
+  instructions: string;
+  hint?: string;
+  expectedFlagHash: string;
+  flagFormat: string;
+  points: number;
+}
+
+export interface CyberLab {
+  id: string;
+  courseId: string;
+  moduleId: string;
+  lessonId: string;
+  title: string;
+  slug: string;
+  description: string;
+  difficulty: "beginner" | "intermediate" | "advanced";
+  labType: "guided_lab" | "challenge_lab" | "ctf_challenge";
+  environmentType: "browser_sandbox" | "simulated_terminal" | "soc_log_viewer";
+  estimatedMinutes: number;
+  isFreePreview: boolean;
+  status: "draft" | "published" | "archived";
+  tasks: CyberLabTask[];
+  sandboxConfig: Record<string, any>;
+}
+
+export interface CyberLabAttempt {
+  id: string;
+  labId: string;
+  taskId: string;
+  userId: string;
+  submittedFlag: string;
+  isCorrect: boolean;
+  pointsAwarded: number;
+  attemptNumber: number;
+  createdAt: string;
+}
+
+export interface CyberLabProgress {
+  id: string;
+  userId: string;
+  labId: string;
+  status: "not_started" | "in_progress" | "completed";
+  tasksCompleted: number;
+  totalTasks: number;
+  score: number;
+  startedAt: string;
+  completedAt?: string;
+  lastAttemptAt?: string;
+}
+
+export interface CyberIncidentCase {
+  id: string;
+  courseId: string;
+  moduleId: string;
+  title: string;
+  slug: string;
+  description: string;
+  scenarioType: string;
+  threatActorProfile: Record<string, any>;
+  evidenceArtifacts: Record<string, any>;
+  investigationSteps: string[];
+  remediationPlan: Record<string, any>;
+  isFreePreview: boolean;
+  status: "draft" | "published" | "archived";
+}
+
+export interface LabAcceptance {
+  id: string;
+  userId: string;
+  labId: string;
+  policyVersion: string;
+  acceptedAt: string;
+  metadata?: Record<string, any>;
+}
+
 interface TrackStoreState {
   tracks: Track[];
   instructors: Instructor[];
@@ -305,6 +386,11 @@ interface TrackStoreState {
   earlyAdopterRedemptions: EarlyAdopterRedemption[];
   webhookEvents?: WebhookEventRecord[];
   rateLimitEvents?: RateLimitEventRecord[];
+  cyberLabs?: CyberLab[];
+  cyberLabAttempts?: CyberLabAttempt[];
+  cyberLabProgress?: CyberLabProgress[];
+  cyberIncidentCases?: CyberIncidentCase[];
+  labAcceptances?: LabAcceptance[];
 }
 
 let cachedState: TrackStoreState | null = null;
@@ -334,6 +420,11 @@ export function loadState(): TrackStoreState {
       if (!Array.isArray(cachedState!.earlyAdopterRedemptions)) cachedState!.earlyAdopterRedemptions = [];
       if (!Array.isArray(cachedState!.webhookEvents)) cachedState!.webhookEvents = [];
       if (!Array.isArray(cachedState!.rateLimitEvents)) cachedState!.rateLimitEvents = [];
+      if (!Array.isArray(cachedState!.cyberLabs)) cachedState!.cyberLabs = [];
+      if (!Array.isArray(cachedState!.cyberLabAttempts)) cachedState!.cyberLabAttempts = [];
+      if (!Array.isArray(cachedState!.cyberLabProgress)) cachedState!.cyberLabProgress = [];
+      if (!Array.isArray(cachedState!.cyberIncidentCases)) cachedState!.cyberIncidentCases = [];
+      if (!Array.isArray(cachedState!.labAcceptances)) cachedState!.labAcceptances = [];
       return cachedState!;
     }
   } catch (err) {
@@ -361,6 +452,11 @@ export function loadState(): TrackStoreState {
     earlyAdopterRedemptions: [],
     webhookEvents: [],
     rateLimitEvents: [],
+    cyberLabs: [],
+    cyberLabAttempts: [],
+    cyberLabProgress: [],
+    cyberIncidentCases: [],
+    labAcceptances: [],
   };
 
   return cachedState;
@@ -977,7 +1073,12 @@ export function checkUserCourseAccess(
     return { hasAccess: true, isFreePreviewOnly: false, role: "admin" };
   }
 
-  if (userTarget.includes("vaidya") || userTarget.includes("instructor")) {
+  if (
+    userTarget.includes("vaidya") ||
+    userTarget.includes("weber") ||
+    userTarget.includes("marcus") ||
+    userTarget.includes("instructor")
+  ) {
     return { hasAccess: true, isFreePreviewOnly: false, role: "instructor" };
   }
 
@@ -1616,4 +1717,223 @@ export function rescheduleMentorshipSession(
   persistState();
 
   return { success: true, session: updatedSession };
+}
+
+// ==========================================
+// CYBERSECURITY TRACK & LABS HELPERS
+// ==========================================
+
+export function getAllCyberLabs(publishedOnly = true): CyberLab[] {
+  const state = loadState();
+  const labs = state.cyberLabs || [];
+  if (publishedOnly) {
+    return labs.filter((l) => l.status === "published");
+  }
+  return labs;
+}
+
+export function getCyberLabBySlug(slug: string): CyberLab | undefined {
+  const state = loadState();
+  return (state.cyberLabs || []).find((l) => l.slug === slug);
+}
+
+export function getCyberLabById(id: string): CyberLab | undefined {
+  const state = loadState();
+  return (state.cyberLabs || []).find((l) => l.id === id);
+}
+
+export function recordLabAcceptance(
+  userId: string,
+  labId: string,
+  policyVersion = "1.0",
+  metadata: Record<string, any> = {}
+): { success: boolean; acceptance: LabAcceptance } {
+  const state = loadState();
+  if (!state.labAcceptances) state.labAcceptances = [];
+
+  const existingIndex = state.labAcceptances.findIndex(
+    (a) => a.userId === userId && a.labId === labId && a.policyVersion === policyVersion
+  );
+
+  const acceptance: LabAcceptance = {
+    id:
+      existingIndex >= 0
+        ? state.labAcceptances[existingIndex].id
+        : `acc-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+    userId,
+    labId,
+    policyVersion,
+    acceptedAt: new Date().toISOString(),
+    metadata,
+  };
+
+  if (existingIndex >= 0) {
+    state.labAcceptances[existingIndex] = acceptance;
+  } else {
+    state.labAcceptances.push(acceptance);
+  }
+
+  persistState();
+  return { success: true, acceptance };
+}
+
+export function hasUserAcceptedLabPolicy(
+  userId: string | null | undefined,
+  labId: string,
+  policyVersion = "1.0"
+): boolean {
+  if (!userId) return false;
+  const state = loadState();
+  return (state.labAcceptances || []).some(
+    (a) => a.userId === userId && a.labId === labId && a.policyVersion === policyVersion
+  );
+}
+
+export function getUserCyberLabProgress(
+  userId: string | null | undefined,
+  labId: string
+): CyberLabProgress | undefined {
+  if (!userId) return undefined;
+  const state = loadState();
+  return (state.cyberLabProgress || []).find(
+    (p) => p.userId === userId && p.labId === labId
+  );
+}
+
+export function getAllUserCyberProgress(
+  userId: string | null | undefined
+): CyberLabProgress[] {
+  if (!userId) return [];
+  const state = loadState();
+  return (state.cyberLabProgress || []).filter((p) => p.userId === userId);
+}
+
+export function submitCyberLabFlag(params: {
+  userId: string;
+  labSlug: string;
+  taskId?: string;
+  submittedFlag: string;
+}): {
+  success: boolean;
+  isCorrect: boolean;
+  pointsAwarded: number;
+  message: string;
+  attemptsCount: number;
+} {
+  const { userId, labSlug, taskId, submittedFlag } = params;
+  const state = loadState();
+
+  const lab = (state.cyberLabs || []).find((l) => l.slug === labSlug);
+  if (!lab) {
+    return {
+      success: false,
+      isCorrect: false,
+      pointsAwarded: 0,
+      message: "Lab not found.",
+      attemptsCount: 0,
+    };
+  }
+
+  const task = taskId ? lab.tasks.find((t) => t.id === taskId) : lab.tasks[0];
+
+  if (!task) {
+    return {
+      success: false,
+      isCorrect: false,
+      pointsAwarded: 0,
+      message: "Task not found.",
+      attemptsCount: 0,
+    };
+  }
+
+  if (!state.cyberLabAttempts) state.cyberLabAttempts = [];
+  if (!state.cyberLabProgress) state.cyberLabProgress = [];
+
+  const priorAttempts = state.cyberLabAttempts.filter(
+    (a) => a.userId === userId && a.taskId === task.id
+  );
+  const attemptNumber = priorAttempts.length + 1;
+
+  // Check if flag matches SHA-256
+  const cleanFlag = submittedFlag.trim();
+  const flagHash = crypto.createHash("sha256").update(cleanFlag).digest("hex");
+  const isCorrect = flagHash.toLowerCase() === task.expectedFlagHash.toLowerCase();
+
+  const pointsAwarded = isCorrect ? task.points : 0;
+
+  const attempt: CyberLabAttempt = {
+    id: `att-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+    labId: lab.id,
+    taskId: task.id,
+    userId,
+    submittedFlag: cleanFlag,
+    isCorrect,
+    pointsAwarded,
+    attemptNumber,
+    createdAt: new Date().toISOString(),
+  };
+  state.cyberLabAttempts.push(attempt);
+
+  // Update progress
+  let progress = state.cyberLabProgress.find(
+    (p) => p.userId === userId && p.labId === lab.id
+  );
+
+  const now = new Date().toISOString();
+  if (!progress) {
+    progress = {
+      id: `prog-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      userId,
+      labId: lab.id,
+      status: isCorrect ? "completed" : "in_progress",
+      tasksCompleted: isCorrect ? 1 : 0,
+      totalTasks: lab.tasks.length,
+      score: pointsAwarded,
+      startedAt: now,
+      completedAt: isCorrect ? now : undefined,
+      lastAttemptAt: now,
+    };
+    state.cyberLabProgress.push(progress);
+  } else {
+    progress.lastAttemptAt = now;
+    if (isCorrect && progress.status !== "completed") {
+      progress.status = "completed";
+      progress.tasksCompleted = lab.tasks.length;
+      progress.score = task.points;
+      progress.completedAt = now;
+    } else if (!isCorrect && progress.status === "not_started") {
+      progress.status = "in_progress";
+    }
+  }
+
+  persistState();
+
+  return {
+    success: true,
+    isCorrect,
+    pointsAwarded,
+    message: isCorrect
+      ? "Success! Flag captured and verified."
+      : "Incorrect flag. Re-check the evidence or inspect hint.",
+    attemptsCount: attemptNumber,
+  };
+}
+
+export function getAllCyberIncidentCases(publishedOnly = true): CyberIncidentCase[] {
+  const state = loadState();
+  const cases = state.cyberIncidentCases || [];
+  if (publishedOnly) {
+    return cases.filter((c) => c.status === "published");
+  }
+  return cases;
+}
+
+export function getCyberIncidentCaseBySlug(slug: string): CyberIncidentCase | undefined {
+  const state = loadState();
+  return (state.cyberIncidentCases || []).find((c) => c.slug === slug);
+}
+
+export function getCyberIncidentCaseById(id: string): CyberIncidentCase | undefined {
+  const state = loadState();
+  return (state.cyberIncidentCases || []).find((c) => c.id === id);
 }
