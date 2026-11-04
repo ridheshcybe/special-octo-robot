@@ -14,7 +14,9 @@ export type RateLimitType =
   | "cert_verify"
   | "public_stats"
   | "cyber_flag_submit"
-  | "cyber_ai_doubt";
+  | "cyber_ai_doubt"
+  | "cyber_checkout"
+  | "cyber_early_adopter_claim";
 
 export interface RateLimitConfig {
   requests: number;
@@ -45,6 +47,10 @@ export const RATE_LIMIT_CONFIGS: Record<RateLimitType, RateLimitConfig> = {
   cyber_flag_submit: { requests: 10, windowMs: 60 * 1000, windowSeconds: 60, upstashWindow: "1 m" },
   // 10. Cyber AI doubt: max 20 requests per 10 minutes
   cyber_ai_doubt: { requests: 20, windowMs: 10 * 60 * 1000, windowSeconds: 600, upstashWindow: "10 m" },
+  // 11. CyberSecurity checkout: max 10 attempts per user/IP per hour
+  cyber_checkout: { requests: 10, windowMs: 60 * 60 * 1000, windowSeconds: 3600, upstashWindow: "1 h" },
+  // 12. CyberSecurity early adopter claim: max 5 attempts per user/IP per hour
+  cyber_early_adopter_claim: { requests: 5, windowMs: 60 * 60 * 1000, windowSeconds: 3600, upstashWindow: "1 h" },
 };
 
 let redisClient: Redis | null = null;

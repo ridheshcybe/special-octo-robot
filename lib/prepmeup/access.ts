@@ -1,6 +1,8 @@
 import {
   getQuantumEnrollment,
   getQuantumMentorshipPacks,
+  getCyberEnrollment,
+  getCyberMentorshipPacks,
   checkUserCourseAccess,
   CourseLesson,
   QuantumQuiz,
@@ -10,6 +12,19 @@ import {
 } from "@/app/prepmeup/_lib/trackStore";
 
 export interface QuantumAccessSummary {
+  userId: string;
+  courseId: string;
+  hasSemesterPass: boolean;
+  hasMentorshipPack: boolean;
+  availableMentorshipSessions: number;
+  accessType: "free_preview" | "semester_pass" | "mentorship_pack" | "admin_granted" | "none";
+  status: "active" | "expired" | "cancelled" | "revoked" | "none";
+  expiresAt?: string;
+  canAccessPaidContent: boolean;
+  canBookMentorship: boolean;
+}
+
+export interface CyberAccessSummary {
   userId: string;
   courseId: string;
   hasSemesterPass: boolean;
@@ -192,18 +207,70 @@ export function getQuantumAccessSummary(
 }
 
 /**
+ * Checks whether user has an active CyberSecurity Semester Pass or admin-granted access
+ */
+export function hasCyberSemesterPass(
+  userId: string | null | undefined,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): boolean {
+  if (!userId) return false;
+
+  const access = checkUserCourseAccess(userId, courseId);
+  if (access.role === "admin" || access.role === "instructor") return true;
+
+  const enrollment = getCyberEnrollment(userId, courseId);
+  if (!enrollment) return false;
+
+  if (enrollment.status !== "active") return false;
+
+  // Immediate expiration check
+  if (enrollment.expiresAt && new Date(enrollment.expiresAt) < new Date()) {
+    return false;
+  }
+
+  return (
+    enrollment.accessType === "semester_pass" ||
+    enrollment.accessType === "admin_granted"
+  );
+}
+
+/**
+ * Checks whether user has an active, unexhausted CyberSecurity Mentorship Pack
+ */
+export function hasCyberMentorshipPack(
+  userId: string | null | undefined,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): boolean {
+  if (!userId) return false;
+  const packs = getCyberMentorshipPacks(userId, courseId);
+  return packs.length > 0;
+}
+
+/**
  * Checks whether user can access a specific CyberSecurity lab
  */
 export function canAccessCyberLab(
   userId: string | null | undefined,
-  lab: { isFreePreview?: boolean } | null | undefined,
+  lab:
+    | { isFreePreview?: boolean; is_free_preview?: boolean; slug?: string; id?: string }
+    | string
+    | null
+    | undefined,
   courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
 ): boolean {
   if (!lab) return false;
-  if (lab.isFreePreview) return true;
-  if (!userId) return false;
-  const access = checkUserCourseAccess(userId, courseId);
-  return access.hasAccess;
+  if (typeof lab === "string") {
+    if (lab === "lab-c1-01") return true;
+    return hasCyberSemesterPass(userId, courseId);
+  }
+  const isFree = Boolean(
+    lab.isFreePreview ||
+      lab.is_free_preview ||
+      lab.slug === "lab-c1-01" ||
+      lab.id === "lab-c1-01"
+  );
+  if (isFree) return true;
+  return hasCyberSemesterPass(userId, courseId);
 }
 
 /**
@@ -211,14 +278,26 @@ export function canAccessCyberLab(
  */
 export function canAccessCyberLesson(
   userId: string | null | undefined,
-  lesson: { isFreePreview?: boolean } | null | undefined,
+  lesson:
+    | { isFreePreview?: boolean; slug?: string; id?: string }
+    | string
+    | null
+    | undefined,
   courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
 ): boolean {
   if (!lesson) return false;
-  if (lesson.isFreePreview) return true;
-  if (!userId) return false;
-  const access = checkUserCourseAccess(userId, courseId);
-  return access.hasAccess;
+  if (typeof lesson === "string") {
+    if (lesson === "lesson-c1-01") return true;
+    return hasCyberSemesterPass(userId, courseId);
+  }
+  if (
+    lesson.isFreePreview ||
+    lesson.slug === "lesson-c1-01" ||
+    lesson.id === "lesson-c1-01"
+  ) {
+    return true;
+  }
+  return hasCyberSemesterPass(userId, courseId);
 }
 
 /**
@@ -226,12 +305,135 @@ export function canAccessCyberLesson(
  */
 export function canAccessCyberIncidentCase(
   userId: string | null | undefined,
-  incidentCase: { isFreePreview?: boolean } | null | undefined,
+  incidentCase:
+    | { isFreePreview?: boolean; slug?: string; id?: string }
+    | string
+    | null
+    | undefined,
   courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
 ): boolean {
   if (!incidentCase) return false;
-  if (incidentCase.isFreePreview) return true;
+  if (typeof incidentCase === "string") {
+    if (incidentCase === "case-c1-01") return true;
+    return hasCyberSemesterPass(userId, courseId);
+  }
+  if (
+    incidentCase.isFreePreview ||
+    incidentCase.slug === "case-c1-01" ||
+    incidentCase.id === "case-c1-01"
+  ) {
+    return true;
+  }
+  return hasCyberSemesterPass(userId, courseId);
+}
+
+/**
+ * Checks whether user can take a specific CyberSecurity quiz
+ */
+export function canAccessCyberQuiz(
+  userId: string | null | undefined,
+  quiz:
+    | { isFreePreview?: boolean; is_free_preview?: boolean; slug?: string; id?: string }
+    | string
+    | null
+    | undefined,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): boolean {
+  if (!quiz) return false;
+  if (typeof quiz === "string") {
+    if (quiz === "quiz-cyber-01") return true;
+    return hasCyberSemesterPass(userId, courseId);
+  }
+  const isFree = Boolean(
+    quiz.isFreePreview ||
+      quiz.is_free_preview ||
+      quiz.slug === "quiz-cyber-01" ||
+      quiz.id === "quiz-cyber-01"
+  );
+  if (isFree) return true;
+  return hasCyberSemesterPass(userId, courseId);
+}
+
+/**
+ * Checks whether user can book a 1-on-1 CyberSecurity mentorship session
+ */
+export function canBookCyberMentorship(
+  userId: string | null | undefined,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): boolean {
   if (!userId) return false;
+
   const access = checkUserCourseAccess(userId, courseId);
-  return access.hasAccess;
+  if (access.role === "admin" || access.role === "instructor") return true;
+
+  const packs = getCyberMentorshipPacks(userId, courseId);
+  const totalAvailable = packs.reduce(
+    (sum, p) => sum + Math.max(0, p.totalSessions - p.usedSessions),
+    0
+  );
+
+  return totalAvailable > 0;
+}
+
+/**
+ * Returns comprehensive CyberSecurity access summary for a student
+ */
+export function getCyberAccessSummary(
+  userId: string | null | undefined,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): CyberAccessSummary {
+  if (!userId) {
+    return {
+      userId: "",
+      courseId,
+      hasSemesterPass: false,
+      hasMentorshipPack: false,
+      availableMentorshipSessions: 0,
+      accessType: "none",
+      status: "none",
+      canAccessPaidContent: false,
+      canBookMentorship: false,
+    };
+  }
+
+  const roleAccess = checkUserCourseAccess(userId, courseId);
+  if (roleAccess.role === "admin" || roleAccess.role === "instructor") {
+    return {
+      userId,
+      courseId,
+      hasSemesterPass: true,
+      hasMentorshipPack: true,
+      availableMentorshipSessions: 99,
+      accessType: "admin_granted",
+      status: "active",
+      canAccessPaidContent: true,
+      canBookMentorship: true,
+    };
+  }
+
+  const enrollment = getCyberEnrollment(userId, courseId);
+  const packs = getCyberMentorshipPacks(userId, courseId);
+  const availableMentorshipSessions = packs.reduce(
+    (sum, p) => sum + Math.max(0, p.totalSessions - p.usedSessions),
+    0
+  );
+
+  const hasSemesterPass =
+    Boolean(enrollment && enrollment.status === "active") &&
+    (enrollment?.accessType === "semester_pass" || enrollment?.accessType === "admin_granted");
+
+  const hasMentorshipPack = availableMentorshipSessions > 0;
+
+  return {
+    userId,
+    courseId,
+    hasSemesterPass,
+    hasMentorshipPack,
+    availableMentorshipSessions,
+    accessType: enrollment?.accessType || "none",
+    status: enrollment?.status || "none",
+    expiresAt: enrollment?.expiresAt,
+    canAccessPaidContent: hasSemesterPass,
+    canBookMentorship: availableMentorshipSessions > 0,
+  };
 }

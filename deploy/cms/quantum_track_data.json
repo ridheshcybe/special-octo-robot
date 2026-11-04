@@ -1391,6 +1391,24 @@
       "endAt": "2026-11-06T13:58:12.363Z",
       "durationMinutes": 45,
       "status": "available"
+    },
+    {
+      "id": "slot_a_1793802805116",
+      "instructorSlug": "dr-elena-rostova",
+      "instructorName": "Dr. Elena Rostova",
+      "startAt": "2026-11-05T14:33:25.116Z",
+      "endAt": "2026-11-05T15:18:25.116Z",
+      "durationMinutes": 45,
+      "status": "available"
+    },
+    {
+      "id": "slot_b_1793802805116",
+      "instructorSlug": "dr-elena-rostova",
+      "instructorName": "Dr. Elena Rostova",
+      "startAt": "2026-11-06T14:33:25.116Z",
+      "endAt": "2026-11-06T15:18:25.116Z",
+      "durationMinutes": 45,
+      "status": "available"
     }
   ],
   "mentorshipSessions": [
@@ -1493,6 +1511,48 @@
         }
       ],
       "isRefunded": true
+    },
+    {
+      "id": "session_resched_1793802805116",
+      "slotId": "slot_b_1793802805116",
+      "courseSlug": "quantum-computing-foundations",
+      "instructorSlug": "dr-elena-rostova",
+      "instructorName": "Dr. Elena Rostova",
+      "studentName": "Reschedule Test Student",
+      "studentEmail": "student_resched_1793802805114@example.com",
+      "sessionType": "quantum_doubt_clearing",
+      "scheduledAt": "2026-11-06T14:33:25.116Z",
+      "durationMinutes": 45,
+      "status": "cancelled",
+      "studentNotes": "Initial booking",
+      "instructorNotes": "",
+      "rescheduledFromSlotId": "slot_a_1793802805116",
+      "lastRescheduledAt": "2026-11-04T14:33:25.118Z",
+      "auditTrail": [
+        {
+          "transition": "rescheduled",
+          "fromStatus": "confirmed",
+          "toStatus": "confirmed",
+          "timestamp": "2026-11-04T14:33:25.118Z",
+          "actor": "student_resched_1793802805114@example.com",
+          "details": {
+            "fromSlotId": "slot_a_1793802805116",
+            "toSlotId": "slot_b_1793802805116",
+            "scheduledAt": "2026-11-06T14:33:25.116Z"
+          }
+        },
+        {
+          "transition": "confirmed->cancelled",
+          "fromStatus": "confirmed",
+          "toStatus": "cancelled",
+          "timestamp": "2026-11-04T14:33:25.120Z",
+          "actor": "student",
+          "details": {
+            "isRefunded": true
+          }
+        }
+      ],
+      "isRefunded": true
     }
   ],
   "pendingApprovals": [
@@ -1544,6 +1604,50 @@
       "issueDate": "2026-11-03T10:00:00.000Z",
       "status": "issued",
       "verificationUrl": "https://prepmeupai.in/prepmeup/verify-certificate/PMU-QC-2026-8F2A19"
+    },
+    {
+      "code": "PMU-CYB-2026-3126E3",
+      "studentTarget": "student_c2_cert_1793802684571",
+      "studentName": "Vikram Malhotra",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "courseTitle": "CyberSecurity Foundations: Ethical Hacking, SOC & CTF",
+      "instructorName": "Dr. Marcus Weber, PhD",
+      "issueDate": "2026-11-04T14:31:24.574Z",
+      "status": "issued",
+      "verificationUrl": "https://prepmeup.ai/prepmeup/verify-certificate/PMU-CYB-2026-3126E3"
+    },
+    {
+      "code": "PMU-CYB-2026-CBF07F",
+      "studentTarget": "student_c2_cert_1793802709495",
+      "studentName": "Vikram Malhotra",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "courseTitle": "CyberSecurity Foundations: Ethical Hacking, SOC & CTF",
+      "instructorName": "Dr. Marcus Weber, PhD",
+      "issueDate": "2026-11-04T14:31:49.498Z",
+      "status": "issued",
+      "verificationUrl": "https://prepmeup.ai/prepmeup/verify-certificate/PMU-CYB-2026-CBF07F"
+    },
+    {
+      "code": "PMU-CYB-2026-86F84C",
+      "studentTarget": "student_c2_cert_1793802743674",
+      "studentName": "Vikram Malhotra",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "courseTitle": "CyberSecurity Foundations: Ethical Hacking, SOC & CTF",
+      "instructorName": "Dr. Marcus Weber, PhD",
+      "issueDate": "2026-11-04T14:32:23.677Z",
+      "status": "issued",
+      "verificationUrl": "https://prepmeup.ai/prepmeup/verify-certificate/PMU-CYB-2026-86F84C"
+    },
+    {
+      "code": "PMU-CYB-2026-19FB3C",
+      "studentTarget": "student_c2_cert_1793802796110",
+      "studentName": "Vikram Malhotra",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "courseTitle": "CyberSecurity Foundations: Ethical Hacking, SOC & CTF",
+      "instructorName": "Dr. Marcus Weber, PhD",
+      "issueDate": "2026-11-04T14:33:16.113Z",
+      "status": "issued",
+      "verificationUrl": "https://prepmeup.ai/prepmeup/verify-certificate/PMU-CYB-2026-19FB3C"
     }
   ],
   "studentQuantumProgress": {
@@ -1625,6 +1729,450 @@
       "expiresAt": "2027-05-03T13:13:12.292Z",
       "createdAt": "2026-11-04T13:13:12.292Z",
       "updatedAt": "2026-11-04T13:13:12.292Z"
+    },
+    {
+      "id": "enr-cyb-1793802499292-0ced",
+      "userId": "student_c2_pass_1793802499288",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:28:19.292Z",
+      "expiresAt": "2027-05-03T14:28:19.292Z",
+      "createdAt": "2026-11-04T14:28:19.292Z",
+      "updatedAt": "2026-11-04T14:28:19.292Z"
+    },
+    {
+      "id": "enr-cyb-1793802555940-deee",
+      "userId": "student_c2_pass_1793802555935",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:29:15.940Z",
+      "expiresAt": "2027-05-03T14:29:15.940Z",
+      "createdAt": "2026-11-04T14:29:15.940Z",
+      "updatedAt": "2026-11-04T14:29:15.940Z"
+    },
+    {
+      "id": "enr-cyb-1793802555951-f28f",
+      "userId": "early_adopter_c2_user_1793802555951_0",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:29:15.951Z",
+      "expiresAt": "2027-05-03T14:29:15.951Z",
+      "createdAt": "2026-11-04T14:29:15.951Z",
+      "updatedAt": "2026-11-04T14:29:15.951Z"
+    },
+    {
+      "id": "enr-cyb-1793802555954-7237",
+      "userId": "early_adopter_c2_user_1793802555954_1",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:29:15.954Z",
+      "expiresAt": "2027-05-03T14:29:15.954Z",
+      "createdAt": "2026-11-04T14:29:15.954Z",
+      "updatedAt": "2026-11-04T14:29:15.954Z"
+    },
+    {
+      "id": "enr-cyb-1793802555956-0ce0",
+      "userId": "early_adopter_c2_user_1793802555956_2",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:29:15.956Z",
+      "expiresAt": "2027-05-03T14:29:15.956Z",
+      "createdAt": "2026-11-04T14:29:15.956Z",
+      "updatedAt": "2026-11-04T14:29:15.956Z"
+    },
+    {
+      "id": "enr-cyb-1793802555958-2373",
+      "userId": "early_adopter_c2_user_1793802555958_3",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:29:15.958Z",
+      "expiresAt": "2027-05-03T14:29:15.958Z",
+      "createdAt": "2026-11-04T14:29:15.958Z",
+      "updatedAt": "2026-11-04T14:29:15.958Z"
+    },
+    {
+      "id": "enr-cyb-1793802555959-6545",
+      "userId": "early_adopter_c2_user_1793802555959_4",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:29:15.959Z",
+      "expiresAt": "2027-05-03T14:29:15.959Z",
+      "createdAt": "2026-11-04T14:29:15.959Z",
+      "updatedAt": "2026-11-04T14:29:15.959Z"
+    },
+    {
+      "id": "enr-cyb-1793802555962-c30d",
+      "userId": "early_adopter_c2_user_1793802555962_5",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:29:15.962Z",
+      "expiresAt": "2027-05-03T14:29:15.962Z",
+      "createdAt": "2026-11-04T14:29:15.962Z",
+      "updatedAt": "2026-11-04T14:29:15.962Z"
+    },
+    {
+      "id": "enr-cyb-1793802555963-791f",
+      "userId": "early_adopter_c2_user_1793802555963_6",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:29:15.963Z",
+      "expiresAt": "2027-05-03T14:29:15.963Z",
+      "createdAt": "2026-11-04T14:29:15.963Z",
+      "updatedAt": "2026-11-04T14:29:15.963Z"
+    },
+    {
+      "id": "enr-cyb-1793802555965-53f0",
+      "userId": "early_adopter_c2_user_1793802555965_7",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:29:15.965Z",
+      "expiresAt": "2027-05-03T14:29:15.965Z",
+      "createdAt": "2026-11-04T14:29:15.965Z",
+      "updatedAt": "2026-11-04T14:29:15.965Z"
+    },
+    {
+      "id": "enr-cyb-1793802555967-ded4",
+      "userId": "early_adopter_c2_user_1793802555967_8",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:29:15.967Z",
+      "expiresAt": "2027-05-03T14:29:15.967Z",
+      "createdAt": "2026-11-04T14:29:15.967Z",
+      "updatedAt": "2026-11-04T14:29:15.967Z"
+    },
+    {
+      "id": "enr-cyb-1793802555969-0b49",
+      "userId": "early_adopter_c2_user_1793802555969_9",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:29:15.969Z",
+      "expiresAt": "2027-05-03T14:29:15.969Z",
+      "createdAt": "2026-11-04T14:29:15.969Z",
+      "updatedAt": "2026-11-04T14:29:15.969Z"
+    },
+    {
+      "id": "enr-cyb-1793802579815-7ef5",
+      "userId": "student_c2_pass_1793802579811",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:29:39.815Z",
+      "expiresAt": "2027-05-03T14:29:39.815Z",
+      "createdAt": "2026-11-04T14:29:39.815Z",
+      "updatedAt": "2026-11-04T14:29:39.815Z"
+    },
+    {
+      "id": "enr-cyb-1793802649828-8d7f",
+      "userId": "student_c2_pass_1793802649824",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:30:49.828Z",
+      "expiresAt": "2027-05-03T14:30:49.828Z",
+      "createdAt": "2026-11-04T14:30:49.828Z",
+      "updatedAt": "2026-11-04T14:30:49.828Z"
+    },
+    {
+      "id": "enr-cyb-1793802684552-8454",
+      "userId": "student_c2_pass_1793802684548",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:31:24.552Z",
+      "expiresAt": "2027-05-03T14:31:24.552Z",
+      "createdAt": "2026-11-04T14:31:24.552Z",
+      "updatedAt": "2026-11-04T14:31:24.552Z"
+    },
+    {
+      "id": "enr-cyb-1793802684571-4c07",
+      "userId": "student_c2_cert_1793802684571",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:31:24.571Z",
+      "expiresAt": "2027-05-03T14:31:24.571Z",
+      "createdAt": "2026-11-04T14:31:24.571Z",
+      "updatedAt": "2026-11-04T14:31:24.571Z"
+    },
+    {
+      "id": "enr-cyb-1793802709477-3de7",
+      "userId": "student_c2_pass_1793802709473",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:31:49.477Z",
+      "expiresAt": "2027-05-03T14:31:49.477Z",
+      "createdAt": "2026-11-04T14:31:49.477Z",
+      "updatedAt": "2026-11-04T14:31:49.477Z"
+    },
+    {
+      "id": "enr-cyb-1793802709495-67aa",
+      "userId": "student_c2_cert_1793802709495",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:31:49.495Z",
+      "expiresAt": "2027-05-03T14:31:49.495Z",
+      "createdAt": "2026-11-04T14:31:49.495Z",
+      "updatedAt": "2026-11-04T14:31:49.495Z"
+    },
+    {
+      "id": "enr-cyb-1793802709500-d846",
+      "userId": "student_c2_admin_grant_1793802709500",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "admin_granted",
+      "status": "revoked",
+      "startsAt": "2026-11-04T14:31:49.500Z",
+      "expiresAt": "2027-05-03T14:31:49.500Z",
+      "createdAt": "2026-11-04T14:31:49.500Z",
+      "updatedAt": "2026-11-04T14:31:49.501Z"
+    },
+    {
+      "id": "enr-cyb-1793802743651-8e47",
+      "userId": "student_c2_pass_1793802743646",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:32:23.651Z",
+      "expiresAt": "2027-05-03T14:32:23.651Z",
+      "createdAt": "2026-11-04T14:32:23.651Z",
+      "updatedAt": "2026-11-04T14:32:23.651Z"
+    },
+    {
+      "id": "enr-cyb-1793802743674-439d",
+      "userId": "student_c2_cert_1793802743674",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:32:23.674Z",
+      "expiresAt": "2027-05-03T14:32:23.674Z",
+      "createdAt": "2026-11-04T14:32:23.674Z",
+      "updatedAt": "2026-11-04T14:32:23.674Z"
+    },
+    {
+      "id": "enr-cyb-1793802743679-8644",
+      "userId": "student_c2_manual_grant_1793802743679",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "admin_granted",
+      "status": "revoked",
+      "startsAt": "2026-11-04T14:32:23.679Z",
+      "expiresAt": "2027-05-03T14:32:23.679Z",
+      "createdAt": "2026-11-04T14:32:23.679Z",
+      "updatedAt": "2026-11-04T14:32:23.681Z"
+    },
+    {
+      "id": "enr-cyb-1793802796089-a10d",
+      "userId": "student_c2_pass_1793802796085",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:33:16.089Z",
+      "expiresAt": "2027-05-03T14:33:16.089Z",
+      "createdAt": "2026-11-04T14:33:16.089Z",
+      "updatedAt": "2026-11-04T14:33:16.089Z"
+    },
+    {
+      "id": "enr-cyb-1793802796110-40f1",
+      "userId": "student_c2_cert_1793802796110",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:33:16.110Z",
+      "expiresAt": "2027-05-03T14:33:16.110Z",
+      "createdAt": "2026-11-04T14:33:16.110Z",
+      "updatedAt": "2026-11-04T14:33:16.110Z"
+    },
+    {
+      "id": "enr-cyb-1793802796114-81fa",
+      "userId": "student_c2_manual_grant_1793802796114",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "admin_granted",
+      "status": "revoked",
+      "startsAt": "2026-11-04T14:33:16.114Z",
+      "expiresAt": "2027-05-03T14:33:16.114Z",
+      "createdAt": "2026-11-04T14:33:16.114Z",
+      "updatedAt": "2026-11-04T14:33:16.116Z"
+    },
+    {
+      "id": "enr-1793802805053-d8af",
+      "userId": "student_webhook_sec_1793802805048",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:33:25.053Z",
+      "expiresAt": "2027-05-03T14:33:25.053Z",
+      "createdAt": "2026-11-04T14:33:25.053Z",
+      "updatedAt": "2026-11-04T14:33:25.053Z"
+    },
+    {
+      "id": "enr-1793802810608-d7aa",
+      "userId": "student_q3_pass_1793802810602",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:33:30.608Z",
+      "expiresAt": "2027-05-03T14:33:30.608Z",
+      "createdAt": "2026-11-04T14:33:30.608Z",
+      "updatedAt": "2026-11-04T14:33:30.608Z"
+    },
+    {
+      "id": "enr-1793802810619-2bd0",
+      "userId": "early_scholar_1793802810619_1",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:33:30.619Z",
+      "expiresAt": "2027-05-03T14:33:30.619Z",
+      "createdAt": "2026-11-04T14:33:30.619Z",
+      "updatedAt": "2026-11-04T14:33:30.619Z"
+    },
+    {
+      "id": "enr-1793802810623-b258",
+      "userId": "early_scholar_1793802810623_2",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:33:30.623Z",
+      "expiresAt": "2027-05-03T14:33:30.623Z",
+      "createdAt": "2026-11-04T14:33:30.623Z",
+      "updatedAt": "2026-11-04T14:33:30.623Z"
+    },
+    {
+      "id": "enr-1793802810628-08ab",
+      "userId": "early_scholar_1793802810628_3",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:33:30.628Z",
+      "expiresAt": "2027-05-03T14:33:30.628Z",
+      "createdAt": "2026-11-04T14:33:30.628Z",
+      "updatedAt": "2026-11-04T14:33:30.628Z"
+    },
+    {
+      "id": "enr-1793802810632-13d6",
+      "userId": "early_scholar_1793802810632_4",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:33:30.632Z",
+      "expiresAt": "2027-05-03T14:33:30.632Z",
+      "createdAt": "2026-11-04T14:33:30.632Z",
+      "updatedAt": "2026-11-04T14:33:30.632Z"
+    },
+    {
+      "id": "enr-1793802810635-44f4",
+      "userId": "early_scholar_1793802810635_5",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:33:30.635Z",
+      "expiresAt": "2027-05-03T14:33:30.635Z",
+      "createdAt": "2026-11-04T14:33:30.635Z",
+      "updatedAt": "2026-11-04T14:33:30.635Z"
+    },
+    {
+      "id": "enr-1793802810639-80e9",
+      "userId": "early_scholar_1793802810639_6",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:33:30.639Z",
+      "expiresAt": "2027-05-03T14:33:30.639Z",
+      "createdAt": "2026-11-04T14:33:30.639Z",
+      "updatedAt": "2026-11-04T14:33:30.639Z"
+    },
+    {
+      "id": "enr-1793802810644-1e71",
+      "userId": "early_scholar_1793802810644_7",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:33:30.644Z",
+      "expiresAt": "2027-05-03T14:33:30.644Z",
+      "createdAt": "2026-11-04T14:33:30.644Z",
+      "updatedAt": "2026-11-04T14:33:30.644Z"
+    },
+    {
+      "id": "enr-1793802810648-5003",
+      "userId": "early_scholar_1793802810648_8",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T14:33:30.648Z",
+      "expiresAt": "2027-05-03T14:33:30.648Z",
+      "createdAt": "2026-11-04T14:33:30.648Z",
+      "updatedAt": "2026-11-04T14:33:30.648Z"
+    },
+    {
+      "id": "enr-1793802810654-f4b2",
+      "userId": "student_expired_1793802810654",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "expired",
+      "startsAt": "2026-11-04T14:33:30.654Z",
+      "expiresAt": "2026-11-03T14:33:30.654Z",
+      "createdAt": "2026-11-04T14:33:30.654Z",
+      "updatedAt": "2026-11-04T14:33:30.654Z"
+    },
+    {
+      "id": "enr-1793802810662-9bbb",
+      "userId": "student_scholar_grant_1793802810661",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "admin_granted",
+      "status": "revoked",
+      "startsAt": "2026-11-04T14:33:30.662Z",
+      "expiresAt": "2027-02-02T14:33:30.662Z",
+      "createdAt": "2026-11-04T14:33:30.662Z",
+      "updatedAt": "2026-11-04T14:33:30.664Z"
     }
   ],
   "orders": [
@@ -1669,6 +2217,45 @@
       "metadata": {},
       "createdAt": "2026-11-04T13:13:12.284Z",
       "updatedAt": "2026-11-04T13:13:12.292Z"
+    },
+    {
+      "id": "ord-1793802805051-30fa",
+      "userId": "student_webhook_sec_1793802805048",
+      "courseId": "quantum-computing-foundations",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_wh_sec_1793802805048",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {},
+      "createdAt": "2026-11-04T14:33:25.050Z",
+      "updatedAt": "2026-11-04T14:33:25.053Z"
+    },
+    {
+      "id": "ord-1793802810605-3de6",
+      "userId": "student_q3_pass_1793802810602",
+      "courseId": "quantum-computing-foundations",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_test_1793802810602",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {},
+      "createdAt": "2026-11-04T14:33:30.605Z",
+      "updatedAt": "2026-11-04T14:33:30.608Z"
+    },
+    {
+      "id": "ord-1793802810613-d0f1",
+      "userId": "student_q3_mentor_1793802810613",
+      "courseId": "quantum-computing-foundations",
+      "productType": "mentorship_pack",
+      "razorpayOrderId": "order_test_mentor_1793802810613",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {},
+      "createdAt": "2026-11-04T14:33:30.613Z",
+      "updatedAt": "2026-11-04T14:33:30.614Z"
     }
   ],
   "payments": [
@@ -1711,6 +2298,47 @@
       "webhookStatus": "processed",
       "createdAt": "2026-11-04T13:13:12.292Z",
       "updatedAt": "2026-11-04T13:13:12.292Z"
+    },
+    {
+      "id": "pay-1793802805053-08ad",
+      "orderId": "ord-1793802805051-30fa",
+      "userId": "student_webhook_sec_1793802805048",
+      "razorpayPaymentId": "pay_wh_sec_1793802805052",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:33:25.053Z",
+      "updatedAt": "2026-11-04T14:33:25.053Z"
+    },
+    {
+      "id": "pay-1793802810608-0f8f",
+      "orderId": "ord-1793802810605-3de6",
+      "userId": "student_q3_pass_1793802810602",
+      "razorpayPaymentId": "pay_test_1793802810607",
+      "razorpaySignature": "1a45679dabab541ee007db5cae3c07892501670bdb21770bc13219b4d6530940",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:33:30.608Z",
+      "updatedAt": "2026-11-04T14:33:30.608Z"
+    },
+    {
+      "id": "pay-1793802810614-3e35",
+      "orderId": "ord-1793802810613-d0f1",
+      "userId": "student_q3_mentor_1793802810613",
+      "razorpayPaymentId": "pay_mentor_1793802810614",
+      "razorpaySignature": "sig_dummy_mentor",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:33:30.614Z",
+      "updatedAt": "2026-11-04T14:33:30.614Z"
     }
   ],
   "mentorshipPacks": [
@@ -1768,6 +2396,138 @@
       "status": "active",
       "expiresAt": "2027-02-02T13:13:12.360Z",
       "createdAt": "2026-11-04T13:13:12.360Z"
+    },
+    {
+      "id": "pack-1793802805055-379b",
+      "userId": "student_webhook_sec_1793802805048",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:33:25.055Z",
+      "createdAt": "2026-11-04T14:33:25.055Z"
+    },
+    {
+      "id": "pack-1793802805114-635e",
+      "userId": "student_resched_1793802805114@example.com",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T14:33:25.114Z",
+      "createdAt": "2026-11-04T14:33:25.114Z"
+    },
+    {
+      "id": "pack-1793802810609-5e9f",
+      "userId": "student_q3_pass_1793802810602",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:33:30.609Z",
+      "createdAt": "2026-11-04T14:33:30.609Z"
+    },
+    {
+      "id": "pack-1793802810614-25c1",
+      "userId": "student_q3_mentor_1793802810613",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T14:33:30.614Z",
+      "createdAt": "2026-11-04T14:33:30.614Z"
+    },
+    {
+      "id": "pack-1793802810621-7b1e",
+      "userId": "early_scholar_1793802810619_1",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:33:30.621Z",
+      "createdAt": "2026-11-04T14:33:30.621Z"
+    },
+    {
+      "id": "pack-1793802810625-243a",
+      "userId": "early_scholar_1793802810623_2",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:33:30.625Z",
+      "createdAt": "2026-11-04T14:33:30.625Z"
+    },
+    {
+      "id": "pack-1793802810629-df24",
+      "userId": "early_scholar_1793802810628_3",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:33:30.629Z",
+      "createdAt": "2026-11-04T14:33:30.629Z"
+    },
+    {
+      "id": "pack-1793802810633-5e07",
+      "userId": "early_scholar_1793802810632_4",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:33:30.633Z",
+      "createdAt": "2026-11-04T14:33:30.633Z"
+    },
+    {
+      "id": "pack-1793802810636-e9f6",
+      "userId": "early_scholar_1793802810635_5",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:33:30.636Z",
+      "createdAt": "2026-11-04T14:33:30.636Z"
+    },
+    {
+      "id": "pack-1793802810641-9051",
+      "userId": "early_scholar_1793802810639_6",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:33:30.641Z",
+      "createdAt": "2026-11-04T14:33:30.641Z"
+    },
+    {
+      "id": "pack-1793802810646-fc87",
+      "userId": "early_scholar_1793802810644_7",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:33:30.646Z",
+      "createdAt": "2026-11-04T14:33:30.646Z"
+    },
+    {
+      "id": "pack-1793802810650-e9bf",
+      "userId": "early_scholar_1793802810648_8",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:33:30.650Z",
+      "createdAt": "2026-11-04T14:33:30.650Z"
     }
   ],
   "earlyAdopterRedemptions": [
@@ -1786,6 +2546,70 @@
       "redemptionNumber": 2,
       "status": "claimed",
       "createdAt": "2026-10-02T11:00:00.000Z"
+    },
+    {
+      "id": "ea-1793802810619-4f18",
+      "userId": "early_scholar_1793802810619_1",
+      "courseId": "quantum-computing-foundations",
+      "redemptionNumber": 3,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:33:30.619Z"
+    },
+    {
+      "id": "ea-1793802810623-3ffa",
+      "userId": "early_scholar_1793802810623_2",
+      "courseId": "quantum-computing-foundations",
+      "redemptionNumber": 4,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:33:30.623Z"
+    },
+    {
+      "id": "ea-1793802810628-88d8",
+      "userId": "early_scholar_1793802810628_3",
+      "courseId": "quantum-computing-foundations",
+      "redemptionNumber": 5,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:33:30.628Z"
+    },
+    {
+      "id": "ea-1793802810632-1dc9",
+      "userId": "early_scholar_1793802810632_4",
+      "courseId": "quantum-computing-foundations",
+      "redemptionNumber": 6,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:33:30.632Z"
+    },
+    {
+      "id": "ea-1793802810635-5f20",
+      "userId": "early_scholar_1793802810635_5",
+      "courseId": "quantum-computing-foundations",
+      "redemptionNumber": 7,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:33:30.635Z"
+    },
+    {
+      "id": "ea-1793802810639-67fb",
+      "userId": "early_scholar_1793802810639_6",
+      "courseId": "quantum-computing-foundations",
+      "redemptionNumber": 8,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:33:30.639Z"
+    },
+    {
+      "id": "ea-1793802810644-b181",
+      "userId": "early_scholar_1793802810644_7",
+      "courseId": "quantum-computing-foundations",
+      "redemptionNumber": 9,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:33:30.644Z"
+    },
+    {
+      "id": "ea-1793802810648-f0c6",
+      "userId": "early_scholar_1793802810648_8",
+      "courseId": "quantum-computing-foundations",
+      "redemptionNumber": 10,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:33:30.648Z"
     }
   ],
   "cyberLabs": [
@@ -2113,6 +2937,28 @@
       "pointsAwarded": 25,
       "attemptNumber": 2,
       "createdAt": "2026-11-04T14:06:55.111Z"
+    },
+    {
+      "id": "att-1793802808063-thzw7",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "auditor-1793802808061",
+      "submittedFlag": "PMU{fake_flag}",
+      "isCorrect": false,
+      "pointsAwarded": 0,
+      "attemptNumber": 1,
+      "createdAt": "2026-11-04T14:33:28.063Z"
+    },
+    {
+      "id": "att-1793802808064-58629",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "auditor-1793802808061",
+      "submittedFlag": "PMU{h3ad3r_s3cur1ty_mast3r}",
+      "isCorrect": true,
+      "pointsAwarded": 25,
+      "attemptNumber": 2,
+      "createdAt": "2026-11-04T14:33:28.064Z"
     }
   ],
   "cyberLabProgress": [
@@ -2175,6 +3021,18 @@
       "startedAt": "2026-11-04T14:06:55.110Z",
       "completedAt": "2026-11-04T14:06:55.111Z",
       "lastAttemptAt": "2026-11-04T14:06:55.111Z"
+    },
+    {
+      "id": "prog-1793802808063-xvoyw",
+      "userId": "auditor-1793802808061",
+      "labId": "lab-c1-01",
+      "status": "completed",
+      "tasksCompleted": 1,
+      "totalTasks": 1,
+      "score": 25,
+      "startedAt": "2026-11-04T14:33:28.063Z",
+      "completedAt": "2026-11-04T14:33:28.064Z",
+      "lastAttemptAt": "2026-11-04T14:33:28.064Z"
     }
   ],
   "labAcceptances": [
@@ -2227,6 +3085,16 @@
       "metadata": {
         "test": true
       }
+    },
+    {
+      "id": "acc-1793802808061-pcgxw",
+      "userId": "auditor-1793802808061",
+      "labId": "lab-c1-01",
+      "policyVersion": "1.0",
+      "acceptedAt": "2026-11-04T14:33:28.061Z",
+      "metadata": {
+        "testAudit": true
+      }
     }
   ],
   "webhookEvents": [
@@ -2277,6 +3145,30 @@
       "attempts": 2,
       "receivedAt": "2026-11-04T13:13:12.290Z",
       "processedAt": "2026-11-04T13:13:12.296Z"
+    },
+    {
+      "id": "wh_1793802805052_apekti2",
+      "provider": "razorpay",
+      "eventId": "evt_test_sec_1793802805048",
+      "eventType": "payment.captured",
+      "payload": {
+        "event_id": "evt_test_sec_1793802805048",
+        "event": "payment.captured",
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_wh_sec_1793802805052",
+              "order_id": "order_wh_sec_1793802805048",
+              "amount": 99900,
+              "status": "captured"
+            }
+          }
+        }
+      },
+      "status": "processed",
+      "attempts": 2,
+      "receivedAt": "2026-11-04T14:33:25.052Z",
+      "processedAt": "2026-11-04T14:33:25.057Z"
     }
   ],
   "rateLimitEvents": [
@@ -2414,6 +3306,1045 @@
       "windowStart": 1793801215114,
       "expiresAt": 1793801275114,
       "createdAt": "2026-11-04T14:06:55.114Z"
+    },
+    {
+      "id": "rl_1793802805061_z30oy",
+      "bucketKey": "otp_send_phone",
+      "identifier": "sec_user_1793802805060",
+      "count": 3,
+      "windowStart": 1793802805061,
+      "expiresAt": 1793803405061,
+      "createdAt": "2026-11-04T14:33:25.061Z"
+    },
+    {
+      "id": "rl_1793802805064_chxny",
+      "bucketKey": "otp_verify",
+      "identifier": "sec_user_1793802805060",
+      "count": 5,
+      "windowStart": 1793802805064,
+      "expiresAt": 1793803405064,
+      "createdAt": "2026-11-04T14:33:25.064Z"
+    },
+    {
+      "id": "rl_1793802805069_l6bwn",
+      "bucketKey": "quantum_early_adopter_claim",
+      "identifier": "sec_user_1793802805060",
+      "count": 5,
+      "windowStart": 1793802805069,
+      "expiresAt": 1793806405069,
+      "createdAt": "2026-11-04T14:33:25.069Z"
+    },
+    {
+      "id": "rl_1793802805074_i6t8e",
+      "bucketKey": "certificate_pdf_download",
+      "identifier": "sec_user_1793802805060",
+      "count": 10,
+      "windowStart": 1793802805074,
+      "expiresAt": 1793806405074,
+      "createdAt": "2026-11-04T14:33:25.074Z"
+    },
+    {
+      "id": "rl_1793802805085_nwqgl",
+      "bucketKey": "certificate_public_verify",
+      "identifier": "sec_user_1793802805060",
+      "count": 30,
+      "windowStart": 1793802805085,
+      "expiresAt": 1793802865085,
+      "createdAt": "2026-11-04T14:33:25.085Z"
+    },
+    {
+      "id": "rl_1793802808066_4dqrc",
+      "bucketKey": "cyber_flag_submit",
+      "identifier": "audit-rl-1793802808065",
+      "count": 10,
+      "windowStart": 1793802808065,
+      "expiresAt": 1793802868065,
+      "createdAt": "2026-11-04T14:33:28.066Z"
     }
-  ]
+  ],
+  "cyberOrders": [
+    {
+      "id": "ord-cyb-1793802389772-48c0",
+      "userId": "student_c2_pass_1793802389769",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_cyber_test_1793802389769",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "created",
+      "metadata": {},
+      "createdAt": "2026-11-04T14:26:29.771Z",
+      "updatedAt": "2026-11-04T14:26:29.771Z"
+    },
+    {
+      "id": "ord-cyb-1793802456993-b6f8",
+      "userId": "student_c2_pass_1793802456991",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_cyber_test_1793802456991",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_test_1793802456995",
+        "razorpaySignature": "e2b7202c755c861c34e0f9121fc8857a958c9cebb558228ef9c0e19ead960357"
+      },
+      "createdAt": "2026-11-04T14:27:36.992Z",
+      "updatedAt": "2026-11-04T14:27:36.996Z"
+    },
+    {
+      "id": "ord-cyb-1793802499290-8115",
+      "userId": "student_c2_pass_1793802499288",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_cyber_test_1793802499288",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_test_1793802499291",
+        "razorpaySignature": "13c0196b04085bd9f915d1c54fb0536e72487dcb1f49430b589a2f97a0001940"
+      },
+      "createdAt": "2026-11-04T14:28:19.290Z",
+      "updatedAt": "2026-11-04T14:28:19.292Z"
+    },
+    {
+      "id": "ord-cyb-1793802499295-3ab9",
+      "userId": "student_c2_mentor_1793802499295",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "mentorship_pack",
+      "razorpayOrderId": "order_cyber_mentor_1793802499295",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_mentor_1793802499296",
+        "razorpaySignature": "sig_dummy_mentor"
+      },
+      "createdAt": "2026-11-04T14:28:19.295Z",
+      "updatedAt": "2026-11-04T14:28:19.296Z"
+    },
+    {
+      "id": "ord-cyb-1793802555938-dbfa",
+      "userId": "student_c2_pass_1793802555935",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_cyber_test_1793802555935",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_test_1793802555939",
+        "razorpaySignature": "9b48a440dbc4605766133461e216b92143533a97fd365ae4661e92e85c1fed38"
+      },
+      "createdAt": "2026-11-04T14:29:15.937Z",
+      "updatedAt": "2026-11-04T14:29:15.940Z"
+    },
+    {
+      "id": "ord-cyb-1793802555943-1c07",
+      "userId": "student_c2_mentor_1793802555943",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "mentorship_pack",
+      "razorpayOrderId": "order_cyber_mentor_1793802555943",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_mentor_1793802555944",
+        "razorpaySignature": "sig_dummy_mentor"
+      },
+      "createdAt": "2026-11-04T14:29:15.943Z",
+      "updatedAt": "2026-11-04T14:29:15.944Z"
+    },
+    {
+      "id": "ord-cyb-1793802579813-21c0",
+      "userId": "student_c2_pass_1793802579811",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_cyber_test_1793802579811",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_test_1793802579814",
+        "razorpaySignature": "4ddb59cc62b409448df55ae970c8a9eefbb6235206d5be2d6c5a36ddb98a4278"
+      },
+      "createdAt": "2026-11-04T14:29:39.812Z",
+      "updatedAt": "2026-11-04T14:29:39.815Z"
+    },
+    {
+      "id": "ord-cyb-1793802579818-14ca",
+      "userId": "student_c2_mentor_1793802579818",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "mentorship_pack",
+      "razorpayOrderId": "order_cyber_mentor_1793802579818",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_mentor_1793802579819",
+        "razorpaySignature": "sig_dummy_mentor"
+      },
+      "createdAt": "2026-11-04T14:29:39.818Z",
+      "updatedAt": "2026-11-04T14:29:39.819Z"
+    },
+    {
+      "id": "ord-cyb-1793802649827-3dc4",
+      "userId": "student_c2_pass_1793802649824",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_cyber_test_1793802649824",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_test_1793802649828",
+        "razorpaySignature": "1ddf1921af4777cc947619767ebdc4d7e99d472dab37b8fa0b27f416b9d6ee83"
+      },
+      "createdAt": "2026-11-04T14:30:49.826Z",
+      "updatedAt": "2026-11-04T14:30:49.828Z"
+    },
+    {
+      "id": "ord-cyb-1793802649831-32a7",
+      "userId": "student_c2_mentor_1793802649831",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "mentorship_pack",
+      "razorpayOrderId": "order_cyber_mentor_1793802649831",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_mentor_1793802649832",
+        "razorpaySignature": "sig_dummy_mentor"
+      },
+      "createdAt": "2026-11-04T14:30:49.831Z",
+      "updatedAt": "2026-11-04T14:30:49.832Z"
+    },
+    {
+      "id": "ord-cyb-1793802684550-73ef",
+      "userId": "student_c2_pass_1793802684548",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_cyber_test_1793802684548",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_test_1793802684551",
+        "razorpaySignature": "467ab92255f8936060ae58d957b0893e029401e40939dff6dc2641b6d37902bd"
+      },
+      "createdAt": "2026-11-04T14:31:24.549Z",
+      "updatedAt": "2026-11-04T14:31:24.552Z"
+    },
+    {
+      "id": "ord-cyb-1793802684555-ecdd",
+      "userId": "student_c2_mentor_1793802684555",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "mentorship_pack",
+      "razorpayOrderId": "order_cyber_mentor_1793802684555",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_mentor_1793802684556",
+        "razorpaySignature": "sig_dummy_mentor"
+      },
+      "createdAt": "2026-11-04T14:31:24.555Z",
+      "updatedAt": "2026-11-04T14:31:24.556Z"
+    },
+    {
+      "id": "ord-cyb-1793802709475-14af",
+      "userId": "student_c2_pass_1793802709473",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_cyber_test_1793802709473",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_test_1793802709476",
+        "razorpaySignature": "88f4bafab3828bce9b233200cb4cbcdc83dc79e73112089ba42dfad245be3181"
+      },
+      "createdAt": "2026-11-04T14:31:49.474Z",
+      "updatedAt": "2026-11-04T14:31:49.477Z"
+    },
+    {
+      "id": "ord-cyb-1793802709480-957e",
+      "userId": "student_c2_mentor_1793802709480",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "mentorship_pack",
+      "razorpayOrderId": "order_cyber_mentor_1793802709480",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_mentor_1793802709481",
+        "razorpaySignature": "sig_dummy_mentor"
+      },
+      "createdAt": "2026-11-04T14:31:49.480Z",
+      "updatedAt": "2026-11-04T14:31:49.481Z"
+    },
+    {
+      "id": "ord-cyb-1793802743649-856c",
+      "userId": "student_c2_pass_1793802743646",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_cyber_test_1793802743646",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_test_1793802743650",
+        "razorpaySignature": "c36a79c56a7439547dfaa84bff32373f5bd5112dd63ecf7a001fdf91034b5721"
+      },
+      "createdAt": "2026-11-04T14:32:23.648Z",
+      "updatedAt": "2026-11-04T14:32:23.651Z"
+    },
+    {
+      "id": "ord-cyb-1793802743655-88fa",
+      "userId": "student_c2_mentor_1793802743655",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "mentorship_pack",
+      "razorpayOrderId": "order_cyber_mentor_1793802743655",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_mentor_1793802743656",
+        "razorpaySignature": "sig_dummy_mentor"
+      },
+      "createdAt": "2026-11-04T14:32:23.655Z",
+      "updatedAt": "2026-11-04T14:32:23.656Z"
+    },
+    {
+      "id": "ord-cyb-1793802796087-793a",
+      "userId": "student_c2_pass_1793802796085",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_cyber_test_1793802796085",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_test_1793802796088",
+        "razorpaySignature": "3c9d2504b5efb2d058fb8ea3e49b96eaf75292d907c8652671612125c93b6125"
+      },
+      "createdAt": "2026-11-04T14:33:16.086Z",
+      "updatedAt": "2026-11-04T14:33:16.089Z"
+    },
+    {
+      "id": "ord-cyb-1793802796093-180d",
+      "userId": "student_c2_mentor_1793802796093",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "mentorship_pack",
+      "razorpayOrderId": "order_cyber_mentor_1793802796093",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_mentor_1793802796094",
+        "razorpaySignature": "sig_dummy_mentor"
+      },
+      "createdAt": "2026-11-04T14:33:16.093Z",
+      "updatedAt": "2026-11-04T14:33:16.094Z"
+    }
+  ],
+  "cyberPayments": [
+    {
+      "id": "pay-cyb-1793802499292-24c8",
+      "orderId": "ord-cyb-1793802499290-8115",
+      "userId": "student_c2_pass_1793802499288",
+      "razorpayPaymentId": "pay_cyber_test_1793802499291",
+      "razorpaySignature": "13c0196b04085bd9f915d1c54fb0536e72487dcb1f49430b589a2f97a0001940",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:28:19.292Z",
+      "updatedAt": "2026-11-04T14:28:19.292Z"
+    },
+    {
+      "id": "pay-cyb-1793802499296-2816",
+      "orderId": "ord-cyb-1793802499295-3ab9",
+      "userId": "student_c2_mentor_1793802499295",
+      "razorpayPaymentId": "pay_cyber_mentor_1793802499296",
+      "razorpaySignature": "sig_dummy_mentor",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:28:19.296Z",
+      "updatedAt": "2026-11-04T14:28:19.296Z"
+    },
+    {
+      "id": "pay-cyb-1793802555940-6669",
+      "orderId": "ord-cyb-1793802555938-dbfa",
+      "userId": "student_c2_pass_1793802555935",
+      "razorpayPaymentId": "pay_cyber_test_1793802555939",
+      "razorpaySignature": "9b48a440dbc4605766133461e216b92143533a97fd365ae4661e92e85c1fed38",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:29:15.940Z",
+      "updatedAt": "2026-11-04T14:29:15.940Z"
+    },
+    {
+      "id": "pay-cyb-1793802555944-3a5f",
+      "orderId": "ord-cyb-1793802555943-1c07",
+      "userId": "student_c2_mentor_1793802555943",
+      "razorpayPaymentId": "pay_cyber_mentor_1793802555944",
+      "razorpaySignature": "sig_dummy_mentor",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:29:15.944Z",
+      "updatedAt": "2026-11-04T14:29:15.944Z"
+    },
+    {
+      "id": "pay-cyb-1793802579815-6d11",
+      "orderId": "ord-cyb-1793802579813-21c0",
+      "userId": "student_c2_pass_1793802579811",
+      "razorpayPaymentId": "pay_cyber_test_1793802579814",
+      "razorpaySignature": "4ddb59cc62b409448df55ae970c8a9eefbb6235206d5be2d6c5a36ddb98a4278",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:29:39.815Z",
+      "updatedAt": "2026-11-04T14:29:39.815Z"
+    },
+    {
+      "id": "pay-cyb-1793802579819-56c5",
+      "orderId": "ord-cyb-1793802579818-14ca",
+      "userId": "student_c2_mentor_1793802579818",
+      "razorpayPaymentId": "pay_cyber_mentor_1793802579819",
+      "razorpaySignature": "sig_dummy_mentor",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:29:39.819Z",
+      "updatedAt": "2026-11-04T14:29:39.819Z"
+    },
+    {
+      "id": "pay-cyb-1793802649828-c511",
+      "orderId": "ord-cyb-1793802649827-3dc4",
+      "userId": "student_c2_pass_1793802649824",
+      "razorpayPaymentId": "pay_cyber_test_1793802649828",
+      "razorpaySignature": "1ddf1921af4777cc947619767ebdc4d7e99d472dab37b8fa0b27f416b9d6ee83",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:30:49.828Z",
+      "updatedAt": "2026-11-04T14:30:49.828Z"
+    },
+    {
+      "id": "pay-cyb-1793802649832-4a2a",
+      "orderId": "ord-cyb-1793802649831-32a7",
+      "userId": "student_c2_mentor_1793802649831",
+      "razorpayPaymentId": "pay_cyber_mentor_1793802649832",
+      "razorpaySignature": "sig_dummy_mentor",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:30:49.832Z",
+      "updatedAt": "2026-11-04T14:30:49.832Z"
+    },
+    {
+      "id": "pay-cyb-1793802684552-b81a",
+      "orderId": "ord-cyb-1793802684550-73ef",
+      "userId": "student_c2_pass_1793802684548",
+      "razorpayPaymentId": "pay_cyber_test_1793802684551",
+      "razorpaySignature": "467ab92255f8936060ae58d957b0893e029401e40939dff6dc2641b6d37902bd",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:31:24.552Z",
+      "updatedAt": "2026-11-04T14:31:24.552Z"
+    },
+    {
+      "id": "pay-cyb-1793802684556-8650",
+      "orderId": "ord-cyb-1793802684555-ecdd",
+      "userId": "student_c2_mentor_1793802684555",
+      "razorpayPaymentId": "pay_cyber_mentor_1793802684556",
+      "razorpaySignature": "sig_dummy_mentor",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:31:24.556Z",
+      "updatedAt": "2026-11-04T14:31:24.556Z"
+    },
+    {
+      "id": "pay-cyb-1793802709477-351a",
+      "orderId": "ord-cyb-1793802709475-14af",
+      "userId": "student_c2_pass_1793802709473",
+      "razorpayPaymentId": "pay_cyber_test_1793802709476",
+      "razorpaySignature": "88f4bafab3828bce9b233200cb4cbcdc83dc79e73112089ba42dfad245be3181",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:31:49.477Z",
+      "updatedAt": "2026-11-04T14:31:49.477Z"
+    },
+    {
+      "id": "pay-cyb-1793802709481-42b3",
+      "orderId": "ord-cyb-1793802709480-957e",
+      "userId": "student_c2_mentor_1793802709480",
+      "razorpayPaymentId": "pay_cyber_mentor_1793802709481",
+      "razorpaySignature": "sig_dummy_mentor",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:31:49.481Z",
+      "updatedAt": "2026-11-04T14:31:49.481Z"
+    },
+    {
+      "id": "pay-cyb-1793802743651-4b8b",
+      "orderId": "ord-cyb-1793802743649-856c",
+      "userId": "student_c2_pass_1793802743646",
+      "razorpayPaymentId": "pay_cyber_test_1793802743650",
+      "razorpaySignature": "c36a79c56a7439547dfaa84bff32373f5bd5112dd63ecf7a001fdf91034b5721",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:32:23.651Z",
+      "updatedAt": "2026-11-04T14:32:23.651Z"
+    },
+    {
+      "id": "pay-cyb-1793802743656-9e01",
+      "orderId": "ord-cyb-1793802743655-88fa",
+      "userId": "student_c2_mentor_1793802743655",
+      "razorpayPaymentId": "pay_cyber_mentor_1793802743656",
+      "razorpaySignature": "sig_dummy_mentor",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:32:23.656Z",
+      "updatedAt": "2026-11-04T14:32:23.656Z"
+    },
+    {
+      "id": "pay-cyb-1793802796089-1235",
+      "orderId": "ord-cyb-1793802796087-793a",
+      "userId": "student_c2_pass_1793802796085",
+      "razorpayPaymentId": "pay_cyber_test_1793802796088",
+      "razorpaySignature": "3c9d2504b5efb2d058fb8ea3e49b96eaf75292d907c8652671612125c93b6125",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:33:16.089Z",
+      "updatedAt": "2026-11-04T14:33:16.089Z"
+    },
+    {
+      "id": "pay-cyb-1793802796094-50bf",
+      "orderId": "ord-cyb-1793802796093-180d",
+      "userId": "student_c2_mentor_1793802796093",
+      "razorpayPaymentId": "pay_cyber_mentor_1793802796094",
+      "razorpaySignature": "sig_dummy_mentor",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T14:33:16.094Z",
+      "updatedAt": "2026-11-04T14:33:16.094Z"
+    }
+  ],
+  "cyberMentorshipPacks": [
+    {
+      "id": "pack-cyb-1793802499293-f962",
+      "userId": "student_c2_pass_1793802499288",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:28:19.293Z",
+      "createdAt": "2026-11-04T14:28:19.293Z"
+    },
+    {
+      "id": "pack-cyb-1793802499296-58fa",
+      "userId": "student_c2_mentor_1793802499295",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T14:28:19.296Z",
+      "createdAt": "2026-11-04T14:28:19.296Z"
+    },
+    {
+      "id": "pack-cyb-1793802555941-61d2",
+      "userId": "student_c2_pass_1793802555935",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:29:15.941Z",
+      "createdAt": "2026-11-04T14:29:15.941Z"
+    },
+    {
+      "id": "pack-cyb-1793802555944-13d3",
+      "userId": "student_c2_mentor_1793802555943",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T14:29:15.944Z",
+      "createdAt": "2026-11-04T14:29:15.944Z"
+    },
+    {
+      "id": "pack-cyb-1793802579816-df9c",
+      "userId": "student_c2_pass_1793802579811",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:29:39.816Z",
+      "createdAt": "2026-11-04T14:29:39.816Z"
+    },
+    {
+      "id": "pack-cyb-1793802579819-34eb",
+      "userId": "student_c2_mentor_1793802579818",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T14:29:39.819Z",
+      "createdAt": "2026-11-04T14:29:39.819Z"
+    },
+    {
+      "id": "pack-cyb-1793802649829-26b9",
+      "userId": "student_c2_pass_1793802649824",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:30:49.829Z",
+      "createdAt": "2026-11-04T14:30:49.829Z"
+    },
+    {
+      "id": "pack-cyb-1793802649832-8e19",
+      "userId": "student_c2_mentor_1793802649831",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T14:30:49.832Z",
+      "createdAt": "2026-11-04T14:30:49.832Z"
+    },
+    {
+      "id": "pack-cyb-1793802684553-2db7",
+      "userId": "student_c2_pass_1793802684548",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:31:24.553Z",
+      "createdAt": "2026-11-04T14:31:24.553Z"
+    },
+    {
+      "id": "pack-cyb-1793802684556-eaeb",
+      "userId": "student_c2_mentor_1793802684555",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T14:31:24.556Z",
+      "createdAt": "2026-11-04T14:31:24.556Z"
+    },
+    {
+      "id": "pack-cyb-1793802709478-747d",
+      "userId": "student_c2_pass_1793802709473",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:31:49.478Z",
+      "createdAt": "2026-11-04T14:31:49.478Z"
+    },
+    {
+      "id": "pack-cyb-1793802709481-ab0e",
+      "userId": "student_c2_mentor_1793802709480",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T14:31:49.481Z",
+      "createdAt": "2026-11-04T14:31:49.481Z"
+    },
+    {
+      "id": "pack-cyb-1793802743652-3b58",
+      "userId": "student_c2_pass_1793802743646",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:32:23.652Z",
+      "createdAt": "2026-11-04T14:32:23.652Z"
+    },
+    {
+      "id": "pack-cyb-1793802743656-5ede",
+      "userId": "student_c2_mentor_1793802743655",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T14:32:23.656Z",
+      "createdAt": "2026-11-04T14:32:23.656Z"
+    },
+    {
+      "id": "pack-cyb-1793802796090-ec4d",
+      "userId": "student_c2_pass_1793802796085",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T14:33:16.090Z",
+      "createdAt": "2026-11-04T14:33:16.090Z"
+    },
+    {
+      "id": "pack-cyb-1793802796094-0521",
+      "userId": "student_c2_mentor_1793802796093",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T14:33:16.094Z",
+      "createdAt": "2026-11-04T14:33:16.094Z"
+    }
+  ],
+  "cyberEarlyAdopterRedemptions": [
+    {
+      "id": "ea-cyb-1793802555951-4609",
+      "userId": "early_adopter_c2_user_1793802555951_0",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "redemptionNumber": 1,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:29:15.951Z"
+    },
+    {
+      "id": "ea-cyb-1793802555954-fd65",
+      "userId": "early_adopter_c2_user_1793802555954_1",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "redemptionNumber": 2,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:29:15.954Z"
+    },
+    {
+      "id": "ea-cyb-1793802555956-eb07",
+      "userId": "early_adopter_c2_user_1793802555956_2",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "redemptionNumber": 3,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:29:15.956Z"
+    },
+    {
+      "id": "ea-cyb-1793802555958-0284",
+      "userId": "early_adopter_c2_user_1793802555958_3",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "redemptionNumber": 4,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:29:15.958Z"
+    },
+    {
+      "id": "ea-cyb-1793802555959-8dc7",
+      "userId": "early_adopter_c2_user_1793802555959_4",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "redemptionNumber": 5,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:29:15.959Z"
+    },
+    {
+      "id": "ea-cyb-1793802555962-b6fb",
+      "userId": "early_adopter_c2_user_1793802555962_5",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "redemptionNumber": 6,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:29:15.962Z"
+    },
+    {
+      "id": "ea-cyb-1793802555963-9ce9",
+      "userId": "early_adopter_c2_user_1793802555963_6",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "redemptionNumber": 7,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:29:15.963Z"
+    },
+    {
+      "id": "ea-cyb-1793802555965-0c2a",
+      "userId": "early_adopter_c2_user_1793802555965_7",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "redemptionNumber": 8,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:29:15.965Z"
+    },
+    {
+      "id": "ea-cyb-1793802555967-7ce1",
+      "userId": "early_adopter_c2_user_1793802555967_8",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "redemptionNumber": 9,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:29:15.967Z"
+    },
+    {
+      "id": "ea-cyb-1793802555969-1ffe",
+      "userId": "early_adopter_c2_user_1793802555969_9",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "redemptionNumber": 10,
+      "status": "claimed",
+      "createdAt": "2026-11-04T14:29:15.969Z"
+    }
+  ],
+  "studentCyberProgress": {
+    "student_c2_cert_1793802649847": {
+      "completedLessons": [
+        "lesson-c1-01",
+        "lesson-c1-02",
+        "lesson-c1-03",
+        "lesson-c1-04",
+        "lesson-c1-05",
+        "lesson-c1-06",
+        "lesson-c1-07",
+        "lesson-c1-08",
+        "lesson-c1-09",
+        "lesson-c1-10",
+        "lesson-c1-11",
+        "lesson-c1-12",
+        "lesson-c1-13",
+        "lesson-c1-14",
+        "lesson-c1-15",
+        "lesson-c1-16",
+        "lesson-c1-17",
+        "lesson-c1-18",
+        "lesson-c1-19",
+        "lesson-c1-20"
+      ],
+      "completedLabs": [
+        "lab-c1-01",
+        "lab-c1-02",
+        "lab-c1-03",
+        "lab-c1-04",
+        "lab-c1-05"
+      ],
+      "passedQuizzes": [],
+      "completionPercentage": 83,
+      "certificateStatus": "not_eligible",
+      "completedQuizzes": [
+        "quiz-cyber-01",
+        "quiz-cyber-02",
+        "quiz-cyber-03",
+        "quiz-cyber-04",
+        "quiz-cyber-05"
+      ],
+      "overallScore": 92
+    },
+    "student_c2_cert_1793802684571": {
+      "completedLessons": [
+        "lesson-c1-01",
+        "lesson-c1-02",
+        "lesson-c1-03",
+        "lesson-c1-04",
+        "lesson-c1-05",
+        "lesson-c1-06",
+        "lesson-c1-07",
+        "lesson-c1-08",
+        "lesson-c1-09",
+        "lesson-c1-10",
+        "lesson-c1-11",
+        "lesson-c1-12",
+        "lesson-c1-13",
+        "lesson-c1-14",
+        "lesson-c1-15",
+        "lesson-c1-16",
+        "lesson-c1-17",
+        "lesson-c1-18",
+        "lesson-c1-19",
+        "lesson-c1-20"
+      ],
+      "completedLabs": [
+        "lab-c1-01",
+        "lab-c1-02",
+        "lab-c1-03",
+        "lab-c1-04",
+        "lab-c1-05"
+      ],
+      "passedQuizzes": [
+        "quiz-cyber-01",
+        "quiz-cyber-02",
+        "quiz-cyber-03",
+        "quiz-cyber-04",
+        "quiz-cyber-05"
+      ],
+      "completionPercentage": 100,
+      "certificateStatus": "issued",
+      "overallScore": 92,
+      "certificateCode": "PMU-CYB-2026-3126E3"
+    },
+    "student_c2_cert_1793802709495": {
+      "completedLessons": [
+        "lesson-c1-01",
+        "lesson-c1-02",
+        "lesson-c1-03",
+        "lesson-c1-04",
+        "lesson-c1-05",
+        "lesson-c1-06",
+        "lesson-c1-07",
+        "lesson-c1-08",
+        "lesson-c1-09",
+        "lesson-c1-10",
+        "lesson-c1-11",
+        "lesson-c1-12",
+        "lesson-c1-13",
+        "lesson-c1-14",
+        "lesson-c1-15",
+        "lesson-c1-16",
+        "lesson-c1-17",
+        "lesson-c1-18",
+        "lesson-c1-19",
+        "lesson-c1-20"
+      ],
+      "completedLabs": [
+        "lab-c1-01",
+        "lab-c1-02",
+        "lab-c1-03",
+        "lab-c1-04",
+        "lab-c1-05"
+      ],
+      "passedQuizzes": [
+        "quiz-cyber-01",
+        "quiz-cyber-02",
+        "quiz-cyber-03",
+        "quiz-cyber-04",
+        "quiz-cyber-05"
+      ],
+      "completionPercentage": 100,
+      "certificateStatus": "issued",
+      "overallScore": 92,
+      "certificateCode": "PMU-CYB-2026-CBF07F"
+    },
+    "student_c2_cert_1793802743674": {
+      "completedLessons": [
+        "lesson-c1-01",
+        "lesson-c1-02",
+        "lesson-c1-03",
+        "lesson-c1-04",
+        "lesson-c1-05",
+        "lesson-c1-06",
+        "lesson-c1-07",
+        "lesson-c1-08",
+        "lesson-c1-09",
+        "lesson-c1-10",
+        "lesson-c1-11",
+        "lesson-c1-12",
+        "lesson-c1-13",
+        "lesson-c1-14",
+        "lesson-c1-15",
+        "lesson-c1-16",
+        "lesson-c1-17",
+        "lesson-c1-18",
+        "lesson-c1-19",
+        "lesson-c1-20"
+      ],
+      "completedLabs": [
+        "lab-c1-01",
+        "lab-c1-02",
+        "lab-c1-03",
+        "lab-c1-04",
+        "lab-c1-05"
+      ],
+      "passedQuizzes": [
+        "quiz-cyber-01",
+        "quiz-cyber-02",
+        "quiz-cyber-03",
+        "quiz-cyber-04",
+        "quiz-cyber-05"
+      ],
+      "completionPercentage": 100,
+      "certificateStatus": "issued",
+      "overallScore": 92,
+      "certificateCode": "PMU-CYB-2026-86F84C"
+    },
+    "student_c2_cert_1793802796110": {
+      "completedLessons": [
+        "lesson-c1-01",
+        "lesson-c1-02",
+        "lesson-c1-03",
+        "lesson-c1-04",
+        "lesson-c1-05",
+        "lesson-c1-06",
+        "lesson-c1-07",
+        "lesson-c1-08",
+        "lesson-c1-09",
+        "lesson-c1-10",
+        "lesson-c1-11",
+        "lesson-c1-12",
+        "lesson-c1-13",
+        "lesson-c1-14",
+        "lesson-c1-15",
+        "lesson-c1-16",
+        "lesson-c1-17",
+        "lesson-c1-18",
+        "lesson-c1-19",
+        "lesson-c1-20"
+      ],
+      "completedLabs": [
+        "lab-c1-01",
+        "lab-c1-02",
+        "lab-c1-03",
+        "lab-c1-04",
+        "lab-c1-05"
+      ],
+      "passedQuizzes": [
+        "quiz-cyber-01",
+        "quiz-cyber-02",
+        "quiz-cyber-03",
+        "quiz-cyber-04",
+        "quiz-cyber-05"
+      ],
+      "completionPercentage": 100,
+      "certificateStatus": "issued",
+      "overallScore": 92,
+      "certificateCode": "PMU-CYB-2026-19FB3C"
+    }
+  }
 }

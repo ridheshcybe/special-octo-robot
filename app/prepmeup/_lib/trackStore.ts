@@ -366,6 +366,65 @@ export interface LabAcceptance {
   metadata?: Record<string, any>;
 }
 
+export interface CyberOrder {
+  id: string;
+  userId: string;
+  courseId: string;
+  productType: "semester_pass" | "mentorship_pack";
+  razorpayOrderId: string;
+  amountInPaise: number;
+  currency: string;
+  status: "created" | "pending" | "paid" | "failed" | "expired" | "refunded";
+  metadata?: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CyberPayment {
+  id: string;
+  orderId: string;
+  userId: string;
+  razorpayPaymentId: string;
+  razorpaySignature?: string;
+  amountInPaise: number;
+  currency: string;
+  status: "created" | "authorized" | "captured" | "failed" | "refunded";
+  verificationStatus: "pending" | "verified" | "failed";
+  webhookStatus: "pending" | "received" | "processed" | "failed";
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CyberMentorshipPack {
+  id: string;
+  userId: string;
+  courseId: string;
+  packType: string;
+  totalSessions: number;
+  usedSessions: number;
+  status: "active" | "exhausted" | "expired" | "revoked";
+  expiresAt: string;
+  createdAt: string;
+}
+
+export interface CyberEarlyAdopterRedemption {
+  id: string;
+  userId: string;
+  courseId: string;
+  redemptionNumber: number;
+  status: "claimed" | "revoked";
+  createdAt: string;
+}
+
+export interface StudentCyberProgress {
+  completedLessons: string[];
+  completedLabs: string[];
+  passedQuizzes: string[];
+  completionPercentage: number;
+  certificateStatus: "not_eligible" | "eligible" | "issued" | "revoked";
+  certificateCode?: string;
+}
+
 interface TrackStoreState {
   tracks: Track[];
   instructors: Instructor[];
@@ -391,6 +450,11 @@ interface TrackStoreState {
   cyberLabProgress?: CyberLabProgress[];
   cyberIncidentCases?: CyberIncidentCase[];
   labAcceptances?: LabAcceptance[];
+  cyberOrders?: CyberOrder[];
+  cyberPayments?: CyberPayment[];
+  cyberMentorshipPacks?: CyberMentorshipPack[];
+  cyberEarlyAdopterRedemptions?: CyberEarlyAdopterRedemption[];
+  studentCyberProgress?: Record<string, StudentCyberProgress>;
 }
 
 let cachedState: TrackStoreState | null = null;
@@ -425,6 +489,11 @@ export function loadState(): TrackStoreState {
       if (!Array.isArray(cachedState!.cyberLabProgress)) cachedState!.cyberLabProgress = [];
       if (!Array.isArray(cachedState!.cyberIncidentCases)) cachedState!.cyberIncidentCases = [];
       if (!Array.isArray(cachedState!.labAcceptances)) cachedState!.labAcceptances = [];
+      if (!Array.isArray(cachedState!.cyberOrders)) cachedState!.cyberOrders = [];
+      if (!Array.isArray(cachedState!.cyberPayments)) cachedState!.cyberPayments = [];
+      if (!Array.isArray(cachedState!.cyberMentorshipPacks)) cachedState!.cyberMentorshipPacks = [];
+      if (!Array.isArray(cachedState!.cyberEarlyAdopterRedemptions)) cachedState!.cyberEarlyAdopterRedemptions = [];
+      if (!cachedState!.studentCyberProgress) cachedState!.studentCyberProgress = {};
       return cachedState!;
     }
   } catch (err) {
@@ -457,6 +526,11 @@ export function loadState(): TrackStoreState {
     cyberLabProgress: [],
     cyberIncidentCases: [],
     labAcceptances: [],
+    cyberOrders: [],
+    cyberPayments: [],
+    cyberMentorshipPacks: [],
+    cyberEarlyAdopterRedemptions: [],
+    studentCyberProgress: {},
   };
 
   return cachedState;
@@ -1099,8 +1173,10 @@ export function checkUserCourseAccess(
     }
   }
 
-  // Check Quantum Enrollment
-  const enrollment = getQuantumEnrollment(userTarget, courseSlug);
+  // Check Quantum or Cyber Enrollment
+  const enrollment = courseSlug.includes("cybersecurity")
+    ? getCyberEnrollment(userTarget, courseSlug)
+    : getQuantumEnrollment(userTarget, courseSlug);
   if (enrollment && enrollment.status === "active") {
     return { hasAccess: true, isFreePreviewOnly: false, role: "student" };
   }
@@ -1936,4 +2012,590 @@ export function getCyberIncidentCaseBySlug(slug: string): CyberIncidentCase | un
 export function getCyberIncidentCaseById(id: string): CyberIncidentCase | undefined {
   const state = loadState();
   return (state.cyberIncidentCases || []).find((c) => c.id === id);
+}
+
+// ----------------------------------------------------------------------------
+// Phase C2: CyberSecurity Commercial Enrollment, Orders & Mentorship Entitlements
+// ----------------------------------------------------------------------------
+
+export function getCyberEnrollment(
+  userTarget: string,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): QuantumEnrollment | null {
+  const state = loadState();
+  const key = userTarget.toLowerCase();
+  const now = new Date();
+
+  // Find active enrollment
+  const enr = state.enrollments.find(
+    (e) =>
+      e.userId.toLowerCase() === key &&
+      (e.courseId === courseId || e.courseId === "cybersecurity-foundations-ethical-hacking-soc-ctf") &&
+      e.status === "active"
+  );
+
+  if (!enr) return null;
+
+  // Check expiration
+  if (enr.expiresAt && new Date(enr.expiresAt) < now) {
+    enr.status = "expired";
+    persistState();
+    return null;
+  }
+
+  return enr;
+}
+
+export function getAllCyberEnrollments(): QuantumEnrollment[] {
+  const state = loadState();
+  return state.enrollments.filter(
+    (e) =>
+      e.courseId === "cybersecurity-foundations-ethical-hacking-soc-ctf" ||
+      e.trackId === "cybersecurity"
+  );
+}
+
+export function createOrExtendCyberEnrollment(params: {
+  userId: string;
+  courseId?: string;
+  accessType: "free_preview" | "semester_pass" | "mentorship_pack" | "admin_granted";
+  months?: number;
+  durationDays?: number;
+  expiresAt?: string;
+  notes?: string;
+}): QuantumEnrollment {
+  const state = loadState();
+  const courseId = params.courseId || "cybersecurity-foundations-ethical-hacking-soc-ctf";
+  const now = new Date();
+  let expiresAt: string;
+  if (params.expiresAt) {
+    expiresAt = params.expiresAt;
+  } else if (typeof params.durationDays === "number") {
+    expiresAt = new Date(now.getTime() + params.durationDays * 24 * 60 * 60 * 1000).toISOString();
+  } else {
+    const months = params.months || 6;
+    expiresAt = new Date(now.getTime() + months * 30 * 24 * 60 * 60 * 1000).toISOString();
+  }
+
+  // Check if active enrollment exists
+  const existing = state.enrollments.find(
+    (e) =>
+      e.userId.toLowerCase() === params.userId.toLowerCase() &&
+      e.courseId === courseId &&
+      e.status === "active"
+  );
+
+  if (existing) {
+    existing.accessType = params.accessType;
+    existing.expiresAt = expiresAt;
+    existing.updatedAt = now.toISOString();
+    persistState();
+    return existing;
+  }
+
+  const newEnr: QuantumEnrollment = {
+    id: `enr-cyb-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    userId: params.userId,
+    courseId,
+    trackId: "cybersecurity",
+    accessType: params.accessType,
+    status: "active",
+    startsAt: now.toISOString(),
+    expiresAt: params.accessType === "free_preview" ? undefined : expiresAt,
+    createdAt: now.toISOString(),
+    updatedAt: now.toISOString(),
+  };
+
+  state.enrollments.push(newEnr);
+  persistState();
+  return newEnr;
+}
+
+export function revokeCyberEnrollment(enrollmentIdOrUserId: string): boolean {
+  const state = loadState();
+  const key = enrollmentIdOrUserId.toLowerCase();
+  const enr = state.enrollments.find(
+    (e) =>
+      (e.courseId === "cybersecurity-foundations-ethical-hacking-soc-ctf" || e.trackId === "cybersecurity") &&
+      (e.id === enrollmentIdOrUserId || (e.userId.toLowerCase() === key && e.status === "active"))
+  );
+  if (!enr) return false;
+  enr.status = "revoked";
+  enr.updatedAt = new Date().toISOString();
+  persistState();
+  return true;
+}
+
+export function createCyberOrder(params: {
+  userId: string;
+  courseId: string;
+  productType: "semester_pass" | "mentorship_pack";
+  razorpayOrderId: string;
+  amountInPaise: number;
+  currency?: string;
+  metadata?: Record<string, any>;
+}): CyberOrder {
+  const state = loadState();
+  if (!state.cyberOrders) state.cyberOrders = [];
+
+  const now = new Date().toISOString();
+  const order: CyberOrder = {
+    id: `ord-cyb-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    userId: params.userId,
+    courseId: params.courseId,
+    productType: params.productType,
+    razorpayOrderId: params.razorpayOrderId,
+    amountInPaise: params.amountInPaise,
+    currency: params.currency || "INR",
+    status: "created",
+    metadata: params.metadata || {},
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  state.cyberOrders.push(order);
+  persistState();
+  return order;
+}
+
+export function getCyberOrderById(orderId: string): CyberOrder | null {
+  const state = loadState();
+  return (state.cyberOrders || []).find((o) => o.id === orderId) || null;
+}
+
+export function getCyberOrderByRazorpayId(rzpOrderId: string): CyberOrder | null {
+  const state = loadState();
+  return (state.cyberOrders || []).find((o) => o.razorpayOrderId === rzpOrderId) || null;
+}
+
+export function updateCyberOrderStatus(
+  orderId: string,
+  status: CyberOrder["status"],
+  metadataOrPaymentDetails?: Record<string, any>
+): boolean {
+  const state = loadState();
+  const order = (state.cyberOrders || []).find(
+    (o) => o.id === orderId || o.razorpayOrderId === orderId
+  );
+  if (!order) return false;
+
+  order.status = status;
+  order.updatedAt = new Date().toISOString();
+
+  if (metadataOrPaymentDetails) {
+    order.metadata = { ...(order.metadata || {}), ...metadataOrPaymentDetails };
+
+    if (metadataOrPaymentDetails.razorpayPaymentId) {
+      if (!state.cyberPayments) state.cyberPayments = [];
+      const existingPay = state.cyberPayments.find(
+        (p) => p.razorpayPaymentId === metadataOrPaymentDetails.razorpayPaymentId
+      );
+      if (!existingPay) {
+        const newPay: CyberPayment = {
+          id: `pay-cyb-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+          orderId: order.id,
+          userId: order.userId,
+          razorpayPaymentId: metadataOrPaymentDetails.razorpayPaymentId,
+          razorpaySignature: metadataOrPaymentDetails.razorpaySignature,
+          amountInPaise: metadataOrPaymentDetails.amountInPaise || order.amountInPaise,
+          currency: "INR",
+          status:
+            status === "paid" ? "captured" : status === "refunded" ? "refunded" : "failed",
+          verificationStatus: metadataOrPaymentDetails.verificationStatus || "verified",
+          webhookStatus: "processed",
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        state.cyberPayments.push(newPay);
+      }
+    }
+  }
+
+  // Provision entitlements upon payment
+  if (status === "paid") {
+    if (order.productType === "semester_pass") {
+      createOrExtendCyberEnrollment({
+        userId: order.userId,
+        courseId: order.courseId,
+        accessType: "semester_pass",
+        months: 6,
+      });
+      createCyberMentorshipPack({
+        userId: order.userId,
+        courseId: order.courseId,
+        totalSessions: 1,
+        durationDays: 180,
+      });
+    } else if (order.productType === "mentorship_pack") {
+      createCyberMentorshipPack({
+        userId: order.userId,
+        courseId: order.courseId,
+        totalSessions: 1,
+        durationDays: 90,
+      });
+    }
+  }
+
+  persistState();
+  return true;
+}
+
+export function recordCyberPayment(params: {
+  orderId: string;
+  userId: string;
+  razorpayPaymentId: string;
+  razorpaySignature?: string;
+  amountInPaise: number;
+  currency?: string;
+  status: "created" | "authorized" | "captured" | "failed" | "refunded";
+  verificationStatus: "pending" | "verified" | "failed";
+  webhookStatus?: "pending" | "received" | "processed" | "failed";
+}): CyberPayment {
+  const state = loadState();
+  if (!state.cyberPayments) state.cyberPayments = [];
+
+  const now = new Date().toISOString();
+  const payment: CyberPayment = {
+    id: `pay-cyb-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    orderId: params.orderId,
+    userId: params.userId,
+    razorpayPaymentId: params.razorpayPaymentId,
+    razorpaySignature: params.razorpaySignature,
+    amountInPaise: params.amountInPaise,
+    currency: params.currency || "INR",
+    status: params.status,
+    verificationStatus: params.verificationStatus,
+    webhookStatus: params.webhookStatus || "pending",
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  state.cyberPayments.push(payment);
+  persistState();
+  return payment;
+}
+
+export function getCyberPaymentsByOrderId(orderId: string): CyberPayment[] {
+  const state = loadState();
+  return (state.cyberPayments || []).filter((p) => p.orderId === orderId);
+}
+
+export function getAllCyberOrders(): CyberOrder[] {
+  const state = loadState();
+  return state.cyberOrders || [];
+}
+
+export function getAllCyberPayments(): CyberPayment[] {
+  const state = loadState();
+  return state.cyberPayments || [];
+}
+
+export function createCyberMentorshipPack(params: {
+  userId: string;
+  courseId?: string;
+  packType?: string;
+  totalSessions?: number;
+  durationDays?: number;
+}): CyberMentorshipPack {
+  const state = loadState();
+  if (!state.cyberMentorshipPacks) state.cyberMentorshipPacks = [];
+
+  const now = new Date();
+  const days = params.durationDays || 90;
+  const expiresAt = new Date(now.getTime() + days * 24 * 60 * 60 * 1000).toISOString();
+
+  const pack: CyberMentorshipPack = {
+    id: `pack-cyb-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    userId: params.userId,
+    courseId: params.courseId || "cybersecurity-foundations-ethical-hacking-soc-ctf",
+    packType: params.packType || "single_session",
+    totalSessions: params.totalSessions || 1,
+    usedSessions: 0,
+    status: "active",
+    expiresAt,
+    createdAt: now.toISOString(),
+  };
+
+  state.cyberMentorshipPacks.push(pack);
+  persistState();
+  return pack;
+}
+
+export function getCyberMentorshipPacks(
+  userId: string,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): CyberMentorshipPack[] {
+  const state = loadState();
+  const key = userId.toLowerCase();
+  const now = new Date();
+
+  return (state.cyberMentorshipPacks || []).filter((p) => {
+    if (p.userId.toLowerCase() !== key) return false;
+    if (p.courseId !== courseId && p.courseId !== "cybersecurity-foundations-ethical-hacking-soc-ctf") return false;
+    if (new Date(p.expiresAt) < now) {
+      p.status = "expired";
+      return false;
+    }
+    return p.status === "active" && p.usedSessions < p.totalSessions;
+  });
+}
+
+export function consumeCyberMentorshipSession(
+  userId: string,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): boolean {
+  const state = loadState();
+  const availablePacks = getCyberMentorshipPacks(userId, courseId);
+  if (availablePacks.length === 0) return false;
+
+  const pack = availablePacks[0];
+  pack.usedSessions += 1;
+  if (pack.usedSessions >= pack.totalSessions) {
+    pack.status = "exhausted";
+  }
+  persistState();
+  return true;
+}
+
+export function refundCyberMentorshipSession(
+  userId: string,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): boolean {
+  const state = loadState();
+  const key = userId.toLowerCase();
+  const pack = (state.cyberMentorshipPacks || []).find(
+    (p) =>
+      p.userId.toLowerCase() === key &&
+      (p.courseId === courseId || p.courseId === "cybersecurity-foundations-ethical-hacking-soc-ctf") &&
+      p.usedSessions > 0
+  );
+  if (!pack) return false;
+
+  pack.usedSessions = Math.max(0, pack.usedSessions - 1);
+  if (pack.status === "exhausted" && pack.usedSessions < pack.totalSessions) {
+    pack.status = "active";
+  }
+  persistState();
+  return true;
+}
+
+export function getCyberEarlyAdopterCount(courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"): number {
+  const state = loadState();
+  return (state.cyberEarlyAdopterRedemptions || []).filter(
+    (r) =>
+      (r.courseId === courseId || r.courseId === "cybersecurity-foundations-ethical-hacking-soc-ctf") &&
+      r.status === "claimed"
+  ).length;
+}
+
+export function getCyberEarlyAdopterRedemption(
+  userId: string,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): CyberEarlyAdopterRedemption | null {
+  const state = loadState();
+  const key = userId.toLowerCase();
+  return (
+    (state.cyberEarlyAdopterRedemptions || []).find(
+      (r) =>
+        r.userId.toLowerCase() === key &&
+        (r.courseId === courseId || r.courseId === "cybersecurity-foundations-ethical-hacking-soc-ctf") &&
+        r.status === "claimed"
+    ) || null
+  );
+}
+
+export function getAllCyberEarlyAdopters(
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): CyberEarlyAdopterRedemption[] {
+  const state = loadState();
+  return (state.cyberEarlyAdopterRedemptions || []).filter(
+    (r) => r.courseId === courseId || r.courseId === "cybersecurity-foundations-ethical-hacking-soc-ctf"
+  );
+}
+
+export function claimCyberEarlyAdopterSeat(
+  userId: string,
+  courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf",
+  limit = 10
+): { success: boolean; redemptionNumber?: number; error?: string } {
+  const state = loadState();
+  if (!state.cyberEarlyAdopterRedemptions) state.cyberEarlyAdopterRedemptions = [];
+
+  const existing = getCyberEarlyAdopterRedemption(userId, courseId);
+  if (existing) {
+    return {
+      success: false,
+      error: "You have already claimed an Early Adopter free seat for this CyberSecurity course.",
+    };
+  }
+
+  const currentCount = getCyberEarlyAdopterCount(courseId);
+  if (currentCount >= limit) {
+    return {
+      success: false,
+      error: `All ${limit} Early Adopter seats have already been claimed.`,
+    };
+  }
+
+  const redemptionNumber = currentCount + 1;
+  const redemption: CyberEarlyAdopterRedemption = {
+    id: `ea-cyb-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    userId,
+    courseId,
+    redemptionNumber,
+    status: "claimed",
+    createdAt: new Date().toISOString(),
+  };
+
+  state.cyberEarlyAdopterRedemptions.push(redemption);
+
+  // Automatically activate 6-month Semester Pass
+  createOrExtendCyberEnrollment({
+    userId,
+    courseId,
+    accessType: "semester_pass",
+    months: 6,
+    notes: `Early Adopter Seat #${redemptionNumber}`,
+  });
+
+  persistState();
+
+  return {
+    success: true,
+    redemptionNumber,
+  };
+}
+
+export function getStudentCyberProgress(studentId: string): StudentCyberProgress {
+  const state = loadState();
+  if (!state.studentCyberProgress) state.studentCyberProgress = {};
+  const key = studentId.toLowerCase();
+
+  const labProgress = (state.cyberLabProgress || []).filter(
+    (p) => p.userId.toLowerCase() === key && p.status === "completed"
+  );
+  const completedLabs = labProgress.map((p) => p.labId);
+
+  const existing = state.studentCyberProgress[key];
+  if (existing) {
+    const mergedLabs = Array.from(new Set([...(existing.completedLabs || []), ...completedLabs]));
+    existing.completedLabs = mergedLabs;
+    const totalItems = 20 + 5 + 5;
+    const completedItems =
+      (existing.completedLessons?.length || 0) + mergedLabs.length + (existing.passedQuizzes?.length || 0);
+    existing.completionPercentage = Math.min(100, Math.round((completedItems / totalItems) * 100));
+    return existing;
+  }
+
+  const defaultProgress: StudentCyberProgress = {
+    completedLessons: [],
+    completedLabs,
+    passedQuizzes: [],
+    completionPercentage: Math.round((completedLabs.length / 30) * 100),
+    certificateStatus: "not_eligible",
+  };
+  state.studentCyberProgress[key] = defaultProgress;
+  return defaultProgress;
+}
+
+export function updateStudentCyberProgress(
+  studentId: string,
+  update: Partial<StudentCyberProgress>
+): StudentCyberProgress {
+  const state = loadState();
+  if (!state.studentCyberProgress) state.studentCyberProgress = {};
+  const key = studentId.toLowerCase();
+  const current = getStudentCyberProgress(studentId);
+
+  const updated: StudentCyberProgress = {
+    ...current,
+    ...update,
+    completedLessons: Array.from(
+      new Set([...(current.completedLessons || []), ...(update.completedLessons || [])])
+    ),
+    completedLabs: Array.from(
+      new Set([...(current.completedLabs || []), ...(update.completedLabs || [])])
+    ),
+    passedQuizzes: Array.from(
+      new Set([...(current.passedQuizzes || []), ...(update.passedQuizzes || [])])
+    ),
+  };
+
+  const totalItems = 20 + 5 + 5;
+  const completedCount =
+    updated.completedLessons.length + updated.completedLabs.length + updated.passedQuizzes.length;
+  updated.completionPercentage = Math.min(100, Math.round((completedCount / totalItems) * 100));
+
+  if (
+    updated.completedLessons.length >= 20 &&
+    updated.completedLabs.length >= 5 &&
+    updated.passedQuizzes.length >= 5 &&
+    updated.certificateStatus !== "issued"
+  ) {
+    updated.certificateStatus = "eligible";
+  }
+
+  state.studentCyberProgress[key] = updated;
+  persistState();
+  return updated;
+}
+
+export function issueCyberCertificate(
+  studentId: string,
+  studentName: string,
+  courseSlug = "cybersecurity-foundations-ethical-hacking-soc-ctf"
+): { success: boolean; certificate?: QuantumCertificate; error?: string } {
+  const state = loadState();
+  const key = studentId.toLowerCase();
+
+  const enrollment = getCyberEnrollment(studentId, courseSlug);
+  const isAdmin = key === "walavalkarridhesh@gmail.com" || key.includes("admin");
+  if (!isAdmin && (!enrollment || enrollment.status !== "active")) {
+    return {
+      success: false,
+      error: "Active CyberSecurity Semester Pass is required for certificate issuance.",
+    };
+  }
+
+  const progress = getStudentCyberProgress(studentId);
+  const isEligible =
+    isAdmin ||
+    (progress.completedLessons.length >= 20 &&
+      progress.completedLabs.length >= 5 &&
+      progress.passedQuizzes.length >= 5);
+
+  if (!isEligible && !isAdmin) {
+    return {
+      success: false,
+      error: `Eligibility criteria not met: ${progress.completedLessons.length}/20 lessons, ${progress.completedLabs.length}/5 labs, ${progress.passedQuizzes.length}/5 quizzes.`,
+    };
+  }
+
+  const randomHex = crypto.randomBytes(3).toString("hex").toUpperCase();
+  const code = `PMU-CYB-2026-${randomHex}`;
+  const now = new Date().toISOString();
+
+  const cert: QuantumCertificate = {
+    code,
+    studentTarget: studentId,
+    studentName,
+    courseSlug,
+    courseTitle: "CyberSecurity Foundations: Ethical Hacking, SOC & CTF",
+    instructorName: "Dr. Marcus Weber, PhD",
+    issueDate: now,
+    status: "issued",
+    verificationUrl: `https://prepmeup.ai/prepmeup/verify-certificate/${code}`,
+  };
+
+  if (!state.certificates) state.certificates = [];
+  state.certificates.push(cert);
+
+  progress.certificateStatus = "issued";
+  progress.certificateCode = code;
+  if (!state.studentCyberProgress) state.studentCyberProgress = {};
+  state.studentCyberProgress[key] = progress;
+
+  persistState();
+
+  return { success: true, certificate: cert };
 }

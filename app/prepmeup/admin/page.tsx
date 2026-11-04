@@ -583,6 +583,9 @@ export default function AdminDashboardPage() {
           <Link href="/prepmeup/admin/quantum-payments" className="pmu-btn-primary" style={{ padding: "0.5rem 1rem", fontSize: "0.75rem" }}>
             💳 Quantum Payments →
           </Link>
+          <Link href="/prepmeup/admin/cyber-payments" className="pmu-btn-primary" style={{ padding: "0.5rem 1rem", fontSize: "0.75rem" }}>
+            🛡️ Cyber Payments →
+          </Link>
           <Link href="/prepmeup/admin/approvals" className="pmu-btn-secondary" style={{ padding: "0.5rem 1rem", fontSize: "0.75rem" }}>
             🛡️ Content Approvals
           </Link>
