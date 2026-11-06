@@ -2,6 +2,9 @@
 
 Complete this checklist prior to flipping production DNS or announcing public availability.
 
+For Hostinger Node.js Web Apps deployments, also read the full runbook:
+**`prepmeup/deployment-hostinger.md`** (install/build/start commands, environment variables, Razorpay webhook, migration order, hostinger verification).
+
 ---
 
 ### 1. Database & Row-Level Security (RLS)
