@@ -37,6 +37,9 @@
   ],
   "exclude": [
     "node_modules",
-    "backend"
+    "backend",
+    ".next",
+    ".next/types",
+    ".next/dev/types"
   ]
 }

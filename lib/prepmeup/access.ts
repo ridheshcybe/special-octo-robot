@@ -661,6 +661,23 @@ export function getMentorshipEntitlement(
 }
 
 /**
+ * Discriminated union returned by all access functions. * Used throughout the codebase for type-safe narrowing. */
+export interface AccessResult {
+  kind: "allowed" | "denied";
+  reason?: string;
+}
+
+/** * Safely calls a Supabase RPC method, catching any errors and returning null on failure. * This prevents unhandled promise rejections and provides type-safe error boundaries. */
+export async function safeRpc<R>(rpcFn: () => Promise<R>): Promise<R | null> {
+  try {
+    return await rpcFn();
+  } catch (error) {
+    console.error("[safeRpc] RPC call failed:", error);
+    return null;
+  }
+}
+
+/**
  * Booking guard: requires an unused credit (unified or legacy) or staff access.
  */
 export function canBookMentorship(
