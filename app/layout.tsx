@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Onest } from "next/font/google";
 import type { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import { AdaptiveGrid } from "@/components/AdaptiveGrid";
 import { RemGrid } from "@/components/RemGrid";
 import "./globals.css";
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <AdaptiveGrid />
         <RemGrid />
         {children}
+        <Analytics />
       </body>
     </html>
   );
