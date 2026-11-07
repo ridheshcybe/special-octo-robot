@@ -10,13 +10,12 @@ export const dynamic = "force-dynamic";
 // - NEXT_PUBLIC_SUPABASE_URL
 // - NEXT_PUBLIC_SUPABASE_ANON_KEY
 // - RAZORPAY_KEY_ID
-// - TWILIO_SID
-// - TWILIO_AUTH_TOKEN
 // - GEMINI_API_KEY
 
+
 let supabase: SupabaseClient | null = null;
+// Status flags
 let razorpayStatus = "not_configured";
-let twilioStatus = "not_configured";
 let geminiStatus = "not_configured";
 
 // Health status union type
@@ -24,12 +23,11 @@ type HealthStatus = "ok" | "degraded" | "error";
 
 // Initialize Supabase client on first request
 if (!supabase) {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseUrl = process.env.NEXT_PUBLIC_PMU_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (supabaseUrl && supabaseAnonKey) {
     supabase = createClient(supabaseUrl, supabaseAnonKey);
     razorpayStatus = process.env.RAZORPAY_KEY_ID ? "configured" : "not_configured";
-    twilioStatus = process.env.TWILIO_SID ? "configured" : "not_configured";
     geminiStatus = process.env.GEMINI_API_KEY ? "configured" : "not_configured";
   }
 }
@@ -48,7 +46,6 @@ export async function GET() {
       },
       storage: supabase ? "connected" : "disconnected",
       razorpay: razorpayStatus,
-      twilio: twilioStatus,
       gemini: geminiStatus,
     };
 

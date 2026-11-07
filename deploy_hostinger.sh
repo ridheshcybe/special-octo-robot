@@ -32,7 +32,8 @@ if (( NODE_MAJOR < 20 )); then
   exit 1
 fi
 
-echo "[2/6] Installing dependencies (npm ci)..."
+# Clean any existing node_modules to avoid ENOTEMPTY errors
+rm -rf node_modules
 npm ci
 
 echo "[3/6] Running production build (next build)..."
@@ -106,7 +107,7 @@ echo "  Add these to hPanel Environment Variables (Production):"
 echo "    NEXT_PUBLIC_PMU_SUPABASE_URL / PMU_SUPABASE_SERVICE_ROLE_KEY"
 echo "    GEMINI_API_KEY / GEMINI_TEXT_MODEL / GEMINI_DOCUMENT_MODEL"
 echo "    NEXT_PUBLIC_RAZORPAY_KEY_ID / RAZORPAY_KEY_SECRET / RAZORPAY_WEBHOOK_SECRET"
-echo "    TWILIO_ACCOUNT_SID / TWILIO_AUTH_TOKEN / TWILIO_VERIFY_SERVICE_SID"
+
 echo "    UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN"
 echo "    PMU_APP_URL (https:// your Hostinger domain), PMU_SESSION_SECRET (>= 32 chars)"
 echo "    CERTIFICATE_SIGNING_SECRET"

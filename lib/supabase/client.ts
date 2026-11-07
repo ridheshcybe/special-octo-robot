@@ -8,11 +8,11 @@ import { createBrowserClient } from "@supabase/ssr";
  * the UI — the anon key is safe to ship.
  */
 export function createClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const url = process.env.NEXT_PUBLIC_PMU_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_PMU_SUPABASE_ANON_KEY;
   if (!url || !key) {
     throw new Error(
-      "Supabase env vars are missing. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local.",
+      "Supabase env vars are missing. Set NEXT_PUBLIC_PMU_SUPABASE_URL and NEXT_PUBLIC_PMU_SUPABASE_ANON_KEY in .env.local.",
     );
   }
   return createBrowserClient(url, key);
@@ -20,4 +20,4 @@ export function createClient() {
 
 /** True when the public env vars are configured. */
 export const hasSupabaseEnv = () =>
-  Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  Boolean(process.env.NEXT_PUBLIC_PMU_SUPABASE_URL && process.env.NEXT_PUBLIC_PMU_SUPABASE_ANON_KEY);

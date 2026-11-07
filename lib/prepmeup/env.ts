@@ -7,14 +7,13 @@
  *  - Insecure development switches are rejected in production.
  *  - Only NEXT_PUBLIC_* variables are allowed to reach the browser; this module
  *    is server-only and is never imported from a client component.
- *
- * Kept dependency-free so it can be unit-tested in isolation.
  */
 
+/* Keep dependency‑free for unit testing */
 export type PmuEnvCategory =
   | "Supabase"
   | "Razorpay"
-  | "Twilio"
+
   | "Gemini"
   | "App URL"
   | "Certificate signing"
@@ -35,6 +34,21 @@ export interface PmuEnvValidationResult {
   warnings: PmuEnvIssue[];
 }
 
+/* ---------- Razorpay alias block (legacy → unified) ---------- */
+if (process.env.UNIFIED_RAZORPAY_KEY_ID) {
+  process.env.RAZORPAY_KEY_ID = process.env.UNIFIED_RAZORPAY_KEY_ID;
+}
+if (process.env.NEXT_PUBLIC_UNIFIED_RAZORPAY_KEY_ID) {
+  process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID = process.env.UNIFIED_RAZORPAY_KEY_ID;
+}
+if (process.env.UNIFIED_RAZORPAY_KEY_SECRET) {
+  process.env.RAZORPAY_KEY_SECRET = process.env.UNIFIED_RAZORPAY_KEY_SECRET;
+}
+if (process.env.UNIFIED_RAZORPAY_WEBHOOK_SECRET) {
+  process.env.RAZORPAY_WEBHOOK_SECRET = process.env.UNIFIED_RAZORPAY_WEBHOOK_SECRET;
+}
+
+/* ---------- Validation configuration ---------- */
 interface RequiredGroup {
   category: PmuEnvCategory;
   variables: string[];
@@ -50,7 +64,7 @@ const REQUIRED_GROUPS: RequiredGroup[] = [
     variables: ["PMU_SESSION_SECRET"],
     customCheck: (env) => {
       const secret = env.PMU_SESSION_SECRET?.trim() || "";
-      if (!secret) return null; // reported as missing by the variable list
+      if (!secret) return null;
       if (secret.length < MIN_SESSION_SECRET_LENGTH) {
         return {
           category: "Session security",
@@ -76,14 +90,11 @@ const REQUIRED_GROUPS: RequiredGroup[] = [
       "UNIFIED_RAZORPAY_KEY_SECRET",
       "NEXT_PUBLIC_UNIFIED_RAZORPAY_KEY_ID",
       "UNIFIED_RAZORPAY_WEBHOOK_SECRET",
-      // Required by the fail-closed Quantum webhook.
+      // Required by the fail‑closed Quantum webhook.
       "RAZORPAY_WEBHOOK_SECRET",
     ],
   },
-  {
-    category: "Twilio",
-    variables: ["TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_VERIFY_SERVICE_SID"],
-  },
+  // Twilio group removed – OTP via email only
   {
     category: "Gemini",
     variables: ["GEMINI_API_KEY"],
@@ -118,10 +129,7 @@ function isBlank(value: string | undefined): boolean {
   return !value || value.trim().length === 0;
 }
 
-/**
- * Validates the PrepMeUp environment. Never throws; never reads back values into
- * the result.
- */
+/** Validates the PrepMeUp environment. Never throws; never reads back values into the result. */
 export function validatePmuEnv(env: NodeJS.ProcessEnv = process.env): PmuEnvValidationResult {
   const production = (env.NODE_ENV || "development") === "production";
   const issues: PmuEnvIssue[] = [];
@@ -129,19 +137,16 @@ export function validatePmuEnv(env: NodeJS.ProcessEnv = process.env): PmuEnvVali
 
   for (const group of REQUIRED_GROUPS) {
     const missing = group.variables.filter((name) => isBlank(env[name]));
-
     if (missing.length > 0) {
       const issue: PmuEnvIssue = {
         category: group.category,
         variables: missing,
         message: `Missing ${group.category} configuration: ${missing.join(", ")}`,
       };
-      // Local development may run degraded; production may not.
       if (production) issues.push(issue);
       else warnings.push(issue);
       continue;
     }
-
     const customIssue = group.customCheck?.(env);
     if (customIssue) {
       if (production) issues.push(customIssue);
@@ -149,10 +154,10 @@ export function validatePmuEnv(env: NodeJS.ProcessEnv = process.env): PmuEnvVali
     }
   }
 
-  // Insecure development switches must never be active in production.
+
   if (production && env.PMU_OTP_DEV_MODE === "true") {
     issues.push({
-      category: "Twilio",
+      category: "Session security",
       variables: ["PMU_OTP_DEV_MODE"],
       message: "PMU_OTP_DEV_MODE must not be enabled in production.",
     });
@@ -169,32 +174,18 @@ export function validatePmuEnv(env: NodeJS.ProcessEnv = process.env): PmuEnvVali
   return { ok: issues.length === 0, production, issues, warnings };
 }
 
-/**
- * Throws when the production environment is incomplete. Callers should invoke
- * this at startup (see `instrumentation.ts`) so a misconfigured deployment fails
- * loudly instead of degrading silently.
- */
+/** Throws when the production environment is incomplete. Callers should invoke this at startup (see `instrumentation.ts`). */
 export function assertPmuEnv(env: NodeJS.ProcessEnv = process.env): void {
   const result = validatePmuEnv(env);
   if (result.ok) return;
 
-  const summary = result.issues
-    .map((issue) => `- ${issue.message}`)
-    .join("\n");
-
+  const summary = result.issues.map((i) => `- ${i.message}`).join("\n");
   throw new Error(
-    `PrepMeUp AI production environment is not configured correctly.\n${summary}\n` +
-      "Set the missing variables in the deployment environment. Values are never logged."
+    `PrepMeUp AI production environment is not configured correctly.\n${summary}\nSet the missing variables in the deployment environment. Values are never logged.`
   );
 }
 
-/**
- * Development-only admin fallback gate.
- *
- * Requires all three: non-production runtime, the explicit opt-in flag, and
- * credentials supplied via environment variables. There are no credentials in
- * source code and this can never return true in production.
- */
+/** Development‑only admin fallback gate. */
 export function isPmuDevAdminFallbackEnabled(env: NodeJS.ProcessEnv = process.env): boolean {
   if ((env.NODE_ENV || "development") === "production") return false;
   if (env.PMU_ENABLE_DEV_ADMIN_FALLBACK !== "true") return false;

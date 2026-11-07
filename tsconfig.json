@@ -34,9 +34,10 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
-  ],
+  , "deno.d.ts"],
   "exclude": [
     "node_modules",
+    "supabase/functions",
     "backend",
     ".next",
     ".next/types",

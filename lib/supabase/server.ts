@@ -4,7 +4,7 @@ import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 
 /** True when the public env vars are configured. */
 export const hasSupabaseEnv = () =>
-  Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  Boolean(process.env.NEXT_PUBLIC_PMU_SUPABASE_URL && process.env.NEXT_PUBLIC_PMU_SUPABASE_ANON_KEY);
 
 /**
  * Cookie-bound server client, used by route handlers that need the signed-in
@@ -12,7 +12,7 @@ export const hasSupabaseEnv = () =>
  */
 export async function createServerSupabaseClient() {
   const cookieStore = await cookies();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const url = process.env.NEXT_PUBLIC_PMU_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) return null;
 
@@ -43,7 +43,7 @@ export async function createServerSupabaseClient() {
  * `lib/content.ts` fall back to the seed.
  */
 export function createAnonClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const url = process.env.NEXT_PUBLIC_PMU_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) return null;
 

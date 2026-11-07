@@ -41,8 +41,8 @@ export async function middleware(request: NextRequest) {
   // 1. Existing Portfolio CMS Guard: /admin/*
   // --------------------------------------------------------------------------
   if (pathname.startsWith("/admin")) {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const url = process.env.NEXT_PUBLIC_PMU_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_PMU_SUPABASE_ANON_KEY;
 
     if (!url || !key) {
       if (pathname !== ADMIN_LOGIN_PATH) {
