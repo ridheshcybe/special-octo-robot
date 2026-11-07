@@ -39,3 +39,10 @@ gcp-key.json
 service-account*.json
 *.key.json
 .secrets/
+
+hostinger_prebuilt/
+.env.hostinger
+.agents/
+.mcp.json
+supabase/.temp/
+
