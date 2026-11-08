@@ -199,7 +199,14 @@ export async function sendEmailOtp(email: string): Promise<SendEmailOtpResult> {
         },
       });
 
-      const fromAddress = process.env.EMAIL_FROM || `"PrepMeUp AI" <${smtpUser}>`;
+      // Auto-fallback for Resend SMTP or custom domains:
+      const defaultSender = smtpUser.includes("@")
+        ? smtpUser
+        : smtpHost.includes("resend.com")
+        ? "onboarding@resend.dev"
+        : `noreply@prepmeupai.in`;
+
+      const fromAddress = process.env.EMAIL_FROM || `"PrepMeUp AI" <${defaultSender}>`;
       await transporter.sendMail({
         from: fromAddress,
         to: normalizedEmail,
@@ -214,7 +221,7 @@ export async function sendEmailOtp(email: string): Promise<SendEmailOtpResult> {
         success: false,
         status: "failed",
         channel: "email",
-        error: "Failed to dispatch email via SMTP. Please try again or contact support.",
+        error: `Failed to dispatch email: ${err?.message || "SMTP error"}. Please try again or contact support.`,
       };
     }
   }
