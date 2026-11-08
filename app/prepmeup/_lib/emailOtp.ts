@@ -157,7 +157,7 @@ export async function sendEmailOtp(email: string): Promise<SendEmailOtpResult> {
   let lastResendError = "";
   if (resendApiKey) {
     try {
-      const fromEmail = process.env.EMAIL_FROM || "PrepMeUp AI <onboarding@resend.dev>";
+      const fromEmail = process.env.EMAIL_FROM || "PrepMeUp AI <auth@prepmeupai.in>";
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
