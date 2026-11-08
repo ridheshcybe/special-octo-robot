@@ -148,12 +148,16 @@ export async function sendEmailOtp(email: string): Promise<SendEmailOtpResult> {
     };
   }
 
-  // 2. Option A: Resend REST API (100% free, 3,000 emails/mo)
-  const resendApiKey = process.env.RESEND_API_KEY;
+  // 2. Option A: Resend REST API (HTTPS over 443 — guaranteed to work in Vercel Serverless / Lambda)
+  // Check either RESEND_API_KEY or SMTP_PASS (Resend API keys start with "re_")
+  const resendApiKey =
+    process.env.RESEND_API_KEY ||
+    (process.env.SMTP_PASS && process.env.SMTP_PASS.startsWith("re_") ? process.env.SMTP_PASS : null);
+
   let lastResendError = "";
   if (resendApiKey) {
     try {
-      const fromEmail = process.env.EMAIL_FROM || "PrepMeUp AI <auth@prepmeupai.in>";
+      const fromEmail = process.env.EMAIL_FROM || "PrepMeUp AI <onboarding@resend.dev>";
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
