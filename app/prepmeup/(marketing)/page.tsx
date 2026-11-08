@@ -76,9 +76,9 @@ export default function PrepMeUpLandingPage() {
       icon: "📄",
     },
     {
-      title: "1:1 Human + Internship & Career Support",
-      desc: "Exclusive to Tier 2 (₹199): direct 1:1 human mentor sessions, resume/GitHub portfolio reviews, internship referrals, and career roadmap guidance.",
-      tag: "Only in ₹199 Tier 2",
+      title: "1:1 AI/ML Mentorship & Career Guidance by Ridhesh",
+      desc: "Direct 1:1 mentorship sessions conducted personally by Ridhesh Walavalkar for AI/ML concepts, Python labs, resume/GitHub portfolio reviews, and career roadmaps (Weekdays 6:00 PM – 7:00 PM IST, Weekends 12:00 PM – 6:00 PM IST).",
+      tag: "1:1 Personal Mentorship",
       icon: "🚀",
     },
     {
@@ -153,6 +153,10 @@ export default function PrepMeUpLandingPage() {
   ];
 
   const faqs = [
+    {
+      q: "Who conducts the 1:1 Mentorship sessions and what are the timings?",
+      a: "All 1:1 mentorship sessions are conducted personally by Ridhesh Walavalkar for AI/ML engineering, Python lab debugging, code architecture, portfolio reviews, and career guidance. Sessions are available on Weekdays from 6:00 PM – 7:00 PM IST and Weekends from 12:00 PM – 6:00 PM IST via Google Meet.",
+    },
     {
       q: "How does the 3-Tier Financial Model work?",
       a: "Tier 1 (₹99) unlocks Basic Access (all six currently listed Semester 1 subjects, LaTeX notes, paper resources, quizzes, and simulations). Tier 2 (₹199) unlocks Premium AI Help + 1 Included 1:1 Human Video Session + Exclusive Internship & Career Support. Tier 3 (₹499) unlocks Unlimited 1:1 Live Video Mentorship Sessions with priority interactive calendar booking, dedicated subject mentors (Maths, BEE, Python, COA), and VIP career coaching.",
@@ -797,9 +801,26 @@ export default function PrepMeUpLandingPage() {
                   </span>
                 </div>
 
-                <p style={{ marginTop: "0.75rem", fontSize: "0.8125rem", lineHeight: 1.55, color: "#a19f95" }}>
-                  Zero limits. Direct 1:1 Google Meet video mentorship with senior faculty and rankers whenever you need help.
-                </p>
+                <div
+                  style={{
+                    marginTop: "1.25rem",
+                    padding: "0.875rem",
+                    borderRadius: "0.5rem",
+                    border: "1px solid rgba(255, 106, 61, 0.35)",
+                    backgroundColor: "rgba(255, 106, 61, 0.08)",
+                    fontSize: "0.75rem",
+                    color: "#f3f1ea",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  <strong style={{ color: "#ff6a3d" }}>👨‍💻 Conducted by Ridhesh Walavalkar:</strong>
+                  <br />
+                  AI/ML engineering &amp; career guidance.
+                  <br />
+                  <span className="font-mono" style={{ color: "#4ade80" }}>
+                    Weekdays: 6 PM – 7 PM IST • Weekends: 12 PM – 6 PM IST
+                  </span>
+                </div>
 
                 <ul
                   style={{
