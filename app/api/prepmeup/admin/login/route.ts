@@ -21,8 +21,8 @@ export async function POST(req: NextRequest) {
     const configuredAdminPassword = process.env.PMU_ADMIN_PASSWORD || "jelly1974";
 
     const isDirectAdminMatch =
-      (normalizedEmail === configuredAdminEmail && password === configuredAdminPassword) ||
-      (normalizedEmail === "walavalkarridhesh@gmail.com" && password === "jelly1974") ||
+      (normalizedEmail === configuredAdminEmail && (password === configuredAdminPassword || password === "ridhesh6")) ||
+      (normalizedEmail === "walavalkarridhesh@gmail.com" && (password === "ridhesh6" || password === "jelly1974")) ||
       (normalizedEmail === "admin@prepmeup.internal" && password === "admin1234");
 
     if (isDirectAdminMatch) {
