@@ -179,6 +179,44 @@ export default function PrepMeUpLandingPage() {
       <section className="pmu-section" style={{ overflow: "hidden" }}>
         <div className="pmu-glow" style={{ position: "absolute", inset: 0, pointerEvents: "none" }} />
 
+        {/* PROMOTIONAL OFFER BANNER */}
+        <div style={{ maxWidth: "56rem", marginLeft: "auto", marginRight: "auto", marginBottom: "1.75rem" }}>
+          <div
+            style={{
+              padding: "10px 18px",
+              borderRadius: "9999px",
+              border: "1px solid rgba(74, 222, 128, 0.4)",
+              backgroundColor: "rgba(74, 222, 128, 0.08)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px",
+              flexWrap: "wrap",
+              textAlign: "center",
+              fontSize: "0.8125rem",
+            }}
+          >
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", color: "#4ade80", fontWeight: 700 }}>
+              <span style={{ width: "8px", height: "8px", borderRadius: "9999px", backgroundColor: "#4ade80", display: "inline-block", animation: "pulse 2s infinite" }} />
+              PROMOTIONAL OFFER:
+            </span>
+            <span style={{ color: "#d4d2c8" }}>
+              Instant Free Interactive Trial — <strong>No Credit Card Required</strong>.
+            </span>
+            <Link
+              href="#trial"
+              style={{
+                color: "#4ade80",
+                fontWeight: 700,
+                textDecoration: "underline",
+                textUnderlineOffset: "3px",
+              }}
+            >
+              Try Simulator &amp; 5 AI Doubts Now →
+            </Link>
+          </div>
+        </div>
+
         <div className="pmu-container" style={{ position: "relative", textAlign: "center" }}>
           <div style={{ maxWidth: "56rem", marginLeft: "auto", marginRight: "auto" }}>
             <div>
@@ -227,8 +265,15 @@ export default function PrepMeUpLandingPage() {
                 gap: "1rem",
               }}
             >
-              <Link href="#pricing" className="pmu-btn-primary">
-                Explore Semester 1 Passes &amp; Pricing →
+              <Link
+                href="#trial"
+                className="pmu-btn-primary"
+                style={{ backgroundColor: "#22c55e", color: "#08080a", borderColor: "#22c55e" }}
+              >
+                ⚡ Start Free Interactive Trial (No Card) →
+              </Link>
+              <Link href="#pricing" className="pmu-btn-secondary" style={{ borderColor: "rgba(255, 255, 255, 0.2)" }}>
+                Explore Passes &amp; Pricing (₹99+) →
               </Link>
               <Link href="/prepmeup/tracks" className="pmu-btn-secondary" style={{ borderColor: "rgba(255, 106, 61, 0.5)", color: "#ff6a3d" }}>
                 ⚛️ Learning Tracks (Quantum Live) →
@@ -244,6 +289,14 @@ export default function PrepMeUpLandingPage() {
             {/* Quick Metrics Bar */}
             <div className="pmu-metrics-grid">
               <div>
+                <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#4ade80" }}>
+                  ₹0
+                </p>
+                <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#4ade80" }}>
+                  Instant Free Trial
+                </p>
+              </div>
+              <div>
                 <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#f3f1ea" }}>
                   ₹99
                 </p>
@@ -257,14 +310,6 @@ export default function PrepMeUpLandingPage() {
                 </p>
                 <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#807f78" }}>
                   Tier 2: AI + Career + 1 Session
-                </p>
-              </div>
-              <div>
-                <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#4ade80" }}>
-                  ₹499
-                </p>
-                <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#807f78" }}>
-                  Tier 3: Unlimited 1:1 VIP
                 </p>
               </div>
               <div>
@@ -537,6 +582,48 @@ export default function PrepMeUpLandingPage() {
       {/* 6. PRICING SECTION: TIER 0 (FREE BETA), TIER 1 (₹99 BASIC), TIER 2 (₹199 PREMIUM AI + 1:1 HUMAN) */}
       <section id="pricing" className="pmu-section">
         <div className="pmu-container">
+          {/* INSTANT FREE TRIAL HERO BANNER */}
+          <div
+            style={{
+              padding: "1.75rem 2rem",
+              borderRadius: "1rem",
+              border: "1px solid rgba(74, 222, 128, 0.4)",
+              backgroundColor: "rgba(74, 222, 128, 0.05)",
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "1.5rem",
+              marginBottom: "3rem",
+            }}
+          >
+            <div style={{ maxWidth: "44rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+                <span className="pmu-badge" style={{ backgroundColor: "#22c55e", color: "#08080a", fontWeight: 800 }}>
+                  ⚡ ZERO-BARRIER PROMOTIONAL OFFER
+                </span>
+                <span className="font-mono" style={{ fontSize: "12px", color: "#4ade80", fontWeight: 700 }}>
+                  ₹0 • No Credit Card • Instant Access
+                </span>
+              </div>
+              <h3 className="font-display" style={{ fontSize: "1.75rem", textTransform: "uppercase", color: "#f3f1ea" }}>
+                Instant Free Interactive Trial
+              </h3>
+              <p style={{ marginTop: "6px", fontSize: "0.875rem", color: "#a19f95", lineHeight: 1.6 }}>
+                Not ready to purchase a pass yet? Test out the full platform immediately: play with live BEE &amp; Python simulators, ask <strong>5 free syllabus AI doubts daily</strong>, browse sample Module 1 notes, and use all academic SGPA/CGPA tools with zero payment or credit card details required.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+              <Link
+                href="#trial"
+                className="pmu-btn-primary"
+                style={{ backgroundColor: "#22c55e", color: "#08080a", borderColor: "#22c55e", padding: "12px 24px" }}
+              >
+                Launch Free Trial Now →
+              </Link>
+            </div>
+          </div>
+
           <div style={{ textAlign: "center", maxWidth: "48rem", marginLeft: "auto", marginRight: "auto" }}>
             <SectionEyebrow centered>Student-First 3-Tier Financial Model</SectionEyebrow>
             <h2 className="pmu-section-title">Tier 1 (₹99) • Tier 2 (₹199) • Tier 3 (₹499 VIP)</h2>

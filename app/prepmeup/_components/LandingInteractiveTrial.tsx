@@ -112,11 +112,12 @@ Every square matrix $A$ satisfies its own characteristic equation $\\det(A - \\l
 
   return (
     <section
-      id="interactive-trial"
+      id="trial"
       style={{
         borderBottom: "1px solid #26262c",
         backgroundColor: "#0c0c10",
         padding: "64px 0",
+        scrollMarginTop: "80px",
       }}
     >
       <div className="pmu-shell">

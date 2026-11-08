@@ -26,6 +26,9 @@ export function PrepMeUpNav() {
 
         {/* Desktop Links */}
         <nav className="pmu-nav-desktop">
+          <Link href="/prepmeup#trial" className="pmu-nav-link" style={{ color: "#4ade80", fontWeight: 700 }}>
+            🎁 Free Trial
+          </Link>
           <Link href="/prepmeup#subjects" className="pmu-nav-link">
             Subjects
           </Link>
@@ -45,6 +48,9 @@ export function PrepMeUpNav() {
 
         {/* CTAs */}
         <div className="pmu-nav-ctas">
+          <Link href="/prepmeup#trial" className="pmu-nav-link" style={{ color: "#4ade80", fontSize: "0.8125rem" }}>
+            Try Free Simulator
+          </Link>
           <Link href="/prepmeup/dashboard" className="pmu-nav-link">
             Student Portal
           </Link>

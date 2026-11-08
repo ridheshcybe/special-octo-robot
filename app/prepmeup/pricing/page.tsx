@@ -186,7 +186,7 @@ export default function PrepMeUpPricingPage() {
             className="pmu-card-highlight"
             style={{
               padding: "24px 28px",
-              marginBottom: "36px",
+              marginBottom: "24px",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -227,6 +227,56 @@ export default function PrepMeUpPricingPage() {
             </Link>
           </div>
         )}
+
+        {/* INSTANT FREE INTERACTIVE TRIAL PROMOTIONAL CARD */}
+        <div
+          style={{
+            padding: "24px 28px",
+            marginBottom: "36px",
+            borderRadius: "12px",
+            border: "1px solid rgba(74, 222, 128, 0.4)",
+            backgroundColor: "rgba(74, 222, 128, 0.06)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "16px",
+          }}
+        >
+          <div style={{ maxWidth: "680px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+              <span className="pmu-badge" style={{ backgroundColor: "#22c55e", color: "#08080a", fontWeight: 800 }}>
+                ⚡ INSTANT FREE TRIAL
+              </span>
+              <span className="font-mono" style={{ fontSize: "12px", color: "#4ade80", fontWeight: 700 }}>
+                ₹0 • No Credit Card Required
+              </span>
+            </div>
+            <h3
+              className="font-display"
+              style={{ fontSize: "22px", textTransform: "uppercase", marginTop: "8px", color: "#f3f1ea" }}
+            >
+              Want to try before buying a pass?
+            </h3>
+            <p style={{ fontSize: "13.5px", color: "#a19f95", marginTop: "4px", lineHeight: 1.55 }}>
+              Test-drive the platform instantly without entering any payment info. Includes 5 free AI doubts/day, interactive circuit &amp; Python loop simulators, and full access to our SGPA/CGPA and rank predictor tools.
+            </p>
+          </div>
+          <Link
+            href="/prepmeup#trial"
+            className="pmu-btn-primary"
+            style={{
+              padding: "12px 24px",
+              textDecoration: "none",
+              fontSize: "13px",
+              backgroundColor: "#22c55e",
+              color: "#08080a",
+              borderColor: "#22c55e",
+            }}
+          >
+            Start Free Interactive Trial →
+          </Link>
+        </div>
 
         {loading && (
           <p style={{ color: MUTED, textAlign: "center" }}>Loading plans…</p>
