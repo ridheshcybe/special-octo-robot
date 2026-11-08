@@ -50,12 +50,12 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self';",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://checkout.razorpay.com;",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://checkout.razorpay.com https://va.vercel-scripts.com;",
               "frame-src 'self' https://api.razorpay.com https://checkout.razorpay.com;",
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.razorpay.com https://lumberjack.razorpay.com;",
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.razorpay.com https://lumberjack.razorpay.com https://va.vercel-scripts.com https://vitals.vercel-insights.com;",
               "img-src 'self' data: blob: https:;",
-              "style-src 'self' 'unsafe-inline';",
-              "font-src 'self' data:;",
+              "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;",
+              "font-src 'self' data: https://cdn.jsdelivr.net https://frontend-cdn.perplexity.ai;",
             ].join(" "),
           },
           {
