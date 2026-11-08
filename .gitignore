@@ -46,3 +46,5 @@ hostinger_prebuilt/
 .mcp.json
 supabase/.temp/
 
+.vercel
+.env*
