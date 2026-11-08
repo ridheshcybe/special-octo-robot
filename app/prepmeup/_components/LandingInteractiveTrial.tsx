@@ -5,7 +5,14 @@ import Link from "next/link";
 import { RichMathMarkdown } from "./RichMathMarkdown";
 
 export function LandingInteractiveTrial() {
-  const [activeTab, setActiveTab] = useState<"simulator" | "ai_doubt" | "squad">("simulator");
+  const [activeTab, setActiveTab] = useState<"simulator" | "ai_doubt" | "claim_trial" | "squad">("simulator");
+
+  // Free Trial Setup State
+  const [trialName, setTrialName] = useState<string>("");
+  const [trialTarget, setTrialTarget] = useState<string>("");
+  const [trialSubmitting, setTrialSubmitting] = useState<boolean>(false);
+  const [trialSuccessMsg, setTrialSuccessMsg] = useState<string | null>(null);
+  const [trialError, setTrialError] = useState<string | null>(null);
 
   // Simulator sub-mode: "circuit" | "python"
   const [simMode, setSimMode] = useState<"circuit" | "python">("circuit");
@@ -64,6 +71,39 @@ Every square matrix $A$ satisfies its own characteristic equation $\\det(A - \\l
       }).catch(() => {});
     }
   }, []);
+
+  const handleActivateFreeTrial = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!trialName.trim()) {
+      setTrialError("Please enter your name.");
+      return;
+    }
+    setTrialSubmitting(true);
+    setTrialError(null);
+    try {
+      const res = await fetch("/api/prepmeup/auth/start-trial", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: trialName.trim(),
+          target: trialTarget.trim() || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        setTrialError(data.error || "Failed to set up free trial.");
+      } else {
+        setTrialSuccessMsg(data.message || `Welcome, ${trialName}! Free Basic Plan active.`);
+        setTimeout(() => {
+          window.location.href = data.redirectTo || "/prepmeup/dashboard";
+        }, 1200);
+      }
+    } catch {
+      setTrialError("Network error while activating free trial.");
+    } finally {
+      setTrialSubmitting(false);
+    }
+  };
 
   const totalR = r1 + r2;
   const currentI = totalR > 0 ? voltage / totalR : 0;
@@ -189,9 +229,10 @@ Every square matrix $A$ satisfies its own characteristic equation $\\det(A - \\l
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
             {[
-              { id: "simulator" as const, label: "⚡ 1. Live Interactive Simulator" },
-              { id: "ai_doubt" as const, label: "🤖 2. Try Free AI Doubt Solver" },
-              { id: "squad" as const, label: "👥 3. Study Squad Pass (₹149/Friend)" },
+              { id: "claim_trial" as const, label: "🎁 1. Claim Free Basic Plan" },
+              { id: "simulator" as const, label: "⚡ 2. Live Interactive Simulator" },
+              { id: "ai_doubt" as const, label: "🤖 3. Free AI Doubt Solver" },
+              { id: "squad" as const, label: "👥 4. Study Squad Pass (₹149/Friend)" },
             ].map((t) => {
               const isAct = activeTab === t.id;
               return (
@@ -217,6 +258,117 @@ Every square matrix $A$ satisfies its own characteristic equation $\\det(A - \\l
             })}
           </div>
         </div>
+
+        {/* TAB 0: CLAIM FREE BASIC PLAN WITH NAME */}
+        {activeTab === "claim_trial" && (
+          <div className="pmu-card-highlight" style={{ padding: "32px", borderColor: "rgba(74, 222, 128, 0.5)" }}>
+            <div style={{ maxWidth: "560px", margin: "0 auto", textAlign: "center" }}>
+              <span className="pmu-badge" style={{ backgroundColor: "#22c55e", color: "#08080a", fontWeight: 800 }}>
+                ⚡ INSTANT 100% FREE SETUP • ZERO CARDS
+              </span>
+              <h3 className="font-display" style={{ fontSize: "28px", textTransform: "uppercase", color: "#f3f1ea", marginTop: "12px" }}>
+                Activate Your Free Basic Plan
+              </h3>
+              <p style={{ fontSize: "14px", color: "#a19f95", marginTop: "6px", lineHeight: 1.6 }}>
+                Enter your name to unlock the Tier 1 Basic Plan immediately. You will receive immediate dashboard access to Semester 1 modules, circuit &amp; Python simulators, and daily AI doubt copilot assistance.
+              </p>
+
+              {trialSuccessMsg ? (
+                <div
+                  style={{
+                    marginTop: "24px",
+                    padding: "16px 20px",
+                    borderRadius: "8px",
+                    backgroundColor: "rgba(34, 197, 94, 0.15)",
+                    border: "1px solid #22c55e",
+                    color: "#4ade80",
+                    fontWeight: 600,
+                    fontSize: "15px",
+                  }}
+                >
+                  🎉 {trialSuccessMsg}
+                  <div style={{ marginTop: "8px", fontSize: "12px", color: "#d1fae5" }}>
+                    Redirecting you to the student portal dashboard…
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleActivateFreeTrial} style={{ marginTop: "24px", textAlign: "left" }}>
+                  <div style={{ marginBottom: "16px" }}>
+                    <label style={{ display: "block", fontSize: "12px", fontWeight: 700, color: "#d4d2c8", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "6px" }}>
+                      Your Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Rahul Sharma"
+                      value={trialName}
+                      onChange={(e) => setTrialName(e.target.value)}
+                      style={{
+                        width: "100%",
+                        padding: "12px 16px",
+                        borderRadius: "8px",
+                        border: "1px solid #33333d",
+                        backgroundColor: "#08080a",
+                        color: "#f3f1ea",
+                        fontSize: "14px",
+                        outline: "none",
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ marginBottom: "20px" }}>
+                    <label style={{ display: "block", fontSize: "12px", fontWeight: 700, color: "#807f78", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "6px" }}>
+                      Email or Mobile Number (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. student@college.edu or 9820743178"
+                      value={trialTarget}
+                      onChange={(e) => setTrialTarget(e.target.value)}
+                      style={{
+                        width: "100%",
+                        padding: "12px 16px",
+                        borderRadius: "8px",
+                        border: "1px solid #26262c",
+                        backgroundColor: "#08080a",
+                        color: "#f3f1ea",
+                        fontSize: "14px",
+                        outline: "none",
+                      }}
+                    />
+                    <span style={{ fontSize: "11px", color: "#66655e", marginTop: "4px", display: "block" }}>
+                      Used to sync your study notes across devices. No credit card or OTP required.
+                    </span>
+                  </div>
+
+                  {trialError && (
+                    <div style={{ marginBottom: "16px", padding: "10px 14px", borderRadius: "6px", backgroundColor: "rgba(239, 68, 68, 0.15)", border: "1px solid #ef4444", color: "#f87171", fontSize: "13px" }}>
+                      {trialError}
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={trialSubmitting}
+                    className="pmu-btn-primary"
+                    style={{
+                      width: "100%",
+                      padding: "14px",
+                      fontSize: "14px",
+                      backgroundColor: "#22c55e",
+                      color: "#08080a",
+                      borderColor: "#22c55e",
+                      fontWeight: 800,
+                      cursor: trialSubmitting ? "wait" : "pointer",
+                    }}
+                  >
+                    {trialSubmitting ? "Setting up your Basic Plan…" : "🚀 Start Free Trial (Setup Basic Plan) →"}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* TAB 1: LIVE INTERACTIVE SIMULATOR */}
         {activeTab === "simulator" && (
