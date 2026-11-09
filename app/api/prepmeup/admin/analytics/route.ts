@@ -19,6 +19,33 @@ export async function GET(req: NextRequest) {
     let users = getAllAppUsers();
     const activities = getGlobalActivityFeed();
 
+    // 0. Synchronize directly with Upstash cloud storage before compiling metrics
+    try {
+      const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
+      const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+      if (upstashUrl && upstashToken) {
+        const cloudRes = await fetch(`${upstashUrl}/get/pmu_app_users_v2`, {
+          headers: { Authorization: `Bearer ${upstashToken}` },
+          cache: "no-store",
+        });
+        const cloudJson = await cloudRes.json();
+        if (cloudJson?.result) {
+          const parsedCloudUsers = JSON.parse(cloudJson.result);
+          if (Array.isArray(parsedCloudUsers)) {
+            const userMap = new Map<string, any>();
+            for (const u of users) {
+              if (u && u.id) userMap.set(u.id, u);
+            }
+            for (const cu of parsedCloudUsers) {
+              if (cu && cu.id) userMap.set(cu.id, cu);
+            }
+            users = Array.from(userMap.values());
+            metrics.totalRegisteredUsers = Math.max(metrics.totalRegisteredUsers, users.length);
+          }
+        }
+      }
+    } catch {}
+
     // If Supabase is connected, check real profile count
     try {
       const supabase = createPmuServiceClient();

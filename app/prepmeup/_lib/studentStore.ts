@@ -397,12 +397,52 @@ function mergeDedupById<T extends { id: string }>(incoming: T[], existing: T[], 
   return Array.from(map.values()).slice(0, limit);
 }
 
+function fetchUpstashSync(cmd: string, args: string[] = []): Promise<any> {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return Promise.resolve(null);
+  const path = [cmd, ...args.map((a) => encodeURIComponent(a))].join("/");
+  return fetch(`${url}/${path}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  })
+    .then((r) => r.json())
+    .catch(() => null);
+}
+
 /**
- * Synchronizes in-memory maps with the disk store on every call.
- * Throws `StorageUnavailableError` if the file exists but cannot be read or parsed,
- * preventing a corrupted or inaccessible store from masquerading as an empty history.
+ * Synchronizes in-memory maps with both Upstash cloud storage (for serverless persistence) and disk.
  */
 export function loadPersistedData(): void {
+  // 0. Synchronize from Upstash Redis if configured
+  try {
+    const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
+    const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+    if (upstashUrl && upstashToken && typeof fetch === "function") {
+      fetch(`${upstashUrl}/get/pmu_app_users_v2`, {
+        headers: { Authorization: `Bearer ${upstashToken}` },
+        cache: "no-store",
+      })
+        .then((r) => r.json())
+        .then((res) => {
+          if (res?.result) {
+            try {
+              const cloudUsers = JSON.parse(res.result);
+              if (Array.isArray(cloudUsers)) {
+                for (const u of cloudUsers) {
+                  if (u && u.id) {
+                    const cKey = canonicalizeStudentKey(u.target || u.id) || u.id;
+                    userStoreMap.set(cKey, { ...u, id: cKey });
+                  }
+                }
+              }
+            } catch {}
+          }
+        })
+        .catch(() => {});
+    }
+  } catch {}
+
   const filePath = getUsersFilePath();
 
   if (fs.existsSync(filePath)) {
@@ -575,11 +615,29 @@ export function savePersistedData(): void {
     const tmpPath = `${filePath}.${process.pid}.${Date.now()}.tmp`;
     fs.writeFileSync(tmpPath, payload, "utf-8");
     fs.renameSync(tmpPath, filePath);
+
+    // Also async mirror to Upstash Redis so users persist across all Vercel serverless microVMs
+    const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
+    const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+    if (upstashUrl && upstashToken && typeof fetch === "function") {
+      fetch(`${upstashUrl}/set/pmu_app_users_v2/${encodeURIComponent(JSON.stringify(Array.from(userStoreMap.values())))}`, {
+        headers: { Authorization: `Bearer ${upstashToken}` },
+      }).catch(() => {});
+    }
   } catch (writeErr) {
-    throw new StorageUnavailableError(
-      `Failed to persist student data to ${filePath}.`,
-      writeErr
-    );
+    // If running in a read-only serverless environment where fs write fails, mirror to Upstash
+    const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
+    const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+    if (upstashUrl && upstashToken && typeof fetch === "function") {
+      fetch(`${upstashUrl}/set/pmu_app_users_v2/${encodeURIComponent(JSON.stringify(Array.from(userStoreMap.values())))}`, {
+        headers: { Authorization: `Bearer ${upstashToken}` },
+      }).catch(() => {});
+    } else {
+      throw new StorageUnavailableError(
+        `Failed to persist student data to ${filePath}.`,
+        writeErr
+      );
+    }
   }
 }
 
