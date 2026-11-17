@@ -1005,7 +1005,7 @@ export function adminUpdateAppUser(
     type: "email" | "phone";
     college: string;
     branch: string;
-    tier: string;
+    tier: AppUser["tier"];
     role: "student" | "admin";
     isBanned: boolean;
   }>
@@ -1029,7 +1029,7 @@ export function adminUpdateAppUser(
     ...(updates.type !== undefined ? { type: updates.type } : {}),
     ...(updates.college !== undefined ? { college: updates.college } : {}),
     ...(updates.branch !== undefined ? { branch: updates.branch } : {}),
-    ...(updates.tier !== undefined ? { tier: updates.tier as any } : {}),
+    ...(updates.tier !== undefined ? { tier: updates.tier } : {}),
     ...(updates.role !== undefined ? { role: updates.role } : {}),
     ...(updates.isBanned !== undefined ? { isBanned: updates.isBanned } : {}),
   };
