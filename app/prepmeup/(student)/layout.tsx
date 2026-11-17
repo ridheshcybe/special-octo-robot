@@ -7,16 +7,21 @@ import { ContentProtection } from "../_components/ContentProtection";
 import { DailyNotificationBanner } from "../_components/DailyNotificationBanner";
 
 const NAV_ITEMS = [
-  { label: "Dashboard", href: "/prepmeup/dashboard", icon: "📊" },
-  { label: "1:1 Mentorship", href: "/prepmeup/sessions", icon: "📅" },
-  { label: "Subjects", href: "/prepmeup/subjects", icon: "📚" },
-  { label: "AI Doubt Solver", href: "/prepmeup/doubts", icon: "🤖" },
-  { label: "Quizzes", href: "/prepmeup/quizzes", icon: "⚡" },
-  { label: "Coding Lab", href: "/prepmeup/coding", icon: "💻" },
-  { label: "Simulations", href: "/prepmeup/simulations", icon: "🔬" },
-  { label: "Progress", href: "/prepmeup/progress", icon: "📈" },
-  { label: "SGPA Calculator", href: "/prepmeup/tools/cgpa", icon: "🎯" },
-  { label: "Rank & Percentile", href: "/prepmeup/tools/rank-percentile", icon: "🏆" },
+  { label: "Home", href: "/prepmeup/dashboard", icon: "" },
+  { label: "Subjects", href: "/prepmeup/subjects", icon: "" },
+  { label: "Tracks", href: "/prepmeup/tracks", icon: "" },
+  { label: "AI Tutor", href: "/prepmeup/doubts", icon: "" },
+  { label: "Quizzes", href: "/prepmeup/quizzes", icon: "" },
+  { label: "Coding Lab", href: "/prepmeup/coding", icon: "" },
+  { label: "Simulations", href: "/prepmeup/simulations", icon: "" },
+  { label: "Mentorship", href: "/prepmeup/sessions", icon: "" },
+];
+
+const MOBILE_BOTTOM_NAV = [
+  { label: "Home", href: "/prepmeup/dashboard" },
+  { label: "Subjects", href: "/prepmeup/subjects" },
+  { label: "AI Tutor", href: "/prepmeup/doubts" },
+  { label: "Progress", href: "/prepmeup/progress" },
 ];
 
 export default function StudentLayout({ children }: { children: ReactNode }) {
@@ -361,11 +366,49 @@ export default function StudentLayout({ children }: { children: ReactNode }) {
           </div>
         )}
 
-        <main className="pmu-student-content">
+        <main className="pmu-student-content" style={{ paddingBottom: "72px" }}>
           <ContentProtection studentName={user?.fullName} studentPhone={user?.phone}>
             {children}
           </ContentProtection>
         </main>
+
+        {/* Mobile 4-item bottom nav */}
+        <nav
+          aria-label="Mobile navigation"
+          className="md:hidden"
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 40,
+            display: "grid",
+            gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+            backgroundColor: "#111114",
+            borderTop: "1px solid rgba(243,241,234,0.12)",
+            padding: "8px 4px",
+          }}
+        >
+          {MOBILE_BOTTOM_NAV.map((item) => {
+            const active = pathname.startsWith(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                style={{
+                  textAlign: "center",
+                  padding: "8px 4px",
+                  fontSize: "12px",
+                  fontWeight: active ? 700 : 500,
+                  color: active ? "#ff3b1d" : "#807f78",
+                  textDecoration: "none",
+                }}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
       </div>
     </div>
   );

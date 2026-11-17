@@ -1,61 +1,5 @@
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
-
-const GROQ_API_KEY = process.env.GROQ_API_KEY || "";
-const GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY || "";
-const GEMINI_MODEL = "gemini-2.5-flash";
-const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
-
-const GROQ_MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
-const GROQ_FALLBACK_MODEL = "qwen/qwen3.8-27b";
-
-async function callGroqChat(params: {
-  systemInstruction: string;
-  userPrompt: string;
-  imageBase64?: string | null;
-  imageMimeType?: string;
-}): Promise<string> {
-  const { systemInstruction, userPrompt, imageBase64, imageMimeType } = params;
-  const model = imageBase64
-    ? "meta-llama/llama-4-scout-17b-16e-instruct"
-    : GROQ_MODEL;
-
-  const userContent: any = imageBase64
-    ? [
-        { type: "text", text: userPrompt },
-        {
-          type: "image_url",
-          image_url: {
-            url: `data:${imageMimeType || "image/jpeg"};base64,${imageBase64}`,
-          },
-        },
-      ]
-    : userPrompt;
-
-  const res = await fetch(GROQ_ENDPOINT, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${GROQ_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model,
-      messages: [
-        { role: "system", content: systemInstruction },
-        { role: "user", content: userContent },
-      ],
-      temperature: 0.2,
-      max_tokens: 2048,
-    }),
-  });
-
-  if (!res.ok) {
-    throw new Error(`Groq API error: ${res.status}`);
-  }
-
-  const json = await res.json();
-  return json.choices?.[0]?.message?.content || "";
-}
+import { callUnifiedFreeAI } from "@/lib/prepmeup/aiRouter";
 
 /**
  * 1. Retrieve matching syllabus and notes context for RAG grounding
@@ -146,81 +90,35 @@ If the question is answered using the provided university notes, reinforce the s
 If the question asks about concepts outside the syllabus, answer accurately from general computer science principles and append this exact sentence at the very end:
 "\n\n> *Note: This explanation is based on general computer science knowledge and is not explicitly indexed in your university syllabus.*"`;
 
-  const contents: any[] = [];
+  const historyText = conversationHistory
+    .slice(-6)
+    .map((m) => `${m.sender === "student" ? "Student" : "Tutor"}: ${m.text}`)
+    .join("\n\n");
 
-  // Conversation history
-  for (const msg of conversationHistory.slice(-6)) {
-    contents.push({
-      role: msg.sender === "student" ? "user" : "model",
-      parts: [{ text: msg.text }],
-    });
-  }
-
-  // Current query parts
-  const currentParts: any[] = [];
-  if (imageBase64) {
-    currentParts.push({
-      inline_data: {
-        mime_type: imageMimeType || "image/jpeg",
-        data: imageBase64,
-      },
-    });
-    currentParts.push({
-      text: `[IMAGE ATTACHMENT: Analyze any handwritten formulas, textbook problems, or code error screenshots carefully].\n\nStudent Question: ${queryText}`,
-    });
-  } else {
-    currentParts.push({ text: `Subject: ${subjectName}\nQuestion: ${queryText}` });
-  }
-
-  contents.push({ role: "user", parts: currentParts });
-
-  if (GROQ_API_KEY) {
-    try {
-      const answer = await callGroqChat({
-        systemInstruction,
-        userPrompt: `Subject: ${subjectName}\nQuestion: ${queryText}`,
-        imageBase64,
-        imageMimeType,
-      });
-      if (answer) {
-        return {
-          responseText: answer,
-          extractedOcrText: imageBase64 ? "Extracted formula / code snapshot via Groq Vision" : undefined,
-          isGrounded,
-        };
-      }
-    } catch {
-      // Fall through to Gemini or syllabus fallback
-    }
-  }
-
-  if (!GEMINI_API_KEY) {
-    return getMockTutorResponse(queryText, subjectName, isGrounded);
-  }
+  const fullPrompt = [
+    historyText ? `Previous Context:\n${historyText}` : "",
+    imageBase64
+      ? `[IMAGE ATTACHMENT: Analyze any handwritten formulas, textbook problems, or code error screenshots carefully].\nSubject: ${subjectName}\nStudent Question: ${queryText}`
+      : `Subject: ${subjectName}\nQuestion: ${queryText}`,
+  ]
+    .filter(Boolean)
+    .join("\n\n");
 
   try {
-    const res = await fetch(`${GEMINI_ENDPOINT}?key=${GEMINI_API_KEY}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents,
-        systemInstruction: { parts: [{ text: systemInstruction }] },
-        generationConfig: {
-          temperature: 0.2,
-          maxOutputTokens: 2048,
-        },
-      }),
+    const aiRes = await callUnifiedFreeAI({
+      systemInstruction,
+      userPrompt: fullPrompt,
+      imageBase64,
+      imageMimeType,
+      maxTokens: 2048,
+      temperature: 0.2,
     });
 
-    if (!res.ok) {
-      throw new Error(`Gemini API error: ${res.statusText}`);
-    }
-
-    const json = await res.json();
-    const answer = json.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to synthesize explanation.";
     return {
-      responseText: answer,
-      extractedOcrText: imageBase64 ? "Extracted formula / code snapshot from image" : undefined,
+      responseText: aiRes.text,
+      extractedOcrText: imageBase64
+        ? `Extracted formula / code snapshot via ${aiRes.modelUsed}`
+        : undefined,
       isGrounded,
     };
   } catch {
@@ -252,36 +150,14 @@ ${code}
 \`\`\`
 ${errorOutput ? `Console / Traceback Error:\n${errorOutput}` : "No runtime crash reported."}`;
 
-  if (GROQ_API_KEY) {
-    try {
-      const text = await callGroqChat({
-        systemInstruction,
-        userPrompt,
-      });
-      if (text) return { feedback: text };
-    } catch {
-      // Fall through to Gemini or fallback
-    }
-  }
-
-  if (!GEMINI_API_KEY) {
-    return getMockCodingFeedback(requestType, code);
-  }
-
   try {
-    const res = await fetch(`${GEMINI_ENDPOINT}?key=${GEMINI_API_KEY}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: userPrompt }] }],
-        systemInstruction: { parts: [{ text: systemInstruction }] },
-      }),
+    const aiRes = await callUnifiedFreeAI({
+      systemInstruction,
+      userPrompt,
+      maxTokens: 2048,
+      temperature: 0.2,
     });
-
-    if (!res.ok) throw new Error("Gemini API call failed");
-    const json = await res.json();
-    const text = json.candidates?.[0]?.content?.parts?.[0]?.text || "No feedback generated.";
-    return { feedback: text };
+    return { feedback: aiRes.text };
   } catch {
     return getMockCodingFeedback(requestType, code);
   }

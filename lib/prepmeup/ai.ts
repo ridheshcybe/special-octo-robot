@@ -3,19 +3,17 @@ import {
   structuredSyllabusSchema,
   structuredQuestionsResponseSchema,
 } from "@/app/prepmeup/_lib/validation";
+import { callUnifiedFreeAI } from "@/lib/prepmeup/aiRouter";
 import { z } from "zod";
 
 /**
- * Gemini 2.5 Flash Model Integration for PrepMeUp AI Content Pipeline.
- * Calls Google Generative Language REST API directly using standard fetch.
- * Zero external library dependencies, 100% compatible with Next.js App Router and Edge/Node runtimes.
+ * Unified Free Multi-Provider & 24/7 Local PC Tunnel AI Content Pipeline.
+ * Automatically cascades across Local PC Tunnel (Ollama/vLLM), Groq Free Tier,
+ * Google Gemini Free Tier, OpenRouter Free Models, and Pollinations Free AI.
  */
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY || "";
-const GROQ_MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY || "";
-const GEMINI_MODEL = "gemini-2.5-flash";
-const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 interface GeminiMessagePart {
   text?: string;
@@ -33,97 +31,24 @@ async function callGemini(
   const maxTokens = options?.maxTokens || 8192;
   const isJson = options?.jsonMode ?? false;
 
-  if (GROQ_API_KEY) {
-    const userText = parts
-      .map((p) => p.text || "")
-      .filter(Boolean)
-      .join("\n\n");
-    const groqPayload: any = {
-      model: GROQ_MODEL,
-      messages: [
-        ...(systemInstruction ? [{ role: "system", content: systemInstruction }] : []),
-        { role: "user", content: userText },
-      ],
-      temperature: 0.2,
-      max_tokens: maxTokens,
-    };
+  const userText = parts
+    .map((p) => p.text || "")
+    .filter(Boolean)
+    .join("\n\n");
 
-    if (isJson) {
-      groqPayload.response_format = { type: "json_object" };
-    }
+  const inlinePart = parts.find((p) => p.inline_data)?.inline_data;
 
-    try {
-      const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${GROQ_API_KEY}`,
-          "Content-Type": "application/json",
-          "User-Agent": "PrepMeUp/1.0",
-        },
-        body: JSON.stringify(groqPayload),
-        cache: "no-store",
-      });
-      if (groqRes.ok) {
-        const groqJson = await groqRes.json();
-        const groqText = groqJson.choices?.[0]?.message?.content;
-        if (groqText) return groqText;
-      } else {
-        const errBody = await groqRes.text().catch(() => "");
-        console.warn(`[Groq Warning ${groqRes.status}]:`, errBody);
-      }
-    } catch (e) {
-      console.warn("[Groq Call Exception]:", e);
-    }
-  }
-
-  if (!GEMINI_API_KEY) {
-    throw new Error("Neither GROQ_API_KEY nor GEMINI_API_KEY is configured in environment variables.");
-  }
-
-  const payload: any = {
-    contents: [
-      {
-        role: "user",
-        parts,
-      },
-    ],
-    generationConfig: {
-      temperature: 0.2,
-      topP: 0.95,
-      maxOutputTokens: maxTokens,
-    },
-  };
-
-  if (isJson) {
-    payload.generationConfig.responseMimeType = "application/json";
-  }
-
-  if (systemInstruction) {
-    payload.systemInstruction = {
-      role: "system",
-      parts: [{ text: systemInstruction }],
-    };
-  }
-
-  const res = await fetch(`${GEMINI_ENDPOINT}?key=${GEMINI_API_KEY}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-    cache: "no-store",
+  const response = await callUnifiedFreeAI({
+    systemInstruction,
+    userPrompt: userText || "Analyze the provided input.",
+    imageBase64: inlinePart?.data || null,
+    imageMimeType: inlinePart?.mime_type,
+    jsonMode: isJson,
+    maxTokens,
+    temperature: 0.2,
   });
 
-  if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`Gemini API error [${res.status}]: ${errText}`);
-  }
-
-  const json = await res.json();
-  const textResponse = json.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!textResponse) {
-    throw new Error("Gemini returned an empty response candidate.");
-  }
-
-  return textResponse;
+  return response.text;
 }
 
 /**

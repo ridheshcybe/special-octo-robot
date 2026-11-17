@@ -26,20 +26,20 @@ export function PrepMeUpNav() {
 
         {/* Desktop Links */}
         <nav className="pmu-nav-desktop">
+          <Link href="/prepmeup/tracks" className="pmu-nav-link">
+            Tracks
+          </Link>
           <Link href="/prepmeup#subjects" className="pmu-nav-link">
             Subjects
           </Link>
-          <Link href="/prepmeup/tools/cgpa" className="pmu-nav-link" style={{ color: "#ff6a3d" }}>
-            🎯 SGPA &amp; CGPA
+          <Link href="/prepmeup/tools/cgpa" className="pmu-nav-link">
+            CGPA Tool
           </Link>
-          <Link href="/prepmeup/tools/rank-percentile" className="pmu-nav-link" style={{ color: "#ff6a3d" }}>
-            🏆 Rank Predictor
+          <Link href="/prepmeup/tools/rank-percentile" className="pmu-nav-link">
+            Rank Predictor
           </Link>
-          <Link href="/prepmeup#features" className="pmu-nav-link">
-            Features
-          </Link>
-          <Link href="/prepmeup#pricing" className="pmu-nav-link">
-            Pricing: ₹99 Basic / ₹199 Premium
+          <Link href="/prepmeup/pricing" className="pmu-nav-link">
+            Pricing
           </Link>
         </nav>
 
@@ -48,8 +48,8 @@ export function PrepMeUpNav() {
           <Link href="/prepmeup/dashboard" className="pmu-nav-link">
             Student Portal
           </Link>
-          <Link href="/prepmeup#pricing" className="pmu-btn-sm">
-            Get Semester Access
+          <Link href="/prepmeup/pricing" className="pmu-btn-sm">
+            Get Access
           </Link>
         </div>
 
@@ -85,7 +85,15 @@ export function PrepMeUpNav() {
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className="pmu-mobile-drawer">
-          <nav style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <nav style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+            <Link
+              href="/prepmeup/tracks"
+              onClick={() => setMobileMenuOpen(false)}
+              className="pmu-nav-link"
+              style={{ fontSize: "0.875rem" }}
+            >
+              Tracks
+            </Link>
             <Link
               href="/prepmeup#subjects"
               onClick={() => setMobileMenuOpen(false)}
@@ -98,35 +106,27 @@ export function PrepMeUpNav() {
               href="/prepmeup/tools/cgpa"
               onClick={() => setMobileMenuOpen(false)}
               className="pmu-nav-link"
-              style={{ fontSize: "0.875rem", color: "#ff6a3d" }}
+              style={{ fontSize: "0.875rem" }}
             >
-              🎯 SGPA &amp; CGPA Calculator
+              SGPA &amp; CGPA Calculator
             </Link>
             <Link
               href="/prepmeup/tools/rank-percentile"
               onClick={() => setMobileMenuOpen(false)}
               className="pmu-nav-link"
-              style={{ fontSize: "0.875rem", color: "#ff6a3d" }}
+              style={{ fontSize: "0.875rem" }}
             >
-              🏆 Rank &amp; Percentile Predictor
+              Rank &amp; Percentile Predictor
             </Link>
             <Link
-              href="/prepmeup#features"
+              href="/prepmeup/pricing"
               onClick={() => setMobileMenuOpen(false)}
               className="pmu-nav-link"
               style={{ fontSize: "0.875rem" }}
             >
-              Features
+              Pricing
             </Link>
-            <Link
-              href="/prepmeup#pricing"
-              onClick={() => setMobileMenuOpen(false)}
-              className="pmu-nav-link"
-              style={{ fontSize: "0.875rem" }}
-            >
-              Pricing: ₹99 Basic / ₹199 Premium
-            </Link>
-            <div style={{ marginTop: "0.75rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+            <div style={{ marginTop: "0.5rem", display: "flex", flexDirection: "column", gap: "0.625rem" }}>
               <Link
                 href="/prepmeup/dashboard"
                 onClick={() => setMobileMenuOpen(false)}
@@ -136,12 +136,12 @@ export function PrepMeUpNav() {
                 Student Portal
               </Link>
               <Link
-                href="/prepmeup#pricing"
+                href="/prepmeup/pricing"
                 onClick={() => setMobileMenuOpen(false)}
                 className="pmu-btn-primary"
                 style={{ width: "100%" }}
               >
-                Get Semester Access
+                Get Access
               </Link>
             </div>
           </nav>

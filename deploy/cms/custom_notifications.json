@@ -1,0 +1,15 @@
+[
+  {
+    "id": "notif-welcome-sem1",
+    "title": "⚡ Semester 1 High-Yield Notes & Quantum Track Live",
+    "message": "Access verified LaTeX derivations for CSE1001–CSE1006 and explore interactive Quantum & CyberSecurity labs.",
+    "category": "info",
+    "audience": "all",
+    "ctaLabel": "Explore Subjects →",
+    "ctaHref": "/prepmeup/subjects",
+    "isActive": true,
+    "createdBy": "admin@ridheshcybe.dpdns.org",
+    "createdAt": "2026-11-16T09:40:22.919Z",
+    "expiresAt": "2026-11-23T09:40:22.919Z"
+  }
+]

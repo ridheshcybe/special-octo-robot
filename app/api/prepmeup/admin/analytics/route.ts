@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { cookies } from "next/headers";
+import { requireAdmin } from "@/app/prepmeup/_lib/adminAuth";
 import {
   getAllAppUsers,
   getAppOverallMetrics,
@@ -11,23 +11,63 @@ import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 
 export async function GET(req: NextRequest) {
   try {
-    const cookieStore = await cookies();
-    const adminSession = cookieStore.get("pmu-admin-session");
+    const adminSession = await requireAdmin();
 
-    // Optional admin security check or public telemetry check
+    if (!adminSession) {
+      return NextResponse.json(
+        { ok: false, error: "Unauthorized: Admin privileges required." },
+        { status: 401 }
+      );
+    }
+
     const metrics = getAppOverallMetrics();
     let users = getAllAppUsers();
     const activities = getGlobalActivityFeed();
 
-    // If Supabase is connected, check real profile count
+    // The file-backed presence store (registered_users.json) is reset whenever a
+    // new build is deployed, which made signed-up students vanish from the
+    // directory. Supabase `pmu_profiles` is the durable source of truth, so merge
+    // every profile in and keep presence data from the file store where present.
     try {
       const supabase = createPmuServiceClient();
       if (supabase) {
-        const { count: profileCount } = await supabase
+        const { data: profiles } = await supabase
           .from("pmu_profiles")
-          .select("id", { count: "exact", head: true });
-        if (profileCount && profileCount > 0) {
-          metrics.totalRegisteredUsers = Math.max(metrics.totalRegisteredUsers, profileCount);
+          .select("*")
+          .limit(5000);
+        if (profiles && profiles.length > 0) {
+          const byKey = new Map(users.map((u) => [String(u.target || u.id).toLowerCase(), u]));
+          const byId = new Map(users.map((u) => [u.id, u]));
+          for (const p of profiles as any[]) {
+            const phone = p.phone ? String(p.phone) : "";
+            const email = p.email ? String(p.email) : "";
+            const target = email || phone || p.id;
+            const existing =
+              byId.get(p.id) ||
+              (email && byKey.get(email.toLowerCase())) ||
+              (phone && (byKey.get(phone) || byKey.get(phone.replace(/^\+/, ""))));
+            if (existing) continue;
+            const createdAt = p.created_at || p.updated_at || new Date(0).toISOString();
+            users.push({
+              id: p.id,
+              name: p.full_name || "Student",
+              target,
+              type: email ? "email" : "phone",
+              college: p.college || "",
+              branch: p.branch || "",
+              role: p.role === "admin" ? "admin" : "student",
+              tier: "Free Student",
+              registeredAt: createdAt,
+              lastSeenAt: p.updated_at || createdAt,
+              lastActivity: "Registered",
+              currentPath: "",
+              isOnline: false,
+              stats: { quizzesCompleted: 0, doubtsAsked: 0, codingSubmissions: 0, studyMinutes: 0 },
+            } as any);
+          }
+          metrics.totalRegisteredUsers = Math.max(metrics.totalRegisteredUsers, users.length, profiles.length);
+          metrics.emailRegistrationsCount = users.filter((u) => u.type === "email").length;
+          metrics.phoneRegistrationsCount = users.filter((u) => u.type === "phone").length;
         }
       }
     } catch {}

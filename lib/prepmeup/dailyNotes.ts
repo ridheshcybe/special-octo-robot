@@ -1,4 +1,5 @@
 import { safeParseJson } from "@/lib/prepmeup/jsonRepair";
+import { callUnifiedFreeAI } from "@/lib/prepmeup/aiRouter";
 import fs from "fs";
 import path from "path";
 import { logger } from "@/lib/logger";
@@ -402,13 +403,6 @@ export async function generateDailyNoteWithAI(
   subjectCode: string = "CSE1001",
   subjectTitle: string = "Applied Computational Mathematics"
 ): Promise<DailyNoteData> {
-  const groqApiKey = process.env.GROQ_API_KEY || "";
-  const model = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
-
-  if (!groqApiKey) {
-    throw new Error("GROQ_API_KEY is not configured on the server");
-  }
-
   const prompt = `You are a distinguished engineering professor and competitive exam creator for B.Tech First Year (Semester 1).
 Create an elite, high-yield academic daily capsule for the following topic:
 Subject: ${subjectTitle} (${subjectCode})
@@ -455,29 +449,14 @@ Respond with pure JSON conforming strictly to this format:
 }
 Important: Return ONLY valid JSON. No conversational preamble. Escape backslashes in LaTeX as double backslashes (e.g. \\\\lambda, \\\\begin{bmatrix}).`;
 
-  const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${groqApiKey}`,
-      "Content-Type": "application/json",
-      "User-Agent": "PrepMeUp/1.0",
-    },
-    body: JSON.stringify({
-      model,
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.2,
-      max_tokens: 4096,
-      response_format: { type: "json_object" },
-    }),
+  const aiRes = await callUnifiedFreeAI({
+    userPrompt: prompt,
+    jsonMode: true,
+    maxTokens: 4096,
+    temperature: 0.2,
   });
 
-  if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`Groq API error (${res.status}): ${errText}`);
-  }
-
-  const json = await res.json();
-  const rawContent = json.choices?.[0]?.message?.content || "";
+  const rawContent = aiRes.text;
 
   const parsed: any = safeParseJson(rawContent, null);
   if (!parsed) {

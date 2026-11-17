@@ -16,7 +16,9 @@ export type RateLimitType =
   | "cyber_flag_submit"
   | "cyber_ai_doubt"
   | "cyber_checkout"
-  | "cyber_early_adopter_claim";
+  | "cyber_early_adopter_claim"
+  | "unified_checkout"
+  | "all_access_early_adopter_claim";
 
 export interface RateLimitConfig {
   requests: number;
@@ -51,6 +53,10 @@ export const RATE_LIMIT_CONFIGS: Record<RateLimitType, RateLimitConfig> = {
   cyber_checkout: { requests: 10, windowMs: 60 * 60 * 1000, windowSeconds: 3600, upstashWindow: "1 h" },
   // 12. CyberSecurity early adopter claim: max 5 attempts per user/IP per hour
   cyber_early_adopter_claim: { requests: 5, windowMs: 60 * 60 * 1000, windowSeconds: 3600, upstashWindow: "1 h" },
+  // 13. Unified checkout: max 10 attempts per user/IP per hour
+  unified_checkout: { requests: 10, windowMs: 60 * 60 * 1000, windowSeconds: 3600, upstashWindow: "1 h" },
+  // 14. All-Access early adopter claim: max 5 attempts per user/IP per hour
+  all_access_early_adopter_claim: { requests: 5, windowMs: 60 * 60 * 1000, windowSeconds: 3600, upstashWindow: "1 h" },
 };
 
 let redisClient: Redis | null = null;

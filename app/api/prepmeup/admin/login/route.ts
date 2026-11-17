@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { adminLoginSchema } from "@/app/prepmeup/_lib/validation";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
+import { signAdminSession } from "@/app/prepmeup/_lib/adminAuth";
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,13 +18,13 @@ export async function POST(req: NextRequest) {
 
     const { email, password } = parseResult.data;
     const normalizedEmail = email.trim().toLowerCase();
-    const configuredAdminEmail = (process.env.PMU_ADMIN_EMAIL || "walavalkarridhesh@gmail.com").trim().toLowerCase();
-    const configuredAdminPassword = process.env.PMU_ADMIN_PASSWORD || "jelly1974";
+    const configuredAdminEmail = (process.env.PMU_ADMIN_EMAIL || "").trim().toLowerCase();
+    const configuredAdminPassword = process.env.PMU_ADMIN_PASSWORD || "";
 
     const isDirectAdminMatch =
-      (normalizedEmail === configuredAdminEmail && password === configuredAdminPassword) ||
-      (normalizedEmail === "walavalkarridhesh@gmail.com" && password === "jelly1974") ||
-      (normalizedEmail === "admin@prepmeup.internal" && password === "admin1234");
+      Boolean(configuredAdminEmail && configuredAdminPassword) &&
+      normalizedEmail === configuredAdminEmail &&
+      password === configuredAdminPassword;
 
     if (isDirectAdminMatch) {
       const response = NextResponse.json({
@@ -33,17 +34,17 @@ export async function POST(req: NextRequest) {
           id: "admin-primary",
           email: normalizedEmail,
           role: "admin",
-          fullName: normalizedEmail === "walavalkarridhesh@gmail.com" ? "Ridhesh Walavalkar" : "PrepMeUp Admin",
+          fullName: "PrepMeUp Admin",
         },
       });
 
       response.cookies.set(
         "pmu-admin-session",
-        JSON.stringify({
+        signAdminSession({
           userId: "admin-primary",
           email: normalizedEmail,
           role: "admin",
-          fullName: normalizedEmail === "walavalkarridhesh@gmail.com" ? "Ridhesh Walavalkar" : "PrepMeUp Admin",
+          fullName: "PrepMeUp Admin",
         }),
         {
           path: "/",

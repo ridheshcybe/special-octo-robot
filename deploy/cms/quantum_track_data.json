@@ -1409,6 +1409,24 @@
       "endAt": "2026-11-06T15:18:25.116Z",
       "durationMinutes": 45,
       "status": "available"
+    },
+    {
+      "id": "slot_a_1793805221150",
+      "instructorSlug": "dr-elena-rostova",
+      "instructorName": "Dr. Elena Rostova",
+      "startAt": "2026-11-05T15:13:41.150Z",
+      "endAt": "2026-11-05T15:58:41.150Z",
+      "durationMinutes": 45,
+      "status": "available"
+    },
+    {
+      "id": "slot_b_1793805221150",
+      "instructorSlug": "dr-elena-rostova",
+      "instructorName": "Dr. Elena Rostova",
+      "startAt": "2026-11-06T15:13:41.150Z",
+      "endAt": "2026-11-06T15:58:41.150Z",
+      "durationMinutes": 45,
+      "status": "available"
     }
   ],
   "mentorshipSessions": [
@@ -1553,6 +1571,48 @@
         }
       ],
       "isRefunded": true
+    },
+    {
+      "id": "session_resched_1793805221150",
+      "slotId": "slot_b_1793805221150",
+      "courseSlug": "quantum-computing-foundations",
+      "instructorSlug": "dr-elena-rostova",
+      "instructorName": "Dr. Elena Rostova",
+      "studentName": "Reschedule Test Student",
+      "studentEmail": "student_resched_1793805221144@example.com",
+      "sessionType": "quantum_doubt_clearing",
+      "scheduledAt": "2026-11-06T15:13:41.150Z",
+      "durationMinutes": 45,
+      "status": "cancelled",
+      "studentNotes": "Initial booking",
+      "instructorNotes": "",
+      "rescheduledFromSlotId": "slot_a_1793805221150",
+      "lastRescheduledAt": "2026-11-04T15:13:41.152Z",
+      "auditTrail": [
+        {
+          "transition": "rescheduled",
+          "fromStatus": "confirmed",
+          "toStatus": "confirmed",
+          "timestamp": "2026-11-04T15:13:41.152Z",
+          "actor": "student_resched_1793805221144@example.com",
+          "details": {
+            "fromSlotId": "slot_a_1793805221150",
+            "toSlotId": "slot_b_1793805221150",
+            "scheduledAt": "2026-11-06T15:13:41.150Z"
+          }
+        },
+        {
+          "transition": "confirmed->cancelled",
+          "fromStatus": "confirmed",
+          "toStatus": "cancelled",
+          "timestamp": "2026-11-04T15:13:41.157Z",
+          "actor": "student",
+          "details": {
+            "isRefunded": true
+          }
+        }
+      ],
+      "isRefunded": true
     }
   ],
   "pendingApprovals": [
@@ -1648,6 +1708,28 @@
       "issueDate": "2026-11-04T14:33:16.113Z",
       "status": "issued",
       "verificationUrl": "https://prepmeup.ai/prepmeup/verify-certificate/PMU-CYB-2026-19FB3C"
+    },
+    {
+      "code": "PMU-CYB-2026-9B6B5C",
+      "studentTarget": "student_c2_cert_1793804704333",
+      "studentName": "Vikram Malhotra",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "courseTitle": "CyberSecurity Foundations: Ethical Hacking, SOC & CTF",
+      "instructorName": "Dr. Marcus Weber, PhD",
+      "issueDate": "2026-11-04T15:05:04.335Z",
+      "status": "issued",
+      "verificationUrl": "https://prepmeup.ai/prepmeup/verify-certificate/PMU-CYB-2026-9B6B5C"
+    },
+    {
+      "code": "PMU-CYB-2026-FD62BA",
+      "studentTarget": "student_c2_cert_1793805206561",
+      "studentName": "Vikram Malhotra",
+      "courseSlug": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "courseTitle": "CyberSecurity Foundations: Ethical Hacking, SOC & CTF",
+      "instructorName": "Dr. Marcus Weber, PhD",
+      "issueDate": "2026-11-04T15:13:26.567Z",
+      "status": "issued",
+      "verificationUrl": "https://prepmeup.ai/prepmeup/verify-certificate/PMU-CYB-2026-FD62BA"
     }
   ],
   "studentQuantumProgress": {
@@ -2173,6 +2255,1170 @@
       "expiresAt": "2027-02-02T14:33:30.662Z",
       "createdAt": "2026-11-04T14:33:30.662Z",
       "updatedAt": "2026-11-04T14:33:30.664Z"
+    },
+    {
+      "id": "enr-cyb-1793804704310-65a0",
+      "userId": "student_c2_pass_1793804704304",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:05:04.310Z",
+      "expiresAt": "2027-05-03T15:05:04.310Z",
+      "createdAt": "2026-11-04T15:05:04.310Z",
+      "updatedAt": "2026-11-04T15:05:04.310Z"
+    },
+    {
+      "id": "enr-cyb-1793804704333-919e",
+      "userId": "student_c2_cert_1793804704333",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:05:04.333Z",
+      "expiresAt": "2027-05-03T15:05:04.333Z",
+      "createdAt": "2026-11-04T15:05:04.333Z",
+      "updatedAt": "2026-11-04T15:05:04.333Z"
+    },
+    {
+      "id": "enr-cyb-1793804704336-1c73",
+      "userId": "student_c2_manual_grant_1793804704336",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "admin_granted",
+      "status": "revoked",
+      "startsAt": "2026-11-04T15:05:04.336Z",
+      "expiresAt": "2027-05-03T15:05:04.336Z",
+      "createdAt": "2026-11-04T15:05:04.336Z",
+      "updatedAt": "2026-11-04T15:05:04.339Z"
+    },
+    {
+      "id": "enr-1793804858396-5a7b",
+      "userId": "student_allaccess_test_1793804858392",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:07:38.396Z",
+      "expiresAt": "2027-05-03T15:07:38.396Z",
+      "createdAt": "2026-11-04T15:07:38.396Z",
+      "updatedAt": "2026-11-04T15:07:38.396Z"
+    },
+    {
+      "id": "enr-cyb-1793804858398-33d6",
+      "userId": "student_allaccess_test_1793804858392",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:07:38.398Z",
+      "expiresAt": "2027-05-03T15:07:38.398Z",
+      "createdAt": "2026-11-04T15:07:38.398Z",
+      "updatedAt": "2026-11-04T15:07:38.398Z"
+    },
+    {
+      "id": "enr-1793804858400-fab6",
+      "userId": "student_allaccess_test_1793804858392",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:07:38.400Z",
+      "expiresAt": "2027-05-03T15:07:38.400Z",
+      "createdAt": "2026-11-04T15:07:38.400Z",
+      "updatedAt": "2026-11-04T15:07:38.400Z"
+    },
+    {
+      "id": "enr-1793804894393-c690",
+      "userId": "student_allaccess_test_1793804894388",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:08:14.393Z",
+      "expiresAt": "2027-05-03T15:08:14.393Z",
+      "createdAt": "2026-11-04T15:08:14.393Z",
+      "updatedAt": "2026-11-04T15:08:14.393Z"
+    },
+    {
+      "id": "enr-cyb-1793804894396-7ab8",
+      "userId": "student_allaccess_test_1793804894388",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:08:14.396Z",
+      "expiresAt": "2027-05-03T15:08:14.396Z",
+      "createdAt": "2026-11-04T15:08:14.396Z",
+      "updatedAt": "2026-11-04T15:08:14.396Z"
+    },
+    {
+      "id": "enr-1793804894398-3421",
+      "userId": "student_allaccess_test_1793804894388",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:08:14.398Z",
+      "expiresAt": "2027-05-03T15:08:14.398Z",
+      "createdAt": "2026-11-04T15:08:14.398Z",
+      "updatedAt": "2026-11-04T15:08:14.398Z"
+    },
+    {
+      "id": "enr-1793804958880-eb0c",
+      "userId": "student_allaccess_test_1793804958875",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:09:18.880Z",
+      "expiresAt": "2027-05-03T15:09:18.880Z",
+      "createdAt": "2026-11-04T15:09:18.880Z",
+      "updatedAt": "2026-11-04T15:09:18.880Z"
+    },
+    {
+      "id": "enr-cyb-1793804958882-8ebd",
+      "userId": "student_allaccess_test_1793804958875",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:09:18.882Z",
+      "expiresAt": "2027-05-03T15:09:18.882Z",
+      "createdAt": "2026-11-04T15:09:18.882Z",
+      "updatedAt": "2026-11-04T15:09:18.882Z"
+    },
+    {
+      "id": "enr-1793804958883-cefc",
+      "userId": "student_allaccess_test_1793804958875",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:09:18.883Z",
+      "expiresAt": "2027-05-03T15:09:18.883Z",
+      "createdAt": "2026-11-04T15:09:18.883Z",
+      "updatedAt": "2026-11-04T15:09:18.883Z"
+    },
+    {
+      "id": "enr-1793804958897-709a",
+      "userId": "student_ea_test_1793804958895_0",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:09:18.897Z",
+      "expiresAt": "2027-05-03T15:09:18.897Z",
+      "createdAt": "2026-11-04T15:09:18.897Z",
+      "updatedAt": "2026-11-04T15:09:18.897Z"
+    },
+    {
+      "id": "enr-cyb-1793804958899-9e63",
+      "userId": "student_ea_test_1793804958895_0",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:09:18.898Z",
+      "expiresAt": "2027-05-03T15:09:18.898Z",
+      "createdAt": "2026-11-04T15:09:18.898Z",
+      "updatedAt": "2026-11-04T15:09:18.898Z"
+    },
+    {
+      "id": "enr-1793804958901-959e",
+      "userId": "student_ea_test_1793804958895_0",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:09:18.901Z",
+      "expiresAt": "2027-05-03T15:09:18.901Z",
+      "createdAt": "2026-11-04T15:09:18.901Z",
+      "updatedAt": "2026-11-04T15:09:18.901Z"
+    },
+    {
+      "id": "enr-1793805024892-e433",
+      "userId": "student_allaccess_test_1793805024886",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.892Z",
+      "expiresAt": "2027-05-03T15:10:24.892Z",
+      "createdAt": "2026-11-04T15:10:24.892Z",
+      "updatedAt": "2026-11-04T15:10:24.892Z"
+    },
+    {
+      "id": "enr-cyb-1793805024894-3696",
+      "userId": "student_allaccess_test_1793805024886",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.894Z",
+      "expiresAt": "2027-05-03T15:10:24.894Z",
+      "createdAt": "2026-11-04T15:10:24.894Z",
+      "updatedAt": "2026-11-04T15:10:24.894Z"
+    },
+    {
+      "id": "enr-1793805024895-3d65",
+      "userId": "student_allaccess_test_1793805024886",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.895Z",
+      "expiresAt": "2027-05-03T15:10:24.895Z",
+      "createdAt": "2026-11-04T15:10:24.895Z",
+      "updatedAt": "2026-11-04T15:10:24.895Z"
+    },
+    {
+      "id": "enr-1793805024910-2958",
+      "userId": "student_ea_test_1793805024908_1",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.910Z",
+      "expiresAt": "2027-05-03T15:10:24.910Z",
+      "createdAt": "2026-11-04T15:10:24.910Z",
+      "updatedAt": "2026-11-04T15:10:24.910Z"
+    },
+    {
+      "id": "enr-cyb-1793805024913-4b95",
+      "userId": "student_ea_test_1793805024908_1",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.912Z",
+      "expiresAt": "2027-05-03T15:10:24.912Z",
+      "createdAt": "2026-11-04T15:10:24.912Z",
+      "updatedAt": "2026-11-04T15:10:24.912Z"
+    },
+    {
+      "id": "enr-1793805024915-f79a",
+      "userId": "student_ea_test_1793805024908_1",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.915Z",
+      "expiresAt": "2027-05-03T15:10:24.915Z",
+      "createdAt": "2026-11-04T15:10:24.915Z",
+      "updatedAt": "2026-11-04T15:10:24.915Z"
+    },
+    {
+      "id": "enr-1793805024921-10a4",
+      "userId": "student_ea_test_1793805024919_2",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.921Z",
+      "expiresAt": "2027-05-03T15:10:24.921Z",
+      "createdAt": "2026-11-04T15:10:24.921Z",
+      "updatedAt": "2026-11-04T15:10:24.921Z"
+    },
+    {
+      "id": "enr-cyb-1793805024922-6683",
+      "userId": "student_ea_test_1793805024919_2",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.922Z",
+      "expiresAt": "2027-05-03T15:10:24.922Z",
+      "createdAt": "2026-11-04T15:10:24.922Z",
+      "updatedAt": "2026-11-04T15:10:24.922Z"
+    },
+    {
+      "id": "enr-1793805024924-1bc5",
+      "userId": "student_ea_test_1793805024919_2",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.924Z",
+      "expiresAt": "2027-05-03T15:10:24.924Z",
+      "createdAt": "2026-11-04T15:10:24.924Z",
+      "updatedAt": "2026-11-04T15:10:24.924Z"
+    },
+    {
+      "id": "enr-1793805024930-eff5",
+      "userId": "student_ea_test_1793805024928_3",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.930Z",
+      "expiresAt": "2027-05-03T15:10:24.930Z",
+      "createdAt": "2026-11-04T15:10:24.930Z",
+      "updatedAt": "2026-11-04T15:10:24.930Z"
+    },
+    {
+      "id": "enr-cyb-1793805024931-667f",
+      "userId": "student_ea_test_1793805024928_3",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.931Z",
+      "expiresAt": "2027-05-03T15:10:24.931Z",
+      "createdAt": "2026-11-04T15:10:24.931Z",
+      "updatedAt": "2026-11-04T15:10:24.931Z"
+    },
+    {
+      "id": "enr-1793805024932-bbd7",
+      "userId": "student_ea_test_1793805024928_3",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.932Z",
+      "expiresAt": "2027-05-03T15:10:24.932Z",
+      "createdAt": "2026-11-04T15:10:24.932Z",
+      "updatedAt": "2026-11-04T15:10:24.932Z"
+    },
+    {
+      "id": "enr-1793805024939-7c3f",
+      "userId": "student_ea_test_1793805024936_4",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.939Z",
+      "expiresAt": "2027-05-03T15:10:24.939Z",
+      "createdAt": "2026-11-04T15:10:24.939Z",
+      "updatedAt": "2026-11-04T15:10:24.939Z"
+    },
+    {
+      "id": "enr-cyb-1793805024941-618b",
+      "userId": "student_ea_test_1793805024936_4",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.940Z",
+      "expiresAt": "2027-05-03T15:10:24.940Z",
+      "createdAt": "2026-11-04T15:10:24.940Z",
+      "updatedAt": "2026-11-04T15:10:24.940Z"
+    },
+    {
+      "id": "enr-1793805024942-f3b8",
+      "userId": "student_ea_test_1793805024936_4",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.942Z",
+      "expiresAt": "2027-05-03T15:10:24.942Z",
+      "createdAt": "2026-11-04T15:10:24.942Z",
+      "updatedAt": "2026-11-04T15:10:24.942Z"
+    },
+    {
+      "id": "enr-1793805024950-cff4",
+      "userId": "student_ea_test_1793805024948_5",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.950Z",
+      "expiresAt": "2027-05-03T15:10:24.950Z",
+      "createdAt": "2026-11-04T15:10:24.950Z",
+      "updatedAt": "2026-11-04T15:10:24.950Z"
+    },
+    {
+      "id": "enr-cyb-1793805024954-68b0",
+      "userId": "student_ea_test_1793805024948_5",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.954Z",
+      "expiresAt": "2027-05-03T15:10:24.954Z",
+      "createdAt": "2026-11-04T15:10:24.954Z",
+      "updatedAt": "2026-11-04T15:10:24.954Z"
+    },
+    {
+      "id": "enr-1793805024956-29e9",
+      "userId": "student_ea_test_1793805024948_5",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.956Z",
+      "expiresAt": "2027-05-03T15:10:24.956Z",
+      "createdAt": "2026-11-04T15:10:24.956Z",
+      "updatedAt": "2026-11-04T15:10:24.956Z"
+    },
+    {
+      "id": "enr-1793805024963-7812",
+      "userId": "student_ea_test_1793805024961_6",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.963Z",
+      "expiresAt": "2027-05-03T15:10:24.963Z",
+      "createdAt": "2026-11-04T15:10:24.963Z",
+      "updatedAt": "2026-11-04T15:10:24.963Z"
+    },
+    {
+      "id": "enr-cyb-1793805024964-3bd4",
+      "userId": "student_ea_test_1793805024961_6",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.964Z",
+      "expiresAt": "2027-05-03T15:10:24.964Z",
+      "createdAt": "2026-11-04T15:10:24.964Z",
+      "updatedAt": "2026-11-04T15:10:24.964Z"
+    },
+    {
+      "id": "enr-1793805024966-49aa",
+      "userId": "student_ea_test_1793805024961_6",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.966Z",
+      "expiresAt": "2027-05-03T15:10:24.966Z",
+      "createdAt": "2026-11-04T15:10:24.966Z",
+      "updatedAt": "2026-11-04T15:10:24.966Z"
+    },
+    {
+      "id": "enr-1793805024971-7cb0",
+      "userId": "student_ea_test_1793805024970_7",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.971Z",
+      "expiresAt": "2027-05-03T15:10:24.971Z",
+      "createdAt": "2026-11-04T15:10:24.971Z",
+      "updatedAt": "2026-11-04T15:10:24.971Z"
+    },
+    {
+      "id": "enr-cyb-1793805024973-33d5",
+      "userId": "student_ea_test_1793805024970_7",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.973Z",
+      "expiresAt": "2027-05-03T15:10:24.973Z",
+      "createdAt": "2026-11-04T15:10:24.973Z",
+      "updatedAt": "2026-11-04T15:10:24.973Z"
+    },
+    {
+      "id": "enr-1793805024974-3538",
+      "userId": "student_ea_test_1793805024970_7",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.974Z",
+      "expiresAt": "2027-05-03T15:10:24.974Z",
+      "createdAt": "2026-11-04T15:10:24.974Z",
+      "updatedAt": "2026-11-04T15:10:24.974Z"
+    },
+    {
+      "id": "enr-1793805024980-8761",
+      "userId": "student_ea_test_1793805024979_8",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.980Z",
+      "expiresAt": "2027-05-03T15:10:24.980Z",
+      "createdAt": "2026-11-04T15:10:24.980Z",
+      "updatedAt": "2026-11-04T15:10:24.980Z"
+    },
+    {
+      "id": "enr-cyb-1793805024982-3e6f",
+      "userId": "student_ea_test_1793805024979_8",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.982Z",
+      "expiresAt": "2027-05-03T15:10:24.982Z",
+      "createdAt": "2026-11-04T15:10:24.982Z",
+      "updatedAt": "2026-11-04T15:10:24.982Z"
+    },
+    {
+      "id": "enr-1793805024984-e595",
+      "userId": "student_ea_test_1793805024979_8",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.984Z",
+      "expiresAt": "2027-05-03T15:10:24.984Z",
+      "createdAt": "2026-11-04T15:10:24.984Z",
+      "updatedAt": "2026-11-04T15:10:24.984Z"
+    },
+    {
+      "id": "enr-1793805024990-ecd2",
+      "userId": "student_ea_test_1793805024988_9",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.990Z",
+      "expiresAt": "2027-05-03T15:10:24.990Z",
+      "createdAt": "2026-11-04T15:10:24.990Z",
+      "updatedAt": "2026-11-04T15:10:24.990Z"
+    },
+    {
+      "id": "enr-cyb-1793805024991-ed5f",
+      "userId": "student_ea_test_1793805024988_9",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.991Z",
+      "expiresAt": "2027-05-03T15:10:24.991Z",
+      "createdAt": "2026-11-04T15:10:24.991Z",
+      "updatedAt": "2026-11-04T15:10:24.991Z"
+    },
+    {
+      "id": "enr-1793805024993-2d4c",
+      "userId": "student_ea_test_1793805024988_9",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:24.993Z",
+      "expiresAt": "2027-05-03T15:10:24.993Z",
+      "createdAt": "2026-11-04T15:10:24.993Z",
+      "updatedAt": "2026-11-04T15:10:24.993Z"
+    },
+    {
+      "id": "enr-1793805056429-caa8",
+      "userId": "student_allaccess_test_1793805056424",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:56.429Z",
+      "expiresAt": "2027-05-03T15:10:56.429Z",
+      "createdAt": "2026-11-04T15:10:56.429Z",
+      "updatedAt": "2026-11-04T15:10:56.429Z"
+    },
+    {
+      "id": "enr-cyb-1793805056431-f8f4",
+      "userId": "student_allaccess_test_1793805056424",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:56.431Z",
+      "expiresAt": "2027-05-03T15:10:56.431Z",
+      "createdAt": "2026-11-04T15:10:56.431Z",
+      "updatedAt": "2026-11-04T15:10:56.431Z"
+    },
+    {
+      "id": "enr-1793805056433-fdb0",
+      "userId": "student_allaccess_test_1793805056424",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:10:56.433Z",
+      "expiresAt": "2027-05-03T15:10:56.433Z",
+      "createdAt": "2026-11-04T15:10:56.433Z",
+      "updatedAt": "2026-11-04T15:10:56.433Z"
+    },
+    {
+      "id": "enr-1793805093245-2114",
+      "userId": "student_allaccess_test_1793805093238",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:11:33.245Z",
+      "expiresAt": "2027-05-03T15:11:33.245Z",
+      "createdAt": "2026-11-04T15:11:33.245Z",
+      "updatedAt": "2026-11-04T15:11:33.245Z"
+    },
+    {
+      "id": "enr-cyb-1793805093248-5cca",
+      "userId": "student_allaccess_test_1793805093238",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:11:33.248Z",
+      "expiresAt": "2027-05-03T15:11:33.248Z",
+      "createdAt": "2026-11-04T15:11:33.248Z",
+      "updatedAt": "2026-11-04T15:11:33.248Z"
+    },
+    {
+      "id": "enr-1793805093250-ebe5",
+      "userId": "student_allaccess_test_1793805093238",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:11:33.250Z",
+      "expiresAt": "2027-05-03T15:11:33.250Z",
+      "createdAt": "2026-11-04T15:11:33.250Z",
+      "updatedAt": "2026-11-04T15:11:33.250Z"
+    },
+    {
+      "id": "enr-1793805123811-6bb4",
+      "userId": "student_allaccess_test_1793805123803",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:12:03.811Z",
+      "expiresAt": "2027-05-03T15:12:03.811Z",
+      "createdAt": "2026-11-04T15:12:03.811Z",
+      "updatedAt": "2026-11-04T15:12:03.811Z"
+    },
+    {
+      "id": "enr-cyb-1793805123814-3f0f",
+      "userId": "student_allaccess_test_1793805123803",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:12:03.814Z",
+      "expiresAt": "2027-05-03T15:12:03.814Z",
+      "createdAt": "2026-11-04T15:12:03.814Z",
+      "updatedAt": "2026-11-04T15:12:03.814Z"
+    },
+    {
+      "id": "enr-1793805123816-1329",
+      "userId": "student_allaccess_test_1793805123803",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:12:03.816Z",
+      "expiresAt": "2027-05-03T15:12:03.816Z",
+      "createdAt": "2026-11-04T15:12:03.816Z",
+      "updatedAt": "2026-11-04T15:12:03.816Z"
+    },
+    {
+      "id": "enr-1793805146107-28bc",
+      "userId": "student_allaccess_test_1793805146100",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:12:26.107Z",
+      "expiresAt": "2027-05-03T15:12:26.107Z",
+      "createdAt": "2026-11-04T15:12:26.107Z",
+      "updatedAt": "2026-11-04T15:12:26.107Z"
+    },
+    {
+      "id": "enr-cyb-1793805146110-fa57",
+      "userId": "student_allaccess_test_1793805146100",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:12:26.110Z",
+      "expiresAt": "2027-05-03T15:12:26.110Z",
+      "createdAt": "2026-11-04T15:12:26.110Z",
+      "updatedAt": "2026-11-04T15:12:26.110Z"
+    },
+    {
+      "id": "enr-1793805146112-8943",
+      "userId": "student_allaccess_test_1793805146100",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:12:26.112Z",
+      "expiresAt": "2027-05-03T15:12:26.112Z",
+      "createdAt": "2026-11-04T15:12:26.112Z",
+      "updatedAt": "2026-11-04T15:12:26.112Z"
+    },
+    {
+      "id": "enr-1793805172663-0243",
+      "userId": "student_allaccess_test_1793805172656",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:12:52.663Z",
+      "expiresAt": "2027-05-03T15:12:52.663Z",
+      "createdAt": "2026-11-04T15:12:52.663Z",
+      "updatedAt": "2026-11-04T15:12:52.663Z"
+    },
+    {
+      "id": "enr-cyb-1793805172665-f2d3",
+      "userId": "student_allaccess_test_1793805172656",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:12:52.665Z",
+      "expiresAt": "2027-05-03T15:12:52.665Z",
+      "createdAt": "2026-11-04T15:12:52.665Z",
+      "updatedAt": "2026-11-04T15:12:52.665Z"
+    },
+    {
+      "id": "enr-1793805172667-a427",
+      "userId": "student_allaccess_test_1793805172656",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:12:52.667Z",
+      "expiresAt": "2027-05-03T15:12:52.667Z",
+      "createdAt": "2026-11-04T15:12:52.667Z",
+      "updatedAt": "2026-11-04T15:12:52.667Z"
+    },
+    {
+      "id": "enr-1793805199709-6b84",
+      "userId": "student_allaccess_test_1793805199704",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:13:19.709Z",
+      "expiresAt": "2027-05-03T15:13:19.709Z",
+      "createdAt": "2026-11-04T15:13:19.709Z",
+      "updatedAt": "2026-11-04T15:13:19.709Z"
+    },
+    {
+      "id": "enr-cyb-1793805199711-8c0b",
+      "userId": "student_allaccess_test_1793805199704",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:13:19.711Z",
+      "expiresAt": "2027-05-03T15:13:19.711Z",
+      "createdAt": "2026-11-04T15:13:19.711Z",
+      "updatedAt": "2026-11-04T15:13:19.711Z"
+    },
+    {
+      "id": "enr-1793805199713-d5ce",
+      "userId": "student_allaccess_test_1793805199704",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:13:19.713Z",
+      "expiresAt": "2027-05-03T15:13:19.713Z",
+      "createdAt": "2026-11-04T15:13:19.713Z",
+      "updatedAt": "2026-11-04T15:13:19.713Z"
+    },
+    {
+      "id": "enr-cyb-1793805206533-4964",
+      "userId": "student_c2_pass_1793805206526",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:13:26.533Z",
+      "expiresAt": "2027-05-03T15:13:26.533Z",
+      "createdAt": "2026-11-04T15:13:26.533Z",
+      "updatedAt": "2026-11-04T15:13:26.533Z"
+    },
+    {
+      "id": "enr-cyb-1793805206561-8aa3",
+      "userId": "student_c2_cert_1793805206561",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:13:26.561Z",
+      "expiresAt": "2027-05-03T15:13:26.561Z",
+      "createdAt": "2026-11-04T15:13:26.561Z",
+      "updatedAt": "2026-11-04T15:13:26.561Z"
+    },
+    {
+      "id": "enr-cyb-1793805206570-14a1",
+      "userId": "student_c2_manual_grant_1793805206570",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "admin_granted",
+      "status": "revoked",
+      "startsAt": "2026-11-04T15:13:26.570Z",
+      "expiresAt": "2027-05-03T15:13:26.570Z",
+      "createdAt": "2026-11-04T15:13:26.570Z",
+      "updatedAt": "2026-11-04T15:13:26.573Z"
+    },
+    {
+      "id": "enr-1793805221021-83d5",
+      "userId": "student_webhook_sec_1793805221012",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:13:41.021Z",
+      "expiresAt": "2027-05-03T15:13:41.021Z",
+      "createdAt": "2026-11-04T15:13:41.021Z",
+      "updatedAt": "2026-11-04T15:13:41.021Z"
+    },
+    {
+      "id": "enr-1793805459797-655c",
+      "userId": "student_allaccess_test_1793805459791",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:17:39.797Z",
+      "expiresAt": "2027-05-03T15:17:39.797Z",
+      "createdAt": "2026-11-04T15:17:39.797Z",
+      "updatedAt": "2026-11-04T15:17:39.797Z"
+    },
+    {
+      "id": "enr-cyb-1793805459799-f603",
+      "userId": "student_allaccess_test_1793805459791",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:17:39.799Z",
+      "expiresAt": "2027-05-03T15:17:39.799Z",
+      "createdAt": "2026-11-04T15:17:39.799Z",
+      "updatedAt": "2026-11-04T15:17:39.799Z"
+    },
+    {
+      "id": "enr-1793805459801-c1e2",
+      "userId": "student_allaccess_test_1793805459791",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:17:39.801Z",
+      "expiresAt": "2027-05-03T15:17:39.801Z",
+      "createdAt": "2026-11-04T15:17:39.801Z",
+      "updatedAt": "2026-11-04T15:17:39.801Z"
+    },
+    {
+      "id": "enr-1793805537530-dfa2",
+      "userId": "student_checkout_btech-semester-pass_1793805537520",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:18:57.530Z",
+      "expiresAt": "2027-05-03T15:18:57.530Z",
+      "createdAt": "2026-11-04T15:18:57.530Z",
+      "updatedAt": "2026-11-04T15:18:57.530Z"
+    },
+    {
+      "id": "enr-1793805537540-e452",
+      "userId": "student_checkout_quantum-semester-pass_1793805537536",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:18:57.540Z",
+      "expiresAt": "2027-05-03T15:18:57.540Z",
+      "createdAt": "2026-11-04T15:18:57.540Z",
+      "updatedAt": "2026-11-04T15:18:57.540Z"
+    },
+    {
+      "id": "enr-cyb-1793805537553-0835",
+      "userId": "student_checkout_cybersecurity-semester-pass_1793805537549",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:18:57.553Z",
+      "expiresAt": "2027-05-03T15:18:57.553Z",
+      "createdAt": "2026-11-04T15:18:57.553Z",
+      "updatedAt": "2026-11-04T15:18:57.553Z"
+    },
+    {
+      "id": "enr-1793805537569-c061",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805537562",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:18:57.569Z",
+      "expiresAt": "2027-05-03T15:18:57.569Z",
+      "createdAt": "2026-11-04T15:18:57.569Z",
+      "updatedAt": "2026-11-04T15:18:57.569Z"
+    },
+    {
+      "id": "enr-cyb-1793805537573-d8f1",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805537562",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:18:57.573Z",
+      "expiresAt": "2027-05-03T15:18:57.573Z",
+      "createdAt": "2026-11-04T15:18:57.573Z",
+      "updatedAt": "2026-11-04T15:18:57.573Z"
+    },
+    {
+      "id": "enr-1793805537577-dfd1",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805537562",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:18:57.577Z",
+      "expiresAt": "2027-05-03T15:18:57.577Z",
+      "createdAt": "2026-11-04T15:18:57.577Z",
+      "updatedAt": "2026-11-04T15:18:57.577Z"
+    },
+    {
+      "id": "enr-1793805537611-b5aa",
+      "userId": "student_wh_1793805537601",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:18:57.611Z",
+      "expiresAt": "2027-05-03T15:18:57.632Z",
+      "createdAt": "2026-11-04T15:18:57.611Z",
+      "updatedAt": "2026-11-04T15:18:57.632Z"
+    },
+    {
+      "id": "enr-cyb-1793805537614-10dc",
+      "userId": "student_wh_1793805537601",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:18:57.614Z",
+      "expiresAt": "2027-05-03T15:18:57.635Z",
+      "createdAt": "2026-11-04T15:18:57.614Z",
+      "updatedAt": "2026-11-04T15:18:57.635Z"
+    },
+    {
+      "id": "enr-1793805537618-560e",
+      "userId": "student_wh_1793805537601",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:18:57.618Z",
+      "expiresAt": "2027-05-03T15:18:57.639Z",
+      "createdAt": "2026-11-04T15:18:57.618Z",
+      "updatedAt": "2026-11-04T15:18:57.639Z"
+    },
+    {
+      "id": "enr-1793805597964-c6dd",
+      "userId": "student_checkout_btech-semester-pass_1793805597957",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:19:57.964Z",
+      "expiresAt": "2027-05-03T15:19:57.964Z",
+      "createdAt": "2026-11-04T15:19:57.964Z",
+      "updatedAt": "2026-11-04T15:19:57.964Z"
+    },
+    {
+      "id": "enr-1793805597973-d534",
+      "userId": "student_checkout_quantum-semester-pass_1793805597970",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:19:57.973Z",
+      "expiresAt": "2027-05-03T15:19:57.973Z",
+      "createdAt": "2026-11-04T15:19:57.973Z",
+      "updatedAt": "2026-11-04T15:19:57.973Z"
+    },
+    {
+      "id": "enr-cyb-1793805597987-2541",
+      "userId": "student_checkout_cybersecurity-semester-pass_1793805597984",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:19:57.987Z",
+      "expiresAt": "2027-05-03T15:19:57.987Z",
+      "createdAt": "2026-11-04T15:19:57.987Z",
+      "updatedAt": "2026-11-04T15:19:57.987Z"
+    },
+    {
+      "id": "enr-1793805598002-bec3",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805597997",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:19:58.002Z",
+      "expiresAt": "2027-05-03T15:19:58.002Z",
+      "createdAt": "2026-11-04T15:19:58.002Z",
+      "updatedAt": "2026-11-04T15:19:58.002Z"
+    },
+    {
+      "id": "enr-cyb-1793805598004-b036",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805597997",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:19:58.004Z",
+      "expiresAt": "2027-05-03T15:19:58.004Z",
+      "createdAt": "2026-11-04T15:19:58.004Z",
+      "updatedAt": "2026-11-04T15:19:58.004Z"
+    },
+    {
+      "id": "enr-1793805598006-ea51",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805597997",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:19:58.006Z",
+      "expiresAt": "2027-05-03T15:19:58.006Z",
+      "createdAt": "2026-11-04T15:19:58.006Z",
+      "updatedAt": "2026-11-04T15:19:58.006Z"
+    },
+    {
+      "id": "enr-1793805598030-539f",
+      "userId": "student_wh_1793805598022",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:19:58.030Z",
+      "expiresAt": "2027-05-03T15:19:58.050Z",
+      "createdAt": "2026-11-04T15:19:58.030Z",
+      "updatedAt": "2026-11-04T15:19:58.050Z"
+    },
+    {
+      "id": "enr-cyb-1793805598033-79a4",
+      "userId": "student_wh_1793805598022",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:19:58.033Z",
+      "expiresAt": "2027-05-03T15:19:58.052Z",
+      "createdAt": "2026-11-04T15:19:58.033Z",
+      "updatedAt": "2026-11-04T15:19:58.052Z"
+    },
+    {
+      "id": "enr-1793805598036-f94b",
+      "userId": "student_wh_1793805598022",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:19:58.036Z",
+      "expiresAt": "2027-05-03T15:19:58.055Z",
+      "createdAt": "2026-11-04T15:19:58.036Z",
+      "updatedAt": "2026-11-04T15:19:58.055Z"
+    },
+    {
+      "id": "enr-1793805638896-cb05",
+      "userId": "student_checkout_btech-semester-pass_1793805638889",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:20:38.896Z",
+      "expiresAt": "2027-05-03T15:20:38.896Z",
+      "createdAt": "2026-11-04T15:20:38.896Z",
+      "updatedAt": "2026-11-04T15:20:38.896Z"
+    },
+    {
+      "id": "enr-1793805638904-2adc",
+      "userId": "student_checkout_quantum-semester-pass_1793805638902",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:20:38.904Z",
+      "expiresAt": "2027-05-03T15:20:38.904Z",
+      "createdAt": "2026-11-04T15:20:38.904Z",
+      "updatedAt": "2026-11-04T15:20:38.904Z"
+    },
+    {
+      "id": "enr-cyb-1793805638917-e6c5",
+      "userId": "student_checkout_cybersecurity-semester-pass_1793805638914",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:20:38.917Z",
+      "expiresAt": "2027-05-03T15:20:38.917Z",
+      "createdAt": "2026-11-04T15:20:38.917Z",
+      "updatedAt": "2026-11-04T15:20:38.917Z"
+    },
+    {
+      "id": "enr-1793805638931-d4eb",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805638925",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:20:38.931Z",
+      "expiresAt": "2027-05-03T15:20:38.931Z",
+      "createdAt": "2026-11-04T15:20:38.931Z",
+      "updatedAt": "2026-11-04T15:20:38.931Z"
+    },
+    {
+      "id": "enr-cyb-1793805638933-64c7",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805638925",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:20:38.933Z",
+      "expiresAt": "2027-05-03T15:20:38.933Z",
+      "createdAt": "2026-11-04T15:20:38.933Z",
+      "updatedAt": "2026-11-04T15:20:38.933Z"
+    },
+    {
+      "id": "enr-1793805638935-f1f2",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805638925",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:20:38.935Z",
+      "expiresAt": "2027-05-03T15:20:38.935Z",
+      "createdAt": "2026-11-04T15:20:38.935Z",
+      "updatedAt": "2026-11-04T15:20:38.935Z"
+    },
+    {
+      "id": "enr-1793805638958-501b",
+      "userId": "student_wh_1793805638953",
+      "courseId": "quantum-computing-foundations",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:20:38.958Z",
+      "expiresAt": "2027-05-03T15:20:38.973Z",
+      "createdAt": "2026-11-04T15:20:38.958Z",
+      "updatedAt": "2026-11-04T15:20:38.973Z"
+    },
+    {
+      "id": "enr-cyb-1793805638961-463c",
+      "userId": "student_wh_1793805638953",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "trackId": "cybersecurity",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:20:38.961Z",
+      "expiresAt": "2027-05-03T15:20:38.976Z",
+      "createdAt": "2026-11-04T15:20:38.961Z",
+      "updatedAt": "2026-11-04T15:20:38.976Z"
+    },
+    {
+      "id": "enr-1793805638964-816b",
+      "userId": "student_wh_1793805638953",
+      "courseId": "btech-cse-aiml-sem1",
+      "trackId": "quantum-computing",
+      "accessType": "semester_pass",
+      "status": "active",
+      "startsAt": "2026-11-04T15:20:38.964Z",
+      "expiresAt": "2027-05-03T15:20:38.979Z",
+      "createdAt": "2026-11-04T15:20:38.964Z",
+      "updatedAt": "2026-11-04T15:20:38.979Z"
     }
   ],
   "orders": [
@@ -2256,6 +3502,19 @@
       "metadata": {},
       "createdAt": "2026-11-04T14:33:30.613Z",
       "updatedAt": "2026-11-04T14:33:30.614Z"
+    },
+    {
+      "id": "ord-1793805221016-6753",
+      "userId": "student_webhook_sec_1793805221012",
+      "courseId": "quantum-computing-foundations",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_wh_sec_1793805221013",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {},
+      "createdAt": "2026-11-04T15:13:41.015Z",
+      "updatedAt": "2026-11-04T15:13:41.021Z"
     }
   ],
   "payments": [
@@ -2339,6 +3598,19 @@
       "webhookStatus": "processed",
       "createdAt": "2026-11-04T14:33:30.614Z",
       "updatedAt": "2026-11-04T14:33:30.614Z"
+    },
+    {
+      "id": "pay-1793805221021-39d5",
+      "orderId": "ord-1793805221016-6753",
+      "userId": "student_webhook_sec_1793805221012",
+      "razorpayPaymentId": "pay_wh_sec_1793805221018",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:13:41.021Z",
+      "updatedAt": "2026-11-04T15:13:41.021Z"
     }
   ],
   "mentorshipPacks": [
@@ -2528,6 +3800,490 @@
       "status": "active",
       "expiresAt": "2027-05-03T14:33:30.650Z",
       "createdAt": "2026-11-04T14:33:30.650Z"
+    },
+    {
+      "id": "pack-all-1793804858402-4e4e",
+      "userId": "student_allaccess_test_1793804858392",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:07:38.402Z",
+      "createdAt": "2026-11-04T15:07:38.402Z"
+    },
+    {
+      "id": "pack-all-1793804894400-60a8",
+      "userId": "student_allaccess_test_1793804894388",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:08:14.400Z",
+      "createdAt": "2026-11-04T15:08:14.400Z"
+    },
+    {
+      "id": "pack-all-1793804958885-5570",
+      "userId": "student_allaccess_test_1793804958875",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:09:18.885Z",
+      "createdAt": "2026-11-04T15:09:18.885Z"
+    },
+    {
+      "id": "pack-all-1793804958902-54da",
+      "userId": "student_ea_test_1793804958895_0",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:09:18.902Z",
+      "createdAt": "2026-11-04T15:09:18.902Z"
+    },
+    {
+      "id": "pack-all-1793805024897-9e4f",
+      "userId": "student_allaccess_test_1793805024886",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:10:24.897Z",
+      "createdAt": "2026-11-04T15:10:24.897Z"
+    },
+    {
+      "id": "pack-all-1793805024916-2c6b",
+      "userId": "student_ea_test_1793805024908_1",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:10:24.916Z",
+      "createdAt": "2026-11-04T15:10:24.916Z"
+    },
+    {
+      "id": "pack-all-1793805024925-a893",
+      "userId": "student_ea_test_1793805024919_2",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:10:24.925Z",
+      "createdAt": "2026-11-04T15:10:24.925Z"
+    },
+    {
+      "id": "pack-all-1793805024934-9614",
+      "userId": "student_ea_test_1793805024928_3",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:10:24.934Z",
+      "createdAt": "2026-11-04T15:10:24.934Z"
+    },
+    {
+      "id": "pack-all-1793805024943-d420",
+      "userId": "student_ea_test_1793805024936_4",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:10:24.943Z",
+      "createdAt": "2026-11-04T15:10:24.943Z"
+    },
+    {
+      "id": "pack-all-1793805024958-71fd",
+      "userId": "student_ea_test_1793805024948_5",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:10:24.958Z",
+      "createdAt": "2026-11-04T15:10:24.958Z"
+    },
+    {
+      "id": "pack-all-1793805024967-6153",
+      "userId": "student_ea_test_1793805024961_6",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:10:24.967Z",
+      "createdAt": "2026-11-04T15:10:24.967Z"
+    },
+    {
+      "id": "pack-all-1793805024976-2749",
+      "userId": "student_ea_test_1793805024970_7",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:10:24.976Z",
+      "createdAt": "2026-11-04T15:10:24.976Z"
+    },
+    {
+      "id": "pack-all-1793805024985-a0b3",
+      "userId": "student_ea_test_1793805024979_8",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:10:24.985Z",
+      "createdAt": "2026-11-04T15:10:24.985Z"
+    },
+    {
+      "id": "pack-all-1793805024994-0847",
+      "userId": "student_ea_test_1793805024988_9",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:10:24.994Z",
+      "createdAt": "2026-11-04T15:10:24.994Z"
+    },
+    {
+      "id": "pack-all-1793805056435-17a0",
+      "userId": "student_allaccess_test_1793805056424",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:10:56.435Z",
+      "createdAt": "2026-11-04T15:10:56.435Z"
+    },
+    {
+      "id": "pack-all-1793805093252-2676",
+      "userId": "student_allaccess_test_1793805093238",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:11:33.252Z",
+      "createdAt": "2026-11-04T15:11:33.252Z"
+    },
+    {
+      "id": "pack-all-1793805093271-68a3",
+      "userId": "student_mentor_test_1793805093271",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 1,
+      "status": "active",
+      "expiresAt": "2027-02-02T15:11:33.271Z",
+      "createdAt": "2026-11-04T15:11:33.271Z"
+    },
+    {
+      "id": "pack-all-1793805123818-005d",
+      "userId": "student_allaccess_test_1793805123803",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:12:03.818Z",
+      "createdAt": "2026-11-04T15:12:03.818Z"
+    },
+    {
+      "id": "pack-all-1793805123845-1072",
+      "userId": "student_mentor_test_1793805123845",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 1,
+      "status": "active",
+      "expiresAt": "2027-02-02T15:12:03.845Z",
+      "createdAt": "2026-11-04T15:12:03.845Z"
+    },
+    {
+      "id": "pack-all-1793805146113-2ecd",
+      "userId": "student_allaccess_test_1793805146100",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:12:26.113Z",
+      "createdAt": "2026-11-04T15:12:26.113Z"
+    },
+    {
+      "id": "pack-all-1793805146133-6d7e",
+      "userId": "student_mentor_test_1793805146133",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 1,
+      "status": "active",
+      "expiresAt": "2027-02-02T15:12:26.133Z",
+      "createdAt": "2026-11-04T15:12:26.133Z"
+    },
+    {
+      "id": "pack-all-1793805172669-7c8e",
+      "userId": "student_allaccess_test_1793805172656",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:12:52.669Z",
+      "createdAt": "2026-11-04T15:12:52.669Z"
+    },
+    {
+      "id": "pack-all-1793805172688-268c",
+      "userId": "student_mentor_test_1793805172688",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 1,
+      "status": "active",
+      "expiresAt": "2027-02-02T15:12:52.688Z",
+      "createdAt": "2026-11-04T15:12:52.688Z"
+    },
+    {
+      "id": "pack-all-1793805199715-5851",
+      "userId": "student_allaccess_test_1793805199704",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:13:19.715Z",
+      "createdAt": "2026-11-04T15:13:19.715Z"
+    },
+    {
+      "id": "pack-all-1793805199737-eecb",
+      "userId": "student_mentor_test_1793805199737",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 1,
+      "status": "active",
+      "expiresAt": "2027-02-02T15:13:19.737Z",
+      "createdAt": "2026-11-04T15:13:19.737Z"
+    },
+    {
+      "id": "pack-1793805221023-a95a",
+      "userId": "student_webhook_sec_1793805221012",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:13:41.023Z",
+      "createdAt": "2026-11-04T15:13:41.023Z"
+    },
+    {
+      "id": "pack-1793805221144-e149",
+      "userId": "student_resched_1793805221144@example.com",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T15:13:41.144Z",
+      "createdAt": "2026-11-04T15:13:41.144Z"
+    },
+    {
+      "id": "pack-all-1793805459803-3369",
+      "userId": "student_allaccess_test_1793805459791",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:17:39.803Z",
+      "createdAt": "2026-11-04T15:17:39.803Z"
+    },
+    {
+      "id": "pack-all-1793805459826-37ea",
+      "userId": "student_mentor_test_1793805459825",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 1,
+      "status": "active",
+      "expiresAt": "2027-02-02T15:17:39.826Z",
+      "createdAt": "2026-11-04T15:17:39.826Z"
+    },
+    {
+      "id": "pack-1793805537543-f2a3",
+      "userId": "student_checkout_quantum-semester-pass_1793805537536",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:18:57.543Z",
+      "createdAt": "2026-11-04T15:18:57.543Z"
+    },
+    {
+      "id": "pack-all-1793805537583-b9b6",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805537562",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:18:57.583Z",
+      "createdAt": "2026-11-04T15:18:57.583Z"
+    },
+    {
+      "id": "pack-all-1793805537622-0f69",
+      "userId": "student_wh_1793805537601",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:18:57.622Z",
+      "createdAt": "2026-11-04T15:18:57.622Z"
+    },
+    {
+      "id": "pack-all-1793805537642-645a",
+      "userId": "student_wh_1793805537601",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:18:57.642Z",
+      "createdAt": "2026-11-04T15:18:57.642Z"
+    },
+    {
+      "id": "pack-all-1793805537651-6c00",
+      "userId": "student_pack_test_1793805537651",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 1,
+      "status": "active",
+      "expiresAt": "2027-02-02T15:18:57.651Z",
+      "createdAt": "2026-11-04T15:18:57.651Z"
+    },
+    {
+      "id": "pack-1793805597976-9823",
+      "userId": "student_checkout_quantum-semester-pass_1793805597970",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:19:57.976Z",
+      "createdAt": "2026-11-04T15:19:57.976Z"
+    },
+    {
+      "id": "pack-all-1793805598010-5598",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805597997",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:19:58.010Z",
+      "createdAt": "2026-11-04T15:19:58.010Z"
+    },
+    {
+      "id": "pack-all-1793805598041-26d2",
+      "userId": "student_wh_1793805598022",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:19:58.041Z",
+      "createdAt": "2026-11-04T15:19:58.041Z"
+    },
+    {
+      "id": "pack-all-1793805598057-5924",
+      "userId": "student_wh_1793805598022",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:19:58.057Z",
+      "createdAt": "2026-11-04T15:19:58.057Z"
+    },
+    {
+      "id": "pack-all-1793805598064-827d",
+      "userId": "student_pack_test_1793805598064",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 1,
+      "status": "active",
+      "expiresAt": "2027-02-02T15:19:58.064Z",
+      "createdAt": "2026-11-04T15:19:58.064Z"
+    },
+    {
+      "id": "pack-1793805638906-b105",
+      "userId": "student_checkout_quantum-semester-pass_1793805638902",
+      "courseId": "quantum-computing-foundations",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:20:38.906Z",
+      "createdAt": "2026-11-04T15:20:38.906Z"
+    },
+    {
+      "id": "pack-all-1793805638937-e18d",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805638925",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:20:38.937Z",
+      "createdAt": "2026-11-04T15:20:38.937Z"
+    },
+    {
+      "id": "pack-all-1793805638966-eaf7",
+      "userId": "student_wh_1793805638953",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:20:38.966Z",
+      "createdAt": "2026-11-04T15:20:38.966Z"
+    },
+    {
+      "id": "pack-all-1793805638981-f33e",
+      "userId": "student_wh_1793805638953",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:20:38.981Z",
+      "createdAt": "2026-11-04T15:20:38.981Z"
+    },
+    {
+      "id": "pack-all-1793805638987-3480",
+      "userId": "student_pack_test_1793805638987",
+      "courseId": "all-access",
+      "packType": "all_access_session",
+      "totalSessions": 2,
+      "usedSessions": 1,
+      "status": "active",
+      "expiresAt": "2027-02-02T15:20:38.987Z",
+      "createdAt": "2026-11-04T15:20:38.987Z"
     }
   ],
   "earlyAdopterRedemptions": [
@@ -2959,6 +4715,28 @@
       "pointsAwarded": 25,
       "attemptNumber": 2,
       "createdAt": "2026-11-04T14:33:28.064Z"
+    },
+    {
+      "id": "att-1793805214029-2cfg6",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "test-user-cyber-1793805214024",
+      "submittedFlag": "PMU{wrong_guess}",
+      "isCorrect": false,
+      "pointsAwarded": 0,
+      "attemptNumber": 1,
+      "createdAt": "2026-11-04T15:13:34.029Z"
+    },
+    {
+      "id": "att-1793805214032-alt1k",
+      "labId": "lab-c1-01",
+      "taskId": "task-c1-01",
+      "userId": "test-user-cyber-1793805214024",
+      "submittedFlag": "PMU{h3ad3r_s3cur1ty_mast3r}",
+      "isCorrect": true,
+      "pointsAwarded": 25,
+      "attemptNumber": 2,
+      "createdAt": "2026-11-04T15:13:34.032Z"
     }
   ],
   "cyberLabProgress": [
@@ -3033,6 +4811,18 @@
       "startedAt": "2026-11-04T14:33:28.063Z",
       "completedAt": "2026-11-04T14:33:28.064Z",
       "lastAttemptAt": "2026-11-04T14:33:28.064Z"
+    },
+    {
+      "id": "prog-1793805214029-ld9db",
+      "userId": "test-user-cyber-1793805214024",
+      "labId": "lab-c1-01",
+      "status": "completed",
+      "tasksCompleted": 1,
+      "totalTasks": 1,
+      "score": 25,
+      "startedAt": "2026-11-04T15:13:34.029Z",
+      "completedAt": "2026-11-04T15:13:34.032Z",
+      "lastAttemptAt": "2026-11-04T15:13:34.032Z"
     }
   ],
   "labAcceptances": [
@@ -3094,6 +4884,16 @@
       "acceptedAt": "2026-11-04T14:33:28.061Z",
       "metadata": {
         "testAudit": true
+      }
+    },
+    {
+      "id": "acc-1793805214024-35pjf",
+      "userId": "test-user-cyber-1793805214024",
+      "labId": "lab-c1-01",
+      "policyVersion": "1.0",
+      "acceptedAt": "2026-11-04T15:13:34.024Z",
+      "metadata": {
+        "test": true
       }
     }
   ],
@@ -3169,6 +4969,30 @@
       "attempts": 2,
       "receivedAt": "2026-11-04T14:33:25.052Z",
       "processedAt": "2026-11-04T14:33:25.057Z"
+    },
+    {
+      "id": "wh_1793805221019_m0bxabs",
+      "provider": "razorpay",
+      "eventId": "evt_test_sec_1793805221012",
+      "eventType": "payment.captured",
+      "payload": {
+        "event_id": "evt_test_sec_1793805221012",
+        "event": "payment.captured",
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_wh_sec_1793805221018",
+              "order_id": "order_wh_sec_1793805221013",
+              "amount": 99900,
+              "status": "captured"
+            }
+          }
+        }
+      },
+      "status": "processed",
+      "attempts": 2,
+      "receivedAt": "2026-11-04T15:13:41.019Z",
+      "processedAt": "2026-11-04T15:13:41.027Z"
     }
   ],
   "rateLimitEvents": [
@@ -3360,6 +5184,60 @@
       "windowStart": 1793802808065,
       "expiresAt": 1793802868065,
       "createdAt": "2026-11-04T14:33:28.066Z"
+    },
+    {
+      "id": "rl_1793805214036_i05i9",
+      "bucketKey": "cyber_flag_submit",
+      "identifier": "test-user-cyber-1793805214024:test-limit",
+      "count": 1,
+      "windowStart": 1793805214036,
+      "expiresAt": 1793805274036,
+      "createdAt": "2026-11-04T15:13:34.036Z"
+    },
+    {
+      "id": "rl_1793805221033_bpeq4",
+      "bucketKey": "otp_send_phone",
+      "identifier": "sec_user_1793805221033",
+      "count": 3,
+      "windowStart": 1793805221033,
+      "expiresAt": 1793805821033,
+      "createdAt": "2026-11-04T15:13:41.033Z"
+    },
+    {
+      "id": "rl_1793805221039_pnf7z",
+      "bucketKey": "otp_verify",
+      "identifier": "sec_user_1793805221033",
+      "count": 5,
+      "windowStart": 1793805221039,
+      "expiresAt": 1793805821039,
+      "createdAt": "2026-11-04T15:13:41.039Z"
+    },
+    {
+      "id": "rl_1793805221051_dsh0b",
+      "bucketKey": "quantum_early_adopter_claim",
+      "identifier": "sec_user_1793805221033",
+      "count": 5,
+      "windowStart": 1793805221051,
+      "expiresAt": 1793808821051,
+      "createdAt": "2026-11-04T15:13:41.051Z"
+    },
+    {
+      "id": "rl_1793805221061_djxpv",
+      "bucketKey": "certificate_pdf_download",
+      "identifier": "sec_user_1793805221033",
+      "count": 10,
+      "windowStart": 1793805221061,
+      "expiresAt": 1793808821061,
+      "createdAt": "2026-11-04T15:13:41.061Z"
+    },
+    {
+      "id": "rl_1793805221083_2ry4h",
+      "bucketKey": "certificate_public_verify",
+      "identifier": "sec_user_1793805221033",
+      "count": 30,
+      "windowStart": 1793805221083,
+      "expiresAt": 1793805281083,
+      "createdAt": "2026-11-04T15:13:41.083Z"
     }
   ],
   "cyberOrders": [
@@ -3647,6 +5525,70 @@
       },
       "createdAt": "2026-11-04T14:33:16.093Z",
       "updatedAt": "2026-11-04T14:33:16.094Z"
+    },
+    {
+      "id": "ord-cyb-1793804704307-8082",
+      "userId": "student_c2_pass_1793804704304",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_cyber_test_1793804704304",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_test_1793804704309",
+        "razorpaySignature": "670931da9de8d95fe9114ce868ca5557016571069f4322dbf767bcf28bb3e927"
+      },
+      "createdAt": "2026-11-04T15:05:04.306Z",
+      "updatedAt": "2026-11-04T15:05:04.310Z"
+    },
+    {
+      "id": "ord-cyb-1793804704314-dcbc",
+      "userId": "student_c2_mentor_1793804704314",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "mentorship_pack",
+      "razorpayOrderId": "order_cyber_mentor_1793804704314",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_mentor_1793804704315",
+        "razorpaySignature": "sig_dummy_mentor"
+      },
+      "createdAt": "2026-11-04T15:05:04.314Z",
+      "updatedAt": "2026-11-04T15:05:04.315Z"
+    },
+    {
+      "id": "ord-cyb-1793805206530-d933",
+      "userId": "student_c2_pass_1793805206526",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "semester_pass",
+      "razorpayOrderId": "order_cyber_test_1793805206526",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_test_1793805206532",
+        "razorpaySignature": "47b9b789842e1c75921da046a27971fbc0b774f371b5a0ba96de4562e4d7f5eb"
+      },
+      "createdAt": "2026-11-04T15:13:26.529Z",
+      "updatedAt": "2026-11-04T15:13:26.533Z"
+    },
+    {
+      "id": "ord-cyb-1793805206539-819e",
+      "userId": "student_c2_mentor_1793805206538",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "productType": "mentorship_pack",
+      "razorpayOrderId": "order_cyber_mentor_1793805206538",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cyber_mentor_1793805206540",
+        "razorpaySignature": "sig_dummy_mentor"
+      },
+      "createdAt": "2026-11-04T15:13:26.538Z",
+      "updatedAt": "2026-11-04T15:13:26.540Z"
     }
   ],
   "cyberPayments": [
@@ -3873,6 +5815,62 @@
       "webhookStatus": "processed",
       "createdAt": "2026-11-04T14:33:16.094Z",
       "updatedAt": "2026-11-04T14:33:16.094Z"
+    },
+    {
+      "id": "pay-cyb-1793804704310-ad66",
+      "orderId": "ord-cyb-1793804704307-8082",
+      "userId": "student_c2_pass_1793804704304",
+      "razorpayPaymentId": "pay_cyber_test_1793804704309",
+      "razorpaySignature": "670931da9de8d95fe9114ce868ca5557016571069f4322dbf767bcf28bb3e927",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:05:04.310Z",
+      "updatedAt": "2026-11-04T15:05:04.310Z"
+    },
+    {
+      "id": "pay-cyb-1793804704315-dd21",
+      "orderId": "ord-cyb-1793804704314-dcbc",
+      "userId": "student_c2_mentor_1793804704314",
+      "razorpayPaymentId": "pay_cyber_mentor_1793804704315",
+      "razorpaySignature": "sig_dummy_mentor",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:05:04.315Z",
+      "updatedAt": "2026-11-04T15:05:04.315Z"
+    },
+    {
+      "id": "pay-cyb-1793805206533-3a23",
+      "orderId": "ord-cyb-1793805206530-d933",
+      "userId": "student_c2_pass_1793805206526",
+      "razorpayPaymentId": "pay_cyber_test_1793805206532",
+      "razorpaySignature": "47b9b789842e1c75921da046a27971fbc0b774f371b5a0ba96de4562e4d7f5eb",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:13:26.533Z",
+      "updatedAt": "2026-11-04T15:13:26.533Z"
+    },
+    {
+      "id": "pay-cyb-1793805206540-1134",
+      "orderId": "ord-cyb-1793805206539-819e",
+      "userId": "student_c2_mentor_1793805206538",
+      "razorpayPaymentId": "pay_cyber_mentor_1793805206540",
+      "razorpaySignature": "sig_dummy_mentor",
+      "amountInPaise": 49900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:13:26.540Z",
+      "updatedAt": "2026-11-04T15:13:26.540Z"
     }
   ],
   "cyberMentorshipPacks": [
@@ -4051,6 +6049,83 @@
       "status": "active",
       "expiresAt": "2027-02-02T14:33:16.094Z",
       "createdAt": "2026-11-04T14:33:16.094Z"
+    },
+    {
+      "id": "pack-cyb-1793804704312-a65a",
+      "userId": "student_c2_pass_1793804704304",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:05:04.312Z",
+      "createdAt": "2026-11-04T15:05:04.312Z"
+    },
+    {
+      "id": "pack-cyb-1793804704315-7d20",
+      "userId": "student_c2_mentor_1793804704314",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T15:05:04.315Z",
+      "createdAt": "2026-11-04T15:05:04.315Z"
+    },
+    {
+      "id": "pack-cyb-1793805206535-cebe",
+      "userId": "student_c2_pass_1793805206526",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:13:26.535Z",
+      "createdAt": "2026-11-04T15:13:26.535Z"
+    },
+    {
+      "id": "pack-cyb-1793805206540-2548",
+      "userId": "student_c2_mentor_1793805206538",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-02-02T15:13:26.540Z",
+      "createdAt": "2026-11-04T15:13:26.540Z"
+    },
+    {
+      "id": "pack-cyb-1793805537556-5cf0",
+      "userId": "student_checkout_cybersecurity-semester-pass_1793805537549",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:18:57.556Z",
+      "createdAt": "2026-11-04T15:18:57.556Z"
+    },
+    {
+      "id": "pack-cyb-1793805597989-0270",
+      "userId": "student_checkout_cybersecurity-semester-pass_1793805597984",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:19:57.989Z",
+      "createdAt": "2026-11-04T15:19:57.989Z"
+    },
+    {
+      "id": "pack-cyb-1793805638920-2319",
+      "userId": "student_checkout_cybersecurity-semester-pass_1793805638914",
+      "courseId": "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      "packType": "single_session",
+      "totalSessions": 1,
+      "usedSessions": 0,
+      "status": "active",
+      "expiresAt": "2027-05-03T15:20:38.920Z",
+      "createdAt": "2026-11-04T15:20:38.920Z"
     }
   ],
   "cyberEarlyAdopterRedemptions": [
@@ -4345,6 +6420,2227 @@
       "certificateStatus": "issued",
       "overallScore": 92,
       "certificateCode": "PMU-CYB-2026-19FB3C"
+    },
+    "student_c2_cert_1793804704333": {
+      "completedLessons": [
+        "lesson-c1-01",
+        "lesson-c1-02",
+        "lesson-c1-03",
+        "lesson-c1-04",
+        "lesson-c1-05",
+        "lesson-c1-06",
+        "lesson-c1-07",
+        "lesson-c1-08",
+        "lesson-c1-09",
+        "lesson-c1-10",
+        "lesson-c1-11",
+        "lesson-c1-12",
+        "lesson-c1-13",
+        "lesson-c1-14",
+        "lesson-c1-15",
+        "lesson-c1-16",
+        "lesson-c1-17",
+        "lesson-c1-18",
+        "lesson-c1-19",
+        "lesson-c1-20"
+      ],
+      "completedLabs": [
+        "lab-c1-01",
+        "lab-c1-02",
+        "lab-c1-03",
+        "lab-c1-04",
+        "lab-c1-05"
+      ],
+      "passedQuizzes": [
+        "quiz-cyber-01",
+        "quiz-cyber-02",
+        "quiz-cyber-03",
+        "quiz-cyber-04",
+        "quiz-cyber-05"
+      ],
+      "completionPercentage": 100,
+      "certificateStatus": "issued",
+      "certificateCode": "PMU-CYB-2026-9B6B5C"
+    },
+    "student_c2_cert_1793805206561": {
+      "completedLessons": [
+        "lesson-c1-01",
+        "lesson-c1-02",
+        "lesson-c1-03",
+        "lesson-c1-04",
+        "lesson-c1-05",
+        "lesson-c1-06",
+        "lesson-c1-07",
+        "lesson-c1-08",
+        "lesson-c1-09",
+        "lesson-c1-10",
+        "lesson-c1-11",
+        "lesson-c1-12",
+        "lesson-c1-13",
+        "lesson-c1-14",
+        "lesson-c1-15",
+        "lesson-c1-16",
+        "lesson-c1-17",
+        "lesson-c1-18",
+        "lesson-c1-19",
+        "lesson-c1-20"
+      ],
+      "completedLabs": [
+        "lab-c1-01",
+        "lab-c1-02",
+        "lab-c1-03",
+        "lab-c1-04",
+        "lab-c1-05"
+      ],
+      "passedQuizzes": [
+        "quiz-cyber-01",
+        "quiz-cyber-02",
+        "quiz-cyber-03",
+        "quiz-cyber-04",
+        "quiz-cyber-05"
+      ],
+      "completionPercentage": 100,
+      "certificateStatus": "issued",
+      "certificateCode": "PMU-CYB-2026-FD62BA"
     }
-  }
+  },
+  "unifiedProducts": [
+    {
+      "id": "prod-btech-sem-pass",
+      "slug": "btech-semester-pass",
+      "name": "B.Tech CSE AI/ML Semester Pass",
+      "description": "Full semester access to B.Tech Semester 1 coursework, syllabus notes, past papers, and diagnostic quizzes.",
+      "productType": "semester_pass",
+      "trackId": "btech-cse-aiml",
+      "courseIds": [
+        "btech-cse-aiml-sem1"
+      ],
+      "priceInPaise": 9900,
+      "currency": "INR",
+      "durationDays": 180,
+      "isActive": true,
+      "isEarlyAdopterEligible": false,
+      "features": [
+        "All 6 B.Tech Semester 1 Subjects (CSE1001-CSE1006)",
+        "Verified Class Notes & Cheatsheets",
+        "University Past Solved Papers",
+        "Semester Assessment Quizzes"
+      ]
+    },
+    {
+      "id": "prod-quantum-sem-pass",
+      "slug": "quantum-semester-pass",
+      "name": "Quantum Semester Pass",
+      "description": "Full access to Quantum Computing Foundations: 20 lessons, 5 hardware simulators, quizzes, AI tutor, and certificate.",
+      "productType": "semester_pass",
+      "trackId": "quantum-computing",
+      "courseIds": [
+        "quantum-computing-foundations"
+      ],
+      "priceInPaise": 99900,
+      "currency": "INR",
+      "durationDays": 180,
+      "isActive": true,
+      "isEarlyAdopterEligible": false,
+      "features": [
+        "All 20 Quantum Lessons across 5 structured modules",
+        "All 5 Interactive NISQ Simulators & Bloch Sphere",
+        "Unlimited Quantum AI Tutor with KaTeX equations",
+        "Official Academic Certificate of Completion",
+        "1 Included 1-on-1 Mentorship Session"
+      ]
+    },
+    {
+      "id": "prod-cyber-sem-pass",
+      "slug": "cybersecurity-semester-pass",
+      "name": "CyberSecurity Semester Pass",
+      "description": "Comprehensive defensive security & SOC training: 20 lessons, 5 safe browser labs, CTF challenges, AI tutor, and certificate.",
+      "productType": "semester_pass",
+      "trackId": "cybersecurity",
+      "courseIds": [
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "priceInPaise": 99900,
+      "currency": "INR",
+      "durationDays": 180,
+      "isActive": true,
+      "isEarlyAdopterEligible": false,
+      "features": [
+        "All 20 CyberSecurity Defense Lessons across 5 modules",
+        "All 5 Safe In-Browser Labs & SOC Simulators",
+        "All 5 CTF Challenges with Secure Flag Validation",
+        "Defensive Cyber AI Tutor with safety guardrails",
+        "Official Academic Certificate of Completion",
+        "1 Included 1-on-1 Mentorship Session"
+      ]
+    },
+    {
+      "id": "prod-all-access-pass",
+      "slug": "prepmeup-all-access-pass",
+      "name": "PrepMeUp All-Access Semester Pass",
+      "description": "Unlocks the entire PrepMeUp AI platform: B.Tech CSE AI/ML + Quantum Computing + CyberSecurity Foundations for 6 months.",
+      "productType": "all_access_pass",
+      "courseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "priceInPaise": 149900,
+      "currency": "INR",
+      "durationDays": 180,
+      "isActive": true,
+      "isEarlyAdopterEligible": true,
+      "earlyAdopterLimit": 10,
+      "features": [
+        "Full B.Tech CSE AI/ML Semester 1 curriculum (CSE1001-CSE1006)",
+        "Complete Quantum Computing Foundations track + 5 NISQ simulators",
+        "Complete CyberSecurity Foundations track + 5 in-browser labs & CTF",
+        "Both Academic Certificates of Completion with public QR verification",
+        "2 Complimentary 1-on-1 Mentorship Sessions included",
+        "Unlimited Cross-Track AI Doubt Resolution & RAG"
+      ]
+    },
+    {
+      "id": "prod-quantum-mentorship-pack",
+      "slug": "quantum-mentorship-pack",
+      "name": "Quantum 1-on-1 Mentorship Pack",
+      "description": "One dedicated 45-minute live private advisory session with Quantum Computing faculty.",
+      "productType": "mentorship_pack",
+      "trackId": "quantum-computing",
+      "courseIds": [
+        "quantum-computing-foundations"
+      ],
+      "priceInPaise": 49900,
+      "currency": "INR",
+      "durationDays": 90,
+      "isActive": true,
+      "isEarlyAdopterEligible": false,
+      "features": [
+        "45-Minute Private Session with Dr. Aravind Vaidya, PhD",
+        "Qiskit Code Review & Quantum Circuit Optimization",
+        "NISQ Research, Algorithms & Higher Studies Guidance",
+        "90-Day Flexible Booking Validity"
+      ]
+    },
+    {
+      "id": "prod-cyber-mentorship-pack",
+      "slug": "cybersecurity-mentorship-pack",
+      "name": "CyberSecurity 1-on-1 Mentorship Pack",
+      "description": "One dedicated 45-minute live private advisory session with certified SOC Security Leads.",
+      "productType": "mentorship_pack",
+      "trackId": "cybersecurity",
+      "courseIds": [
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "priceInPaise": 49900,
+      "currency": "INR",
+      "durationDays": 90,
+      "isActive": true,
+      "isEarlyAdopterEligible": false,
+      "features": [
+        "45-Minute Private Session with Senior SOC Lead",
+        "Defensive Architecture & CTF Lab Walkthroughs",
+        "SOC Analyst L1/L2 Interview Prep & Resume Review",
+        "90-Day Flexible Booking Validity"
+      ]
+    },
+    {
+      "id": "prod-all-access-mentorship-pack",
+      "slug": "all-access-mentorship-pack",
+      "name": "All-Access 1-on-1 Mentorship Pack",
+      "description": "One dedicated 45-minute flexible mentorship session valid across any enrolled subject or track.",
+      "productType": "mentorship_pack",
+      "courseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "priceInPaise": 89900,
+      "currency": "INR",
+      "durationDays": 90,
+      "isActive": true,
+      "isEarlyAdopterEligible": false,
+      "features": [
+        "Flexible 45-Minute Session across B.Tech, Quantum, or CyberSecurity",
+        "Comprehensive Engineering Portfolio & Resume Review",
+        "Industry Advisory, Placement Coaching & Graduate School Guidance",
+        "90-Day Flexible Booking Validity"
+      ]
+    }
+  ],
+  "unifiedOrders": [
+    {
+      "id": "uord-1793804858393-9f1f",
+      "userId": "student_allaccess_test_1793804858392",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_test_1793804858392",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "0": "p",
+        "1": "a",
+        "2": "y",
+        "3": "_",
+        "4": "t",
+        "5": "e",
+        "6": "s",
+        "7": "t",
+        "8": "_",
+        "9": "1",
+        "10": "7",
+        "11": "9",
+        "12": "3",
+        "13": "8",
+        "14": "0",
+        "15": "4",
+        "16": "8",
+        "17": "5",
+        "18": "8",
+        "19": "3",
+        "20": "9",
+        "21": "2"
+      },
+      "createdAt": "2026-11-04T15:07:38.392Z",
+      "updatedAt": "2026-11-04T15:07:38.394Z"
+    },
+    {
+      "id": "uord-1793804894389-4f80",
+      "userId": "student_allaccess_test_1793804894388",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_test_1793804894388",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_test_1793804894388"
+      },
+      "createdAt": "2026-11-04T15:08:14.388Z",
+      "updatedAt": "2026-11-04T15:08:14.391Z"
+    },
+    {
+      "id": "uord-1793804958876-61dd",
+      "userId": "student_allaccess_test_1793804958875",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_test_1793804958875",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_test_1793804958875"
+      },
+      "createdAt": "2026-11-04T15:09:18.875Z",
+      "updatedAt": "2026-11-04T15:09:18.879Z"
+    },
+    {
+      "id": "uord-1793805024886-66e6",
+      "userId": "student_allaccess_test_1793805024886",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_test_1793805024886",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_test_1793805024886"
+      },
+      "createdAt": "2026-11-04T15:10:24.886Z",
+      "updatedAt": "2026-11-04T15:10:24.889Z"
+    },
+    {
+      "id": "uord-1793805056424-886a",
+      "userId": "student_allaccess_test_1793805056424",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_test_1793805056424",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_test_1793805056424"
+      },
+      "createdAt": "2026-11-04T15:10:56.424Z",
+      "updatedAt": "2026-11-04T15:10:56.427Z"
+    },
+    {
+      "id": "uord-1793805093239-5c81",
+      "userId": "student_allaccess_test_1793805093238",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_test_1793805093238",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_test_1793805093238"
+      },
+      "createdAt": "2026-11-04T15:11:33.238Z",
+      "updatedAt": "2026-11-04T15:11:33.242Z"
+    },
+    {
+      "id": "uord-1793805123804-ee96",
+      "userId": "student_allaccess_test_1793805123803",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_test_1793805123803",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_test_1793805123803"
+      },
+      "createdAt": "2026-11-04T15:12:03.803Z",
+      "updatedAt": "2026-11-04T15:12:03.808Z"
+    },
+    {
+      "id": "uord-1793805123857-8269",
+      "userId": "student_alpha_1793805123857",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_uni_1793805123857_717e",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "created",
+      "metadata": {},
+      "createdAt": "2026-11-04T15:12:03.857Z",
+      "updatedAt": "2026-11-04T15:12:03.857Z"
+    },
+    {
+      "id": "uord-1793805146101-9849",
+      "userId": "student_allaccess_test_1793805146100",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_test_1793805146100",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_test_1793805146100"
+      },
+      "createdAt": "2026-11-04T15:12:26.101Z",
+      "updatedAt": "2026-11-04T15:12:26.105Z"
+    },
+    {
+      "id": "uord-1793805146146-59db",
+      "userId": "student_alpha_1793805146146",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_uni_1793805146146_a796",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "created",
+      "metadata": {},
+      "createdAt": "2026-11-04T15:12:26.146Z",
+      "updatedAt": "2026-11-04T15:12:26.146Z"
+    },
+    {
+      "id": "uord-1793805172657-ed23",
+      "userId": "student_allaccess_test_1793805172656",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_test_1793805172656",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_test_1793805172656"
+      },
+      "createdAt": "2026-11-04T15:12:52.656Z",
+      "updatedAt": "2026-11-04T15:12:52.660Z"
+    },
+    {
+      "id": "uord-1793805172702-917f",
+      "userId": "student_alpha_1793805172702",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_uni_1793805172702_c89d",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "created",
+      "metadata": {},
+      "createdAt": "2026-11-04T15:12:52.702Z",
+      "updatedAt": "2026-11-04T15:12:52.702Z"
+    },
+    {
+      "id": "uord-1793805199705-20f8",
+      "userId": "student_allaccess_test_1793805199704",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_test_1793805199704",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_test_1793805199704"
+      },
+      "createdAt": "2026-11-04T15:13:19.704Z",
+      "updatedAt": "2026-11-04T15:13:19.707Z"
+    },
+    {
+      "id": "uord-1793805199752-4d3e",
+      "userId": "student_alpha_1793805199752",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_uni_1793805199752_d7dd",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "created",
+      "metadata": {},
+      "createdAt": "2026-11-04T15:13:19.752Z",
+      "updatedAt": "2026-11-04T15:13:19.752Z"
+    },
+    {
+      "id": "uord-1793805459792-7717",
+      "userId": "student_allaccess_test_1793805459791",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_test_1793805459791",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_test_1793805459791"
+      },
+      "createdAt": "2026-11-04T15:17:39.791Z",
+      "updatedAt": "2026-11-04T15:17:39.795Z"
+    },
+    {
+      "id": "uord-1793805459839-d98e",
+      "userId": "student_alpha_1793805459839",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_uni_1793805459839_603b",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "created",
+      "metadata": {},
+      "createdAt": "2026-11-04T15:17:39.839Z",
+      "updatedAt": "2026-11-04T15:17:39.839Z"
+    },
+    {
+      "id": "uord-1793805537526-c399",
+      "userId": "student_checkout_btech-semester-pass_1793805537520",
+      "productId": "prod-btech-sem-pass",
+      "productSlug": "btech-semester-pass",
+      "razorpayOrderId": "order_btech-semester-pass_1793805537520",
+      "amountInPaise": 9900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_btech-semester-pass_1793805537520"
+      },
+      "createdAt": "2026-11-04T15:18:57.525Z",
+      "updatedAt": "2026-11-04T15:18:57.530Z"
+    },
+    {
+      "id": "uord-1793805537536-77a2",
+      "userId": "student_checkout_quantum-semester-pass_1793805537536",
+      "productId": "prod-quantum-sem-pass",
+      "productSlug": "quantum-semester-pass",
+      "razorpayOrderId": "order_quantum-semester-pass_1793805537536",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_quantum-semester-pass_1793805537536"
+      },
+      "createdAt": "2026-11-04T15:18:57.536Z",
+      "updatedAt": "2026-11-04T15:18:57.540Z"
+    },
+    {
+      "id": "uord-1793805537549-7f6a",
+      "userId": "student_checkout_cybersecurity-semester-pass_1793805537549",
+      "productId": "prod-cyber-sem-pass",
+      "productSlug": "cybersecurity-semester-pass",
+      "razorpayOrderId": "order_cybersecurity-semester-pass_1793805537549",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cybersecurity-semester-pass_1793805537549"
+      },
+      "createdAt": "2026-11-04T15:18:57.549Z",
+      "updatedAt": "2026-11-04T15:18:57.552Z"
+    },
+    {
+      "id": "uord-1793805537562-5a53",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805537562",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_prepmeup-all-access-pass_1793805537562",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_prepmeup-all-access-pass_1793805537562"
+      },
+      "createdAt": "2026-11-04T15:18:57.562Z",
+      "updatedAt": "2026-11-04T15:18:57.565Z"
+    },
+    {
+      "id": "uord-1793805537601-5f8e",
+      "userId": "student_wh_1793805537601",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_wh_1793805537601",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_wh_1793805537601"
+      },
+      "createdAt": "2026-11-04T15:18:57.601Z",
+      "updatedAt": "2026-11-04T15:18:57.629Z"
+    },
+    {
+      "id": "uord-1793805597960-832f",
+      "userId": "student_checkout_btech-semester-pass_1793805597957",
+      "productId": "prod-btech-sem-pass",
+      "productSlug": "btech-semester-pass",
+      "razorpayOrderId": "order_btech-semester-pass_1793805597957",
+      "amountInPaise": 9900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_btech-semester-pass_1793805597957"
+      },
+      "createdAt": "2026-11-04T15:19:57.960Z",
+      "updatedAt": "2026-11-04T15:19:57.964Z"
+    },
+    {
+      "id": "uord-1793805597970-a2a1",
+      "userId": "student_checkout_quantum-semester-pass_1793805597970",
+      "productId": "prod-quantum-sem-pass",
+      "productSlug": "quantum-semester-pass",
+      "razorpayOrderId": "order_quantum-semester-pass_1793805597970",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_quantum-semester-pass_1793805597970"
+      },
+      "createdAt": "2026-11-04T15:19:57.970Z",
+      "updatedAt": "2026-11-04T15:19:57.973Z"
+    },
+    {
+      "id": "uord-1793805597984-38d0",
+      "userId": "student_checkout_cybersecurity-semester-pass_1793805597984",
+      "productId": "prod-cyber-sem-pass",
+      "productSlug": "cybersecurity-semester-pass",
+      "razorpayOrderId": "order_cybersecurity-semester-pass_1793805597984",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cybersecurity-semester-pass_1793805597984"
+      },
+      "createdAt": "2026-11-04T15:19:57.984Z",
+      "updatedAt": "2026-11-04T15:19:57.986Z"
+    },
+    {
+      "id": "uord-1793805597997-2079",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805597997",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_prepmeup-all-access-pass_1793805597997",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_prepmeup-all-access-pass_1793805597997"
+      },
+      "createdAt": "2026-11-04T15:19:57.997Z",
+      "updatedAt": "2026-11-04T15:19:57.999Z"
+    },
+    {
+      "id": "uord-1793805598022-8958",
+      "userId": "student_wh_1793805598022",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_wh_1793805598022",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_wh_1793805598022"
+      },
+      "createdAt": "2026-11-04T15:19:58.022Z",
+      "updatedAt": "2026-11-04T15:19:58.048Z"
+    },
+    {
+      "id": "uord-1793805598082-2594",
+      "userId": "student_iso_1_1793805598082",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_uni_1793805598082_c922",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "created",
+      "metadata": {},
+      "createdAt": "2026-11-04T15:19:58.082Z",
+      "updatedAt": "2026-11-04T15:19:58.082Z"
+    },
+    {
+      "id": "uord-1793805638892-9a59",
+      "userId": "student_checkout_btech-semester-pass_1793805638889",
+      "productId": "prod-btech-sem-pass",
+      "productSlug": "btech-semester-pass",
+      "razorpayOrderId": "order_btech-semester-pass_1793805638889",
+      "amountInPaise": 9900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_btech-semester-pass_1793805638889"
+      },
+      "createdAt": "2026-11-04T15:20:38.891Z",
+      "updatedAt": "2026-11-04T15:20:38.896Z"
+    },
+    {
+      "id": "uord-1793805638902-fd6e",
+      "userId": "student_checkout_quantum-semester-pass_1793805638902",
+      "productId": "prod-quantum-sem-pass",
+      "productSlug": "quantum-semester-pass",
+      "razorpayOrderId": "order_quantum-semester-pass_1793805638902",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_quantum-semester-pass_1793805638902"
+      },
+      "createdAt": "2026-11-04T15:20:38.902Z",
+      "updatedAt": "2026-11-04T15:20:38.904Z"
+    },
+    {
+      "id": "uord-1793805638914-4f15",
+      "userId": "student_checkout_cybersecurity-semester-pass_1793805638914",
+      "productId": "prod-cyber-sem-pass",
+      "productSlug": "cybersecurity-semester-pass",
+      "razorpayOrderId": "order_cybersecurity-semester-pass_1793805638914",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_cybersecurity-semester-pass_1793805638914"
+      },
+      "createdAt": "2026-11-04T15:20:38.914Z",
+      "updatedAt": "2026-11-04T15:20:38.917Z"
+    },
+    {
+      "id": "uord-1793805638925-9bb4",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805638925",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_prepmeup-all-access-pass_1793805638925",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_prepmeup-all-access-pass_1793805638925"
+      },
+      "createdAt": "2026-11-04T15:20:38.925Z",
+      "updatedAt": "2026-11-04T15:20:38.928Z"
+    },
+    {
+      "id": "uord-1793805638953-a14c",
+      "userId": "student_wh_1793805638953",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_wh_1793805638953",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "paid",
+      "metadata": {
+        "razorpayPaymentId": "pay_wh_1793805638953"
+      },
+      "createdAt": "2026-11-04T15:20:38.953Z",
+      "updatedAt": "2026-11-04T15:20:38.971Z"
+    },
+    {
+      "id": "uord-1793805639006-1ada",
+      "userId": "student_iso_1_1793805639005",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "razorpayOrderId": "order_uni_1793805639005_fb10",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "created",
+      "metadata": {},
+      "createdAt": "2026-11-04T15:20:39.005Z",
+      "updatedAt": "2026-11-04T15:20:39.005Z"
+    }
+  ],
+  "unifiedPayments": [
+    {
+      "id": "pay-uni-1793804894391-bad4",
+      "orderId": "uord-1793804894389-4f80",
+      "userId": "student_allaccess_test_1793804894388",
+      "razorpayPaymentId": "pay_test_1793804894388",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:08:14.391Z",
+      "updatedAt": "2026-11-04T15:08:14.391Z"
+    },
+    {
+      "id": "pay-uni-1793804958879-45ef",
+      "orderId": "uord-1793804958876-61dd",
+      "userId": "student_allaccess_test_1793804958875",
+      "razorpayPaymentId": "pay_test_1793804958875",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:09:18.879Z",
+      "updatedAt": "2026-11-04T15:09:18.879Z"
+    },
+    {
+      "id": "pay-uni-1793805024889-2bea",
+      "orderId": "uord-1793805024886-66e6",
+      "userId": "student_allaccess_test_1793805024886",
+      "razorpayPaymentId": "pay_test_1793805024886",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:10:24.889Z",
+      "updatedAt": "2026-11-04T15:10:24.889Z"
+    },
+    {
+      "id": "pay-uni-1793805056427-fe94",
+      "orderId": "uord-1793805056424-886a",
+      "userId": "student_allaccess_test_1793805056424",
+      "razorpayPaymentId": "pay_test_1793805056424",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:10:56.427Z",
+      "updatedAt": "2026-11-04T15:10:56.427Z"
+    },
+    {
+      "id": "pay-uni-1793805093242-f3f0",
+      "orderId": "uord-1793805093239-5c81",
+      "userId": "student_allaccess_test_1793805093238",
+      "razorpayPaymentId": "pay_test_1793805093238",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:11:33.242Z",
+      "updatedAt": "2026-11-04T15:11:33.242Z"
+    },
+    {
+      "id": "pay-uni-1793805093266-f4f2",
+      "orderId": "uord-1793805093239-5c81",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "webhookStatus": "pending",
+      "createdAt": "2026-11-04T15:11:33.266Z",
+      "updatedAt": "2026-11-04T15:11:33.266Z"
+    },
+    {
+      "id": "pay-uni-1793805123808-3d0a",
+      "orderId": "uord-1793805123804-ee96",
+      "userId": "student_allaccess_test_1793805123803",
+      "razorpayPaymentId": "pay_test_1793805123803",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:12:03.808Z",
+      "updatedAt": "2026-11-04T15:12:03.808Z"
+    },
+    {
+      "id": "pay-uni-1793805123834-1b13",
+      "orderId": "uord-1793805123804-ee96",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "webhookStatus": "pending",
+      "createdAt": "2026-11-04T15:12:03.834Z",
+      "updatedAt": "2026-11-04T15:12:03.834Z"
+    },
+    {
+      "id": "pay-uni-1793805146105-ca76",
+      "orderId": "uord-1793805146101-9849",
+      "userId": "student_allaccess_test_1793805146100",
+      "razorpayPaymentId": "pay_test_1793805146100",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:12:26.105Z",
+      "updatedAt": "2026-11-04T15:12:26.105Z"
+    },
+    {
+      "id": "pay-uni-1793805146126-3437",
+      "orderId": "uord-1793805146101-9849",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "webhookStatus": "pending",
+      "createdAt": "2026-11-04T15:12:26.126Z",
+      "updatedAt": "2026-11-04T15:12:26.126Z"
+    },
+    {
+      "id": "pay-uni-1793805172660-97f6",
+      "orderId": "uord-1793805172657-ed23",
+      "userId": "student_allaccess_test_1793805172656",
+      "razorpayPaymentId": "pay_test_1793805172656",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:12:52.660Z",
+      "updatedAt": "2026-11-04T15:12:52.660Z"
+    },
+    {
+      "id": "pay-uni-1793805172682-66f3",
+      "orderId": "uord-1793805172657-ed23",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "webhookStatus": "pending",
+      "createdAt": "2026-11-04T15:12:52.682Z",
+      "updatedAt": "2026-11-04T15:12:52.682Z"
+    },
+    {
+      "id": "pay-uni-1793805199707-fe91",
+      "orderId": "uord-1793805199705-20f8",
+      "userId": "student_allaccess_test_1793805199704",
+      "razorpayPaymentId": "pay_test_1793805199704",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:13:19.707Z",
+      "updatedAt": "2026-11-04T15:13:19.707Z"
+    },
+    {
+      "id": "pay-uni-1793805199728-992d",
+      "orderId": "uord-1793805199705-20f8",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "webhookStatus": "pending",
+      "createdAt": "2026-11-04T15:13:19.728Z",
+      "updatedAt": "2026-11-04T15:13:19.728Z"
+    },
+    {
+      "id": "pay-uni-1793805459795-0afa",
+      "orderId": "uord-1793805459792-7717",
+      "userId": "student_allaccess_test_1793805459791",
+      "razorpayPaymentId": "pay_test_1793805459791",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:17:39.795Z",
+      "updatedAt": "2026-11-04T15:17:39.795Z"
+    },
+    {
+      "id": "pay-uni-1793805459816-ee28",
+      "orderId": "uord-1793805459792-7717",
+      "userId": "student_allaccess_test_1793805459791",
+      "razorpayPaymentId": "pay_idemp_1793805459816",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "pending",
+      "createdAt": "2026-11-04T15:17:39.816Z",
+      "updatedAt": "2026-11-04T15:17:39.816Z"
+    },
+    {
+      "id": "pay-uni-1793805537530-f795",
+      "orderId": "uord-1793805537526-c399",
+      "userId": "student_checkout_btech-semester-pass_1793805537520",
+      "razorpayPaymentId": "pay_btech-semester-pass_1793805537520",
+      "amountInPaise": 9900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:18:57.530Z",
+      "updatedAt": "2026-11-04T15:18:57.530Z"
+    },
+    {
+      "id": "pay-uni-1793805537540-2210",
+      "orderId": "uord-1793805537536-77a2",
+      "userId": "student_checkout_quantum-semester-pass_1793805537536",
+      "razorpayPaymentId": "pay_quantum-semester-pass_1793805537536",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:18:57.540Z",
+      "updatedAt": "2026-11-04T15:18:57.540Z"
+    },
+    {
+      "id": "pay-uni-1793805537552-8139",
+      "orderId": "uord-1793805537549-7f6a",
+      "userId": "student_checkout_cybersecurity-semester-pass_1793805537549",
+      "razorpayPaymentId": "pay_cybersecurity-semester-pass_1793805537549",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:18:57.552Z",
+      "updatedAt": "2026-11-04T15:18:57.552Z"
+    },
+    {
+      "id": "pay-uni-1793805537565-b5af",
+      "orderId": "uord-1793805537562-5a53",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805537562",
+      "razorpayPaymentId": "pay_prepmeup-all-access-pass_1793805537562",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:18:57.565Z",
+      "updatedAt": "2026-11-04T15:18:57.565Z"
+    },
+    {
+      "id": "pay-uni-1793805537606-5284",
+      "orderId": "uord-1793805537601-5f8e",
+      "userId": "student_wh_1793805537601",
+      "razorpayPaymentId": "pay_wh_1793805537601",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:18:57.606Z",
+      "updatedAt": "2026-11-04T15:18:57.606Z"
+    },
+    {
+      "id": "pay-uni-1793805597964-e426",
+      "orderId": "uord-1793805597960-832f",
+      "userId": "student_checkout_btech-semester-pass_1793805597957",
+      "razorpayPaymentId": "pay_btech-semester-pass_1793805597957",
+      "amountInPaise": 9900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:19:57.964Z",
+      "updatedAt": "2026-11-04T15:19:57.964Z"
+    },
+    {
+      "id": "pay-uni-1793805597973-45d8",
+      "orderId": "uord-1793805597970-a2a1",
+      "userId": "student_checkout_quantum-semester-pass_1793805597970",
+      "razorpayPaymentId": "pay_quantum-semester-pass_1793805597970",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:19:57.973Z",
+      "updatedAt": "2026-11-04T15:19:57.973Z"
+    },
+    {
+      "id": "pay-uni-1793805597986-c03e",
+      "orderId": "uord-1793805597984-38d0",
+      "userId": "student_checkout_cybersecurity-semester-pass_1793805597984",
+      "razorpayPaymentId": "pay_cybersecurity-semester-pass_1793805597984",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:19:57.986Z",
+      "updatedAt": "2026-11-04T15:19:57.986Z"
+    },
+    {
+      "id": "pay-uni-1793805597999-b8b0",
+      "orderId": "uord-1793805597997-2079",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805597997",
+      "razorpayPaymentId": "pay_prepmeup-all-access-pass_1793805597997",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:19:57.999Z",
+      "updatedAt": "2026-11-04T15:19:57.999Z"
+    },
+    {
+      "id": "pay-uni-1793805598026-9dbd",
+      "orderId": "uord-1793805598022-8958",
+      "userId": "student_wh_1793805598022",
+      "razorpayPaymentId": "pay_wh_1793805598022",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:19:58.026Z",
+      "updatedAt": "2026-11-04T15:19:58.026Z"
+    },
+    {
+      "id": "pay-uni-1793805638896-f4b0",
+      "orderId": "uord-1793805638892-9a59",
+      "userId": "student_checkout_btech-semester-pass_1793805638889",
+      "razorpayPaymentId": "pay_btech-semester-pass_1793805638889",
+      "amountInPaise": 9900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:20:38.896Z",
+      "updatedAt": "2026-11-04T15:20:38.896Z"
+    },
+    {
+      "id": "pay-uni-1793805638904-8288",
+      "orderId": "uord-1793805638902-fd6e",
+      "userId": "student_checkout_quantum-semester-pass_1793805638902",
+      "razorpayPaymentId": "pay_quantum-semester-pass_1793805638902",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:20:38.904Z",
+      "updatedAt": "2026-11-04T15:20:38.904Z"
+    },
+    {
+      "id": "pay-uni-1793805638917-769e",
+      "orderId": "uord-1793805638914-4f15",
+      "userId": "student_checkout_cybersecurity-semester-pass_1793805638914",
+      "razorpayPaymentId": "pay_cybersecurity-semester-pass_1793805638914",
+      "amountInPaise": 99900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:20:38.917Z",
+      "updatedAt": "2026-11-04T15:20:38.917Z"
+    },
+    {
+      "id": "pay-uni-1793805638928-238e",
+      "orderId": "uord-1793805638925-9bb4",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805638925",
+      "razorpayPaymentId": "pay_prepmeup-all-access-pass_1793805638925",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:20:38.928Z",
+      "updatedAt": "2026-11-04T15:20:38.928Z"
+    },
+    {
+      "id": "pay-uni-1793805638956-9140",
+      "orderId": "uord-1793805638953-a14c",
+      "userId": "student_wh_1793805638953",
+      "razorpayPaymentId": "pay_wh_1793805638953",
+      "amountInPaise": 149900,
+      "currency": "INR",
+      "status": "captured",
+      "verificationStatus": "verified",
+      "webhookStatus": "processed",
+      "createdAt": "2026-11-04T15:20:38.956Z",
+      "updatedAt": "2026-11-04T15:20:38.956Z"
+    }
+  ],
+  "allAccessEntitlements": [
+    {
+      "id": "ent-all-1793804858395-3e55",
+      "userId": "student_allaccess_test_1793804858392",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:07:38.395Z",
+      "expiresAt": "2027-05-03T15:07:38.395Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:07:38.395Z",
+      "updatedAt": "2026-11-04T15:07:38.395Z"
+    },
+    {
+      "id": "ent-all-1793804894391-7d63",
+      "userId": "student_allaccess_test_1793804894388",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:08:14.391Z",
+      "expiresAt": "2027-05-03T15:08:14.391Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:08:14.391Z",
+      "updatedAt": "2026-11-04T15:08:14.391Z"
+    },
+    {
+      "id": "ent-all-1793804958879-cc75",
+      "userId": "student_allaccess_test_1793804958875",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:09:18.879Z",
+      "expiresAt": "2027-05-03T15:09:18.879Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:09:18.879Z",
+      "updatedAt": "2026-11-04T15:09:18.879Z"
+    },
+    {
+      "id": "ent-all-1793804958895-6a3f",
+      "userId": "student_ea_test_1793804958895_0",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:09:18.895Z",
+      "expiresAt": "2027-05-03T15:09:18.895Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:09:18.895Z",
+      "updatedAt": "2026-11-04T15:09:18.895Z"
+    },
+    {
+      "id": "ent-all-1793805024890-c43f",
+      "userId": "student_allaccess_test_1793805024886",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:10:24.890Z",
+      "expiresAt": "2027-05-03T15:10:24.890Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:10:24.890Z",
+      "updatedAt": "2026-11-04T15:10:24.890Z"
+    },
+    {
+      "id": "ent-all-1793805024908-cd64",
+      "userId": "student_ea_test_1793805024908_1",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:10:24.908Z",
+      "expiresAt": "2027-05-03T15:10:24.908Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:10:24.908Z",
+      "updatedAt": "2026-11-04T15:10:24.908Z"
+    },
+    {
+      "id": "ent-all-1793805024919-cd6f",
+      "userId": "student_ea_test_1793805024919_2",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:10:24.919Z",
+      "expiresAt": "2027-05-03T15:10:24.919Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:10:24.919Z",
+      "updatedAt": "2026-11-04T15:10:24.919Z"
+    },
+    {
+      "id": "ent-all-1793805024928-8250",
+      "userId": "student_ea_test_1793805024928_3",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:10:24.928Z",
+      "expiresAt": "2027-05-03T15:10:24.928Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:10:24.928Z",
+      "updatedAt": "2026-11-04T15:10:24.928Z"
+    },
+    {
+      "id": "ent-all-1793805024937-f1dc",
+      "userId": "student_ea_test_1793805024936_4",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:10:24.937Z",
+      "expiresAt": "2027-05-03T15:10:24.937Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:10:24.937Z",
+      "updatedAt": "2026-11-04T15:10:24.937Z"
+    },
+    {
+      "id": "ent-all-1793805024948-68e5",
+      "userId": "student_ea_test_1793805024948_5",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:10:24.948Z",
+      "expiresAt": "2027-05-03T15:10:24.948Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:10:24.948Z",
+      "updatedAt": "2026-11-04T15:10:24.948Z"
+    },
+    {
+      "id": "ent-all-1793805024961-cf97",
+      "userId": "student_ea_test_1793805024961_6",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:10:24.961Z",
+      "expiresAt": "2027-05-03T15:10:24.961Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:10:24.961Z",
+      "updatedAt": "2026-11-04T15:10:24.961Z"
+    },
+    {
+      "id": "ent-all-1793805024970-ffff",
+      "userId": "student_ea_test_1793805024970_7",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:10:24.970Z",
+      "expiresAt": "2027-05-03T15:10:24.970Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:10:24.970Z",
+      "updatedAt": "2026-11-04T15:10:24.970Z"
+    },
+    {
+      "id": "ent-all-1793805024979-ed47",
+      "userId": "student_ea_test_1793805024979_8",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:10:24.979Z",
+      "expiresAt": "2027-05-03T15:10:24.979Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:10:24.979Z",
+      "updatedAt": "2026-11-04T15:10:24.979Z"
+    },
+    {
+      "id": "ent-all-1793805024988-fd2e",
+      "userId": "student_ea_test_1793805024988_9",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:10:24.988Z",
+      "expiresAt": "2027-05-03T15:10:24.988Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:10:24.988Z",
+      "updatedAt": "2026-11-04T15:10:24.988Z"
+    },
+    {
+      "id": "ent-all-1793805056427-dfd3",
+      "userId": "student_allaccess_test_1793805056424",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:10:56.427Z",
+      "expiresAt": "2027-05-03T15:10:56.427Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:10:56.427Z",
+      "updatedAt": "2026-11-04T15:10:56.427Z"
+    },
+    {
+      "id": "ent-all-1793805093243-ba31",
+      "userId": "student_allaccess_test_1793805093238",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:11:33.243Z",
+      "expiresAt": "2027-05-03T15:11:33.243Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:11:33.243Z",
+      "updatedAt": "2026-11-04T15:11:33.243Z"
+    },
+    {
+      "id": "ent-all-1793805093268-5ed3",
+      "userId": "student_revoke_test_1793805093268",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:11:33.268Z",
+      "expiresAt": "2027-05-03T15:11:33.268Z",
+      "status": "revoked",
+      "createdAt": "2026-11-04T15:11:33.268Z",
+      "updatedAt": "2026-11-04T15:11:33.269Z"
+    },
+    {
+      "id": "ent-all-1793805123808-6953",
+      "userId": "student_allaccess_test_1793805123803",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:12:03.808Z",
+      "expiresAt": "2027-05-03T15:12:03.808Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:12:03.808Z",
+      "updatedAt": "2026-11-04T15:12:03.808Z"
+    },
+    {
+      "id": "ent-all-1793805123837-8731",
+      "userId": "student_revoke_test_1793805123837",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:12:03.837Z",
+      "expiresAt": "2027-05-03T15:12:03.837Z",
+      "status": "revoked",
+      "createdAt": "2026-11-04T15:12:03.837Z",
+      "updatedAt": "2026-11-04T15:12:03.839Z"
+    },
+    {
+      "id": "ent-all-1793805123856-4317",
+      "userId": "student_admin_grant_1793805123856",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:12:03.856Z",
+      "expiresAt": "2027-11-04T15:12:03.856Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:12:03.856Z",
+      "updatedAt": "2026-11-04T15:12:03.856Z"
+    },
+    {
+      "id": "ent-all-1793805146105-eec9",
+      "userId": "student_allaccess_test_1793805146100",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:12:26.105Z",
+      "expiresAt": "2027-05-03T15:12:26.105Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:12:26.105Z",
+      "updatedAt": "2026-11-04T15:12:26.105Z"
+    },
+    {
+      "id": "ent-all-1793805146128-ff05",
+      "userId": "student_revoke_test_1793805146128",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:12:26.128Z",
+      "expiresAt": "2027-05-03T15:12:26.128Z",
+      "status": "revoked",
+      "createdAt": "2026-11-04T15:12:26.128Z",
+      "updatedAt": "2026-11-04T15:12:26.130Z"
+    },
+    {
+      "id": "ent-all-1793805146144-46ba",
+      "userId": "student_admin_grant_1793805146144",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:12:26.144Z",
+      "expiresAt": "2027-11-04T15:12:26.144Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:12:26.144Z",
+      "updatedAt": "2026-11-04T15:12:26.144Z"
+    },
+    {
+      "id": "ent-all-1793805172660-bfa9",
+      "userId": "student_allaccess_test_1793805172656",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:12:52.660Z",
+      "expiresAt": "2027-05-03T15:12:52.660Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:12:52.660Z",
+      "updatedAt": "2026-11-04T15:12:52.660Z"
+    },
+    {
+      "id": "ent-all-1793805172684-b6fe",
+      "userId": "student_revoke_test_1793805172684",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:12:52.684Z",
+      "expiresAt": "2027-05-03T15:12:52.684Z",
+      "status": "revoked",
+      "createdAt": "2026-11-04T15:12:52.684Z",
+      "updatedAt": "2026-11-04T15:12:52.685Z"
+    },
+    {
+      "id": "ent-all-1793805172700-7b23",
+      "userId": "student_admin_grant_1793805172700",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:12:52.700Z",
+      "expiresAt": "2027-11-04T15:12:52.700Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:12:52.700Z",
+      "updatedAt": "2026-11-04T15:12:52.700Z"
+    },
+    {
+      "id": "ent-all-1793805199707-ec28",
+      "userId": "student_allaccess_test_1793805199704",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:13:19.707Z",
+      "expiresAt": "2027-05-03T15:13:19.707Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:13:19.707Z",
+      "updatedAt": "2026-11-04T15:13:19.707Z"
+    },
+    {
+      "id": "ent-all-1793805199731-b1f3",
+      "userId": "student_revoke_test_1793805199731",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:13:19.731Z",
+      "expiresAt": "2027-05-03T15:13:19.731Z",
+      "status": "revoked",
+      "createdAt": "2026-11-04T15:13:19.731Z",
+      "updatedAt": "2026-11-04T15:13:19.733Z"
+    },
+    {
+      "id": "ent-all-1793805199750-d22e",
+      "userId": "student_admin_grant_1793805199750",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:13:19.750Z",
+      "expiresAt": "2027-11-04T15:13:19.750Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:13:19.750Z",
+      "updatedAt": "2026-11-04T15:13:19.750Z"
+    },
+    {
+      "id": "ent-all-1793805459795-844b",
+      "userId": "student_allaccess_test_1793805459791",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:17:39.795Z",
+      "expiresAt": "2027-05-03T15:17:39.795Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:17:39.795Z",
+      "updatedAt": "2026-11-04T15:17:39.795Z"
+    },
+    {
+      "id": "ent-all-1793805459819-4722",
+      "userId": "student_revoke_test_1793805459819",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:17:39.819Z",
+      "expiresAt": "2027-05-03T15:17:39.819Z",
+      "status": "revoked",
+      "createdAt": "2026-11-04T15:17:39.819Z",
+      "updatedAt": "2026-11-04T15:17:39.823Z"
+    },
+    {
+      "id": "ent-all-1793805459837-be20",
+      "userId": "student_admin_grant_1793805459837",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:17:39.837Z",
+      "expiresAt": "2027-11-04T15:17:39.837Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:17:39.837Z",
+      "updatedAt": "2026-11-04T15:17:39.837Z"
+    },
+    {
+      "id": "ent-all-1793805537566-b757",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805537562",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:18:57.566Z",
+      "expiresAt": "2027-05-03T15:18:57.566Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:18:57.566Z",
+      "updatedAt": "2026-11-04T15:18:57.566Z"
+    },
+    {
+      "id": "ent-all-1793805537591-f7ea",
+      "userId": "student_allaccess_cross_1793805537591",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:18:57.591Z",
+      "expiresAt": "2027-05-03T15:18:57.591Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:18:57.591Z",
+      "updatedAt": "2026-11-04T15:18:57.591Z"
+    },
+    {
+      "id": "ent-all-1793805537606-80d5",
+      "userId": "student_wh_1793805537601",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:18:57.606Z",
+      "expiresAt": "2027-10-30T15:18:57.606Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:18:57.606Z",
+      "updatedAt": "2026-11-04T15:18:57.629Z"
+    },
+    {
+      "id": "ent_exp_1793805537650",
+      "userId": "student_expired_1793805537649",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-04-18T15:18:57.650Z",
+      "expiresAt": "2026-10-15T15:18:57.650Z",
+      "status": "expired",
+      "createdAt": "2026-04-18T15:18:57.650Z",
+      "updatedAt": "2026-11-04T15:18:57.650Z"
+    },
+    {
+      "id": "ent-all-1793805537671-6d0b",
+      "userId": "student_admin_c3_1793805537671",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:18:57.671Z",
+      "expiresAt": "2027-05-03T15:18:57.671Z",
+      "status": "revoked",
+      "createdAt": "2026-11-04T15:18:57.671Z",
+      "updatedAt": "2026-11-04T15:18:57.676Z"
+    },
+    {
+      "id": "ent-all-1793805597999-880a",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805597997",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:19:57.999Z",
+      "expiresAt": "2027-05-03T15:19:57.999Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:19:57.999Z",
+      "updatedAt": "2026-11-04T15:19:57.999Z"
+    },
+    {
+      "id": "ent-all-1793805598015-548d",
+      "userId": "student_allaccess_cross_1793805598015",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:19:58.015Z",
+      "expiresAt": "2027-05-03T15:19:58.015Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:19:58.015Z",
+      "updatedAt": "2026-11-04T15:19:58.015Z"
+    },
+    {
+      "id": "ent-all-1793805598026-2d11",
+      "userId": "student_wh_1793805598022",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:19:58.026Z",
+      "expiresAt": "2027-10-30T15:19:58.026Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:19:58.026Z",
+      "updatedAt": "2026-11-04T15:19:58.048Z"
+    },
+    {
+      "id": "ent_exp_1793805598062",
+      "userId": "student_expired_1793805598062",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-04-18T15:19:58.062Z",
+      "expiresAt": "2026-10-15T15:19:58.062Z",
+      "status": "expired",
+      "createdAt": "2026-04-18T15:19:58.062Z",
+      "updatedAt": "2026-11-04T15:19:58.062Z"
+    },
+    {
+      "id": "ent-all-1793805598076-2eeb",
+      "userId": "student_grant_c3_1793805598076",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:19:58.076Z",
+      "expiresAt": "2027-05-03T15:19:58.076Z",
+      "status": "revoked",
+      "createdAt": "2026-11-04T15:19:58.076Z",
+      "updatedAt": "2026-11-04T15:19:58.079Z"
+    },
+    {
+      "id": "ent-all-1793805638928-d634",
+      "userId": "student_checkout_prepmeup-all-access-pass_1793805638925",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:20:38.928Z",
+      "expiresAt": "2027-05-03T15:20:38.928Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:20:38.928Z",
+      "updatedAt": "2026-11-04T15:20:38.928Z"
+    },
+    {
+      "id": "ent-all-1793805638943-02cf",
+      "userId": "student_allaccess_cross_1793805638943",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:20:38.943Z",
+      "expiresAt": "2027-05-03T15:20:38.943Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:20:38.943Z",
+      "updatedAt": "2026-11-04T15:20:38.943Z"
+    },
+    {
+      "id": "ent-all-1793805638956-fb1c",
+      "userId": "student_wh_1793805638953",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:20:38.956Z",
+      "expiresAt": "2027-10-30T15:20:38.956Z",
+      "status": "active",
+      "createdAt": "2026-11-04T15:20:38.956Z",
+      "updatedAt": "2026-11-04T15:20:38.971Z"
+    },
+    {
+      "id": "ent_exp_1793805638986",
+      "userId": "student_expired_1793805638986",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-04-18T15:20:38.986Z",
+      "expiresAt": "2026-10-15T15:20:38.986Z",
+      "status": "expired",
+      "createdAt": "2026-04-18T15:20:38.986Z",
+      "updatedAt": "2026-11-04T15:20:38.986Z"
+    },
+    {
+      "id": "ent-all-1793805639001-6110",
+      "userId": "student_grant_c3_1793805639001",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "includedTrackIds": [
+        "btech-cse-aiml",
+        "quantum-computing",
+        "cybersecurity"
+      ],
+      "includedCourseIds": [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf"
+      ],
+      "startsAt": "2026-11-04T15:20:39.001Z",
+      "expiresAt": "2027-05-03T15:20:39.001Z",
+      "status": "revoked",
+      "createdAt": "2026-11-04T15:20:39.001Z",
+      "updatedAt": "2026-11-04T15:20:39.003Z"
+    }
+  ],
+  "allAccessEarlyAdopterRedemptions": [
+    {
+      "id": "red-all-1793804958895-3fb4",
+      "userId": "student_ea_test_1793804958895_0",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "redemptionNumber": 1,
+      "status": "claimed",
+      "createdAt": "2026-11-04T15:09:18.895Z"
+    },
+    {
+      "id": "red-all-1793805024908-31b4",
+      "userId": "student_ea_test_1793805024908_1",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "redemptionNumber": 2,
+      "status": "claimed",
+      "createdAt": "2026-11-04T15:10:24.908Z"
+    },
+    {
+      "id": "red-all-1793805024919-23de",
+      "userId": "student_ea_test_1793805024919_2",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "redemptionNumber": 3,
+      "status": "claimed",
+      "createdAt": "2026-11-04T15:10:24.919Z"
+    },
+    {
+      "id": "red-all-1793805024928-50a5",
+      "userId": "student_ea_test_1793805024928_3",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "redemptionNumber": 4,
+      "status": "claimed",
+      "createdAt": "2026-11-04T15:10:24.928Z"
+    },
+    {
+      "id": "red-all-1793805024937-7489",
+      "userId": "student_ea_test_1793805024936_4",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "redemptionNumber": 5,
+      "status": "claimed",
+      "createdAt": "2026-11-04T15:10:24.937Z"
+    },
+    {
+      "id": "red-all-1793805024948-ce07",
+      "userId": "student_ea_test_1793805024948_5",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "redemptionNumber": 6,
+      "status": "claimed",
+      "createdAt": "2026-11-04T15:10:24.948Z"
+    },
+    {
+      "id": "red-all-1793805024961-ddc9",
+      "userId": "student_ea_test_1793805024961_6",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "redemptionNumber": 7,
+      "status": "claimed",
+      "createdAt": "2026-11-04T15:10:24.961Z"
+    },
+    {
+      "id": "red-all-1793805024970-6989",
+      "userId": "student_ea_test_1793805024970_7",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "redemptionNumber": 8,
+      "status": "claimed",
+      "createdAt": "2026-11-04T15:10:24.970Z"
+    },
+    {
+      "id": "red-all-1793805024979-c841",
+      "userId": "student_ea_test_1793805024979_8",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "redemptionNumber": 9,
+      "status": "claimed",
+      "createdAt": "2026-11-04T15:10:24.979Z"
+    },
+    {
+      "id": "red-all-1793805024988-4ef0",
+      "userId": "student_ea_test_1793805024988_9",
+      "productId": "prod-all-access-pass",
+      "productSlug": "prepmeup-all-access-pass",
+      "redemptionNumber": 10,
+      "status": "claimed",
+      "createdAt": "2026-11-04T15:10:24.988Z"
+    }
+  ]
 }

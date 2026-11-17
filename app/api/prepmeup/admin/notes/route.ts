@@ -1,14 +1,13 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { cookies } from "next/headers";
+import { requireAdmin } from "@/app/prepmeup/_lib/adminAuth";
 import { noteUpsertSchema } from "@/app/prepmeup/_lib/validation";
 import { createPmuServiceClient } from "@/app/prepmeup/_lib/supabaseServer";
 import { getAllPersistentNotes, saveOrUpdateNote } from "@/lib/prepmeup/storage";
 
 export async function GET(req: NextRequest) {
   try {
-    const cookieStore = await cookies();
-    const adminSession = cookieStore.get("pmu-admin-session");
-    if (!adminSession?.value) {
+    const adminSession = await requireAdmin();
+    if (!adminSession) {
       return NextResponse.json({ ok: false, error: "Unauthorized admin access." }, { status: 401 });
     }
 
@@ -53,9 +52,8 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const cookieStore = await cookies();
-    const adminSession = cookieStore.get("pmu-admin-session");
-    if (!adminSession?.value) {
+    const adminSession = await requireAdmin();
+    if (!adminSession) {
       return NextResponse.json({ ok: false, error: "Unauthorized admin access." }, { status: 401 });
     }
 

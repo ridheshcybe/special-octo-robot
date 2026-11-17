@@ -425,6 +425,80 @@ export interface StudentCyberProgress {
   certificateCode?: string;
 }
 
+// ----------------------------------------------------------------------------
+// Phase C3: Unified Products, Orders, Payments & All-Access Entitlements
+// ----------------------------------------------------------------------------
+
+export interface UnifiedProduct {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  productType: "semester_pass" | "mentorship_pack" | "all_access_pass";
+  trackId?: string;
+  courseIds?: string[];
+  priceInPaise: number;
+  currency: string;
+  durationDays: number;
+  isActive: boolean;
+  isEarlyAdopterEligible: boolean;
+  earlyAdopterLimit?: number;
+  features: string[];
+}
+
+export interface UnifiedOrder {
+  id: string;
+  userId: string;
+  productId: string;
+  productSlug: string;
+  razorpayOrderId: string;
+  amountInPaise: number;
+  currency: string;
+  status: "created" | "pending" | "paid" | "failed" | "expired" | "refunded";
+  metadata?: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UnifiedPayment {
+  id: string;
+  orderId: string;
+  userId: string;
+  razorpayPaymentId: string;
+  razorpaySignature?: string;
+  amountInPaise: number;
+  currency: string;
+  status: "created" | "authorized" | "captured" | "failed" | "refunded";
+  verificationStatus: "pending" | "verified" | "failed";
+  webhookStatus?: "pending" | "received" | "processed" | "failed";
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AllAccessEntitlement {
+  id: string;
+  userId: string;
+  productId: string;
+  productSlug: string;
+  includedTrackIds: string[];
+  includedCourseIds: string[];
+  startsAt: string;
+  expiresAt: string;
+  status: "active" | "expired" | "cancelled" | "revoked";
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AllAccessEarlyAdopterRedemption {
+  id: string;
+  userId: string;
+  productId: string;
+  productSlug: string;
+  redemptionNumber: number;
+  status: "claimed" | "revoked";
+  createdAt: string;
+}
+
 interface TrackStoreState {
   tracks: Track[];
   instructors: Instructor[];
@@ -455,6 +529,11 @@ interface TrackStoreState {
   cyberMentorshipPacks?: CyberMentorshipPack[];
   cyberEarlyAdopterRedemptions?: CyberEarlyAdopterRedemption[];
   studentCyberProgress?: Record<string, StudentCyberProgress>;
+  unifiedProducts?: UnifiedProduct[];
+  unifiedOrders?: UnifiedOrder[];
+  unifiedPayments?: UnifiedPayment[];
+  allAccessEntitlements?: AllAccessEntitlement[];
+  allAccessEarlyAdopterRedemptions?: AllAccessEarlyAdopterRedemption[];
 }
 
 let cachedState: TrackStoreState | null = null;
@@ -494,6 +573,13 @@ export function loadState(): TrackStoreState {
       if (!Array.isArray(cachedState!.cyberMentorshipPacks)) cachedState!.cyberMentorshipPacks = [];
       if (!Array.isArray(cachedState!.cyberEarlyAdopterRedemptions)) cachedState!.cyberEarlyAdopterRedemptions = [];
       if (!cachedState!.studentCyberProgress) cachedState!.studentCyberProgress = {};
+      if (!Array.isArray(cachedState!.unifiedProducts) || cachedState!.unifiedProducts.length === 0) {
+        cachedState!.unifiedProducts = getDefaultUnifiedProducts();
+      }
+      if (!Array.isArray(cachedState!.unifiedOrders)) cachedState!.unifiedOrders = [];
+      if (!Array.isArray(cachedState!.unifiedPayments)) cachedState!.unifiedPayments = [];
+      if (!Array.isArray(cachedState!.allAccessEntitlements)) cachedState!.allAccessEntitlements = [];
+      if (!Array.isArray(cachedState!.allAccessEarlyAdopterRedemptions)) cachedState!.allAccessEarlyAdopterRedemptions = [];
       return cachedState!;
     }
   } catch (err) {
@@ -531,6 +617,11 @@ export function loadState(): TrackStoreState {
     cyberMentorshipPacks: [],
     cyberEarlyAdopterRedemptions: [],
     studentCyberProgress: {},
+    unifiedProducts: getDefaultUnifiedProducts(),
+    unifiedOrders: [],
+    unifiedPayments: [],
+    allAccessEntitlements: [],
+    allAccessEarlyAdopterRedemptions: [],
   };
 
   return cachedState;
@@ -1173,10 +1264,24 @@ export function checkUserCourseAccess(
     }
   }
 
+  // Check All-Access Entitlement
+  if (hasActiveAllAccess(userTarget)) {
+    const entitlements = getAllAccessEntitlements(userTarget);
+    const active = entitlements.find((e) => e.status === "active");
+    if (active) {
+      const allowedCourses = active.includedCourseIds || [];
+      if (allowedCourses.includes(courseSlug)) {
+        return { hasAccess: true, isFreePreviewOnly: false, role: "student" };
+      }
+    }
+  }
+
   // Check Quantum or Cyber Enrollment
   const enrollment = courseSlug.includes("cybersecurity")
     ? getCyberEnrollment(userTarget, courseSlug)
-    : getQuantumEnrollment(userTarget, courseSlug);
+    : courseSlug.includes("quantum") || courseSlug.includes("btech")
+    ? getQuantumEnrollment(userTarget, courseSlug)
+    : null;
   if (enrollment && enrollment.status === "active") {
     return { hasAccess: true, isFreePreviewOnly: false, role: "student" };
   }
@@ -1200,7 +1305,7 @@ export function getQuantumEnrollment(
   const enr = state.enrollments.find(
     (e) =>
       e.userId.toLowerCase() === key &&
-      (e.courseId === courseId || e.courseId === "quantum-computing-foundations") &&
+      e.courseId === courseId &&
       e.status === "active"
   );
 
@@ -1362,6 +1467,10 @@ export function consumeMentorshipSession(
   const activePacks = getQuantumMentorshipPacks(userId, courseId);
 
   if (activePacks.length === 0) {
+    const aaRes = consumeAllAccessMentorshipSession(userId);
+    if (aaRes.success) {
+      return { success: true, packId: aaRes.packId };
+    }
     return { success: false, error: "No active mentorship sessions or packs available." };
   }
 
@@ -1409,7 +1518,7 @@ export function claimEarlyAdopterSeat(
   userId: string,
   courseId = "quantum-computing-foundations",
   limit = 10
-): { success: boolean; redemptionNumber?: number; error?: string } {
+): { success: boolean; redemptionNumber?: number; seatNumber?: number; error?: string } {
   const state = loadState();
   const key = userId.toLowerCase();
 
@@ -1463,7 +1572,7 @@ export function claimEarlyAdopterSeat(
   });
 
   persistState();
-  return { success: true, redemptionNumber };
+  return { success: true, redemptionNumber, seatNumber: redemptionNumber };
 }
 
 // Quantum Orders & Payments
@@ -2030,7 +2139,7 @@ export function getCyberEnrollment(
   const enr = state.enrollments.find(
     (e) =>
       e.userId.toLowerCase() === key &&
-      (e.courseId === courseId || e.courseId === "cybersecurity-foundations-ethical-hacking-soc-ctf") &&
+      e.courseId === courseId &&
       e.status === "active"
   );
 
@@ -2346,7 +2455,10 @@ export function consumeCyberMentorshipSession(
 ): boolean {
   const state = loadState();
   const availablePacks = getCyberMentorshipPacks(userId, courseId);
-  if (availablePacks.length === 0) return false;
+  if (availablePacks.length === 0) {
+    const aaRes = consumeAllAccessMentorshipSession(userId);
+    return aaRes.success;
+  }
 
   const pack = availablePacks[0];
   pack.usedSessions += 1;
@@ -2417,7 +2529,7 @@ export function claimCyberEarlyAdopterSeat(
   userId: string,
   courseId = "cybersecurity-foundations-ethical-hacking-soc-ctf",
   limit = 10
-): { success: boolean; redemptionNumber?: number; error?: string } {
+): { success: boolean; redemptionNumber?: number; seatNumber?: number; error?: string } {
   const state = loadState();
   if (!state.cyberEarlyAdopterRedemptions) state.cyberEarlyAdopterRedemptions = [];
 
@@ -2599,3 +2711,728 @@ export function issueCyberCertificate(
 
   return { success: true, certificate: cert };
 }
+
+// ============================================================================
+// Phase C3: Unified Products, Orders, Payments, All-Access & Mentorship
+// ============================================================================
+
+export function getDefaultUnifiedProducts(): UnifiedProduct[] {
+  return [
+    {
+      id: "prod-btech-sem-pass",
+      slug: "btech-semester-pass",
+      name: "B.Tech CSE AI/ML Semester Pass",
+      description:
+        "Full semester access to B.Tech Semester 1 coursework, syllabus notes, past papers, and diagnostic quizzes.",
+      productType: "semester_pass",
+      trackId: "btech-cse-aiml",
+      courseIds: ["btech-cse-aiml-sem1"],
+      priceInPaise: 9900,
+      currency: "INR",
+      durationDays: 180,
+      isActive: true,
+      isEarlyAdopterEligible: false,
+      features: [
+        "All 6 B.Tech Semester 1 Subjects (CSE1001-CSE1006)",
+        "Verified Class Notes & Cheatsheets",
+        "University Past Solved Papers",
+        "Semester Assessment Quizzes",
+      ],
+    },
+    {
+      id: "prod-quantum-sem-pass",
+      slug: "quantum-semester-pass",
+      name: "Quantum Semester Pass",
+      description:
+        "Full access to Quantum Computing Foundations: 20 lessons, 5 hardware simulators, quizzes, AI tutor, and certificate.",
+      productType: "semester_pass",
+      trackId: "quantum-computing",
+      courseIds: ["quantum-computing-foundations"],
+      priceInPaise: 99900,
+      currency: "INR",
+      durationDays: 180,
+      isActive: true,
+      isEarlyAdopterEligible: false,
+      features: [
+        "All 20 Quantum Lessons across 5 structured modules",
+        "All 5 Interactive NISQ Simulators & Bloch Sphere",
+        "Unlimited Quantum AI Tutor with KaTeX equations",
+        "Official Academic Certificate of Completion",
+        "1 Included 1-on-1 Mentorship Session",
+      ],
+    },
+    {
+      id: "prod-cyber-sem-pass",
+      slug: "cybersecurity-semester-pass",
+      name: "CyberSecurity Semester Pass",
+      description:
+        "Comprehensive defensive security & SOC training: 20 lessons, 5 safe browser labs, CTF challenges, AI tutor, and certificate.",
+      productType: "semester_pass",
+      trackId: "cybersecurity",
+      courseIds: ["cybersecurity-foundations-ethical-hacking-soc-ctf"],
+      priceInPaise: 99900,
+      currency: "INR",
+      durationDays: 180,
+      isActive: true,
+      isEarlyAdopterEligible: false,
+      features: [
+        "All 20 CyberSecurity Defense Lessons across 5 modules",
+        "All 5 Safe In-Browser Labs & SOC Simulators",
+        "All 5 CTF Challenges with Secure Flag Validation",
+        "Defensive Cyber AI Tutor with safety guardrails",
+        "Official Academic Certificate of Completion",
+        "1 Included 1-on-1 Mentorship Session",
+      ],
+    },
+    {
+      id: "prod-all-access-pass",
+      slug: "prepmeup-all-access-pass",
+      name: "PrepMeUp All-Access Semester Pass",
+      description:
+        "Unlocks the entire PrepMeUp AI platform: B.Tech CSE AI/ML + Quantum Computing + CyberSecurity Foundations for 6 months.",
+      productType: "all_access_pass",
+      trackId: undefined,
+      courseIds: [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      ],
+      priceInPaise: 149900,
+      currency: "INR",
+      durationDays: 180,
+      isActive: true,
+      isEarlyAdopterEligible: true,
+      earlyAdopterLimit: 10,
+      features: [
+        "Full B.Tech CSE AI/ML Semester 1 curriculum (CSE1001-CSE1006)",
+        "Complete Quantum Computing Foundations track + 5 NISQ simulators",
+        "Complete CyberSecurity Foundations track + 5 in-browser labs & CTF",
+        "Both Academic Certificates of Completion with public QR verification",
+        "2 Complimentary 1-on-1 Mentorship Sessions included",
+        "Unlimited Cross-Track AI Doubt Resolution & RAG",
+      ],
+    },
+    {
+      id: "prod-quantum-mentorship-pack",
+      slug: "quantum-mentorship-pack",
+      name: "Quantum 1-on-1 Mentorship Pack",
+      description:
+        "One dedicated 45-minute live private advisory session with Quantum Computing faculty.",
+      productType: "mentorship_pack",
+      trackId: "quantum-computing",
+      courseIds: ["quantum-computing-foundations"],
+      priceInPaise: 49900,
+      currency: "INR",
+      durationDays: 90,
+      isActive: true,
+      isEarlyAdopterEligible: false,
+      features: [
+        "45-Minute Private Session with Dr. Aravind Vaidya, PhD",
+        "Qiskit Code Review & Quantum Circuit Optimization",
+        "NISQ Research, Algorithms & Higher Studies Guidance",
+        "90-Day Flexible Booking Validity",
+      ],
+    },
+    {
+      id: "prod-cyber-mentorship-pack",
+      slug: "cybersecurity-mentorship-pack",
+      name: "CyberSecurity 1-on-1 Mentorship Pack",
+      description:
+        "One dedicated 45-minute live private advisory session with certified SOC Security Leads.",
+      productType: "mentorship_pack",
+      trackId: "cybersecurity",
+      courseIds: ["cybersecurity-foundations-ethical-hacking-soc-ctf"],
+      priceInPaise: 49900,
+      currency: "INR",
+      durationDays: 90,
+      isActive: true,
+      isEarlyAdopterEligible: false,
+      features: [
+        "45-Minute Private Session with Senior SOC Lead",
+        "Defensive Architecture & CTF Lab Walkthroughs",
+        "SOC Analyst L1/L2 Interview Prep & Resume Review",
+        "90-Day Flexible Booking Validity",
+      ],
+    },
+    {
+      id: "prod-all-access-mentorship-pack",
+      slug: "all-access-mentorship-pack",
+      name: "All-Access 1-on-1 Mentorship Pack",
+      description:
+        "One dedicated 45-minute flexible mentorship session valid across any enrolled subject or track.",
+      productType: "mentorship_pack",
+      trackId: undefined,
+      courseIds: [
+        "btech-cse-aiml-sem1",
+        "quantum-computing-foundations",
+        "cybersecurity-foundations-ethical-hacking-soc-ctf",
+      ],
+      priceInPaise: 89900,
+      currency: "INR",
+      durationDays: 90,
+      isActive: true,
+      isEarlyAdopterEligible: false,
+      features: [
+        "Flexible 45-Minute Session across B.Tech, Quantum, or CyberSecurity",
+        "Comprehensive Engineering Portfolio & Resume Review",
+        "Industry Advisory, Placement Coaching & Graduate School Guidance",
+        "90-Day Flexible Booking Validity",
+      ],
+    },
+  ];
+}
+
+export function getAllUnifiedProducts(activeOnly = true): UnifiedProduct[] {
+  const state = loadState();
+  const products = state.unifiedProducts || getDefaultUnifiedProducts();
+  return activeOnly ? products.filter((p) => p.isActive) : products;
+}
+
+export function getUnifiedProductBySlug(slug: string): UnifiedProduct | undefined {
+  const products = getAllUnifiedProducts(false);
+  return products.find((p) => p.slug === slug);
+}
+
+export function getUnifiedProductById(id: string): UnifiedProduct | undefined {
+  const products = getAllUnifiedProducts(false);
+  return products.find((p) => p.id === id);
+}
+
+export function createUnifiedOrder(params: {
+  userId: string;
+  productSlug: string;
+  razorpayOrderId?: string;
+  amountInPaise?: number;
+  currency?: string;
+  metadata?: Record<string, any>;
+}): UnifiedOrder {
+  const state = loadState();
+  if (!state.unifiedOrders) state.unifiedOrders = [];
+
+  const product = getUnifiedProductBySlug(params.productSlug);
+  const productId = product ? product.id : params.productSlug;
+  const now = new Date().toISOString();
+  const rzpId =
+    params.razorpayOrderId || `order_uni_${Date.now()}_${Math.random().toString(16).substring(2, 6)}`;
+
+  const order: UnifiedOrder = {
+    id: `uord-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    userId: params.userId,
+    productId,
+    productSlug: params.productSlug,
+    razorpayOrderId: rzpId,
+    amountInPaise:
+      params.amountInPaise !== undefined
+        ? params.amountInPaise
+        : product
+        ? product.priceInPaise
+        : 0,
+    currency: params.currency || "INR",
+    status: "created",
+    metadata: params.metadata || {},
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  state.unifiedOrders.push(order);
+  persistState();
+  return order;
+}
+
+export function getUnifiedOrderById(id: string): UnifiedOrder | null {
+  const state = loadState();
+  return (state.unifiedOrders || []).find((o) => o.id === id) || null;
+}
+
+export function getUnifiedOrderByRazorpayId(rzpOrderId: string): UnifiedOrder | null {
+  const state = loadState();
+  return (state.unifiedOrders || []).find((o) => o.razorpayOrderId === rzpOrderId) || null;
+}
+
+export function updateUnifiedOrderStatus(
+  orderIdOrRzpId: string,
+  status: UnifiedOrder["status"],
+  metadataOrPaymentDetails?: Record<string, any>
+): boolean {
+  const state = loadState();
+  const order = (state.unifiedOrders || []).find(
+    (o) => o.id === orderIdOrRzpId || o.razorpayOrderId === orderIdOrRzpId
+  );
+  if (!order) return false;
+
+  order.status = status;
+  order.updatedAt = new Date().toISOString();
+
+  if (metadataOrPaymentDetails) {
+    order.metadata = { ...(order.metadata || {}), ...metadataOrPaymentDetails };
+
+    if (metadataOrPaymentDetails.razorpayPaymentId) {
+      if (!state.unifiedPayments) state.unifiedPayments = [];
+      const existingPay = state.unifiedPayments.find(
+        (p) => p.razorpayPaymentId === metadataOrPaymentDetails.razorpayPaymentId
+      );
+      if (!existingPay) {
+        const newPay: UnifiedPayment = {
+          id: `pay-uni-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+          orderId: order.id,
+          userId: order.userId,
+          razorpayPaymentId: metadataOrPaymentDetails.razorpayPaymentId,
+          razorpaySignature: metadataOrPaymentDetails.razorpaySignature,
+          amountInPaise: metadataOrPaymentDetails.amountInPaise || order.amountInPaise,
+          currency: "INR",
+          status:
+            status === "paid" ? "captured" : status === "refunded" ? "refunded" : "failed",
+          verificationStatus: metadataOrPaymentDetails.verificationStatus || "verified",
+          webhookStatus: "processed",
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        state.unifiedPayments.push(newPay);
+      }
+    }
+  }
+
+  // Provision entitlements upon payment
+  if (status === "paid") {
+    const slug = order.productSlug;
+
+    if (slug === "btech-semester-pass") {
+      // Provision B.Tech Semester pass
+      createOrExtendQuantumEnrollment({
+        userId: order.userId,
+        courseId: "btech-cse-aiml-sem1",
+        accessType: "semester_pass",
+        months: 6,
+      });
+    } else if (slug === "quantum-semester-pass") {
+      createOrExtendQuantumEnrollment({
+        userId: order.userId,
+        courseId: "quantum-computing-foundations",
+        accessType: "semester_pass",
+        months: 6,
+      });
+      createMentorshipPack({
+        userId: order.userId,
+        courseId: "quantum-computing-foundations",
+        totalSessions: 1,
+        validityDays: 180,
+      });
+    } else if (slug === "cybersecurity-semester-pass") {
+      createOrExtendCyberEnrollment({
+        userId: order.userId,
+        courseId: "cybersecurity-foundations-ethical-hacking-soc-ctf",
+        accessType: "semester_pass",
+        months: 6,
+      });
+      createCyberMentorshipPack({
+        userId: order.userId,
+        courseId: "cybersecurity-foundations-ethical-hacking-soc-ctf",
+        totalSessions: 1,
+        durationDays: 180,
+      });
+    } else if (slug === "prepmeup-all-access-pass") {
+      // 1. All-Access Entitlement
+      createOrExtendAllAccessEntitlement({
+        userId: order.userId,
+        productSlug: "prepmeup-all-access-pass",
+        durationDays: 180,
+      });
+      // 2. Quantum Access
+      createOrExtendQuantumEnrollment({
+        userId: order.userId,
+        courseId: "quantum-computing-foundations",
+        accessType: "semester_pass",
+        months: 6,
+      });
+      // 3. CyberSecurity Access
+      createOrExtendCyberEnrollment({
+        userId: order.userId,
+        courseId: "cybersecurity-foundations-ethical-hacking-soc-ctf",
+        accessType: "semester_pass",
+        months: 6,
+      });
+      // 4. B.Tech Semester 1 Access
+      createOrExtendQuantumEnrollment({
+        userId: order.userId,
+        courseId: "btech-cse-aiml-sem1",
+        accessType: "semester_pass",
+        months: 6,
+      });
+      // 5. Included 2 complimentary mentorship sessions
+      createAllAccessMentorshipPack({
+        userId: order.userId,
+        totalSessions: 2,
+        durationDays: 180,
+      });
+    } else if (slug === "quantum-mentorship-pack") {
+      createMentorshipPack({
+        userId: order.userId,
+        courseId: "quantum-computing-foundations",
+        totalSessions: 1,
+        validityDays: 90,
+      });
+    } else if (slug === "cybersecurity-mentorship-pack") {
+      createCyberMentorshipPack({
+        userId: order.userId,
+        courseId: "cybersecurity-foundations-ethical-hacking-soc-ctf",
+        totalSessions: 1,
+        durationDays: 90,
+      });
+    } else if (slug === "all-access-mentorship-pack") {
+      createAllAccessMentorshipPack({
+        userId: order.userId,
+        totalSessions: 1,
+        durationDays: 90,
+      });
+    }
+  }
+
+  persistState();
+  return true;
+}
+
+export function recordUnifiedPayment(params: {
+  orderId: string;
+  userId: string;
+  razorpayPaymentId: string;
+  razorpaySignature?: string;
+  amountInPaise: number;
+  currency?: string;
+  status: "created" | "authorized" | "captured" | "failed" | "refunded";
+  verificationStatus: "pending" | "verified" | "failed";
+  webhookStatus?: "pending" | "received" | "processed" | "failed";
+}): UnifiedPayment {
+  const state = loadState();
+  if (!state.unifiedPayments) state.unifiedPayments = [];
+
+  const now = new Date().toISOString();
+  const payment: UnifiedPayment = {
+    id: `pay-uni-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    orderId: params.orderId,
+    userId: params.userId,
+    razorpayPaymentId: params.razorpayPaymentId,
+    razorpaySignature: params.razorpaySignature,
+    amountInPaise: params.amountInPaise,
+    currency: params.currency || "INR",
+    status: params.status,
+    verificationStatus: params.verificationStatus,
+    webhookStatus: params.webhookStatus || "pending",
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  state.unifiedPayments.push(payment);
+  persistState();
+  return payment;
+}
+
+export function getAllUnifiedOrders(): UnifiedOrder[] {
+  const state = loadState();
+  return state.unifiedOrders || [];
+}
+
+export function getAllUnifiedPayments(): UnifiedPayment[] {
+  const state = loadState();
+  return state.unifiedPayments || [];
+}
+
+// ----------------------------------------------------------------------------
+// All-Access Entitlements
+// ----------------------------------------------------------------------------
+
+export function getAllAccessEntitlements(userId?: string): AllAccessEntitlement[] {
+  const state = loadState();
+  const list = state.allAccessEntitlements || [];
+  if (!userId) return list;
+
+  const key = userId.toLowerCase();
+  const now = new Date();
+
+  return list.filter((e) => {
+    if (e.userId.toLowerCase() !== key) return false;
+    if (new Date(e.expiresAt) < now && e.status === "active") {
+      e.status = "expired";
+    }
+    return true;
+  });
+}
+
+export function hasActiveAllAccess(userId: string | null | undefined): boolean {
+  if (!userId) return false;
+  const key = userId.toLowerCase();
+  if (key === "walavalkarridhesh@gmail.com" || key === "admin" || key === "superadmin") return true;
+
+  const entitlements = getAllAccessEntitlements(userId);
+  const active = entitlements.find((e) => e.status === "active" && new Date(e.expiresAt) > new Date());
+  return Boolean(active);
+}
+
+export function createOrExtendAllAccessEntitlement(params: {
+  userId: string;
+  productId?: string;
+  productSlug?: string;
+  durationDays?: number;
+}): AllAccessEntitlement {
+  const state = loadState();
+  if (!state.allAccessEntitlements) state.allAccessEntitlements = [];
+
+  const key = params.userId.toLowerCase();
+  const duration = params.durationDays || 180;
+  const now = new Date();
+  const product = params.productSlug
+    ? getUnifiedProductBySlug(params.productSlug)
+    : getUnifiedProductBySlug("prepmeup-all-access-pass");
+
+  const includedTracks = ["btech-cse-aiml", "quantum-computing", "cybersecurity"];
+  const includedCourses = [
+    "btech-cse-aiml-sem1",
+    "quantum-computing-foundations",
+    "cybersecurity-foundations-ethical-hacking-soc-ctf",
+  ];
+
+  const existing = state.allAccessEntitlements.find(
+    (e) => e.userId.toLowerCase() === key && e.status === "active"
+  );
+
+  if (existing) {
+    const curExp = new Date(existing.expiresAt);
+    const base = curExp > now ? curExp : now;
+    const newExp = new Date(base.getTime() + duration * 24 * 60 * 60 * 1000);
+    existing.expiresAt = newExp.toISOString();
+    existing.updatedAt = now.toISOString();
+    persistState();
+    return existing;
+  }
+
+  const expDate = new Date(now.getTime() + duration * 24 * 60 * 60 * 1000);
+  const entitlement: AllAccessEntitlement = {
+    id: `ent-all-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    userId: params.userId,
+    productId: product ? product.id : "prod-all-access-pass",
+    productSlug: params.productSlug || "prepmeup-all-access-pass",
+    includedTrackIds: includedTracks,
+    includedCourseIds: includedCourses,
+    startsAt: now.toISOString(),
+    expiresAt: expDate.toISOString(),
+    status: "active",
+    createdAt: now.toISOString(),
+    updatedAt: now.toISOString(),
+  };
+
+  state.allAccessEntitlements.push(entitlement);
+  persistState();
+  return entitlement;
+}
+
+export function revokeAllAccessEntitlement(entitlementIdOrUserId: string): boolean {
+  const state = loadState();
+  const key = entitlementIdOrUserId.toLowerCase();
+  let found = false;
+
+  for (const ent of state.allAccessEntitlements || []) {
+    if (ent.id === entitlementIdOrUserId || ent.userId.toLowerCase() === key) {
+      ent.status = "revoked";
+      ent.updatedAt = new Date().toISOString();
+      found = true;
+    }
+  }
+
+  if (found) persistState();
+  return found;
+}
+
+// ----------------------------------------------------------------------------
+// All-Access Early Adopter Redemptions
+// ----------------------------------------------------------------------------
+
+export function getAllAccessEarlyAdopterCount(
+  productSlug = "prepmeup-all-access-pass"
+): number {
+  const state = loadState();
+  const list = state.allAccessEarlyAdopterRedemptions || [];
+  return list.filter((r) => r.productSlug === productSlug && r.status === "claimed").length;
+}
+
+export function getAllAccessEarlyAdopterRedemption(
+  userId: string,
+  productSlug = "prepmeup-all-access-pass"
+): AllAccessEarlyAdopterRedemption | undefined {
+  const state = loadState();
+  const key = userId.toLowerCase();
+  return (state.allAccessEarlyAdopterRedemptions || []).find(
+    (r) => r.userId.toLowerCase() === key && r.productSlug === productSlug && r.status === "claimed"
+  );
+}
+
+export function getAllAccessEarlyAdopters(
+  productSlug = "prepmeup-all-access-pass"
+): AllAccessEarlyAdopterRedemption[] {
+  const state = loadState();
+  return (state.allAccessEarlyAdopterRedemptions || []).filter(
+    (r) => r.productSlug === productSlug && r.status === "claimed"
+  );
+}
+
+export function claimAllAccessEarlyAdopterSeat(
+  userId: string,
+  productSlug = "prepmeup-all-access-pass",
+  limit = 10
+): { success: boolean; redemptionNumber?: number; seatNumber?: number; error?: string } {
+  const state = loadState();
+  if (!state.allAccessEarlyAdopterRedemptions) state.allAccessEarlyAdopterRedemptions = [];
+
+  const existing = getAllAccessEarlyAdopterRedemption(userId, productSlug);
+  if (existing) {
+    return {
+      success: false,
+      error: "You have already claimed an Early Adopter free seat for the All-Access Pass.",
+    };
+  }
+
+  const currentCount = getAllAccessEarlyAdopterCount(productSlug);
+  if (currentCount >= limit) {
+    return {
+      success: false,
+      error: `All ${limit} Early Adopter seats have already been claimed.`,
+    };
+  }
+
+  const redemptionNumber = currentCount + 1;
+  const product = getUnifiedProductBySlug(productSlug);
+
+  const redemption: AllAccessEarlyAdopterRedemption = {
+    id: `red-all-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    userId,
+    productId: product ? product.id : "prod-all-access-pass",
+    productSlug,
+    redemptionNumber,
+    status: "claimed",
+    createdAt: new Date().toISOString(),
+  };
+
+  state.allAccessEarlyAdopterRedemptions.push(redemption);
+
+  // Automatically activate 6-month All-Access entitlement with scholarship
+  createOrExtendAllAccessEntitlement({
+    userId,
+    productSlug,
+    durationDays: 180,
+  });
+
+  // Provision Quantum, CyberSecurity, B.Tech enrollments & 2 complimentary sessions
+  createOrExtendQuantumEnrollment({
+    userId,
+    courseId: "quantum-computing-foundations",
+    accessType: "semester_pass",
+    months: 6,
+  });
+  createOrExtendCyberEnrollment({
+    userId,
+    courseId: "cybersecurity-foundations-ethical-hacking-soc-ctf",
+    accessType: "semester_pass",
+    months: 6,
+  });
+  createOrExtendQuantumEnrollment({
+    userId,
+    courseId: "btech-cse-aiml-sem1",
+    accessType: "semester_pass",
+    months: 6,
+  });
+  createAllAccessMentorshipPack({
+    userId,
+    totalSessions: 2,
+    durationDays: 180,
+  });
+
+  persistState();
+  return { success: true, redemptionNumber, seatNumber: redemptionNumber };
+}
+
+// ----------------------------------------------------------------------------
+// All-Access Mentorship Packs
+// ----------------------------------------------------------------------------
+
+export function createAllAccessMentorshipPack(params: {
+  userId: string;
+  totalSessions?: number;
+  durationDays?: number;
+}): MentorshipPack {
+  const state = loadState();
+  if (!state.mentorshipPacks) state.mentorshipPacks = [];
+
+  const sessions = params.totalSessions || 1;
+  const days = params.durationDays || 90;
+  const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
+
+  const pack: MentorshipPack = {
+    id: `pack-all-${Date.now()}-${Math.random().toString(16).substring(2, 6)}`,
+    userId: params.userId,
+    courseId: "all-access",
+    packType: "all_access_session",
+    totalSessions: sessions,
+    usedSessions: 0,
+    status: "active",
+    expiresAt,
+    createdAt: new Date().toISOString(),
+  };
+
+  state.mentorshipPacks.push(pack);
+  persistState();
+  return pack;
+}
+
+export function getAllAccessMentorshipPacks(userId: string): MentorshipPack[] {
+  const state = loadState();
+  const key = userId.toLowerCase();
+  const now = new Date();
+
+  return (state.mentorshipPacks || []).filter((p) => {
+    if (p.userId.toLowerCase() !== key) return false;
+    if (p.courseId !== "all-access" && p.packType !== "all_access_session") return false;
+    if (new Date(p.expiresAt) < now) {
+      p.status = "expired";
+      return false;
+    }
+    return p.status === "active" && p.usedSessions < p.totalSessions;
+  });
+}
+
+export function consumeAllAccessMentorshipSession(userId: string): {
+  success: boolean;
+  packId?: string;
+  error?: string;
+} {
+  const state = loadState();
+  const available = getAllAccessMentorshipPacks(userId);
+  if (available.length === 0) {
+    return { success: false, error: "No active All-Access mentorship sessions available." };
+  }
+
+  const pack = available[0];
+  pack.usedSessions += 1;
+  if (pack.usedSessions >= pack.totalSessions) {
+    pack.status = "exhausted";
+  }
+  persistState();
+  return { success: true, packId: pack.id };
+}
+
+export function refundAllAccessMentorshipSession(userId: string): boolean {
+  const state = loadState();
+  const key = userId.toLowerCase();
+  const pack = (state.mentorshipPacks || []).find(
+    (p) =>
+      p.userId.toLowerCase() === key &&
+      (p.courseId === "all-access" || p.packType === "all_access_session") &&
+      p.usedSessions > 0
+  );
+  if (!pack) return false;
+
+  pack.usedSessions = Math.max(0, pack.usedSessions - 1);
+  if (pack.status === "exhausted" && pack.usedSessions < pack.totalSessions) {
+    pack.status = "active";
+  }
+  persistState();
+  return true;
+}
+

@@ -225,10 +225,13 @@ state.enrollments.push({
   id: `enr_exp_${Date.now()}`,
   userId: expiredStudent,
   courseId,
+  trackId: "cybersecurity",
   accessType: "semester_pass",
   status: "expired",
-  enrolledAt: new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString(),
+  startsAt: new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString(),
   expiresAt: yesterday,
+  createdAt: new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString(),
+  updatedAt: new Date().toISOString(),
 });
 
 assert.equal(hasCyberSemesterPass(expiredStudent, courseId), false, "Expired student must not have active pass");

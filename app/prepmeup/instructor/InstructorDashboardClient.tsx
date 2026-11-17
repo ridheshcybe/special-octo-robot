@@ -230,31 +230,93 @@ export function InstructorDashboardClient({
           </div>
         </div>
 
-        {/* Tab Switcher */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "24px", borderTop: "1px solid rgba(243, 241, 234, 0.08)", paddingTop: "16px" }}>
-          {[
-            { id: "courses", label: `My Courses (${courses.length})` },
-            { id: "create_course", label: "+ Create Course" },
-            { id: "modules", label: "Modules & Lessons" },
-            { id: "students", label: `Students (${students.length})` },
-            { id: "mentorship", label: `Mentorship Requests (${requests.length})` },
-            { id: "quizzes", label: "Quiz Performance" },
-            { id: "workflow", label: "Course Status" },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => {
-                setActiveTab(tab.id as TabType);
-                setFeedbackMsg("");
-              }}
-              className={activeTab === tab.id ? "pmu-btn-primary" : "pmu-btn-secondary"}
-              style={{ padding: "8px 16px", fontSize: "13px" }}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
       </div>
+
+      {/* Instructor Sidebar + Main Content */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "minmax(0, 1fr)",
+          gap: "24px",
+          alignItems: "start",
+        }}
+        className="lg:!grid-cols-[220px_minmax(0,1fr)]"
+      >
+        <aside
+          className="pmu-card"
+          style={{
+            padding: "16px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+          }}
+        >
+          {[
+            {
+              group: "Courses",
+              items: [
+                { id: "courses", label: `My Courses (${courses.length})` },
+                { id: "create_course", label: "Create Course" },
+                { id: "modules", label: "Modules & Lessons" },
+              ],
+            },
+            {
+              group: "Students",
+              items: [
+                { id: "students", label: `Students (${students.length})` },
+                { id: "mentorship", label: `Mentorship (${requests.length})` },
+                { id: "quizzes", label: "Quiz Performance" },
+              ],
+            },
+            {
+              group: "Publishing",
+              items: [{ id: "workflow", label: "Course Status" }],
+            },
+          ].map((section) => (
+            <div key={section.group} style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <span
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  color: "#807f78",
+                  padding: "0 8px",
+                }}
+              >
+                {section.group}
+              </span>
+              {section.items.map((tab) => {
+                const active = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => {
+                      setActiveTab(tab.id as TabType);
+                      setFeedbackMsg("");
+                    }}
+                    style={{
+                      textAlign: "left",
+                      padding: "8px 10px",
+                      borderRadius: "6px",
+                      fontSize: "13px",
+                      fontWeight: active ? 600 : 500,
+                      cursor: "pointer",
+                      border: "none",
+                      backgroundColor: active ? "rgba(255, 59, 29, 0.14)" : "transparent",
+                      color: active ? "#ff3b1d" : "#f3f1ea",
+                    }}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </aside>
+
+        <div style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: "24px" }}>
 
       {feedbackMsg && (
         <div style={{ padding: "14px 18px", backgroundColor: "#111114", border: "1px solid #00e676", borderRadius: "8px", color: "#00e676", fontSize: "13px", fontFamily: "monospace" }}>
@@ -703,6 +765,8 @@ export function InstructorDashboardClient({
           </div>
         </div>
       )}
+        </div>
+      </div>
     </div>
   );
 }

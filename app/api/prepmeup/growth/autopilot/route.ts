@@ -16,6 +16,7 @@ import {
   resolveSessionIdentity,
 } from "@/app/prepmeup/_lib/studentStore";
 import { generateDailyNoteWithAI, saveDailyNote } from "@/lib/prepmeup/dailyNotes";
+import { callUnifiedFreeAI } from "@/lib/prepmeup/aiRouter";
 
 export async function GET(req: NextRequest) {
   try {
@@ -272,43 +273,22 @@ export async function POST(req: NextRequest) {
         matchedPreset = GUEST_AI_PRESETS.python;
       }
 
-      // If Groq API key is configured and custom question is asked, synthesize live response
-      const groqKey = process.env.GROQ_API_KEY;
+      // Synthesize live response via Unified Free Multi-Provider + 24/7 PC Tunnel Router
       let answerMarkdown = matchedPreset.answerMarkdown;
       let subjectLabel = matchedPreset.subject;
 
-      if (groqKey && rawQuestion.length > 12 && !body.presetKey) {
+      if (rawQuestion.length > 12 && !body.presetKey) {
         try {
-          const aiRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${groqKey}`,
-            },
-            body: JSON.stringify({
-              model: "llama-3.3-70b-versatile",
-              temperature: 0.3,
-              max_tokens: 450,
-              messages: [
-                {
-                  role: "system",
-                  content:
-                    "You are PrepMeUp's B.Tech Semester 1 CSE AI/ML Professor. Give a crisp, exam-focused step-by-step derivation with LaTeX ($...$ and $$...$$) and 1 viva tip in under 180 words.",
-                },
-                {
-                  role: "user",
-                  content: rawQuestion,
-                },
-              ],
-            }),
+          const aiRes = await callUnifiedFreeAI({
+            systemInstruction:
+              "You are PrepMeUp's B.Tech Semester 1 CSE AI/ML Professor. Give a crisp, exam-focused step-by-step derivation with LaTeX ($...$ and $$...$$) and 1 viva tip in under 180 words.",
+            userPrompt: rawQuestion,
+            temperature: 0.3,
+            maxTokens: 450,
           });
-          if (aiRes.ok) {
-            const json = await aiRes.json();
-            const text = json?.choices?.[0]?.message?.content;
-            if (text && text.trim().length > 30) {
-              answerMarkdown = text.trim();
-              subjectLabel = "Semester 1 AI Doubt Copilot (Live Synthesis)";
-            }
+          if (aiRes.text && aiRes.text.trim().length > 30) {
+            answerMarkdown = aiRes.text.trim();
+            subjectLabel = `Semester 1 AI Doubt Copilot (${aiRes.modelUsed})`;
           }
         } catch {
           // Fallback to curated instant LaTeX derivation

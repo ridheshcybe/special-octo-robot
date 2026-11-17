@@ -201,43 +201,33 @@ export default function PrepMeUpLandingPage() {
 
             <p
               style={{
-                maxWidth: "46rem",
+                maxWidth: "42rem",
                 marginLeft: "auto",
                 marginRight: "auto",
-                marginTop: "1.5rem",
-                fontSize: "1.0625rem",
-                lineHeight: 1.65,
+                marginTop: "1.25rem",
+                fontSize: "1.05rem",
+                lineHeight: 1.6,
                 color: "#a19f95",
               }}
             >
-              The dedicated academic learning copilot for first-year engineering students.
-              LaTeX-typeset notes across all 6 Semester 1 subjects (30 modules, 93 topics), adaptive quizzes, interactive simulations,
-              and <strong>Tier 1 Basic Access (₹99)</strong>,{" "}
-              <strong>Tier 2 Pro AI + Career &amp; 1 Included 1:1 Session (₹199)</strong>, or{" "}
-              <strong>Tier 3 VIP Unlimited 1:1 Live Mentorship (₹499)</strong>.
+              The academic copilot for engineering students — featuring LaTeX-typeset notes across 6 core subjects, interactive browser simulations, Quantum &amp; CyberSecurity tracks, and 1:1 faculty mentorship.
             </p>
 
             <div
               style={{
-                marginTop: "2.25rem",
+                marginTop: "2rem",
                 display: "flex",
                 flexWrap: "wrap",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: "1rem",
+                gap: "0.875rem",
               }}
             >
-              <Link href="#pricing" className="pmu-btn-primary">
-                Explore Semester 1 Passes &amp; Pricing →
+              <Link href="/prepmeup/pricing" className="pmu-btn-primary">
+                View All-Access &amp; Pricing →
               </Link>
-              <Link href="/prepmeup/tracks" className="pmu-btn-secondary" style={{ borderColor: "rgba(255, 106, 61, 0.5)", color: "#ff6a3d" }}>
-                ⚛️ Learning Tracks (Quantum Live) →
-              </Link>
-              <Link href="/prepmeup/tools/cgpa" className="pmu-btn-secondary">
-                🎯 SGPA &amp; CGPA Calculator
-              </Link>
-              <Link href="/prepmeup/tools/rank-percentile" className="pmu-btn-secondary">
-                🏆 Exam Rank &amp; Percentile Predictor
+              <Link href="/prepmeup/tracks" className="pmu-btn-secondary">
+                Explore Learning Tracks →
               </Link>
             </div>
 
