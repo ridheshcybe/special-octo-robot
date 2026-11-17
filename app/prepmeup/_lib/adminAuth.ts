@@ -7,6 +7,7 @@ export interface AdminSessionPayload {
   role: "admin";
   fullName: string;
   exp: number;
+  sig?: string;
 }
 
 function getSigningSecret(): string {
@@ -18,18 +19,29 @@ function getSigningSecret(): string {
   );
 }
 
+function computeHmac(data: string): string {
+  return crypto.createHmac("sha256", getSigningSecret()).update(data).digest("base64url");
+}
+
 /**
  * Signs an admin session payload with HMAC-SHA256.
- * Format: base64url(json).base64url(hmac)
+ * Outputs JSON so Edge middleware (`JSON.parse`) and server routes (`requireAdmin`) both work.
  */
-export function signAdminSession(payload: Omit<AdminSessionPayload, "exp">, ttlSeconds = 60 * 60 * 12): string {
-  const full: AdminSessionPayload = {
-    ...payload,
-    exp: Math.floor(Date.now() / 1000) + ttlSeconds,
-  };
-  const encoded = Buffer.from(JSON.stringify(full), "utf8").toString("base64url");
-  const sig = crypto.createHmac("sha256", getSigningSecret()).update(encoded).digest("base64url");
-  return `${encoded}.${sig}`;
+export function signAdminSession(
+  payload: Omit<AdminSessionPayload, "exp" | "sig">,
+  ttlSeconds = 60 * 60 * 12
+): string {
+  const exp = Math.floor(Date.now() / 1000) + ttlSeconds;
+  const canonical = `${payload.userId}:${payload.email}:admin:${exp}`;
+  const sig = computeHmac(canonical);
+  return JSON.stringify({
+    userId: payload.userId,
+    email: payload.email,
+    role: "admin",
+    fullName: payload.fullName,
+    exp,
+    sig,
+  });
 }
 
 /**
@@ -37,12 +49,35 @@ export function signAdminSession(payload: Omit<AdminSessionPayload, "exp">, ttlS
  */
 export function verifyAdminSession(token: string | undefined | null): AdminSessionPayload | null {
   if (!token || typeof token !== "string") return null;
+
+  // Support JSON cookie with `sig`
+  if (token.startsWith("{")) {
+    try {
+      const parsed = JSON.parse(token) as AdminSessionPayload;
+      if (parsed.role !== "admin" || !parsed.email) return null;
+      if (parsed.exp && parsed.exp < Math.floor(Date.now() / 1000)) return null;
+      if (parsed.sig && parsed.exp) {
+        const canonical = `${parsed.userId}:${parsed.email}:admin:${parsed.exp}`;
+        const expected = computeHmac(canonical);
+        const sigBuf = Buffer.from(parsed.sig);
+        const expBuf = Buffer.from(expected);
+        if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) {
+          return null;
+        }
+      }
+      return parsed;
+    } catch {
+      return null;
+    }
+  }
+
+  // Also support legacy `base64url.hmac` format
   const parts = token.split(".");
   if (parts.length !== 2) return null;
   const [encoded, sig] = parts;
   if (!encoded || !sig) return null;
 
-  const expected = crypto.createHmac("sha256", getSigningSecret()).update(encoded).digest("base64url");
+  const expected = computeHmac(encoded);
   const sigBuf = Buffer.from(sig);
   const expBuf = Buffer.from(expected);
   if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) {

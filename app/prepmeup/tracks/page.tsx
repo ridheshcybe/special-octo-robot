@@ -37,8 +37,8 @@ export default function TracksDirectoryPage() {
               </p>
             </div>
 
-            <Link href="/prepmeup/courses/quantum-computing-foundations" className="pmu-btn-primary" style={{ padding: "12px 24px", fontSize: "14px" }}>
-              Explore Quantum Track →
+            <Link href="/prepmeup/subjects" className="pmu-btn-primary" style={{ padding: "12px 24px", fontSize: "14px" }}>
+              Start Semester 1 (Free) →
             </Link>
           </div>
         </div>

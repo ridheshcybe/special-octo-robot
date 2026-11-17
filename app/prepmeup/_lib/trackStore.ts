@@ -645,6 +645,15 @@ export function getAllTracks(): Track[] {
   const state = loadState();
   const base = [...state.tracks]
     .filter((t) => t.slug !== "quantum-computing")
+    .map((t) => {
+      if (t.slug === "btech-cse-aiml") {
+        return { ...t, badge: "100% Free for Everyone" };
+      }
+      if (t.slug === "cybersecurity") {
+        return { ...t, status: "coming_soon" as const, badge: "Under Construction • Coming Soon" };
+      }
+      return t;
+    })
     .sort((a, b) => a.displayOrder - b.displayOrder);
   if (!base.some((t) => t.slug === "cloud-computing-aws")) {
     base.push({
@@ -657,7 +666,8 @@ export function getAllTracks(): Track[] {
       accentColor: "#ff3b1d",
       displayOrder: 4,
       isPublished: true,
-      status: "published",
+      status: "coming_soon",
+      badge: "Under Construction • Coming Soon",
       courseCount: 1,
     } as Track);
   }

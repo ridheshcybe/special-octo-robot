@@ -38,7 +38,7 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push("/prepmeup/admin");
+      window.location.href = "/prepmeup/admin";
     } catch {
       setError("Network connection error. Try again.");
       setLoading(false);

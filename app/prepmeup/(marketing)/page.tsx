@@ -180,7 +180,7 @@ export default function PrepMeUpLandingPage() {
                     backgroundColor: "#ff3b1d",
                   }}
                 />
-                <span>B.Tech CSE AI/ML • Semester 1</span>
+                <span>B.Tech CSE AI/ML • Semester 1 is Free for Everyone</span>
               </div>
             </div>
 
@@ -199,7 +199,7 @@ export default function PrepMeUpLandingPage() {
                 color: "#a19f95",
               }}
             >
-              The academic copilot for engineering students — featuring LaTeX-typeset notes across 6 core subjects, interactive browser simulations, Quantum &amp; CyberSecurity tracks, and 1:1 faculty mentorship.
+              The academic copilot for engineering students — Semester 1 is 100% free for everyone, with LaTeX-typeset notes across 6 core subjects, interactive browser simulations, and 1:1 faculty mentorship.
             </p>
 
             <div
@@ -212,8 +212,8 @@ export default function PrepMeUpLandingPage() {
                 gap: "0.875rem",
               }}
             >
-              <Link href="/prepmeup/pricing" className="pmu-btn-primary">
-                View All-Access &amp; Pricing →
+              <Link href="/prepmeup/subjects" className="pmu-btn-primary">
+                Start Semester 1 (Free) →
               </Link>
               <Link href="/prepmeup/tracks" className="pmu-btn-secondary">
                 Explore Learning Tracks →
@@ -223,11 +223,11 @@ export default function PrepMeUpLandingPage() {
             {/* Quick Metrics Bar */}
             <div className="pmu-metrics-grid">
               <div>
-                <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#f3f1ea" }}>
-                  ₹99
+                <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#4ade80" }}>
+                  FREE
                 </p>
                 <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#807f78" }}>
-                  Tier 1: Basic Access
+                  Semester 1 for Everyone
                 </p>
               </div>
               <div>
@@ -255,6 +255,28 @@ export default function PrepMeUpLandingPage() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CYBERSECURITY & CLOUD COMPUTING UNDER CONSTRUCTION BANNER */}
+      <section style={{ borderBottom: "1px solid rgba(243, 241, 234, 0.1)", backgroundColor: "#0c0c10", padding: "1.75rem 1.5rem" }}>
+        <div className="pmu-container">
+          <div className="pmu-card" style={{ padding: "20px 24px", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "16px" }}>
+            <div>
+              <span className="pmu-badge" style={{ backgroundColor: "rgba(255, 59, 29, 0.15)", color: "#ff6a3d" }}>
+                Under Construction • Coming Soon
+              </span>
+              <h3 className="font-display" style={{ fontSize: "22px", color: "#f3f1ea", textTransform: "uppercase", marginTop: "8px", marginBottom: "4px" }}>
+                CyberSecurity &amp; Cloud Computing (AWS) Tracks
+              </h3>
+              <p style={{ fontSize: "14px", color: "#807f78", margin: 0 }}>
+                Both tracks are currently under construction and coming soon. Semester 1 B.Tech CSE AI/ML is live and 100% free for everyone.
+              </p>
+            </div>
+            <Link href="/prepmeup/tracks" className="pmu-btn-secondary">
+              View Tracks →
+            </Link>
           </div>
         </div>
       </section>
