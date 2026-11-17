@@ -2912,16 +2912,14 @@ export function getAllUnifiedProducts(activeOnly = true): UnifiedProduct[] {
       name: "Cloud Computing (AWS) Pass",
       description: "Full access to Cloud Computing (AWS) modules, hands-on labs, quizzes, and certificate.",
       productType: "semester_pass",
+      trackId: "cloud-computing-aws",
+      courseIds: ["cloud-computing-aws"],
       priceInPaise: 99900,
       currency: "INR",
       durationDays: 180,
-      includedTracks: ["cloud-computing-aws"],
-      includesMentorship: false,
-      includesAiTutor: true,
+      isActive: true,
       isEarlyAdopterEligible: false,
       features: ["AWS Core & Architecture", "Hands-on Labs & Quizzes", "Certificate of Completion"],
-      isActive: true,
-      displayOrder: 5,
     });
   }
   return activeOnly

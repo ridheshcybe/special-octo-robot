@@ -32,12 +32,6 @@ export function PrepMeUpNav() {
           <Link href="/prepmeup#subjects" className="pmu-nav-link">
             Subjects
           </Link>
-          <Link href="/prepmeup/tools/cgpa" className="pmu-nav-link">
-            CGPA Tool
-          </Link>
-          <Link href="/prepmeup/tools/rank-percentile" className="pmu-nav-link">
-            Rank Predictor
-          </Link>
           <Link href="/prepmeup/pricing" className="pmu-nav-link">
             Pricing
           </Link>
@@ -101,22 +95,6 @@ export function PrepMeUpNav() {
               style={{ fontSize: "0.875rem" }}
             >
               Subjects
-            </Link>
-            <Link
-              href="/prepmeup/tools/cgpa"
-              onClick={() => setMobileMenuOpen(false)}
-              className="pmu-nav-link"
-              style={{ fontSize: "0.875rem" }}
-            >
-              SGPA &amp; CGPA Calculator
-            </Link>
-            <Link
-              href="/prepmeup/tools/rank-percentile"
-              onClick={() => setMobileMenuOpen(false)}
-              className="pmu-nav-link"
-              style={{ fontSize: "0.875rem" }}
-            >
-              Rank &amp; Percentile Predictor
             </Link>
             <Link
               href="/prepmeup/pricing"

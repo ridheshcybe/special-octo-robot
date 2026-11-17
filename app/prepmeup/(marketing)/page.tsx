@@ -110,12 +110,6 @@ export default function PrepMeUpLandingPage() {
       tag: "Simulations",
       icon: "🔬",
     },
-    {
-      title: "SGPA, CGPA & Rank Tools",
-      desc: "Free 10-point AICTE SGPA/CGPA calculators and Gaussian cohort rank & percentile estimators.",
-      tag: "Free Utilities",
-      icon: "🎯",
-    },
   ];
 
   const steps = [
@@ -159,10 +153,6 @@ export default function PrepMeUpLandingPage() {
     {
       q: "Is Internship and Career Support included in all plans?",
       a: "No — Internship and Career Support (1:1 resume & GitHub portfolio reviews, AI/ML internship referrals, GSoC/hackathon prep, and career roadmap mentorship) is provided ONLY in the Tier 2 (₹199) package.",
-    },
-    {
-      q: "Are the SGPA/CGPA and Rank Percentile calculators free?",
-      a: "Yes! Both the SGPA & Multi-Semester CGPA Calculator and the Batch Rank & Percentile Predictor are 100% free and accessible directly from the top navigation bar without logging in.",
     },
     {
       q: "What subjects are included in Semester 1?",
@@ -268,66 +258,6 @@ export default function PrepMeUpLandingPage() {
           </div>
         </div>
       </section>
-
-      {/* 2. HIGH-VISIBILITY ACADEMIC CALCULATORS SPOTLIGHT */}
-      <section id="calculators" className="pmu-section" style={{ paddingTop: "3.5rem", paddingBottom: "3.5rem", backgroundColor: "#0c0c10" }}>
-        <div className="pmu-container">
-          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: "1rem", marginBottom: "2rem" }}>
-            <div>
-              <SectionEyebrow>100% Free Academic Utilities • No Login Needed</SectionEyebrow>
-              <h2 className="pmu-section-title">SGPA, CGPA &amp; Exam Rank Calculators</h2>
-              <p className="pmu-section-lead">
-                Instantly compute your Semester 1 SGPA, multi-semester cumulative CGPA, or predict your batch rank and percentile.
-              </p>
-            </div>
-          </div>
-
-          <div className="pmu-grid-2">
-            <div className="pmu-card-highlight" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: "1.5rem" }}>
-              <div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span className="pmu-badge">🎯 10-Point AICTE Formula</span>
-                  <span className="font-mono" style={{ fontSize: "12px", color: "#4ade80", fontWeight: 700 }}>
-                    SGPA + Multi-Sem CGPA
-                  </span>
-                </div>
-                <h3 className="font-display" style={{ marginTop: "1rem", fontSize: "1.875rem", textTransform: "uppercase", color: "#f3f1ea" }}>
-                  SGPA &amp; Cumulative CGPA Calculator
-                </h3>
-                <p style={{ marginTop: "0.625rem", fontSize: "0.875rem", lineHeight: 1.65, color: "#a19f95" }}>
-                  Map your subject credits and expected letter grades (O, A+, A, B+) to compute your exact Semester SGPA and combine multiple semesters to project your overall B.Tech CGPA.
-                </p>
-              </div>
-              <Link href="/prepmeup/tools/cgpa" className="pmu-btn-primary" style={{ width: "100%" }}>
-                Open SGPA &amp; CGPA Calculator →
-              </Link>
-            </div>
-
-            <div className="pmu-card-highlight" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: "1.5rem" }}>
-              <div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span className="pmu-badge">🏆 Gaussian Cohort Curve</span>
-                  <span className="font-mono" style={{ fontSize: "12px", color: "#ff6a3d", fontWeight: 700 }}>
-                    Instant Percentile &amp; Rank
-                  </span>
-                </div>
-                <h3 className="font-display" style={{ marginTop: "1rem", fontSize: "1.875rem", textTransform: "uppercase", color: "#f3f1ea" }}>
-                  Exam Rank &amp; Percentile Predictor
-                </h3>
-                <p style={{ marginTop: "0.625rem", fontSize: "0.875rem", lineHeight: 1.65, color: "#a19f95" }}>
-                  Enter your internal assessment or end-sem score, class average, and batch size to predict your exact cohort percentile and estimated rank standing.
-                </p>
-              </div>
-              <Link href="/prepmeup/tools/rank-percentile" className="pmu-btn-primary" style={{ width: "100%" }}>
-                Open Exam Rank &amp; Percentile Predictor →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2B. ZERO-LOGIN INTERACTIVE LIVE SIMULATOR & GUEST AI DOUBT TRIAL */}
-      {/* 2. Interactive Trial Removed */}
 
       {/* 3. SUBJECTS SECTION */}
       <section id="subjects" className="pmu-section">
