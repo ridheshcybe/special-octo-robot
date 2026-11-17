@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { RichMathMarkdown } from "@/app/prepmeup/_components/RichMathMarkdown";
+import { AdminDatabaseAndUserManager } from "./_components/AdminDatabaseAndUserManager";
 
 interface AdminUser {
   id: string;
@@ -1193,6 +1194,12 @@ export default function AdminDashboardPage() {
               </p>
             </div>
           </div>
+
+          {/* User Editor, Ban/Delete Controls & Database Explorer */}
+          <AdminDatabaseAndUserManager
+            users={analytics?.users || []}
+            onRefresh={loadAnalytics}
+          />
 
           {/* Registered Users & Live Presence Directory Table */}
           <div className="pmu-card" style={{ padding: "24px" }}>

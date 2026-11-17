@@ -993,3 +993,77 @@ export function getAppOverallMetrics(): AppOverallMetrics {
     subjectBreakdown,
   };
 }
+
+export function adminUpdateAppUser(
+  userId: string,
+  updates: Partial<{
+    name: string;
+    target: string;
+    type: "email" | "phone";
+    college: string;
+    branch: string;
+    tier: string;
+    role: "student" | "admin";
+    isBanned: boolean;
+  }>
+): AppUser {
+  loadPersistedData();
+  const cKey = canonicalizeStudentKey(userId) || userId;
+  const existing = userStoreMap.get(cKey) || userStoreMap.get(userId) || findOrCreateUser(cKey, {
+    name: updates.name,
+    target: updates.target || userId,
+    type: updates.type,
+    college: updates.college,
+    branch: updates.branch,
+    tier: updates.tier,
+    role: updates.role,
+  });
+
+  const updated: AppUser & { isBanned?: boolean } = {
+    ...existing,
+    ...(updates.name !== undefined ? { name: updates.name } : {}),
+    ...(updates.target !== undefined ? { target: updates.target } : {}),
+    ...(updates.type !== undefined ? { type: updates.type } : {}),
+    ...(updates.college !== undefined ? { college: updates.college } : {}),
+    ...(updates.branch !== undefined ? { branch: updates.branch } : {}),
+    ...(updates.tier !== undefined ? { tier: updates.tier as any } : {}),
+    ...(updates.role !== undefined ? { role: updates.role } : {}),
+    ...(updates.isBanned !== undefined ? { isBanned: updates.isBanned } : {}),
+  };
+
+  userStoreMap.set(existing.id, updated);
+  savePersistedData();
+  return updated;
+}
+
+export function adminDeleteAppUser(userId: string): boolean {
+  loadPersistedData();
+  const cKey = canonicalizeStudentKey(userId) || userId;
+  const existed = userStoreMap.delete(cKey) || userStoreMap.delete(userId);
+  studentStoreMap.delete(cKey);
+  studentStoreMap.delete(userId);
+
+  try {
+    const filePath = getUsersFilePath();
+    const serializedRecords: Record<string, StudentRecord> = {};
+    for (const [k, v] of studentStoreMap.entries()) {
+      serializedRecords[k] = v;
+    }
+    fs.writeFileSync(
+      filePath,
+      JSON.stringify(
+        {
+          users: Array.from(userStoreMap.values()),
+          studentRecords: serializedRecords,
+          activities: globalActivityLog.slice(0, 150),
+          lastUpdated: new Date().toISOString(),
+        },
+        null,
+        2
+      ),
+      "utf-8"
+    );
+  } catch {}
+  return existed;
+}
+
