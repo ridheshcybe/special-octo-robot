@@ -3,6 +3,7 @@ import { PrepMeUpNav } from "../_components/PrepMeUpNav";
 import { PrepMeUpFooter } from "../_components/PrepMeUpFooter";
 import { CalendarBookingScheduler } from "../_components/CalendarBookingScheduler";
 import { VideoSessionBookingForm } from "../_components/VideoSessionBookingForm";
+import { PrepMeUpHero3D } from "../_components/PrepMeUpHero3D";
 
 function SectionEyebrow({ children, centered = false }: { children: string; centered?: boolean }) {
   return (
@@ -165,8 +166,10 @@ export default function PrepMeUpLandingPage() {
       <PrepMeUpNav />
 
       {/* 1. HERO SECTION */}
-      <section className="pmu-section" style={{ overflow: "hidden" }}>
+      <section className="pmu-section" style={{ overflow: "hidden", position: "relative" }}>
         <div className="pmu-glow" style={{ position: "absolute", inset: 0, pointerEvents: "none" }} />
+        <div className="pmu-perspective-grid" aria-hidden="true" />
+        <PrepMeUpHero3D showCanvas />
 
         <div className="pmu-container" style={{ position: "relative", textAlign: "center" }}>
           <div style={{ maxWidth: "56rem", marginLeft: "auto", marginRight: "auto" }}>

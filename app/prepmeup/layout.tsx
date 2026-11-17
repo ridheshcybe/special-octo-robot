@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./prepmeup.css";
 import "katex/dist/katex.min.css";
+import { PrepMeUpHero3D } from "./_components/PrepMeUpHero3D";
 
 export const metadata: Metadata = {
   title: "PrepMeUp AI — B.Tech CSE AI/ML Semester 1 Learning Platform",
@@ -22,6 +23,7 @@ export const viewport: Viewport = {
 export default function PrepMeUpLayout({ children }: { children: ReactNode }) {
   return (
     <div className="pmu-root selection:bg-[#ff3b1d] selection:text-[#08080a]">
+      <PrepMeUpHero3D />
       {children}
     </div>
   );
