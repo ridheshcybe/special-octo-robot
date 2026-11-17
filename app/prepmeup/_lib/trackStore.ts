@@ -2910,7 +2910,6 @@ export function getAllUnifiedProducts(activeOnly = true): UnifiedProduct[] {
       id: "prod-cloud-aws",
       slug: "cloud-computing-aws",
       name: "Cloud Computing (AWS) Pass",
-      subtitle: "6-Month Access • AWS Core & Architecture",
       description: "Full access to Cloud Computing (AWS) modules, hands-on labs, quizzes, and certificate.",
       productType: "semester_pass",
       priceInPaise: 99900,
