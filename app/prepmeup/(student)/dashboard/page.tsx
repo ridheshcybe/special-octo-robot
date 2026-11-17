@@ -205,12 +205,6 @@ export default async function StudentDashboardPage() {
             href: "/prepmeup/simulations",
             cta: "Launch Labs →",
           },
-          {
-            title: "SGPA & Rank Tools",
-            sub: "AICTE CGPA & cohort predictor",
-            href: "/prepmeup/tools/cgpa",
-            cta: "Calculate →",
-          },
         ].map((tool) => (
           <Link
             key={tool.title}
