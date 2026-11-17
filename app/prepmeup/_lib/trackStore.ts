@@ -657,6 +657,8 @@ export function getAllTracks(): Track[] {
       accentColor: "#ff3b1d",
       displayOrder: 4,
       isPublished: true,
+      status: "published",
+      courseCount: 1,
     } as Track);
   }
   return base;
@@ -2907,18 +2909,21 @@ export function getAllUnifiedProducts(activeOnly = true): UnifiedProduct[] {
     products.push({
       id: "prod-cloud-aws",
       slug: "cloud-computing-aws",
-      title: "Cloud Computing (AWS) Pass",
+      name: "Cloud Computing (AWS) Pass",
       subtitle: "6-Month Access • AWS Core & Architecture",
       description: "Full access to Cloud Computing (AWS) modules, hands-on labs, quizzes, and certificate.",
       productType: "semester_pass",
       priceInPaise: 99900,
+      currency: "INR",
       durationDays: 180,
       includedTracks: ["cloud-computing-aws"],
       includesMentorship: false,
       includesAiTutor: true,
+      isEarlyAdopterEligible: false,
+      features: ["AWS Core & Architecture", "Hands-on Labs & Quizzes", "Certificate of Completion"],
       isActive: true,
       displayOrder: 5,
-    } as UnifiedProduct);
+    });
   }
   return activeOnly
     ? products.filter(

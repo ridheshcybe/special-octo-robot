@@ -3,7 +3,6 @@ import { PrepMeUpNav } from "../_components/PrepMeUpNav";
 import { PrepMeUpFooter } from "../_components/PrepMeUpFooter";
 import { CalendarBookingScheduler } from "../_components/CalendarBookingScheduler";
 import { VideoSessionBookingForm } from "../_components/VideoSessionBookingForm";
-import { LandingInteractiveTrial } from "../_components/LandingInteractiveTrial";
 
 function SectionEyebrow({ children, centered = false }: { children: string; centered?: boolean }) {
   return (
