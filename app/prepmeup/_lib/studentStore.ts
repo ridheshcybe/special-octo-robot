@@ -308,9 +308,12 @@ export function resolvePersistentDataDir(): string {
   }
 
   const cwd = process.cwd();
-  if (cwd.includes("/hbuilds/") || cwd.includes("\\hbuilds\\")) {
+  const isVercel = Boolean(process.env.VERCEL) || cwd.startsWith("/var/task");
+  if (isVercel || cwd.includes("/hbuilds/") || cwd.includes("\\hbuilds\\")) {
     const homeDir = process.env.HOME || process.env.USERPROFILE;
-    const sharedDir = homeDir
+    const sharedDir = isVercel
+      ? path.join("/tmp", ".prepmeup_data")
+      : homeDir
       ? path.join(homeDir, ".prepmeup_data")
       : path.resolve(cwd, "..", "..", ".prepmeup_data");
 

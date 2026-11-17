@@ -185,7 +185,8 @@ export async function sendEmailOtp(email: string): Promise<SendEmailOtpResult> {
   const smtpUser = process.env.SMTP_USER || process.env.HOSTINGER_EMAIL_USER;
   const smtpPass = process.env.SMTP_PASS || process.env.HOSTINGER_EMAIL_PASS;
   const smtpHost = process.env.SMTP_HOST || "smtp.hostinger.com";
-  const smtpPort = parseInt(process.env.SMTP_PORT || "465", 10);
+  const rawPort = parseInt(process.env.SMTP_PORT || "465", 10);
+  const smtpPort = !rawPort || rawPort === 25 ? 465 : rawPort;
 
   if (smtpUser && smtpPass) {
     try {
@@ -193,6 +194,9 @@ export async function sendEmailOtp(email: string): Promise<SendEmailOtpResult> {
         host: smtpHost,
         port: smtpPort,
         secure: smtpPort === 465,
+        connectionTimeout: 6000,
+        greetingTimeout: 6000,
+        socketTimeout: 8000,
         auth: {
           user: smtpUser,
           pass: smtpPass,

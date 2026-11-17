@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     const authUser = await getPmuAuthUser();
 
     if (!authUser && !fallbackProfile) {
-      return NextResponse.json({ ok: false, authenticated: false }, { status: 401 });
+      return NextResponse.json({ ok: false, authenticated: false }, { status: 200 });
     }
 
     return NextResponse.json({
