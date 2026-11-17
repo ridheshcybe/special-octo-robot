@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTrackBySlug, getCoursesByTrack, getInstructorBySlug } from "../../_lib/trackStore";
+import { PageHeader, EmptyState } from "../../_components/ui";
 
 interface Props {
   params: Promise<{ trackSlug: string }>;
@@ -20,6 +21,21 @@ export async function generateMetadata({ params }: Props) {
 export default async function TrackDetailPage({ params }: Props) {
   const { trackSlug } = await params;
   const track = getTrackBySlug(trackSlug);
+
+  if (trackSlug === "cybersecurity" || trackSlug === "cloud-computing-aws") {
+    const title =
+      trackSlug === "cloud-computing-aws" ? "Cloud Computing (AWS)" : "CyberSecurity";
+    return (
+      <main className="pmu-container" style={{ paddingTop: "40px", paddingBottom: "80px", display: "flex", flexDirection: "column", gap: "24px" }}>
+        <PageHeader title={title} subtitle="Under construction — coming soon." />
+        <EmptyState
+          title="Coming Soon"
+          description={`${title} is currently under construction. Check back soon or explore your active Semester 1 courses.`}
+          action={{ label: "Back to Tracks", href: "/prepmeup/tracks" }}
+        />
+      </main>
+    );
+  }
 
   if (!track) {
     notFound();

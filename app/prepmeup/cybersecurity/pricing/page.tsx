@@ -1,16 +1,22 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-
-interface EarlyAdopterInfo {
-  totalLimit: number;
-  claimedCount: number;
-  remainingSeats: number;
-  isAvailable: boolean;
-}
+import React from "react";
+import { PageHeader, EmptyState } from "../../_components/ui";
 
 export default function CyberSecurityPricingPage() {
+  return (
+    <main className="pmu-container" style={{ paddingTop: "40px", paddingBottom: "80px", display: "flex", flexDirection: "column", gap: "24px" }}>
+      <PageHeader title="CyberSecurity" subtitle="Under construction — coming soon." />
+      <EmptyState
+        title="Coming Soon"
+        description="CyberSecurity is currently under construction. Check back soon or explore your active Semester 1 courses."
+        action={{ label: "Back to Pricing", href: "/prepmeup/pricing" }}
+      />
+    </main>
+  );
+}
+
+function _LegacyUnused() {
   const [earlyInfo, setEarlyInfo] = useState<EarlyAdopterInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
