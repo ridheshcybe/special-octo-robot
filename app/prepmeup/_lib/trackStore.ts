@@ -643,7 +643,9 @@ export function persistState() {
 // ----------------------------------------------------------------------------
 export function getAllTracks(): Track[] {
   const state = loadState();
-  return [...state.tracks].sort((a, b) => a.displayOrder - b.displayOrder);
+  return [...state.tracks]
+    .filter((t) => t.slug !== "quantum-computing")
+    .sort((a, b) => a.displayOrder - b.displayOrder);
 }
 
 export function getTrackBySlug(slug: string): Track | null {
@@ -2884,8 +2886,12 @@ export function getDefaultUnifiedProducts(): UnifiedProduct[] {
 
 export function getAllUnifiedProducts(activeOnly = true): UnifiedProduct[] {
   const state = loadState();
-  const products = state.unifiedProducts || getDefaultUnifiedProducts();
-  return activeOnly ? products.filter((p) => p.isActive) : products;
+  const products = (state.unifiedProducts || getDefaultUnifiedProducts()).map((p) =>
+    p.slug === "btech-sem1" || p.slug === "btech-semester-pass" ? { ...p, priceInPaise: 0 } : p
+  );
+  return activeOnly
+    ? products.filter((p) => p.isActive && !p.slug.startsWith("quantum-"))
+    : products;
 }
 
 export function getUnifiedProductBySlug(slug: string): UnifiedProduct | undefined {
