@@ -360,7 +360,7 @@ export default function PrepMeUpLandingPage() {
       </section>
 
       {/* 2B. ZERO-LOGIN INTERACTIVE LIVE SIMULATOR & GUEST AI DOUBT TRIAL */}
-      <LandingInteractiveTrial />
+      {/* 2. Interactive Trial Removed */}
 
       {/* 3. SUBJECTS SECTION */}
       <section id="subjects" className="pmu-section">
