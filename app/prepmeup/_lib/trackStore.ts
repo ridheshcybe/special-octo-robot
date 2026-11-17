@@ -643,9 +643,23 @@ export function persistState() {
 // ----------------------------------------------------------------------------
 export function getAllTracks(): Track[] {
   const state = loadState();
-  return [...state.tracks]
+  const base = [...state.tracks]
     .filter((t) => t.slug !== "quantum-computing")
     .sort((a, b) => a.displayOrder - b.displayOrder);
+  if (!base.some((t) => t.slug === "cloud-computing-aws")) {
+    base.push({
+      id: "trk-cloud-aws",
+      slug: "cloud-computing-aws",
+      title: "Cloud Computing (AWS)",
+      subtitle: "EC2, S3, IAM, VPC, Lambda & Cloud Architecture",
+      description: "Hands-on AWS cloud engineering track covering core compute, storage, networking, serverless, and exam-ready architecture.",
+      icon: "AWS",
+      accentColor: "#ff3b1d",
+      displayOrder: 4,
+      isPublished: true,
+    } as Track);
+  }
+  return base;
 }
 
 export function getTrackBySlug(slug: string): Track | null {
@@ -2889,8 +2903,27 @@ export function getAllUnifiedProducts(activeOnly = true): UnifiedProduct[] {
   const products = (state.unifiedProducts || getDefaultUnifiedProducts()).map((p) =>
     p.slug === "btech-sem1" || p.slug === "btech-semester-pass" ? { ...p, priceInPaise: 0 } : p
   );
+  if (!products.some((p) => p.slug === "cloud-computing-aws")) {
+    products.push({
+      id: "prod-cloud-aws",
+      slug: "cloud-computing-aws",
+      title: "Cloud Computing (AWS) Pass",
+      subtitle: "6-Month Access • AWS Core & Architecture",
+      description: "Full access to Cloud Computing (AWS) modules, hands-on labs, quizzes, and certificate.",
+      productType: "semester_pass",
+      priceInPaise: 99900,
+      durationDays: 180,
+      includedTracks: ["cloud-computing-aws"],
+      includesMentorship: false,
+      includesAiTutor: true,
+      isActive: true,
+      displayOrder: 5,
+    } as UnifiedProduct);
+  }
   return activeOnly
-    ? products.filter((p) => p.isActive && !p.slug.startsWith("quantum-"))
+    ? products.filter(
+        (p) => p.isActive && !p.slug.startsWith("quantum-") && p.slug !== "cybersecurity-mentorship-pack"
+      )
     : products;
 }
 
