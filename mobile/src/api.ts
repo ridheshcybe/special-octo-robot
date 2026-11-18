@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import Constants from "expo-constants";
 
@@ -20,6 +21,11 @@ export interface MobileUserSession {
 
 export async function getSavedSession(): Promise<MobileUserSession | null> {
   try {
+    if (Platform.OS === "web") {
+      if (typeof window === "undefined") return null;
+      const raw = window.localStorage.getItem(SESSION_KEY);
+      return raw ? (JSON.parse(raw) as MobileUserSession) : null;
+    }
     const raw = await SecureStore.getItemAsync(SESSION_KEY);
     if (!raw) return null;
     return JSON.parse(raw) as MobileUserSession;
@@ -30,14 +36,27 @@ export async function getSavedSession(): Promise<MobileUserSession | null> {
 
 export async function saveSession(session: MobileUserSession): Promise<void> {
   try {
-    await SecureStore.setItemAsync(SESSION_KEY, JSON.stringify(session));
+    const serialized = JSON.stringify(session);
+    if (Platform.OS === "web") {
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(SESSION_KEY, serialized);
+      }
+      return;
+    }
+    await SecureStore.setItemAsync(SESSION_KEY, serialized);
   } catch {
-    // Ignore storage errors on web preview
+    // Ignore storage errors
   }
 }
 
 export async function clearSession(): Promise<void> {
   try {
+    if (Platform.OS === "web") {
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem(SESSION_KEY);
+      }
+      return;
+    }
     await SecureStore.deleteItemAsync(SESSION_KEY);
   } catch {
     // Ignore storage errors
@@ -177,6 +196,6 @@ export async function askAiDoubtTutor(params: {
 
   return {
     ok: true,
-    answer: `Syllabus Breakdown (${params.subjectCode}):\n\n1. Core Concept: Start by stating the governing definition or theorem clearly as required in university Semester 1 evaluations.\n\n2. Step-by-Step Derivation / Application:\n• Identify the given parameters and boundary conditions.\n• Apply the standard ${params.subjectCode} formulation.\n• Verify units, edge cases, or matrix dimensions.\n\nTip: Tap "Open Full Web Workbench" above to view the rendered LaTeX equations and interactive simulator for this topic.`,
+    answer: `Syllabus Breakdown (${params.subjectCode}):\n\n1. Core Concept: Start by stating the governing definition or theorem clearly as required in university Semester 1 evaluations.\n\n2. Step-by-Step Derivation / Application:\n• Identify the given parameters and boundary conditions.\n• Apply the standard ${params.subjectCode} formulation.\n• Verify units, edge cases, or matrix dimensions.\n\nTip: Tap "LaTeX View ↗" above to view rendered LaTeX equations and interactive simulators for this topic.`,
   };
 }

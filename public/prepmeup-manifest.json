@@ -1,0 +1,11 @@
+{
+  "name": "PrepMeUp AI — B.Tech CSE AI/ML Learning Platform",
+  "short_name": "PrepMeUp AI",
+  "description": "Syllabus-aligned LaTeX notes, interactive simulators, Python coding lab, AI doubt tutor, and 1:1 mentorship for engineering students.",
+  "start_url": "/prepmeup/dashboard",
+  "scope": "/prepmeup",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAF9F6",
+  "theme_color": "#C2331B"
+}

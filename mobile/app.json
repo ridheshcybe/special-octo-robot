@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "prepmeup",
+    "platforms": ["ios", "android", "web"],
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "backgroundColor": "#FAF9F6",
@@ -30,6 +31,14 @@
       "permissions": [
         "INTERNET"
       ]
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "name": "PrepMeUp AI",
+      "shortName": "PrepMeUp",
+      "themeColor": "#FAF9F6",
+      "backgroundColor": "#FAF9F6"
     },
     "plugins": [
       "expo-router",

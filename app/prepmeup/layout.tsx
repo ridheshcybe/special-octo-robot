@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   title: "PrepMeUp AI — B.Tech CSE AI/ML Semester 1 Learning Platform",
   description:
     "Syllabus-aligned notes, past papers, quizzes, AI doubt solving, Python coding lab, simulations, and progress tracking for engineering students.",
+  manifest: "/prepmeup-manifest.json",
+  appleWebApp: {
+    capable: true,
+    title: "PrepMeUp AI",
+    statusBarStyle: "default",
+  },
   openGraph: {
     title: "PrepMeUp AI — B.Tech CSE AI/ML Semester 1 Learning Platform",
     description:
