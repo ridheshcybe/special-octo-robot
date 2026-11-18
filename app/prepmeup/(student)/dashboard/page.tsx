@@ -31,20 +31,20 @@ export default async function StudentDashboardPage() {
   const firstSubject = subjects[0];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
       <PageHeader
         title={`Welcome back, ${studentName}`}
         subtitle={`Semester ${semester} • ${branch} • ${
-          tier === "tier3" ? "VIP 1:1 Pass" : tier === "tier2" ? "Pro Pass" : "Starter Pass"
+          tier === "tier3" ? "VIP 1:1 Pass" : tier === "tier2" ? "Pro Pass" : "Academic Pass"
         }`}
         action={{
-          label: "Ask AI Tutor",
+          label: "Ask AI tutor",
           href: "/prepmeup/doubts",
         }}
       />
 
       {/* Primary Focus: Continue + Today's Task */}
-      <div className="pmu-grid-2" style={{ gap: "24px" }}>
+      <div className="pmu-grid-2" style={{ gap: "20px" }}>
         <div
           className="pmu-card"
           style={{
@@ -53,31 +53,32 @@ export default async function StudentDashboardPage() {
             flexDirection: "column",
             justifyContent: "space-between",
             gap: "16px",
+            backgroundColor: "#FFFFFF",
+            border: "1px solid #E8E4DB",
           }}
         >
           <div>
-            <span style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.06em", color: "#807f78" }}>
+            <span style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.06em", color: "#6F6B62", textTransform: "uppercase" }}>
               Continue where you left off
             </span>
             <h2
-              className="font-display"
-              style={{ fontSize: "22px", color: "#f3f1ea", margin: "8px 0 4px", textTransform: "uppercase" }}
+              style={{ fontSize: "18px", fontWeight: 700, color: "#1C1A17", margin: "6px 0 2px" }}
             >
               {firstSubject ? firstSubject.title : "Semester 1 Core"}
             </h2>
-            <p style={{ fontSize: "14px", color: "#807f78", margin: 0 }}>
-              {firstSubject ? `${firstSubject.code} • Pick up your notes and practice` : "Resume your active course"}
+            <p style={{ fontSize: "13.5px", color: "#6F6B62", margin: 0 }}>
+              {firstSubject ? `${firstSubject.code} • Resume your notes and practice` : "Resume your active course"}
             </p>
           </div>
-          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
             <Link
               href={firstSubject ? `/prepmeup/subjects/${firstSubject.slug}` : "/prepmeup/subjects"}
               className="pmu-btn-secondary"
             >
-              Open Subject
+              Open subject
             </Link>
             <Link href="/prepmeup/tracks" className="pmu-btn-secondary">
-              Browse Tracks
+              Browse tracks
             </Link>
           </div>
         </div>
@@ -90,27 +91,28 @@ export default async function StudentDashboardPage() {
             flexDirection: "column",
             justifyContent: "space-between",
             gap: "16px",
+            backgroundColor: "#FFFFFF",
+            border: "1px solid #E8E4DB",
           }}
         >
           <div>
-            <span style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.06em", color: "#807f78" }}>
-              Today&apos;s Task
+            <span style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.06em", color: "#6F6B62", textTransform: "uppercase" }}>
+              Today&apos;s focus
             </span>
             <h2
-              className="font-display"
-              style={{ fontSize: "22px", color: "#f3f1ea", margin: "8px 0 4px", textTransform: "uppercase" }}
+              style={{ fontSize: "18px", fontWeight: 700, color: "#1C1A17", margin: "6px 0 2px" }}
             >
               {(dailyNote as any)?.topicTitle || "Daily Practice & Revision"}
             </h2>
-            <p style={{ fontSize: "14px", color: "#807f78", margin: 0 }}>
+            <p style={{ fontSize: "13.5px", color: "#6F6B62", margin: 0 }}>
               {dailyNote?.subjectCode
-                ? `${dailyNote.subjectCode} • 10 min quick review`
+                ? `${dailyNote.subjectCode} • 10-minute concept review`
                 : "Complete one topic quiz or review today's capsule"}
             </p>
           </div>
-          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
             <Link href="/prepmeup/quizzes" className="pmu-btn-secondary">
-              Take a Quiz
+              Take a quiz
             </Link>
             <Link href="/prepmeup/sessions" className="pmu-btn-secondary">
               1:1 Mentorship
@@ -121,14 +123,13 @@ export default async function StudentDashboardPage() {
 
       {/* Quick Links */}
       <Section
-        title={`Semester ${semester} Subjects`}
+        title={`Semester ${semester} subjects`}
         action={
-          <Link href="/prepmeup/progress" style={{ fontSize: "13px", color: "#807f78", textDecoration: "none" }}>
-            View Progress →
+          <Link href="/prepmeup/progress" style={{ fontSize: "13px", color: "#6F6B62", textDecoration: "none" }}>
+            View progress →
           </Link>
         }
       >
-
         <div className="pmu-grid-3">
           {subjects.map((subj) => (
             <div
@@ -140,22 +141,23 @@ export default async function StudentDashboardPage() {
                 flexDirection: "column",
                 justifyContent: "space-between",
                 gap: "14px",
+                backgroundColor: "#FFFFFF",
+                border: "1px solid #E8E4DB",
               }}
             >
               <div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
                   <span className="pmu-badge">{subj.code}</span>
-                  <span className="font-mono" style={{ fontSize: "11px", color: "#807f78" }}>
-                    {subj.credit_units} Credits • {subj.module_count ?? 5} Modules
+                  <span className="font-mono" style={{ fontSize: "11px", color: "#6F6B62" }}>
+                    {subj.credit_units} credits • {subj.module_count ?? 5} modules
                   </span>
                 </div>
                 <h3
-                  className="font-display"
-                  style={{ fontSize: "18px", textTransform: "uppercase", color: "#f3f1ea", marginTop: "10px" }}
+                  style={{ fontSize: "16px", fontWeight: 700, color: "#1C1A17", marginTop: "8px" }}
                 >
                   {subj.title}
                 </h3>
-                <p style={{ marginTop: "4px", fontSize: "12.5px", lineHeight: 1.5, color: "#807f78" }}>
+                <p style={{ marginTop: "4px", fontSize: "12.5px", lineHeight: 1.5, color: "#6F6B62" }}>
                   {subj.description}
                 </p>
               </div>
@@ -166,15 +168,15 @@ export default async function StudentDashboardPage() {
                   alignItems: "center",
                   justifyContent: "space-between",
                   paddingTop: "10px",
-                  borderTop: "1px solid #1f1f26",
+                  borderTop: "1px solid #E8E4DB",
                 }}
               >
-                <span className="font-mono" style={{ fontSize: "11px", color: "#a19f95" }}>
-                  LaTeX Notes &amp; Quizzes
+                <span style={{ fontSize: "11px", color: "#6F6B62" }}>
+                  LaTeX notes &amp; quizzes
                 </span>
                 <Link
                   href={`/prepmeup/subjects/${subj.slug}`}
-                  style={{ fontSize: "12px", fontWeight: 700, color: "#ff3b1d", textDecoration: "none" }}
+                  style={{ fontSize: "12px", fontWeight: 600, color: "#C2331B", textDecoration: "none" }}
                 >
                   Open →
                 </Link>
@@ -185,25 +187,25 @@ export default async function StudentDashboardPage() {
       </Section>
 
       {/* Quick Study Workbench Strip */}
-      <div className="pmu-grid-4">
+      <div className="pmu-grid-3">
         {[
           {
-            title: "AI Doubt Tutor",
+            title: "AI doubt tutor",
             sub: "Step-by-step LaTeX & code help",
             href: "/prepmeup/doubts",
-            cta: "Ask Doubt →",
+            cta: "Ask question →",
           },
           {
-            title: "Python Coding Lab",
-            sub: "Browser IDE & AI debugger",
+            title: "Python coding lab",
+            sub: "Browser IDE & test case execution",
             href: "/prepmeup/coding",
             cta: "Open IDE →",
           },
           {
-            title: "Visual Simulators",
-            sub: "17+ circuit, CPU & quantum labs",
+            title: "Visual simulators",
+            sub: "Circuit, CPU & quantum interactive models",
             href: "/prepmeup/simulations",
-            cta: "Launch Labs →",
+            cta: "Launch simulators →",
           },
         ].map((tool) => (
           <Link
@@ -216,16 +218,18 @@ export default async function StudentDashboardPage() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              gap: "10px",
+              gap: "8px",
+              backgroundColor: "#FFFFFF",
+              border: "1px solid #E8E4DB",
             }}
           >
             <div>
-              <h3 className="font-display" style={{ fontSize: "17px", textTransform: "uppercase", color: "#f3f1ea" }}>
+              <h3 style={{ fontSize: "15px", fontWeight: 700, color: "#1C1A17" }}>
                 {tool.title}
               </h3>
-              <p style={{ marginTop: "4px", fontSize: "12px", color: "#807f78" }}>{tool.sub}</p>
+              <p style={{ marginTop: "2px", fontSize: "12px", color: "#6F6B62" }}>{tool.sub}</p>
             </div>
-            <span className="font-mono" style={{ fontSize: "11px", fontWeight: 700, color: "#ff6a3d" }}>
+            <span style={{ fontSize: "12px", fontWeight: 600, color: "#C2331B" }}>
               {tool.cta}
             </span>
           </Link>

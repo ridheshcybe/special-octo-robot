@@ -73,7 +73,7 @@ function VerifyOtpForm() {
         return;
       }
 
-      setSuccess("Verification successful! Directing to student hub…");
+      setSuccess("Verification successful. Redirecting to student dashboard…");
 
       if (typeof window !== "undefined") {
         sessionStorage.removeItem("pmu_mock_otp");
@@ -116,7 +116,7 @@ function VerifyOtpForm() {
       if (data.devMockCode) {
         setDevMockHint(data.devMockCode);
       }
-      setSuccess(`New verification code dispatched to ${target}.`);
+      setSuccess(`New verification code sent to ${target}.`);
       setResending(false);
     } catch {
       setError("Failed to resend. Please check connection.");
@@ -130,46 +130,45 @@ function VerifyOtpForm() {
         <Link href="/prepmeup" className="pmu-brand-logo">
           <span className="pmu-brand-mark">P</span>
           <span className="pmu-brand-title">
-            PREPMEUP <span style={{ color: "#ff3b1d" }}>AI</span>
+            PrepMeUp <span>AI</span>
           </span>
         </Link>
         <h1
           style={{
             marginTop: "1rem",
-            fontFamily: 'var(--font-anton), "Anton", sans-serif',
-            fontSize: "1.625rem",
-            textTransform: "uppercase",
-            letterSpacing: "0.04em",
-            color: "#f3f1ea",
+            fontSize: "1.375rem",
+            fontWeight: 700,
+            color: "#1C1A17",
+            letterSpacing: "-0.015em",
           }}
         >
-          Enter 6-Digit Code
+          Enter 6-digit code
         </h1>
-        <p style={{ marginTop: "0.5rem", fontSize: "0.8125rem", color: "#807f78" }}>
-          {targetType === "email" ? "We sent a verification code to your email:" : "We sent a verification code to:"}{" "}
-          <span style={{ fontWeight: 600, color: "#f3f1ea" }}>{target || "your account"}</span>
+        <p style={{ marginTop: "0.375rem", fontSize: "0.8125rem", color: "#6F6B62" }}>
+          {targetType === "email" ? "We sent a verification code to:" : "We sent a verification code to:"}{" "}
+          <span style={{ fontWeight: 600, color: "#1C1A17" }}>{target || "your account"}</span>
         </p>
 
         {devMockHint && (
           <div
             style={{
               marginTop: "0.75rem",
-              borderRadius: "0.375rem",
-              border: "1px solid rgba(245,158,11,0.35)",
-              backgroundColor: "rgba(70,25,1,0.3)",
-              padding: "0.625rem",
+              borderRadius: "6px",
+              border: "1px solid #E8E4DB",
+              backgroundColor: "#F4F2ED",
+              padding: "0.5rem",
               fontSize: "0.75rem",
-              color: "#fcd34d",
+              color: "#1C1A17",
             }}
           >
-            🛠️ Local Dev Mock OTP: <strong>{devMockHint}</strong>
+            Local Dev Mock OTP: <strong>{devMockHint}</strong>
           </div>
         )}
       </div>
 
       <form
         onSubmit={handleSubmit}
-        style={{ marginTop: "1.75rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}
+        style={{ marginTop: "1.5rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}
       >
         <div>
           <label
@@ -179,13 +178,11 @@ function VerifyOtpForm() {
               textAlign: "center",
               fontSize: "0.75rem",
               fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              color: "#807f78",
-              marginBottom: "0.5rem",
+              color: "#1C1A17",
+              marginBottom: "0.375rem",
             }}
           >
-            Verification Code
+            Verification code
           </label>
           <input
             id="otp"
@@ -198,12 +195,12 @@ function VerifyOtpForm() {
             onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
             className="pmu-input"
             style={{
-              paddingTop: "0.875rem",
-              paddingBottom: "0.875rem",
+              paddingTop: "0.75rem",
+              paddingBottom: "0.75rem",
               textAlign: "center",
               fontFamily: "monospace",
               fontSize: "1.5rem",
-              letterSpacing: "0.4em",
+              letterSpacing: "0.3em",
             }}
             autoFocus
             required
@@ -213,12 +210,12 @@ function VerifyOtpForm() {
         {error && (
           <div
             style={{
-              borderRadius: "0.375rem",
-              border: "1px solid rgba(239,68,68,0.35)",
-              backgroundColor: "rgba(70,8,9,0.3)",
+              borderRadius: "6px",
+              border: "1px solid #E8E4DB",
+              backgroundColor: "#F6E7E3",
               padding: "0.75rem",
               fontSize: "0.75rem",
-              color: "#f87171",
+              color: "#C2331B",
             }}
           >
             {error}
@@ -228,12 +225,12 @@ function VerifyOtpForm() {
         {success && (
           <div
             style={{
-              borderRadius: "0.375rem",
-              border: "1px solid rgba(16,185,129,0.35)",
-              backgroundColor: "rgba(0,44,34,0.3)",
+              borderRadius: "6px",
+              border: "1px solid #E8E4DB",
+              backgroundColor: "#F4F2ED",
               padding: "0.75rem",
               fontSize: "0.75rem",
-              color: "#34d399",
+              color: "#1F7A4D",
             }}
           >
             {success}
@@ -244,9 +241,9 @@ function VerifyOtpForm() {
           type="submit"
           disabled={loading || code.length !== 6}
           className="pmu-btn-primary"
-          style={{ width: "100%" }}
+          style={{ width: "100%", justifyContent: "center" }}
         >
-          {loading ? "Verifying Code…" : "Verify & Continue"}
+          {loading ? "Verifying code…" : "Verify & continue"}
         </button>
       </form>
 
@@ -254,13 +251,13 @@ function VerifyOtpForm() {
         style={{
           marginTop: "1.5rem",
           paddingTop: "1rem",
-          borderTop: "1px solid rgba(243,241,234,0.1)",
+          borderTop: "1px solid #E8E4DB",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "0.75rem",
+          gap: "0.5rem",
           fontSize: "0.75rem",
-          color: "#807f78",
+          color: "#6F6B62",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
@@ -272,13 +269,15 @@ function VerifyOtpForm() {
               type="button"
               onClick={handleResend}
               disabled={resending}
-              style={{ fontWeight: 600, color: "#ff3b1d" }}
+              style={{ fontWeight: 600, color: "#C2331B", background: "none", border: "none", cursor: "pointer" }}
             >
               {resending ? "Sending…" : "Resend Code"}
             </button>
           )}
         </div>
-        <Link href="/prepmeup/login">Change email or mobile</Link>
+        <Link href="/prepmeup/login" style={{ color: "#6F6B62", textDecoration: "none" }}>
+          Change email or mobile
+        </Link>
       </div>
     </div>
   );
@@ -287,7 +286,7 @@ function VerifyOtpForm() {
 export default function VerifyOtpPage() {
   return (
     <div className="pmu-auth-shell">
-      <Suspense fallback={<div style={{ fontSize: "0.75rem", color: "#807f78" }}>Loading verification…</div>}>
+      <Suspense fallback={<div style={{ fontSize: "0.75rem", color: "#6F6B62" }}>Loading verification…</div>}>
         <VerifyOtpForm />
       </Suspense>
     </div>

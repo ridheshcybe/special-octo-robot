@@ -3,6 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTrackBySlug, getCoursesByTrack, getInstructorBySlug } from "../../_lib/trackStore";
 import { PageHeader, EmptyState } from "../../_components/ui";
+import { PrepMeUpNav } from "../../_components/PrepMeUpNav";
+import { PrepMeUpFooter } from "../../_components/PrepMeUpFooter";
+import { OwnerReviewBanner } from "../../_components/OwnerReviewBanner";
+
+// TODO(owner): Release Blocker 2 — ₹999 Quantum/Cyber passes and the ₹1,499 All-Access Pass sell tracks marked "under construction".
+// TODO(owner): Release Blocker 3 — Mentorship packs name "Dr. Aravind Vaidya, PhD" and "Senior SOC Security Leads" - unverified people.
 
 interface Props {
   params: Promise<{ trackSlug: string }>;
@@ -26,14 +32,24 @@ export default async function TrackDetailPage({ params }: Props) {
     const title =
       trackSlug === "cloud-computing-aws" ? "Cloud Computing (AWS)" : "CyberSecurity";
     return (
-      <main className="pmu-container" style={{ paddingTop: "40px", paddingBottom: "80px", display: "flex", flexDirection: "column", gap: "24px" }}>
-        <PageHeader title={title} subtitle="Under construction — coming soon." />
-        <EmptyState
-          title="Coming Soon"
-          description={`${title} is currently under construction. Check back soon or explore your active Semester 1 courses.`}
-          action={{ label: "Back to Tracks", href: "/prepmeup/tracks" }}
+      <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        <PrepMeUpNav />
+        <OwnerReviewBanner
+          id="blocker-2"
+          blockerNumber={2}
+          summary="Track Marked Under Construction"
+          detail={`${title} is flagged as under construction, but commercial passes exist in pricing.`}
         />
-      </main>
+        <main className="pmu-container" style={{ paddingTop: "40px", paddingBottom: "80px", display: "flex", flexDirection: "column", gap: "24px", flex: 1 }}>
+          <PageHeader title={title} subtitle="Under construction — coming soon." />
+          <EmptyState
+            title="Coming Soon"
+            description={`${title} is currently under construction. Check back soon or explore your active Semester 1 courses.`}
+            action={{ label: "Back to Tracks", href: "/prepmeup/tracks" }}
+          />
+        </main>
+        <PrepMeUpFooter />
+      </div>
     );
   }
 
@@ -41,222 +57,225 @@ export default async function TrackDetailPage({ params }: Props) {
     notFound();
   }
 
-  // If user requested the B.Tech track, redirect or link directly to the subjects
-  const isBtech = track.slug === "btech-cse-aiml";
   const courses = getCoursesByTrack(track.slug);
   const instructor = getInstructorBySlug("dr-aravind-vaidya");
 
   return (
-    <div className="pmu-root" style={{ minHeight: "100vh", padding: "40px 20px" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        {/* Navigation Breadcrumb */}
-        <div style={{ marginBottom: "28px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "#807f78", fontFamily: "monospace", marginBottom: "8px" }}>
-            <Link href="/prepmeup" style={{ color: "#807f78", textDecoration: "none" }}>PrepMeUp</Link>
-            <span>/</span>
-            <Link href="/prepmeup/tracks" style={{ color: "#807f78", textDecoration: "none" }}>Tracks</Link>
-            <span>/</span>
-            <span style={{ color: "#f3f1ea" }}>{track.title}</span>
-          </div>
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <PrepMeUpNav />
 
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: "16px" }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <span className="pmu-badge" style={{ backgroundColor: "rgba(255, 59, 29, 0.15)", color: "#ff6a3d" }}>
-                  {track.badge || "Live Track"}
-                </span>
-                <span className="font-mono" style={{ fontSize: "12px", color: "#00e676" }}>
-                  Phase Q1 Foundation
-                </span>
+      {/* Owner Review Banners for unresolved release blockers */}
+      <OwnerReviewBanner
+        id="blocker-2"
+        blockerNumber={2}
+        summary="Course Entitlement Status"
+        detail="Track course is offered with checkout access while other tracks in the catalog are flagged as under construction."
+      />
+      <OwnerReviewBanner
+        id="blocker-3"
+        blockerNumber={3}
+        summary="Instructor Persona Verification"
+        detail="Lead academic instructor is listed as 'Dr. Aravind Vaidya, PhD'. Verify academic affiliation and credentials."
+      />
+
+      <main
+        style={{
+          minHeight: "100vh",
+          backgroundColor: "#FAF9F6",
+          color: "#1C1A17",
+          padding: "40px 20px 80px",
+          fontFamily: "var(--font-onest), sans-serif",
+          flex: 1,
+        }}
+      >
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          {/* Navigation Breadcrumb */}
+          <div style={{ marginBottom: "24px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "#6F6B62", marginBottom: "8px" }}>
+              <Link href="/prepmeup" style={{ color: "#6F6B62", textDecoration: "none" }}>PrepMeUp</Link>
+              <span>/</span>
+              <Link href="/prepmeup/tracks" style={{ color: "#6F6B62", textDecoration: "none" }}>Tracks</Link>
+              <span>/</span>
+              <span style={{ color: "#C2331B", fontWeight: 600 }}>{track.title}</span>
+            </div>
+
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: "16px" }}>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <span className="pmu-badge">
+                    {track.badge || "Academic track"}
+                  </span>
+                </div>
+                <h1 style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 700, color: "#1C1A17", marginTop: "8px", letterSpacing: "-0.02em" }}>
+                  {track.title} track
+                </h1>
+                <p style={{ fontSize: "15px", color: "#6F6B62", maxWidth: "700px", marginTop: "6px", lineHeight: 1.6 }}>
+                  {track.description}
+                </p>
               </div>
-              <h1 className="font-display" style={{ fontSize: "clamp(32px, 5vw, 48px)", color: "#f3f1ea", textTransform: "uppercase", marginTop: "8px" }}>
-                {track.title} Track
-              </h1>
-              <p style={{ fontSize: "16px", color: "#807f78", maxWidth: "720px", marginTop: "6px" }}>
-                {track.description}
-              </p>
-            </div>
 
-            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-              {track.slug === "cybersecurity" ? (
-                <>
-                  <Link
-                    href="/prepmeup/cybersecurity/labs"
-                    className="pmu-btn-secondary"
-                    style={{ padding: "12px 20px", fontSize: "13px" }}
-                  >
-                    🛡️ Browser Labs &amp; CTF →
-                  </Link>
-                  <Link
-                    href="/prepmeup/cybersecurity/labs/http-header-and-cookie-security-analyzer"
-                    className="pmu-btn-primary"
-                    style={{ padding: "12px 24px", fontSize: "13px" }}
-                  >
-                    Launch Free Lab 1 →
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/prepmeup/simulations/quantum"
-                    className="pmu-btn-secondary"
-                    style={{ padding: "12px 20px", fontSize: "13px" }}
-                  >
-                    🔬 Quantum Simulators →
-                  </Link>
-                  <Link
-                    href="/prepmeup/courses/quantum-computing-foundations/learn"
-                    className="pmu-btn-primary"
-                    style={{ padding: "12px 24px", fontSize: "13px" }}
-                  >
-                    Start Free Preview →
-                  </Link>
-                </>
-              )}
+              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                <Link
+                  href="/prepmeup/simulations/quantum"
+                  className="pmu-btn-secondary"
+                  style={{ padding: "10px 18px", fontSize: "13px" }}
+                >
+                  Quantum simulators
+                </Link>
+                <Link
+                  href="/prepmeup/courses/quantum-computing-foundations/learn"
+                  className="pmu-btn-primary"
+                  style={{ padding: "10px 20px", fontSize: "13px" }}
+                >
+                  Start preview
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Featured Course Card */}
-        {courses.length > 0 && (
-          <div style={{ marginTop: "32px" }}>
-            <h2 className="font-mono" style={{ fontSize: "13px", color: "#ff6a3d", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "14px" }}>
-              Track Curriculum & Primary Course
-            </h2>
+          {/* Featured Course Card */}
+          {courses.length > 0 && (
+            <div style={{ marginTop: "28px" }}>
+              <h2 style={{ fontSize: "12px", color: "#6F6B62", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600, marginBottom: "12px" }}>
+                Track curriculum &amp; primary course
+              </h2>
 
-            {courses.map((course) => (
-              <div
-                key={course.slug}
-                className="pmu-card"
-                style={{ padding: "36px", border: "1px solid rgba(255, 59, 29, 0.3)" }}
-              >
-                <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", gap: "20px" }}>
-                  <div style={{ maxWidth: "780px" }}>
-                    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "10px" }}>
-                      <span className="pmu-badge">Course 01</span>
-                      <span className="font-mono" style={{ fontSize: "12px", color: "#00e676" }}>
-                        Format: {course.format.toUpperCase()} (Recorded + 1:1 Live Mentorship)
-                      </span>
-                      <span className="font-mono" style={{ fontSize: "12px", color: "#807f78" }}>
-                        Level: {course.level}
-                      </span>
-                    </div>
-
-                    <h3 className="font-display" style={{ fontSize: "32px", color: "#f3f1ea", textTransform: "uppercase", marginTop: "12px" }}>
-                      {course.title}
-                    </h3>
-                    <p className="font-mono" style={{ fontSize: "15px", color: "#ff6a3d", marginTop: "4px" }}>
-                      {course.subtitle}
-                    </p>
-                    <p style={{ fontSize: "15px", lineHeight: "1.65", color: "#807f78", marginTop: "12px" }}>
-                      {course.description}
-                    </p>
-
-                    {/* Highlights Grid */}
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "14px", marginTop: "20px" }}>
-                      <div style={{ padding: "12px", backgroundColor: "#08080a", borderRadius: "8px", border: "1px solid rgba(243, 241, 234, 0.08)" }}>
-                        <div className="font-mono" style={{ fontSize: "11px", color: "#807f78" }}>Modules & Lessons</div>
-                        <div className="font-display" style={{ fontSize: "20px", color: "#f3f1ea", marginTop: "2px" }}>
-                          5 Modules • 20 Lessons
-                        </div>
-                      </div>
-
-                      <div style={{ padding: "12px", backgroundColor: "#08080a", borderRadius: "8px", border: "1px solid rgba(243, 241, 234, 0.08)" }}>
-                        <div className="font-mono" style={{ fontSize: "11px", color: "#807f78" }}>Interactive Simulators</div>
-                        <div className="font-display" style={{ fontSize: "20px", color: "#00e676", marginTop: "2px" }}>
-                          5 Live Engines
-                        </div>
-                      </div>
-
-                      <div style={{ padding: "12px", backgroundColor: "#08080a", borderRadius: "8px", border: "1px solid rgba(243, 241, 234, 0.08)" }}>
-                        <div className="font-mono" style={{ fontSize: "11px", color: "#807f78" }}>Mentorship & Assessment</div>
-                        <div className="font-display" style={{ fontSize: "20px", color: "#ff6a3d", marginTop: "2px" }}>
-                          1:1 VIP Sessions
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Tools & Frameworks */}
-                    <div style={{ marginTop: "20px", display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-                      <span className="font-mono" style={{ fontSize: "12px", color: "#807f78" }}>Tools Mastered:</span>
-                      {course.tools.map((t) => (
-                        <span key={t} className="pmu-badge" style={{ backgroundColor: "#17171b", color: "#f3f1ea", fontSize: "11px" }}>
-                          {t}
+              {courses.map((course) => (
+                <div
+                  key={course.slug}
+                  className="pmu-card"
+                  style={{ padding: "28px", border: "1px solid #E8E4DB", backgroundColor: "#FFFFFF" }}
+                >
+                  <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", gap: "20px" }}>
+                    <div style={{ maxWidth: "720px" }}>
+                      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px" }}>
+                        <span className="pmu-badge">Course 01</span>
+                        <span style={{ fontSize: "12px", color: "#6F6B62" }}>
+                          Format: Recorded + 1:1 mentorship
                         </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Actions Column */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: "12px", minWidth: "240px" }}>
-                    <div style={{ padding: "20px", backgroundColor: "#17171b", borderRadius: "10px", border: "1px solid rgba(243, 241, 234, 0.1)", textAlign: "center" }}>
-                      <span className="font-mono" style={{ fontSize: "11px", color: "#807f78", textTransform: "uppercase" }}>
-                        Course Pricing
-                      </span>
-                      <div className="font-display" style={{ fontSize: "36px", color: "#f3f1ea", marginTop: "4px" }}>
-                        ₹{course.priceInr}
+                        <span style={{ fontSize: "12px", color: "#6F6B62" }}>
+                          Level: {course.level}
+                        </span>
                       </div>
-                      <span className="font-mono" style={{ fontSize: "11px", color: "#00e676" }}>
-                        Included in Tier 3 VIP
-                      </span>
+
+                      <h3 style={{ fontSize: "24px", fontWeight: 700, color: "#1C1A17", marginTop: "10px" }}>
+                        {course.title}
+                      </h3>
+                      <p style={{ fontSize: "14px", color: "#C2331B", fontWeight: 500, marginTop: "2px" }}>
+                        {course.subtitle}
+                      </p>
+                      <p style={{ fontSize: "14px", lineHeight: "1.6", color: "#6F6B62", marginTop: "8px" }}>
+                        {course.description}
+                      </p>
+
+                      {/* Highlights Grid */}
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "12px", marginTop: "16px" }}>
+                        <div style={{ padding: "12px", backgroundColor: "#F4F2ED", borderRadius: "8px", border: "1px solid #E8E4DB" }}>
+                          <div style={{ fontSize: "11px", color: "#6F6B62" }}>Modules &amp; lessons</div>
+                          <div style={{ fontSize: "16px", fontWeight: 700, color: "#1C1A17", marginTop: "2px" }}>
+                            5 modules • 20 lessons
+                          </div>
+                        </div>
+
+                        <div style={{ padding: "12px", backgroundColor: "#F4F2ED", borderRadius: "8px", border: "1px solid #E8E4DB" }}>
+                          <div style={{ fontSize: "11px", color: "#6F6B62" }}>Interactive simulators</div>
+                          <div style={{ fontSize: "16px", fontWeight: 700, color: "#1C1A17", marginTop: "2px" }}>
+                            5 visual models
+                          </div>
+                        </div>
+
+                        <div style={{ padding: "12px", backgroundColor: "#F4F2ED", borderRadius: "8px", border: "1px solid #E8E4DB" }}>
+                          <div style={{ fontSize: "11px", color: "#6F6B62" }}>Mentorship &amp; review</div>
+                          <div style={{ fontSize: "16px", fontWeight: 700, color: "#1C1A17", marginTop: "2px" }}>
+                            1:1 live sessions
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Tools & Frameworks */}
+                      <div style={{ marginTop: "16px", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                        <span style={{ fontSize: "12px", color: "#6F6B62" }}>Tools covered:</span>
+                        {course.tools.map((t) => (
+                          <span key={t} className="pmu-badge" style={{ backgroundColor: "#F4F2ED", color: "#1C1A17", fontSize: "11px" }}>
+                            {t}
+                          </span>
+                        ))}
+                      </div>
                     </div>
 
-                    <Link
-                      href={`/prepmeup/courses/${course.slug}/learn`}
-                      className="pmu-btn-primary"
-                      style={{ padding: "14px", textAlign: "center", textDecoration: "none" }}
-                    >
-                      Start Free Preview →
-                    </Link>
-                    <Link
-                      href={`/prepmeup/courses/${course.slug}`}
-                      className="pmu-btn-secondary"
-                      style={{ padding: "12px", textAlign: "center", textDecoration: "none" }}
-                    >
-                      View Syllabus & Specs
-                    </Link>
+                    {/* Actions Column */}
+                    <div style={{ display: "flex", flexDirection: "column", gap: "10px", minWidth: "220px" }}>
+                      <div style={{ padding: "16px", backgroundColor: "#F4F2ED", borderRadius: "8px", border: "1px solid #E8E4DB", textAlign: "center" }}>
+                        <span style={{ fontSize: "11px", color: "#6F6B62", textTransform: "uppercase" }}>
+                          Course pass
+                        </span>
+                        <div style={{ fontSize: "28px", fontWeight: 700, color: "#1C1A17", marginTop: "2px" }}>
+                          ₹{course.priceInr}
+                        </div>
+                        <span style={{ fontSize: "11px", color: "#6F6B62" }}>
+                          Included in All-Access
+                        </span>
+                      </div>
+
+                      <Link
+                        href={`/prepmeup/courses/${course.slug}/learn`}
+                        className="pmu-btn-primary"
+                        style={{ padding: "10px", textAlign: "center", textDecoration: "none", justifyContent: "center" }}
+                      >
+                        Start preview
+                      </Link>
+                      <Link
+                        href={`/prepmeup/courses/${course.slug}`}
+                        className="pmu-btn-secondary"
+                        style={{ padding: "10px", textAlign: "center", textDecoration: "none", justifyContent: "center" }}
+                      >
+                        View syllabus
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Instructor Preview Section */}
-        {instructor && (
-          <div style={{ marginTop: "36px" }}>
-            <h2 className="font-mono" style={{ fontSize: "13px", color: "#ff6a3d", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "14px" }}>
-              Lead Academic Instructor
-            </h2>
-            <div className="pmu-card" style={{ padding: "30px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "20px" }}>
-              <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-                <div style={{ width: "80px", height: "80px", borderRadius: "50%", overflow: "hidden", border: "2px solid #ff3b1d", flexShrink: 0 }}>
-                  <img src={instructor.avatarUrl} alt={instructor.fullName} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                </div>
-                <div>
-                  <h3 className="font-display" style={{ fontSize: "24px", color: "#f3f1ea", textTransform: "uppercase" }}>
-                    {instructor.fullName}
-                  </h3>
-                  <p style={{ fontSize: "13px", color: "#ff6a3d", marginTop: "2px" }}>
-                    {instructor.title}
-                  </p>
-                  <p style={{ fontSize: "13px", color: "#807f78", marginTop: "6px", maxWidth: "600px" }}>
-                    {instructor.bio}
-                  </p>
-                </div>
-              </div>
-
-              <Link
-                href={`/prepmeup/instructors/${instructor.slug}`}
-                className="pmu-btn-secondary"
-                style={{ padding: "10px 18px", fontSize: "13px" }}
-              >
-                Instructor Bio & Credentials →
-              </Link>
+              ))}
             </div>
-          </div>
-        )}
-      </div>
+          )}
+
+          {/* Instructor Preview Section */}
+          {instructor && (
+            <div style={{ marginTop: "32px" }}>
+              <h2 style={{ fontSize: "12px", color: "#6F6B62", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600, marginBottom: "12px" }}>
+                Lead academic instructor
+              </h2>
+              <div className="pmu-card" style={{ padding: "24px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "16px", backgroundColor: "#FFFFFF" }}>
+                <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+                  <div style={{ width: "64px", height: "64px", borderRadius: "50%", overflow: "hidden", border: "1.5px solid #E8E4DB", flexShrink: 0 }}>
+                    <img src={instructor.avatarUrl} alt={instructor.fullName} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: "18px", fontWeight: 700, color: "#1C1A17" }}>
+                      {instructor.fullName}
+                    </h3>
+                    <p style={{ fontSize: "13px", color: "#C2331B", marginTop: "1px" }}>
+                      {instructor.title}
+                    </p>
+                    <p style={{ fontSize: "13px", color: "#6F6B62", marginTop: "4px", maxWidth: "560px" }}>
+                      {instructor.bio}
+                    </p>
+                  </div>
+                </div>
+
+                <Link
+                  href={`/prepmeup/instructors/${instructor.slug}`}
+                  className="pmu-btn-secondary"
+                  style={{ padding: "8px 16px", fontSize: "13px" }}
+                >
+                  Instructor bio →
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+
+      <PrepMeUpFooter />
     </div>
   );
 }

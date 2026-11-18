@@ -87,7 +87,7 @@ function LoginForm() {
   if (checkingAuth) {
     return (
       <div className="pmu-auth-card" style={{ textAlign: "center", padding: "2.5rem 1.5rem" }}>
-        <p style={{ fontSize: "0.8125rem", color: "#807f78" }}>Checking student session…</p>
+        <p style={{ fontSize: "0.8125rem", color: "#6F6B62" }}>Checking student session…</p>
       </div>
     );
   }
@@ -98,29 +98,28 @@ function LoginForm() {
         <Link href="/prepmeup" className="pmu-brand-logo">
           <span className="pmu-brand-mark">P</span>
           <span className="pmu-brand-title">
-            PREPMEUP <span style={{ color: "#ff3b1d" }}>AI</span>
+            PrepMeUp <span>AI</span>
           </span>
         </Link>
         <h1
           style={{
             marginTop: "1rem",
-            fontFamily: 'var(--font-anton), "Anton", sans-serif',
-            fontSize: "1.625rem",
-            textTransform: "uppercase",
-            letterSpacing: "0.04em",
-            color: "#f3f1ea",
+            fontSize: "1.375rem",
+            fontWeight: 700,
+            color: "#1C1A17",
+            letterSpacing: "-0.015em",
           }}
         >
-          Student Log In
+          Student sign-in
         </h1>
-        <p style={{ marginTop: "0.5rem", fontSize: "0.8125rem", color: "#807f78" }}>
-          Enter your student email (or mobile number) to receive a 6-digit access code.
+        <p style={{ marginTop: "0.375rem", fontSize: "0.8125rem", color: "#6F6B62" }}>
+          Enter your student email or mobile number to receive a 6-digit access code.
         </p>
       </div>
 
       <form
         onSubmit={handleSubmit}
-        style={{ marginTop: "1.75rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}
+        style={{ marginTop: "1.5rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}
       >
         <input
           type="text"
@@ -139,18 +138,16 @@ function LoginForm() {
               display: "block",
               fontSize: "0.75rem",
               fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              color: "#807f78",
-              marginBottom: "0.5rem",
+              color: "#1C1A17",
+              marginBottom: "0.375rem",
             }}
           >
-            Student Email or Mobile Number
+            Student email or mobile number
           </label>
           <input
             id="identifier"
             type="text"
-            placeholder="student@dypiu.ac.in or 9876543210"
+            placeholder="student@example.ac.in or 9876543210"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
             className="pmu-input"
@@ -159,28 +156,28 @@ function LoginForm() {
             autoFocus
             required
           />
-          <p style={{ marginTop: "0.375rem", fontSize: "0.6875rem", color: "#807f78" }}>
-            We'll send a 6-digit verification code directly to your inbox.
+          <p style={{ marginTop: "0.375rem", fontSize: "0.6875rem", color: "#6F6B62" }}>
+            We will send a 6-digit verification code directly to your email or phone.
           </p>
         </div>
 
         {error && (
           <div
             style={{
-              borderRadius: "0.375rem",
-              border: "1px solid rgba(239,68,68,0.35)",
-              backgroundColor: "rgba(70,8,9,0.3)",
+              borderRadius: "6px",
+              border: "1px solid #E8E4DB",
+              backgroundColor: "#F6E7E3",
               padding: "0.75rem",
               fontSize: "0.75rem",
-              color: "#f87171",
+              color: "#C2331B",
             }}
           >
             {error}
           </div>
         )}
 
-        <button type="submit" disabled={loading} className="pmu-btn-primary" style={{ width: "100%" }}>
-          {loading ? "Sending Verification Code…" : "Send Verification Code"}
+        <button type="submit" disabled={loading} className="pmu-btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+          {loading ? "Sending verification code…" : "Send verification code"}
         </button>
       </form>
 
@@ -188,18 +185,20 @@ function LoginForm() {
         style={{
           marginTop: "1.5rem",
           paddingTop: "1rem",
-          borderTop: "1px solid rgba(243,241,234,0.1)",
+          borderTop: "1px solid #E8E4DB",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           fontSize: "0.75rem",
-          color: "#807f78",
+          color: "#6F6B62",
         }}
       >
-        <Link href={`/prepmeup/signup?redirectTo=${encodeURIComponent(redirectTo)}`}>
-          New student? <span style={{ color: "#ff3b1d", fontWeight: 600 }}>Sign up</span>
+        <Link href={`/prepmeup/signup?redirectTo=${encodeURIComponent(redirectTo)}`} style={{ color: "#6F6B62", textDecoration: "none" }}>
+          New student? <span style={{ color: "#C2331B", fontWeight: 600 }}>Sign up</span>
         </Link>
-        <Link href="/prepmeup/admin/login">Admin portal ↗</Link>
+        <Link href="/prepmeup/admin/login" style={{ color: "#6F6B62", textDecoration: "none" }}>
+          Admin portal ↗
+        </Link>
       </div>
     </div>
   );
@@ -208,7 +207,7 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <div className="pmu-auth-shell">
-      <Suspense fallback={<div style={{ fontSize: "0.75rem", color: "#807f78" }}>Loading authentication…</div>}>
+      <Suspense fallback={<div style={{ fontSize: "0.75rem", color: "#6F6B62" }}>Loading authentication…</div>}>
         <LoginForm />
       </Suspense>
     </div>

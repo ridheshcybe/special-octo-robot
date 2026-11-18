@@ -2,8 +2,11 @@ import Link from "next/link";
 import { PrepMeUpNav } from "../_components/PrepMeUpNav";
 import { PrepMeUpFooter } from "../_components/PrepMeUpFooter";
 import { CalendarBookingScheduler } from "../_components/CalendarBookingScheduler";
-import { VideoSessionBookingForm } from "../_components/VideoSessionBookingForm";
 import { PrepMeUpHero3D } from "../_components/PrepMeUpHero3D";
+import { OwnerReviewBanner } from "../_components/OwnerReviewBanner";
+
+// TODO(owner): Release Blocker 1 — Hero "Semester 1 free for everyone" contradicts the ₹99 B.Tech pass on pricing and the ₹199 / ₹499 tiers in the landing stat strip.
+// TODO(owner): Release Blocker 4 — "Solved University Past Exam Papers" and "6 Past Paper Archives" claims vs the FAQ saying paper sources are unavailable.
 
 function SectionEyebrow({ children, centered = false }: { children: string; centered?: boolean }) {
   return (
@@ -22,138 +25,131 @@ export default function PrepMeUpLandingPage() {
       name: "Applied Computational Mathematics",
       slug: "applied-computational-mathematics",
       code: "CSE1001",
-      desc: "Linear Algebra, Rank & Echelon forms, Multivariable Calculus, Ordinary Differential Equations, and Vector Calculus.",
-      modules: "5 Modules • LaTeX Notes",
-      badge: "Semester 1 Core",
+      desc: "Linear algebra, rank and echelon forms, multivariable calculus, ordinary differential equations, and vector calculus.",
+      modules: "5 modules • LaTeX notes",
+      badge: "Semester 1 core",
     },
     {
       name: "Basic Electrical & Electronics Engg",
       slug: "basic-electrical-and-electronics-engineering",
       code: "CSE1002",
-      desc: "DC/AC theorems, PN junction diodes, rectifiers, BJT & MOSFET switches/amplifiers, and Op-Amps.",
-      modules: "5 Modules + Lab Manual",
-      badge: "Hardware Labs",
+      desc: "DC/AC theorems, PN junction diodes, rectifiers, BJT & MOSFET switches/amplifiers, and op-amps.",
+      modules: "5 modules • Lab manual",
+      badge: "Hardware labs",
     },
     {
       name: "Computer Organization & Architecture",
       slug: "computer-organization-and-architecture",
       code: "CSE1003",
-      desc: "Von Neumann vs Harvard, 8 Great Ideas, Booth multiplication, instruction pipelining, and cache hierarchy.",
-      modules: "5 Modules + Assignments",
-      badge: "Core Architecture",
+      desc: "Von Neumann vs Harvard, 8 great ideas, Booth multiplication, instruction pipelining, and cache hierarchy.",
+      modules: "5 modules • Assignments",
+      badge: "Core architecture",
     },
     {
       name: "Fundamentals of Web Technologies",
       slug: "fundamentals-of-web-technologies",
       code: "CSE1004",
       desc: "Internet protocols, HTTP/HTTPS, semantic HTML5, modern CSS3 flexbox/grid, JavaScript DOM, and full-stack deployment.",
-      modules: "5 Modules + Practicals",
-      badge: "Full-Stack Labs",
+      modules: "5 modules • Practicals",
+      badge: "Full-stack labs",
     },
     {
       name: "Python Programming",
       slug: "python-programming",
       code: "CSE1005",
       desc: "Dynamic typing, control flow, functions, dictionaries, regex, OOP design, and scientific computing (NumPy & Pandas).",
-      modules: "5 Modules + Exercises",
-      badge: "Coding Lab",
+      modules: "5 modules • Exercises",
+      badge: "Coding lab",
     },
     {
       name: "Indian Science, Engg & Technology",
       slug: "indian-science-engineering-and-technology",
       code: "CSE1006",
       desc: "Ancient Indian mathematics, Sulba Sutras geometry, Panini formal linguistics, metallurgy (Wootz steel), and water harvesting.",
-      modules: "5 Modules • IKS Foundations",
-      badge: "Knowledge Systems",
+      modules: "5 modules • IKS foundations",
+      badge: "Knowledge systems",
     },
   ];
 
   const features = [
     {
-      title: "LaTeX-Rendered Study Notes",
-      desc: "Handcrafted chapter notes with crisp mathematical derivations, matrices, and syntax-highlighted code.",
-      tag: "Notes & Derivations",
-      icon: "📄",
+      title: "LaTeX-rendered study notes",
+      desc: "Handcrafted chapter notes with mathematical derivations, matrices, and syntax-highlighted code.",
+      tag: "Notes & derivations",
     },
     {
-      title: "1:1 Human + Internship & Career Support",
-      desc: "Exclusive to Tier 2 (₹199): direct 1:1 human mentor sessions, resume/GitHub portfolio reviews, internship referrals, and career roadmap guidance.",
-      tag: "Only in ₹199 Tier 2",
-      icon: "🚀",
+      title: "1:1 human mentorship & career guidance",
+      desc: "Exclusive to Tier 2 (₹199): 1:1 human mentor sessions, resume/GitHub portfolio reviews, and career roadmap guidance.",
+      tag: "Tier 2 pass",
     },
     {
-      title: "Past Papers & PYQ Explorer",
+      title: "Past papers & question explorer",
       desc: "Paper and solution sources are not available yet. Use your institution's original materials until source-backed resources are added.",
-      tag: "Exam Solved",
-      icon: "📚",
+      tag: "Catalog status",
     },
     {
-      title: "Topic-Wise Quiz Arena",
-      desc: "Rapid conceptual MCQs and numericals with instant submission confirmation and full faculty explanations.",
-      tag: "Test Arena",
-      icon: "⚡",
+      title: "Topic-wise quiz arena",
+      desc: "Rapid conceptual MCQs and numericals with instant submission confirmation and explanations.",
+      tag: "Practice arena",
     },
     {
-      title: "24/7 AI Doubt Solver",
-      desc: "Instant breakdown of dense proofs, equations, or code syntax trained specifically on your B.Tech syllabus.",
-      tag: "AI Copilot",
-      icon: "🤖",
+      title: "Syllabus AI assistant",
+      desc: "Clarification of proofs, equations, and code syntax trained specifically on your B.Tech syllabus.",
+      tag: "AI assistant",
     },
     {
-      title: "Python Coding Lab",
-      desc: "Browser-based Python environment with explicit Input/Output examples, unit test grading, and error explanations.",
-      tag: "Interactive Lab",
-      icon: "💻",
+      title: "Python coding lab",
+      desc: "Browser-based Python environment with test cases, execution feedback, and syntax guidance.",
+      tag: "Interactive lab",
     },
     {
-      title: "BEE & Python Simulations",
-      desc: "Visual circuit interactive models and Python call-stack tracers to understand what equations actually do.",
+      title: "BEE & Python simulations",
+      desc: "Interactive circuit models and Python call-stack tracers to inspect computational flow.",
       tag: "Simulations",
-      icon: "🔬",
     },
   ];
 
   const steps = [
     {
       num: "01",
-      title: "Student Email OTP Signup",
+      title: "Email verification sign-in",
       desc: "One-click 6-digit access code sent directly to your student email. Fast, secure, and passwordless.",
     },
     {
       num: "02",
-      title: "Select Semester 1",
+      title: "Select your semester subject",
       desc: "Immediate access to ACM, Python, BEE, and COA arranged cleanly in modular syllabi.",
     },
     {
       num: "03",
-      title: "Learn & Review High-Yield Notes",
-      desc: "Read university-specific LaTeX notes and derivations distilled down to exam-essential concepts.",
+      title: "Review high-yield notes",
+      desc: "Read syllabus-aligned LaTeX notes and derivations distilled down to essential academic concepts.",
     },
     {
       num: "04",
-      title: "Practice with Available Materials",
-      desc: "Practice available quizzes. Source-backed papers and solution keys are not available yet.",
+      title: "Practice available quizzes",
+      desc: "Practice available quizzes. Source-backed university papers and solution keys are not available yet.",
     },
     {
       num: "05",
-      title: "Premium AI + 1:1 Human Support",
-      desc: "Get instant 24/7 AI clarification or upgrade to Tier 2 (₹199) for direct 1:1 human mentor support.",
+      title: "Study assistance & mentorship",
+      desc: "Get instant doubt clarification or opt for direct 1:1 human mentor support via Tier 2 / Tier 3.",
     },
     {
       num: "06",
-      title: "Track Progress & Secure Your 9+ CGPA",
-      desc: "Monitor chapter mastery, calculate internal requirements, and ace your end-sems.",
+      title: "Track semester progress",
+      desc: "Monitor topic mastery, review problem sets, and prepare steadily for semester examinations.",
     },
   ];
 
   const faqs = [
     {
-      q: "How does the 3-Tier Financial Model work?",
-      a: "Tier 1 (₹99) unlocks Basic Access (all six currently listed Semester 1 subjects, LaTeX notes, paper resources, quizzes, and simulations). Tier 2 (₹199) unlocks Premium AI Help + 1 Included 1:1 Human Video Session + Exclusive Internship & Career Support. Tier 3 (₹499) unlocks Unlimited 1:1 Live Video Mentorship Sessions with priority interactive calendar booking, dedicated subject mentors (Maths, BEE, Python, COA), and VIP career coaching.",
+      q: "How does the 3-tier financial model work?",
+      a: "Tier 1 (₹99) provides basic access (all six currently listed Semester 1 subjects, LaTeX notes, paper resources, quizzes, and simulations). Tier 2 (₹199) unlocks premium AI help, 1 included 1:1 human video session, and career roadmap guidance. Tier 3 (₹499) unlocks 1:1 live video mentorship sessions with calendar booking and subject mentors.",
     },
     {
-      q: "Is Internship and Career Support included in all plans?",
-      a: "No — Internship and Career Support (1:1 resume & GitHub portfolio reviews, AI/ML internship referrals, GSoC/hackathon prep, and career roadmap mentorship) is provided ONLY in the Tier 2 (₹199) package.",
+      q: "Is career support included in all plans?",
+      a: "No. Internship and career support (resume and portfolio review) is provided only in the Tier 2 (₹199) package.",
     },
     {
       q: "What subjects are included in Semester 1?",
@@ -165,44 +161,56 @@ export default function PrepMeUpLandingPage() {
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <PrepMeUpNav />
 
+      {/* Owner Review Banners for unresolved release blockers */}
+      <OwnerReviewBanner
+        id="blocker-1"
+        blockerNumber={1}
+        summary="Pricing & Access Model Contradiction"
+        detail="The hero claims 'Semester 1 is 100% free for everyone', but pricing lists ₹99 B.Tech Pass and the metrics strip advertises ₹199 / ₹499 tiers. Clarify whether Tier 1 is permanently free or paid."
+      />
+      <OwnerReviewBanner
+        id="blocker-4"
+        blockerNumber={4}
+        summary="Exam Paper Availability Claims"
+        detail="Landing mentions 'Past Exam Papers' / 'PYQ Explorer' while the FAQ and catalog explicitly state that source-backed paper archives are not available yet."
+      />
+
       {/* 1. HERO SECTION */}
       <section className="pmu-section" style={{ overflow: "hidden", position: "relative" }}>
-        <div className="pmu-glow" style={{ position: "absolute", inset: 0, pointerEvents: "none" }} />
-        <div className="pmu-perspective-grid" aria-hidden="true" />
-        <PrepMeUpHero3D showCanvas />
+        <PrepMeUpHero3D showCanvas={false} />
 
         <div className="pmu-container" style={{ position: "relative", textAlign: "center" }}>
-          <div style={{ maxWidth: "56rem", marginLeft: "auto", marginRight: "auto" }}>
+          <div style={{ maxWidth: "54rem", marginLeft: "auto", marginRight: "auto" }}>
             <div>
               <div className="pmu-pill-accent">
                 <span
                   style={{
-                    width: "0.4375rem",
-                    height: "0.4375rem",
+                    width: "0.375rem",
+                    height: "0.375rem",
                     borderRadius: "9999px",
-                    backgroundColor: "#ff3b1d",
+                    backgroundColor: "#C2331B",
                   }}
                 />
-                <span>B.Tech CSE AI/ML • Semester 1 is Free for Everyone</span>
+                <span>B.Tech CSE AI/ML • Semester 1 curriculum</span>
               </div>
             </div>
 
             <h1 className="pmu-hero-title">
-              PREPMEUP <span style={{ color: "#ff3b1d" }}>AI</span>
+              PrepMeUp <span style={{ color: "#C2331B" }}>AI</span>
             </h1>
 
             <p
               style={{
-                maxWidth: "42rem",
+                maxWidth: "40rem",
                 marginLeft: "auto",
                 marginRight: "auto",
                 marginTop: "1.25rem",
-                fontSize: "1.05rem",
+                fontSize: "1.0625rem",
                 lineHeight: 1.6,
-                color: "#a19f95",
+                color: "#6F6B62",
               }}
             >
-              The academic copilot for engineering students — Semester 1 is 100% free for everyone, with LaTeX-typeset notes across 6 core subjects, interactive browser simulations, and 1:1 faculty mentorship.
+              The academic copilot for engineering students. LaTeX-typeset notes across 6 core subjects, interactive browser simulations, and structured faculty mentorship.
             </p>
 
             <div
@@ -216,45 +224,45 @@ export default function PrepMeUpLandingPage() {
               }}
             >
               <Link href="/prepmeup/subjects" className="pmu-btn-primary">
-                Start Semester 1 (Free) →
+                Explore Semester 1
               </Link>
               <Link href="/prepmeup/tracks" className="pmu-btn-secondary">
-                Explore Learning Tracks →
+                View learning tracks
               </Link>
             </div>
 
-            {/* Quick Metrics Bar */}
+            {/* Metrics Bar */}
             <div className="pmu-metrics-grid">
               <div>
-                <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#4ade80" }}>
-                  FREE
+                <p style={{ fontSize: "2rem", fontWeight: 700, lineHeight: 1, color: "#1C1A17" }}>
+                  6
                 </p>
-                <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#807f78" }}>
-                  Semester 1 for Everyone
-                </p>
-              </div>
-              <div>
-                <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#ff3b1d" }}>
-                  ₹199
-                </p>
-                <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#807f78" }}>
-                  Tier 2: AI + Career + 1 Session
+                <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.04em", color: "#6F6B62" }}>
+                  Core subjects
                 </p>
               </div>
               <div>
-                <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#4ade80" }}>
-                  ₹499
+                <p style={{ fontSize: "2rem", fontWeight: 700, lineHeight: 1, color: "#1C1A17" }}>
+                  30
                 </p>
-                <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#807f78" }}>
-                  Tier 3: Unlimited 1:1 VIP
+                <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.04em", color: "#6F6B62" }}>
+                  Curriculum modules
                 </p>
               </div>
               <div>
-                <p className="font-display" style={{ fontSize: "2.25rem", lineHeight: 1, color: "#f3f1ea" }}>
+                <p style={{ fontSize: "2rem", fontWeight: 700, lineHeight: 1, color: "#1C1A17" }}>
                   93
                 </p>
-                <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#807f78" }}>
-                  Topics Across 30 Modules
+                <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.04em", color: "#6F6B62" }}>
+                  Topic notes
+                </p>
+              </div>
+              <div>
+                <p style={{ fontSize: "2rem", fontWeight: 700, lineHeight: 1, color: "#1C1A17" }}>
+                  17
+                </p>
+                <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.04em", color: "#6F6B62" }}>
+                  Interactive simulations
                 </p>
               </div>
             </div>
@@ -262,23 +270,23 @@ export default function PrepMeUpLandingPage() {
         </div>
       </section>
 
-      {/* CYBERSECURITY & CLOUD COMPUTING UNDER CONSTRUCTION BANNER */}
-      <section style={{ borderBottom: "1px solid rgba(243, 241, 234, 0.1)", backgroundColor: "#0c0c10", padding: "1.75rem 1.5rem" }}>
+      {/* TRACKS UNDER CONSTRUCTION BANNER */}
+      <section style={{ borderBottom: "1px solid #E8E4DB", backgroundColor: "#F4F2ED", padding: "1.5rem" }}>
         <div className="pmu-container">
-          <div className="pmu-card" style={{ padding: "20px 24px", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "16px" }}>
+          <div className="pmu-card" style={{ padding: "1.25rem 1.5rem", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "1rem" }}>
             <div>
-              <span className="pmu-badge" style={{ backgroundColor: "rgba(255, 59, 29, 0.15)", color: "#ff6a3d" }}>
-                Under Construction • Coming Soon
+              <span className="pmu-badge" style={{ backgroundColor: "#F6E7E3", color: "#C2331B", borderColor: "#E8E4DB" }}>
+                Under construction • Coming soon
               </span>
-              <h3 className="font-display" style={{ fontSize: "22px", color: "#f3f1ea", textTransform: "uppercase", marginTop: "8px", marginBottom: "4px" }}>
-                CyberSecurity &amp; Cloud Computing (AWS) Tracks
+              <h3 style={{ fontSize: "1.125rem", fontWeight: 700, color: "#1C1A17", marginTop: "0.5rem", marginBottom: "0.25rem" }}>
+                CyberSecurity &amp; Cloud Computing (AWS) tracks
               </h3>
-              <p style={{ fontSize: "14px", color: "#807f78", margin: 0 }}>
-                Both tracks are currently under construction and coming soon. Semester 1 B.Tech CSE AI/ML is live and 100% free for everyone.
+              <p style={{ fontSize: "0.875rem", color: "#6F6B62", margin: 0 }}>
+                Both tracks are under construction. Semester 1 B.Tech CSE AI/ML is available now.
               </p>
             </div>
             <Link href="/prepmeup/tracks" className="pmu-btn-secondary">
-              View Tracks →
+              View tracks
             </Link>
           </div>
         </div>
@@ -289,36 +297,34 @@ export default function PrepMeUpLandingPage() {
         <div className="pmu-container">
           <div style={{ maxWidth: "42rem" }}>
             <SectionEyebrow>Curriculum</SectionEyebrow>
-            <h2 className="pmu-section-title">Semester 1 Subjects</h2>
+            <h2 className="pmu-section-title">Semester 1 subjects</h2>
             <p className="pmu-section-lead">
-              Comprehensive coverage designed specifically around university syllabus patterns, LaTeX mathematical derivations, and practical labs.
+              Coursework aligned with engineering syllabus patterns, LaTeX mathematical derivations, and practical lab assignments.
             </p>
           </div>
 
-          <div className="pmu-grid-3" style={{ marginTop: "3rem" }}>
+          <div className="pmu-grid-3" style={{ marginTop: "2.5rem" }}>
             {subjects.map((sub) => (
               <div key={sub.code} className="pmu-card">
                 <div>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.5rem" }}>
-                    <span className="font-mono" style={{ fontSize: "0.75rem", fontWeight: 600, color: "#807f78" }}>
+                    <span className="font-mono" style={{ fontSize: "0.75rem", fontWeight: 600, color: "#6F6B62" }}>
                       {sub.code}
                     </span>
                     <span className="pmu-badge">{sub.badge}</span>
                   </div>
                   <h3
-                    className="font-display"
                     style={{
-                      marginTop: "1rem",
-                      fontSize: "1.25rem",
-                      lineHeight: 1.2,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.03em",
-                      color: "#f3f1ea",
+                      marginTop: "0.875rem",
+                      fontSize: "1.125rem",
+                      fontWeight: 700,
+                      lineHeight: 1.3,
+                      color: "#1C1A17",
                     }}
                   >
                     {sub.name}
                   </h3>
-                  <p style={{ marginTop: "0.75rem", fontSize: "0.8125rem", lineHeight: 1.6, color: "#807f78" }}>
+                  <p style={{ marginTop: "0.5rem", fontSize: "0.8125rem", lineHeight: 1.55, color: "#6F6B62" }}>
                     {sub.desc}
                   </p>
                 </div>
@@ -327,18 +333,18 @@ export default function PrepMeUpLandingPage() {
                   style={{
                     marginTop: "1.5rem",
                     paddingTop: "1rem",
-                    borderTop: "1px solid rgba(243,241,234,0.1)",
+                    borderTop: "1px solid #E8E4DB",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
                   }}
                 >
-                  <span style={{ fontSize: "0.75rem", color: "#807f78" }}>{sub.modules}</span>
+                  <span style={{ fontSize: "0.75rem", color: "#6F6B62" }}>{sub.modules}</span>
                   <Link
                     href={`/prepmeup/subjects/${sub.slug}`}
-                    style={{ fontSize: "0.75rem", fontWeight: 700, color: "#ff3b1d", textDecoration: "none" }}
+                    style={{ fontSize: "0.8125rem", fontWeight: 600, color: "#C2331B", textDecoration: "none" }}
                   >
-                    Open Notes →
+                    Open notes →
                   </Link>
                 </div>
               </div>
@@ -351,45 +357,40 @@ export default function PrepMeUpLandingPage() {
       <section id="features" className="pmu-section">
         <div className="pmu-container">
           <div style={{ textAlign: "center", maxWidth: "42rem", marginLeft: "auto", marginRight: "auto" }}>
-            <SectionEyebrow centered>Everything You Need</SectionEyebrow>
-            <h2 className="pmu-section-title">Engineered For Engineering Top Grades</h2>
+            <SectionEyebrow centered>Curriculum tools</SectionEyebrow>
+            <h2 className="pmu-section-title">Built for engineering coursework</h2>
             <p className="pmu-section-lead">
-              No fluff, no 40-hour repetitive generic bootcamps. Just pure exam-focused preparation with AI tools and 1-on-1 live mentorship.
+              Targeted study tools focused on academic concepts, laboratory simulators, and structured doubt clearing.
             </p>
           </div>
 
-          <div className="pmu-grid-4" style={{ marginTop: "3rem" }}>
+          <div className="pmu-grid-4" style={{ marginTop: "2.5rem" }}>
             {features.map((feat) => (
               <div key={feat.title} className="pmu-card">
                 <div>
-                  <div style={{ fontSize: "1.75rem", marginBottom: "0.875rem", lineHeight: 1 }}>
-                    {feat.icon}
-                  </div>
                   <span
                     style={{
                       fontSize: "0.6875rem",
-                      fontWeight: 700,
+                      fontWeight: 600,
+                      letterSpacing: "0.06em",
+                      color: "#C2331B",
                       textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                      color: "#ff3b1d",
                     }}
                   >
                     {feat.tag}
                   </span>
                   <h3
-                    className="font-display"
                     style={{
-                      marginTop: "0.375rem",
-                      fontSize: "1.1875rem",
-                      lineHeight: 1.2,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.03em",
-                      color: "#f3f1ea",
+                      marginTop: "0.5rem",
+                      fontSize: "1.0625rem",
+                      fontWeight: 700,
+                      lineHeight: 1.3,
+                      color: "#1C1A17",
                     }}
                   >
                     {feat.title}
                   </h3>
-                  <p style={{ marginTop: "0.625rem", fontSize: "0.8125rem", lineHeight: 1.6, color: "#807f78" }}>
+                  <p style={{ marginTop: "0.5rem", fontSize: "0.8125rem", lineHeight: 1.55, color: "#6F6B62" }}>
                     {feat.desc}
                   </p>
                 </div>
@@ -403,41 +404,39 @@ export default function PrepMeUpLandingPage() {
       <section id="how-it-works" className="pmu-section">
         <div className="pmu-container">
           <div style={{ maxWidth: "42rem" }}>
-            <SectionEyebrow>Step By Step</SectionEyebrow>
-            <h2 className="pmu-section-title">How PrepMeUp AI Works</h2>
+            <SectionEyebrow>Workflow</SectionEyebrow>
+            <h2 className="pmu-section-title">How PrepMeUp AI works</h2>
             <p className="pmu-section-lead">
-              From joining in seconds to walking into final exams with absolute confidence.
+              A structured study cadence from initial onboarding to end-semester examinations.
             </p>
           </div>
 
-          <div className="pmu-grid-3" style={{ marginTop: "3rem" }}>
+          <div className="pmu-grid-3" style={{ marginTop: "2.5rem" }}>
             {steps.map((step) => (
               <div
                 key={step.num}
                 style={{
                   position: "relative",
-                  borderLeft: "2px solid rgba(255,59,29,0.35)",
-                  paddingLeft: "1.5rem",
+                  borderLeft: "2px solid #E8E4DB",
+                  paddingLeft: "1.25rem",
                   paddingTop: "0.25rem",
                   paddingBottom: "0.25rem",
                 }}
               >
-                <span className="font-display" style={{ fontSize: "2rem", lineHeight: 1, color: "#ff3b1d" }}>
+                <span style={{ fontSize: "1.25rem", fontWeight: 700, lineHeight: 1, color: "#C2331B" }}>
                   {step.num}
                 </span>
                 <h3
-                  className="font-display"
                   style={{
-                    marginTop: "0.625rem",
-                    fontSize: "1.1875rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.03em",
-                    color: "#f3f1ea",
+                    marginTop: "0.5rem",
+                    fontSize: "1.0625rem",
+                    fontWeight: 700,
+                    color: "#1C1A17",
                   }}
                 >
                   {step.title}
                 </h3>
-                <p style={{ marginTop: "0.5rem", fontSize: "0.8125rem", lineHeight: 1.6, color: "#807f78" }}>
+                <p style={{ marginTop: "0.375rem", fontSize: "0.8125rem", lineHeight: 1.55, color: "#6F6B62" }}>
                   {step.desc}
                 </p>
               </div>
@@ -446,36 +445,36 @@ export default function PrepMeUpLandingPage() {
         </div>
       </section>
 
-      {/* 6. PRICING SECTION: TIER 0 (FREE BETA), TIER 1 (₹99 BASIC), TIER 2 (₹199 PREMIUM AI + 1:1 HUMAN) */}
+      {/* 6. PRICING SECTION */}
       <section id="pricing" className="pmu-section">
         <div className="pmu-container">
           <div style={{ textAlign: "center", maxWidth: "48rem", marginLeft: "auto", marginRight: "auto" }}>
-            <SectionEyebrow centered>Student-First 3-Tier Financial Model</SectionEyebrow>
-            <h2 className="pmu-section-title">Tier 1 (₹99) • Tier 2 (₹199) • Tier 3 (₹499 VIP)</h2>
+            <SectionEyebrow centered>Semester passes</SectionEyebrow>
+            <h2 className="pmu-section-title">Tier 1 (₹99) • Tier 2 (₹199) • Tier 3 (₹499)</h2>
             <p className="pmu-section-lead">
-              Choose the right tier for your semester: Self-Paced Study (₹99), Pro AI &amp; Career Mentorship (₹199), or Unlimited 1:1 Live Video Mentorship with Senior Faculty &amp; Rankers (₹499).
+              Select an option based on your study requirements: self-paced coursework, AI assistance with career support, or live video mentorship sessions.
             </p>
           </div>
 
-          <div className="pmu-grid-3" style={{ marginTop: "3rem", alignItems: "stretch" }}>
+          <div className="pmu-grid-3" style={{ marginTop: "2.5rem", alignItems: "stretch" }}>
             {/* TIER 1: ₹99 Basic Access */}
             <div className="pmu-card-pricing">
               <div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#f3f1ea" }}>
-                    Tier 1: Basic Access
+                  <span style={{ fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.04em", color: "#1C1A17" }}>
+                    Tier 1: Basic access
                   </span>
-                  <span className="pmu-badge">Self-Paced</span>
+                  <span className="pmu-badge">Self-paced</span>
                 </div>
 
-                <div style={{ marginTop: "1.5rem", display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
-                  <span className="font-display" style={{ fontSize: "3rem", lineHeight: 1, color: "#f3f1ea" }}>
+                <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "baseline", gap: "0.375rem" }}>
+                  <span style={{ fontSize: "2.5rem", fontWeight: 700, lineHeight: 1, color: "#1C1A17" }}>
                     ₹99
                   </span>
-                  <span style={{ fontSize: "0.8125rem", color: "#807f78" }}>/ full semester</span>
+                  <span style={{ fontSize: "0.8125rem", color: "#6F6B62" }}>/ semester</span>
                 </div>
 
-                <p style={{ marginTop: "0.75rem", fontSize: "0.8125rem", lineHeight: 1.55, color: "#a19f95" }}>
+                <p style={{ marginTop: "0.75rem", fontSize: "0.8125rem", lineHeight: 1.55, color: "#6F6B62" }}>
                   Self-paced study across all six currently listed Semester 1 subjects, notes, quizzes, and simulations.
                 </p>
 
@@ -484,282 +483,242 @@ export default function PrepMeUpLandingPage() {
                     marginTop: "1.25rem",
                     display: "flex",
                     flexDirection: "column",
-                    gap: "0.75rem",
+                    gap: "0.625rem",
                     fontSize: "0.8125rem",
-                    color: "#a19f95",
+                    color: "#1C1A17",
                     listStyle: "none",
                     padding: 0,
                   }}
                 >
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> All Six Currently Listed Semester 1 Subjects</li>
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> LaTeX Study Notes &amp; Derivations</li>
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Paper resources when source-backed materials are available</li>
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Topic-wise Practice Quizzes &amp; Instant Grading</li>
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 700 }}>✓</span> Interactive BEE &amp; Python Simulations</li>
-                  <li style={{ color: "#52525b" }}><span style={{ color: "#52525b", fontWeight: 700 }}>✕</span> No 1:1 Live Video Mentorship</li>
-                  <li style={{ color: "#52525b" }}><span style={{ color: "#52525b", fontWeight: 700 }}>✕</span> No Internship &amp; Career Review</li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> Six currently listed Semester 1 subjects</li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> LaTeX study notes and derivations</li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> Topic-wise practice quizzes</li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> Interactive BEE and Python simulations</li>
+                  <li style={{ color: "#6F6B62" }}><span style={{ color: "#6F6B62", marginRight: "0.375rem" }}>•</span> 1:1 mentorship not included</li>
+                  <li style={{ color: "#6F6B62" }}><span style={{ color: "#6F6B62", marginRight: "0.375rem" }}>•</span> Career portfolio review not included</li>
                 </ul>
               </div>
 
-              <div style={{ marginTop: "2rem", paddingTop: "1rem" }}>
-                <Link href="/prepmeup/checkout?tier=tier1" className="pmu-btn-secondary" style={{ width: "100%" }}>
-                  Pay ₹99 via Razorpay (Tier 1) →
+              <div style={{ marginTop: "1.75rem", paddingTop: "1rem", borderTop: "1px solid #E8E4DB" }}>
+                <Link href="/prepmeup/checkout?tier=tier1" className="pmu-btn-secondary" style={{ width: "100%", justifyContent: "center" }}>
+                  Select Tier 1 (₹99)
                 </Link>
               </div>
             </div>
 
-            {/* TIER 2: ₹199 Premium AI Help + 1 Included 1:1 Session + Career Support */}
-            <div className="pmu-card-pricing" style={{ borderColor: "rgba(255,106,61,0.65)", position: "relative" }}>
+            {/* TIER 2: ₹199 */}
+            <div className="pmu-card-pricing" style={{ borderColor: "#C2331B", position: "relative" }}>
               <div
                 style={{
                   position: "absolute",
-                  top: "-0.875rem",
-                  right: "1.5rem",
+                  top: "-0.75rem",
+                  right: "1.25rem",
                   borderRadius: "9999px",
-                  backgroundColor: "#4ade80",
-                  padding: "0.25rem 0.875rem",
+                  backgroundColor: "#F6E7E3",
+                  border: "1px solid #E8E4DB",
+                  padding: "0.2rem 0.75rem",
                   fontSize: "0.6875rem",
-                  fontWeight: 800,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.06em",
-                  color: "#08080a",
+                  fontWeight: 600,
+                  color: "#C2331B",
                 }}
               >
-                ★ Includes Career Support + 1 Session
+                Recommended
               </div>
 
               <div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#ff6a3d" }}>
-                    Tier 2: AI + Career
+                  <span style={{ fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.04em", color: "#C2331B" }}>
+                    Tier 2: AI + career
                   </span>
                   <span className="pmu-badge pmu-badge-accent">Popular</span>
                 </div>
 
-                <div style={{ marginTop: "1.5rem", display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
-                  <span className="font-display" style={{ fontSize: "3rem", lineHeight: 1, color: "#f3f1ea" }}>
+                <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "baseline", gap: "0.375rem" }}>
+                  <span style={{ fontSize: "2.5rem", fontWeight: 700, lineHeight: 1, color: "#1C1A17" }}>
                     ₹199
                   </span>
-                  <span style={{ fontSize: "0.8125rem", color: "#ff6a3d", fontWeight: 600 }}>
-                    / semester
-                  </span>
+                  <span style={{ fontSize: "0.8125rem", color: "#6F6B62" }}>/ semester</span>
                 </div>
 
                 <ul
                   style={{
-                    marginTop: "1rem",
-                    marginBottom: "1rem",
+                    marginTop: "1.25rem",
                     display: "flex",
                     flexDirection: "column",
-                    gap: "0.5rem",
-                    fontSize: "0.78rem",
-                    color: "#d4d2c8",
+                    gap: "0.625rem",
+                    fontSize: "0.8125rem",
+                    color: "#1C1A17",
                     listStyle: "none",
                     padding: 0,
                   }}
                 >
-                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Everything in Tier 1 (₹99) Included</strong></li>
-                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Unlimited 24/7 Premium AI Doubt Copilot</strong></li>
-                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Python Lab + AI Line-by-Line Debugger</strong></li>
-                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>1 Included 1:1 Video Mentorship Session</strong></li>
-                  <li
-                    style={{
-                      marginTop: "2px",
-                      padding: "6px 8px",
-                      borderRadius: "6px",
-                      border: "1px solid rgba(74,222,128,0.35)",
-                      backgroundColor: "rgba(34,197,94,0.1)",
-                      color: "#86efac",
-                    }}
-                  >
-                    <span style={{ color: "#4ade80", fontWeight: 800 }}>★ INCLUDED:</span>{" "}
-                    <strong>Internship &amp; Career Support</strong> (Resume &amp; GitHub Review)
-                  </li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> All Tier 1 access included</li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> 24/7 syllabus AI doubt copilot</li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> Python lab with test feedback</li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> 1 included 1:1 video mentorship session</li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> Career and resume guidance</li>
                 </ul>
+              </div>
 
-                <div style={{ marginTop: "2rem", paddingTop: "1rem" }}>
-                  <Link href="/prepmeup/checkout?tier=tier2" className="pmu-btn-secondary" style={{ width: "100%", borderColor: "rgba(255,106,61,0.5)", color: "#ff6a3d" }}>
-                    Pay ₹199 via Razorpay (Tier 2) →
-                  </Link>
-                </div>
+              <div style={{ marginTop: "1.75rem", paddingTop: "1rem", borderTop: "1px solid #E8E4DB" }}>
+                <Link href="/prepmeup/checkout?tier=tier2" className="pmu-btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+                  Select Tier 2 (₹199)
+                </Link>
               </div>
             </div>
 
-            {/* TIER 3: ₹499 Premium 1:1 VIP (Unlimited Live Sessions & Priority Calendar) */}
-            <div className="pmu-card-pricing" style={{ borderColor: "rgba(255,59,29,0.9)", position: "relative", backgroundColor: "#111116" }}>
-              <div
-                style={{
-                  position: "absolute",
-                  top: "-0.875rem",
-                  right: "1.5rem",
-                  borderRadius: "9999px",
-                  backgroundColor: "#ff3b1d",
-                  padding: "0.25rem 0.875rem",
-                  fontSize: "0.6875rem",
-                  fontWeight: 800,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.06em",
-                  color: "#08080a",
-                }}
-              >
-                ★ VIP • UNLIMITED 1:1 SESSIONS
-              </div>
-
+            {/* TIER 3: ₹499 */}
+            <div className="pmu-card-pricing">
               <div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#ff3b1d" }}>
-                    Tier 3: Premium 1:1 VIP
+                  <span style={{ fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.04em", color: "#1C1A17" }}>
+                    Tier 3: 1:1 Mentorship pass
                   </span>
-                  <span className="pmu-badge pmu-badge-accent">VIP Pass</span>
+                  <span className="pmu-badge">Mentorship</span>
                 </div>
 
-                <div style={{ marginTop: "1.5rem", display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
-                  <span className="font-display" style={{ fontSize: "3rem", lineHeight: 1, color: "#f3f1ea" }}>
+                <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "baseline", gap: "0.375rem" }}>
+                  <span style={{ fontSize: "2.5rem", fontWeight: 700, lineHeight: 1, color: "#1C1A17" }}>
                     ₹499
                   </span>
-                  <span style={{ fontSize: "0.8125rem", color: "#ff6a3d", fontWeight: 600 }}>
-                    / full semester (Unlimited)
-                  </span>
+                  <span style={{ fontSize: "0.8125rem", color: "#6F6B62" }}>/ semester</span>
                 </div>
 
-                <p style={{ marginTop: "0.75rem", fontSize: "0.8125rem", lineHeight: 1.55, color: "#a19f95" }}>
-                  Zero limits. Direct 1:1 Google Meet video mentorship with senior faculty and rankers whenever you need help.
+                <p style={{ marginTop: "0.75rem", fontSize: "0.8125rem", lineHeight: 1.55, color: "#6F6B62" }}>
+                  Direct video sessions with subject mentors for detailed problem resolution.
                 </p>
 
                 <ul
                   style={{
-                    marginTop: "1rem",
-                    marginBottom: "1rem",
+                    marginTop: "1.25rem",
                     display: "flex",
                     flexDirection: "column",
-                    gap: "0.5rem",
-                    fontSize: "0.78rem",
-                    color: "#d4d2c8",
+                    gap: "0.625rem",
+                    fontSize: "0.8125rem",
+                    color: "#1C1A17",
                     listStyle: "none",
                     padding: 0,
                   }}
                 >
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 800 }}>★</span> <strong>UNLIMITED 1:1 Live Video Mentorship</strong> (Google Meet)</li>
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 800 }}>★</span> <strong>Priority Interactive Calendar Booking</strong> &amp; Rescheduling</li>
-                  <li><span style={{ color: "#ff3b1d", fontWeight: 800 }}>★</span> <strong>Dedicated Senior Mentors</strong> (Maths, BEE, Python, COA)</li>
-                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Everything in Tier 1 &amp; Tier 2 Included</strong></li>
-                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>Complete Tech Internship &amp; Resume Review</strong></li>
-                  <li><span style={{ color: "#4ade80", fontWeight: 700 }}>✓</span> <strong>VIP Fast-Track Question Answering</strong></li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> Direct 1:1 live video sessions</li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> Interactive calendar booking</li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> Subject mentors across Maths, BEE, Python, COA</li>
+                  <li><span style={{ color: "#C2331B", fontWeight: 600, marginRight: "0.375rem" }}>—</span> All Tier 1 and Tier 2 features included</li>
                 </ul>
+              </div>
 
-                <div style={{ marginTop: "1.25rem", paddingTop: "0.75rem" }}>
-                  <Link href="/prepmeup/checkout?tier=tier3" className="pmu-btn-primary" style={{ width: "100%", padding: "12px", textAlign: "center" }}>
-                    Unlock Tier 3 VIP (₹499) →
-                  </Link>
-                </div>
+              <div style={{ marginTop: "1.75rem", paddingTop: "1rem", borderTop: "1px solid #E8E4DB" }}>
+                <Link href="/prepmeup/checkout?tier=tier3" className="pmu-btn-secondary" style={{ width: "100%", justifyContent: "center" }}>
+                  Select Tier 3 (₹499)
+                </Link>
               </div>
             </div>
           </div>
 
-          {/* 3-Friend Study Squad Bundle Callout */}
+          {/* Squad Bundle Callout */}
           <div
-            className="pmu-card-highlight"
+            className="pmu-card"
             style={{
               marginTop: "2rem",
-              padding: "1.75rem 2rem",
+              padding: "1.5rem 1.75rem",
               display: "flex",
               flexWrap: "wrap",
               alignItems: "center",
               justifyContent: "space-between",
               gap: "1.25rem",
-              borderColor: "rgba(34,197,94,0.45)",
+              backgroundColor: "#F4F2ED",
             }}
           >
             <div style={{ maxWidth: "42rem" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-                <span className="pmu-badge" style={{ backgroundColor: "rgba(34,197,94,0.16)", color: "#4ade80", borderColor: "rgba(34,197,94,0.4)" }}>
-                  👥 3-Friend Study Squad Bundle
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+                <span className="pmu-badge">
+                  3-student squad pass
                 </span>
-                <span className="font-mono" style={{ fontSize: "12px", color: "#4ade80", fontWeight: 700 }}>
-                  ₹149 / Student • Save ₹148 vs Individual Tier 2
+                <span className="font-mono" style={{ fontSize: "12px", color: "#6F6B62", fontWeight: 600 }}>
+                  ₹449 total (₹149 / student)
                 </span>
               </div>
-              <h3 className="font-display" style={{ fontSize: "1.75rem", textTransform: "uppercase", color: "#f3f1ea" }}>
-                Split Tier 2 Pro With 2 Roommates for ₹449 Total
+              <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "#1C1A17" }}>
+                Study squad bundle for 3 students
               </h3>
-              <p style={{ marginTop: "4px", fontSize: "13.5px", color: "#a19f95", lineHeight: 1.55 }}>
-                Your Tier 2 Pro Pass activates immediately, and your receipt gives you <strong>2 instant 100%-off Squad Invite Codes</strong> (<code>SQUAD-XXXX</code>) for your 2 friends to redeem at ₹0!
+              <p style={{ marginTop: "4px", fontSize: "0.875rem", color: "#6F6B62", lineHeight: 1.5 }}>
+                Your Tier 2 pass activates immediately, and your receipt includes 2 invite codes for your study partners to redeem.
               </p>
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-              <Link href="/prepmeup/checkout?tier=tier2_squad" className="pmu-btn-primary" style={{ backgroundColor: "#22c55e", color: "#08080a" }}>
-                Get 3-Friend Squad Pass (₹449) →
+              <Link href="/prepmeup/checkout?tier=tier2_squad" className="pmu-btn-primary">
+                Get squad pass (₹449)
               </Link>
               <Link href="/prepmeup/checkout?tier=tier2&code=EXAM50" className="pmu-btn-secondary">
-                Have a Squad / Promo Code? Redeem →
+                Redeem invite code
               </Link>
             </div>
           </div>
 
-          {/* Interactive Calendar Scheduler Embed on Marketing Page */}
-          <div style={{ marginTop: "3.5rem" }}>
+          {/* Interactive Calendar Scheduler */}
+          <div style={{ marginTop: "3rem" }}>
             <CalendarBookingScheduler initialTier="guest" />
           </div>
 
-          {/* Verifiable Curriculum Coverage & Technical Specifications Wall */}
+          {/* Catalog Inventory */}
           <div
             style={{
-              marginTop: "3.5rem",
-              padding: "2rem",
-              borderRadius: "1rem",
-              border: "1px solid rgba(243,241,234,0.12)",
-              backgroundColor: "#111114",
+              marginTop: "3rem",
+              padding: "1.75rem",
+              borderRadius: "10px",
+              border: "1px solid #E8E4DB",
+              backgroundColor: "#FFFFFF",
             }}
           >
-            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginBottom: "1.5rem" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginBottom: "1.25rem" }}>
               <div>
-                <span className="pmu-badge pmu-badge-accent">Verifiable Platform Coverage</span>
-                <h3 className="font-display" style={{ marginTop: "0.5rem", fontSize: "1.65rem", textTransform: "uppercase", color: "#f3f1ea" }}>
-                  Semester 1 Curriculum &amp; Workbench Inventory
+                <span className="pmu-badge">Catalog inventory</span>
+                <h3 style={{ marginTop: "0.375rem", fontSize: "1.25rem", fontWeight: 700, color: "#1C1A17" }}>
+                  Semester 1 curriculum inventory
                 </h3>
               </div>
-              <span className="font-mono" style={{ fontSize: "12px", color: "#4ade80", fontWeight: 700 }}>
-                ✓ 6 Subjects • 30 Modules • 93 Topic Notes • 17 Simulators
+              <span className="font-mono" style={{ fontSize: "12px", color: "#6F6B62" }}>
+                6 subjects • 30 modules • 93 topic notes • 17 simulators
               </span>
             </div>
 
             <div className="pmu-grid-3">
               {[
                 {
-                  spec: "30 Modules & 93 LaTeX Topic Notes across ACM (16), BEE (17), COA (18), Web Technologies (15), Python (17), and IKS (10).",
-                  title: "Complete Syllabus Note Coverage",
-                  meta: "CSE1001 – CSE1006 • AY 2026-27",
+                  spec: "30 modules and 93 LaTeX topic notes across ACM (16), BEE (17), COA (18), Web Technologies (15), Python (17), and IKS (10).",
+                  title: "Syllabus note coverage",
+                  meta: "CSE1001 – CSE1006",
                 },
                 {
-                  spec: "17 interactive browser-native engineering simulators covering Ohm's Law, KCL/KVL mesh circuits, AC oscilloscopes, Python call stacks, and 5-stage RISC CPU pipelines.",
-                  title: "Interactive Visual Laboratories",
+                  spec: "17 interactive browser simulators covering Ohm's Law, KCL/KVL circuits, AC oscilloscopes, Python call stacks, and CPU pipelines.",
+                  title: "Visual laboratory tools",
                   meta: "BEE, COA, Web, ACM, Python & IKS",
                 },
                 {
-                  spec: "Python 3.12 coding workbench with automated test-case verification, timed topic quizzes with instant grading, and 24/7 syllabus-grounded AI doubt solving.",
-                  title: "Practice & Assessment Engine",
-                  meta: "Quizzes • Coding Lab • AI Copilot",
+                  spec: "Python coding environment with test case evaluation, timed topic quizzes, and syllabus-grounded AI doubt assistance.",
+                  title: "Assessment & practice",
+                  meta: "Quizzes • Coding lab • AI assistance",
                 },
               ].map((item) => (
                 <div
                   key={item.title}
                   style={{
                     padding: "1.25rem",
-                    borderRadius: "0.75rem",
-                    border: "1px solid rgba(243,241,234,0.08)",
-                    backgroundColor: "#08080a",
+                    borderRadius: "8px",
+                    border: "1px solid #E8E4DB",
+                    backgroundColor: "#F4F2ED",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
-                    gap: "0.875rem",
+                    gap: "0.75rem",
                   }}
                 >
-                  <p style={{ fontSize: "0.8125rem", lineHeight: 1.6, color: "#d4d2c8" }}>
+                  <p style={{ fontSize: "0.8125rem", lineHeight: 1.55, color: "#1C1A17" }}>
                     {item.spec}
                   </p>
-                  <div style={{ borderTop: "1px solid rgba(243,241,234,0.08)", paddingTop: "0.625rem" }}>
-                    <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#ff6a3d" }}>{item.title}</div>
-                    <div className="font-mono" style={{ fontSize: "0.6875rem", color: "#807f78" }}>{item.meta}</div>
+                  <div style={{ borderTop: "1px solid #E8E4DB", paddingTop: "0.625rem" }}>
+                    <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: "#C2331B" }}>{item.title}</div>
+                    <div className="font-mono" style={{ fontSize: "0.6875rem", color: "#6F6B62" }}>{item.meta}</div>
                   </div>
                 </div>
               ))}
@@ -772,14 +731,14 @@ export default function PrepMeUpLandingPage() {
       <section id="faq" className="pmu-section">
         <div className="pmu-container">
           <div style={{ textAlign: "center", maxWidth: "42rem", marginLeft: "auto", marginRight: "auto" }}>
-            <SectionEyebrow centered>Frequently Asked Questions</SectionEyebrow>
-            <h2 className="pmu-section-title">Got Questions? We Have Answers.</h2>
+            <SectionEyebrow centered>Frequently asked questions</SectionEyebrow>
+            <h2 className="pmu-section-title">Common questions</h2>
           </div>
 
           <div
             style={{
-              marginTop: "3rem",
-              maxWidth: "52rem",
+              marginTop: "2.5rem",
+              maxWidth: "48rem",
               marginLeft: "auto",
               marginRight: "auto",
             }}
@@ -788,23 +747,21 @@ export default function PrepMeUpLandingPage() {
               <div
                 key={faq.q}
                 style={{
-                  paddingTop: "1.5rem",
-                  paddingBottom: "1.5rem",
-                  borderTop: idx === 0 ? "none" : "1px solid rgba(243,241,234,0.1)",
+                  paddingTop: "1.25rem",
+                  paddingBottom: "1.25rem",
+                  borderTop: idx === 0 ? "none" : "1px solid #E8E4DB",
                 }}
               >
                 <h3
-                  className="font-display"
                   style={{
-                    fontSize: "1.1875rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.03em",
-                    color: "#f3f1ea",
+                    fontSize: "1.0625rem",
+                    fontWeight: 700,
+                    color: "#1C1A17",
                   }}
                 >
                   {faq.q}
                 </h3>
-                <p style={{ marginTop: "0.625rem", fontSize: "0.875rem", lineHeight: 1.65, color: "#807f78" }}>
+                <p style={{ marginTop: "0.5rem", fontSize: "0.875rem", lineHeight: 1.6, color: "#6F6B62" }}>
                   {faq.a}
                 </p>
               </div>

@@ -17,13 +17,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#08080a",
+  themeColor: "#FAF9F6",
 };
 
 export default function PrepMeUpLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="pmu-root selection:bg-[#ff3b1d] selection:text-[#08080a]">
-      <PrepMeUpHero3D />
+    <div className="pmu-root selection:bg-[#F6E7E3] selection:text-[#C2331B]">
+      <PrepMeUpHero3D showCanvas={false} />
       {children}
     </div>
   );

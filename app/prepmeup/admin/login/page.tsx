@@ -52,47 +52,40 @@ export default function AdminLoginPage() {
           <Link href="/prepmeup" className="pmu-brand-logo">
             <span className="pmu-brand-mark">P</span>
             <span className="pmu-brand-title">
-              PREPMEUP <span style={{ color: "#ff3b1d" }}>AI</span>
+              PrepMeUp <span>AI</span>
             </span>
           </Link>
           <div style={{ marginTop: "0.75rem" }}>
             <span
+              className="pmu-badge"
               style={{
-                display: "inline-block",
-                borderRadius: "9999px",
-                backgroundColor: "rgba(70,8,9,0.5)",
-                border: "1px solid rgba(239,68,68,0.35)",
-                padding: "0.25rem 0.75rem",
-                fontSize: "0.6875rem",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                color: "#f87171",
+                backgroundColor: "#F6E7E3",
+                borderColor: "#E8E4DB",
+                color: "#C2331B",
               }}
             >
-              Authorized Personnel Only
+              Authorized personnel only
             </span>
           </div>
           <h1
             style={{
               marginTop: "0.75rem",
-              fontFamily: 'var(--font-anton), "Anton", sans-serif',
-              fontSize: "1.625rem",
-              textTransform: "uppercase",
-              letterSpacing: "0.04em",
-              color: "#f3f1ea",
+              fontSize: "1.375rem",
+              fontWeight: 700,
+              color: "#1C1A17",
+              letterSpacing: "-0.015em",
             }}
           >
-            Admin Command Login
+            Admin portal login
           </h1>
-          <p style={{ marginTop: "0.5rem", fontSize: "0.8125rem", color: "#807f78" }}>
+          <p style={{ marginTop: "0.375rem", fontSize: "0.8125rem", color: "#6F6B62" }}>
             Sign in with administrative credentials to access moderation and syllabus controls.
           </p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          style={{ marginTop: "1.75rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}
+          style={{ marginTop: "1.5rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}
         >
           <div>
             <label
@@ -101,13 +94,11 @@ export default function AdminLoginPage() {
                 display: "block",
                 fontSize: "0.75rem",
                 fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                color: "#807f78",
-                marginBottom: "0.5rem",
+                color: "#1C1A17",
+                marginBottom: "0.375rem",
               }}
             >
-              Admin Email
+              Admin email
             </label>
             <input
               id="email"
@@ -128,10 +119,8 @@ export default function AdminLoginPage() {
                 display: "block",
                 fontSize: "0.75rem",
                 fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                color: "#807f78",
-                marginBottom: "0.5rem",
+                color: "#1C1A17",
+                marginBottom: "0.375rem",
               }}
             >
               Password
@@ -139,6 +128,7 @@ export default function AdminLoginPage() {
             <input
               id="password"
               type="password"
+              placeholder="••••••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="pmu-input"
@@ -149,20 +139,25 @@ export default function AdminLoginPage() {
           {error && (
             <div
               style={{
-                borderRadius: "0.375rem",
-                border: "1px solid rgba(239,68,68,0.35)",
-                backgroundColor: "rgba(70,8,9,0.3)",
+                borderRadius: "6px",
+                border: "1px solid #E8E4DB",
+                backgroundColor: "#F6E7E3",
                 padding: "0.75rem",
                 fontSize: "0.75rem",
-                color: "#f87171",
+                color: "#C2331B",
               }}
             >
               {error}
             </div>
           )}
 
-          <button type="submit" disabled={loading} className="pmu-btn-primary" style={{ width: "100%" }}>
-            {loading ? "Authenticating…" : "Sign In to Admin Portal"}
+          <button
+            type="submit"
+            disabled={loading}
+            className="pmu-btn-primary"
+            style={{ width: "100%", justifyContent: "center" }}
+          >
+            {loading ? "Authenticating…" : "Sign in to portal"}
           </button>
         </form>
 
@@ -170,16 +165,13 @@ export default function AdminLoginPage() {
           style={{
             marginTop: "1.5rem",
             paddingTop: "1rem",
-            borderTop: "1px solid rgba(243,241,234,0.1)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            fontSize: "0.75rem",
-            color: "#807f78",
+            borderTop: "1px solid #E8E4DB",
+            textAlign: "center",
           }}
         >
-          <Link href="/prepmeup/login">← Student Log In</Link>
-          <Link href="/prepmeup">Public Portal</Link>
+          <Link href="/prepmeup/login" style={{ fontSize: "0.75rem", color: "#6F6B62", textDecoration: "none" }}>
+            ← Back to Student Sign-in
+          </Link>
         </div>
       </div>
     </div>

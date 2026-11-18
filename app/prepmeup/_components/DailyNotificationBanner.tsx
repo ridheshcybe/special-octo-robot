@@ -56,20 +56,11 @@ export function DailyNotificationBanner() {
 
   // Render Admin Custom Broadcast Notification if active
   if (customNotif) {
-    const accentColor =
-      customNotif.category === "success"
-        ? "#4ade80"
-        : customNotif.category === "mentorship"
-        ? "#fbbf24"
-        : customNotif.category === "alert"
-        ? "#ef4444"
-        : "#ff3b1d";
-
     return (
       <div
         style={{
-          backgroundColor: "#141418",
-          borderBottom: `1px solid ${accentColor}`,
+          backgroundColor: "#F4F2ED",
+          borderBottom: "1px solid #E8E4DB",
           padding: "8px 16px",
           display: "flex",
           alignItems: "center",
@@ -82,24 +73,18 @@ export function DailyNotificationBanner() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1, minWidth: "240px" }}>
           <span
-            className="font-mono"
+            className="pmu-badge"
             style={{
               fontSize: "10px",
-              fontWeight: 700,
-              color: "#08080a",
-              backgroundColor: accentColor,
               padding: "2px 6px",
-              borderRadius: "4px",
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
             }}
           >
             {customNotif.category}
           </span>
-          <span style={{ fontSize: "12.5px", fontWeight: 700, color: "#f3f1ea" }}>
+          <span style={{ fontSize: "13px", fontWeight: 600, color: "#1C1A17" }}>
             {customNotif.title}
           </span>
-          <span style={{ fontSize: "12px", color: "#a19f95" }}>
+          <span style={{ fontSize: "12px", color: "#6F6B62" }}>
             — {customNotif.message}
           </span>
         </div>
@@ -108,15 +93,10 @@ export function DailyNotificationBanner() {
           {customNotif.ctaHref && (
             <Link
               href={customNotif.ctaHref}
-              className="font-mono"
+              className="pmu-btn-sm"
               style={{
                 fontSize: "11px",
-                fontWeight: 700,
-                backgroundColor: accentColor,
-                color: "#08080a",
-                padding: "4px 10px",
-                borderRadius: "4px",
-                textDecoration: "none",
+                padding: "3px 8px",
               }}
             >
               {customNotif.ctaLabel || "Open →"}
@@ -128,7 +108,7 @@ export function DailyNotificationBanner() {
             style={{
               background: "none",
               border: "none",
-              color: "#807f78",
+              color: "#6F6B62",
               cursor: "pointer",
               fontSize: "13px",
               padding: "2px 6px",
@@ -147,8 +127,8 @@ export function DailyNotificationBanner() {
   return (
     <div
       style={{
-        backgroundColor: "#141418",
-        borderBottom: "1px solid rgba(255, 59, 29, 0.5)",
+        backgroundColor: "#F4F2ED",
+        borderBottom: "1px solid #E8E4DB",
         padding: "8px 16px",
         display: "flex",
         alignItems: "center",
@@ -161,27 +141,26 @@ export function DailyNotificationBanner() {
     >
       <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1, minWidth: "240px" }}>
         <span
-          className="font-mono"
+          className="pmu-badge"
           style={{
             fontSize: "10px",
-            fontWeight: 700,
-            color: "#ff6a3d",
-            textTransform: "uppercase",
-            letterSpacing: "0.06em",
+            color: "#C2331B",
+            backgroundColor: "#F6E7E3",
+            borderColor: "#E8E4DB",
           }}
         >
-          🔔 Daily Capsule:
+          Daily capsule
         </span>
-        <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#f3f1ea" }}>
+        <span style={{ fontSize: "13px", fontWeight: 600, color: "#1C1A17" }}>
           {dailyNote.topic}
         </span>
         <span
-          className="font-mono"
           style={{
-            fontSize: "10px",
-            color: "#4ade80",
-            backgroundColor: "rgba(34,197,94,0.12)",
-            padding: "2px 6px",
+            fontSize: "11px",
+            color: "#1F7A4D",
+            backgroundColor: "#FFFFFF",
+            border: "1px solid #E8E4DB",
+            padding: "1px 6px",
             borderRadius: "4px",
           }}
         >
@@ -196,15 +175,10 @@ export function DailyNotificationBanner() {
             const el = document.getElementById("daily-capsule");
             if (el) el.scrollIntoView({ behavior: "smooth" });
           }}
-          className="font-mono"
+          className="pmu-btn-sm"
           style={{
             fontSize: "11px",
-            fontWeight: 700,
-            backgroundColor: "#ff3b1d",
-            color: "#08080a",
-            padding: "4px 10px",
-            borderRadius: "4px",
-            textDecoration: "none",
+            padding: "3px 8px",
           }}
         >
           Open →
@@ -215,7 +189,7 @@ export function DailyNotificationBanner() {
           style={{
             background: "none",
             border: "none",
-            color: "#807f78",
+            color: "#6F6B62",
             cursor: "pointer",
             fontSize: "13px",
             padding: "2px 6px",

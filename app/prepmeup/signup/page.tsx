@@ -87,7 +87,7 @@ function SignupForm() {
   if (checkingAuth) {
     return (
       <div className="pmu-auth-card" style={{ textAlign: "center", padding: "2.5rem 1.5rem" }}>
-        <p style={{ fontSize: "0.8125rem", color: "#807f78" }}>Checking student session…</p>
+        <p style={{ fontSize: "0.8125rem", color: "#6F6B62" }}>Checking student session…</p>
       </div>
     );
   }
@@ -98,32 +98,31 @@ function SignupForm() {
         <Link href="/prepmeup" className="pmu-brand-logo">
           <span className="pmu-brand-mark">P</span>
           <span className="pmu-brand-title">
-            PREPMEUP <span style={{ color: "#ff3b1d" }}>AI</span>
+            PrepMeUp <span>AI</span>
           </span>
         </Link>
         <div style={{ marginTop: "0.75rem" }}>
-          <span className="pmu-pill-accent">Semester 1 Access</span>
+          <span className="pmu-pill-accent">Semester 1 access</span>
         </div>
         <h1
           style={{
             marginTop: "0.75rem",
-            fontFamily: 'var(--font-anton), "Anton", sans-serif',
-            fontSize: "1.625rem",
-            textTransform: "uppercase",
-            letterSpacing: "0.04em",
-            color: "#f3f1ea",
+            fontSize: "1.375rem",
+            fontWeight: 700,
+            color: "#1C1A17",
+            letterSpacing: "-0.015em",
           }}
         >
-          Create Student Account
+          Create student account
         </h1>
-        <p style={{ marginTop: "0.5rem", fontSize: "0.8125rem", color: "#807f78" }}>
-          Sign up in 30 seconds with your student email. No passwords to remember.
+        <p style={{ marginTop: "0.375rem", fontSize: "0.8125rem", color: "#6F6B62" }}>
+          Sign up with your student email or mobile number. Passwordless OTP access.
         </p>
       </div>
 
       <form
         onSubmit={handleSubmit}
-        style={{ marginTop: "1.75rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}
+        style={{ marginTop: "1.5rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}
       >
         <input
           type="text"
@@ -142,18 +141,16 @@ function SignupForm() {
               display: "block",
               fontSize: "0.75rem",
               fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              color: "#807f78",
-              marginBottom: "0.5rem",
+              color: "#1C1A17",
+              marginBottom: "0.375rem",
             }}
           >
-            Student Email or Mobile Number
+            Student email or mobile number
           </label>
           <input
             id="identifier"
             type="text"
-            placeholder="student@dypiu.ac.in or 9876543210"
+            placeholder="student@example.ac.in or 9876543210"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
             className="pmu-input"
@@ -162,28 +159,28 @@ function SignupForm() {
             autoFocus
             required
           />
-          <p style={{ marginTop: "0.375rem", fontSize: "0.6875rem", color: "#807f78" }}>
-            We respect your privacy. Zero marketing calls or spam.
+          <p style={{ marginTop: "0.375rem", fontSize: "0.6875rem", color: "#6F6B62" }}>
+            We will send a 6-digit access code to verify your account.
           </p>
         </div>
 
         {error && (
           <div
             style={{
-              borderRadius: "0.375rem",
-              border: "1px solid rgba(239,68,68,0.35)",
-              backgroundColor: "rgba(70,8,9,0.3)",
+              borderRadius: "6px",
+              border: "1px solid #E8E4DB",
+              backgroundColor: "#F6E7E3",
               padding: "0.75rem",
               fontSize: "0.75rem",
-              color: "#f87171",
+              color: "#C2331B",
             }}
           >
             {error}
           </div>
         )}
 
-        <button type="submit" disabled={loading} className="pmu-btn-primary" style={{ width: "100%" }}>
-          {loading ? "Sending Verification Code…" : "Sign Up & Get Access"}
+        <button type="submit" disabled={loading} className="pmu-btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+          {loading ? "Creating account…" : "Continue with verification"}
         </button>
       </form>
 
@@ -191,18 +188,20 @@ function SignupForm() {
         style={{
           marginTop: "1.5rem",
           paddingTop: "1rem",
-          borderTop: "1px solid rgba(243,241,234,0.1)",
+          borderTop: "1px solid #E8E4DB",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           fontSize: "0.75rem",
-          color: "#807f78",
+          color: "#6F6B62",
         }}
       >
-        <Link href={`/prepmeup/login?redirectTo=${encodeURIComponent(redirectTo)}`}>
-          Already registered? <span style={{ color: "#ff3b1d", fontWeight: 600 }}>Log in</span>
+        <Link href={`/prepmeup/login?redirectTo=${encodeURIComponent(redirectTo)}`} style={{ color: "#6F6B62", textDecoration: "none" }}>
+          Already have an account? <span style={{ color: "#C2331B", fontWeight: 600 }}>Sign in</span>
         </Link>
-        <Link href="/prepmeup/admin/login">Admin portal ↗</Link>
+        <Link href="/prepmeup/terms" style={{ color: "#6F6B62", textDecoration: "none" }}>
+          Terms
+        </Link>
       </div>
     </div>
   );
@@ -211,7 +210,7 @@ function SignupForm() {
 export default function SignupPage() {
   return (
     <div className="pmu-auth-shell">
-      <Suspense fallback={<div style={{ fontSize: "0.75rem", color: "#807f78" }}>Loading registration…</div>}>
+      <Suspense fallback={<div style={{ fontSize: "0.75rem", color: "#6F6B62" }}>Loading authentication…</div>}>
         <SignupForm />
       </Suspense>
     </div>

@@ -19,7 +19,7 @@ export function PrepMeUpNav() {
           <Link href="/prepmeup" className="pmu-brand-logo">
             <span className="pmu-brand-mark">P</span>
             <span className="pmu-brand-title">
-              PREPMEUP <span style={{ color: "#ff3b1d" }}>AI</span>
+              PrepMeUp <span>AI</span>
             </span>
           </Link>
         </div>
@@ -40,10 +40,10 @@ export function PrepMeUpNav() {
         {/* CTAs */}
         <div className="pmu-nav-ctas">
           <Link href="/prepmeup/dashboard" className="pmu-nav-link">
-            Student Portal
+            Student portal
           </Link>
           <Link href="/prepmeup/pricing" className="pmu-btn-sm">
-            Get Access
+            Get access
           </Link>
         </div>
 
@@ -51,7 +51,7 @@ export function PrepMeUpNav() {
         <div className="pmu-mobile-controls">
           <Link
             href="/"
-            style={{ fontSize: "0.75rem", color: "#807f78", textDecoration: "none" }}
+            style={{ fontSize: "0.8125rem", color: "#6F6B62", textDecoration: "none" }}
           >
             ← Portfolio
           </Link>
@@ -65,9 +65,10 @@ export function PrepMeUpNav() {
               alignItems: "center",
               justifyContent: "center",
               borderRadius: "0.375rem",
-              border: "1px solid rgba(243,241,234,0.15)",
-              color: "#f3f1ea",
-              background: "transparent",
+              border: "1px solid #E8E4DB",
+              color: "#1C1A17",
+              background: "#FFFFFF",
+              cursor: "pointer",
             }}
             aria-label="Toggle Navigation"
           >
@@ -109,17 +110,17 @@ export function PrepMeUpNav() {
                 href="/prepmeup/dashboard"
                 onClick={() => setMobileMenuOpen(false)}
                 className="pmu-btn-secondary"
-                style={{ width: "100%" }}
+                style={{ width: "100%", justifyContent: "center" }}
               >
-                Student Portal
+                Student portal
               </Link>
               <Link
                 href="/prepmeup/pricing"
                 onClick={() => setMobileMenuOpen(false)}
                 className="pmu-btn-primary"
-                style={{ width: "100%" }}
+                style={{ width: "100%", justifyContent: "center" }}
               >
-                Get Access
+                Get access
               </Link>
             </div>
           </nav>

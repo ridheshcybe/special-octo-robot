@@ -32,41 +32,37 @@ export function SubjectsGridClient({ subjects }: SubjectsGridClientProps) {
         const completion = progressMap[sub.code] ?? 0;
 
         return (
-          <div key={sub.code} className="pmu-card">
+          <div key={sub.code} className="pmu-card" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8E4DB" }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                  <span style={{ fontSize: "1.5rem" }} aria-hidden="true">
-                    {sub.icon}
-                  </span>
-                  <span style={{ fontFamily: "monospace", fontSize: "0.75rem", fontWeight: 600, color: "#807f78" }}>
+                  <span style={{ fontFamily: "monospace", fontSize: "0.75rem", fontWeight: 600, color: "#6F6B62" }}>
                     {sub.code}
                   </span>
                 </span>
                 <span
                   style={{
                     borderRadius: "0.25rem",
-                    backgroundColor: "rgba(255,59,29,0.12)",
-                    padding: "0.25rem 0.625rem",
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    color: "#ff3b1d",
+                    backgroundColor: "#F6E7E3",
+                    border: "1px solid #E8E4DB",
+                    padding: "0.2rem 0.5rem",
+                    fontSize: "0.6875rem",
+                    fontWeight: 600,
+                    letterSpacing: "0.04em",
+                    color: "#C2331B",
                   }}
                 >
-                  {sub.credit_units} Credits
+                  {sub.credit_units} credits
                 </span>
               </div>
 
               <h2
                 style={{
-                  marginTop: "1rem",
-                  fontFamily: 'var(--font-anton), "Anton", sans-serif',
-                  fontSize: "1.5rem",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.03em",
-                  color: "#f3f1ea",
+                  marginTop: "0.875rem",
+                  fontFamily: 'var(--font-onest), "Onest", sans-serif',
+                  fontSize: "1.25rem",
+                  fontWeight: 700,
+                  color: "#1C1A17",
                 }}
               >
                 {sub.title}
@@ -76,33 +72,33 @@ export function SubjectsGridClient({ subjects }: SubjectsGridClientProps) {
                 style={{
                   marginTop: "0.5rem",
                   fontSize: "0.8125rem",
-                  lineHeight: 1.6,
-                  color: "#807f78",
+                  lineHeight: 1.55,
+                  color: "#6F6B62",
                 }}
               >
                 {sub.description}
               </p>
 
-              {/* Dynamic Live Progress Bar driven by real student progress */}
-              <div style={{ marginTop: "1.5rem" }}>
+              {/* Progress Bar */}
+              <div style={{ marginTop: "1.25rem" }}>
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
                     fontSize: "0.6875rem",
-                    color: "#807f78",
+                    color: "#6F6B62",
                     marginBottom: "0.375rem",
                   }}
                 >
-                  <span>Progress</span>
+                  <span>Topic mastery</span>
                   <span
                     style={{
                       fontWeight: 600,
-                      color: completion >= 100 ? "#4ade80" : completion > 0 ? "#ff6a3d" : "#f3f1ea",
+                      color: completion >= 100 ? "#1F7A4D" : "#1C1A17",
                     }}
                   >
-                    {completion}% Complete
+                    {completion}% complete
                   </span>
                 </div>
                 <div
@@ -111,14 +107,15 @@ export function SubjectsGridClient({ subjects }: SubjectsGridClientProps) {
                     width: "100%",
                     overflow: "hidden",
                     borderRadius: "9999px",
-                    backgroundColor: "#17171b",
+                    backgroundColor: "#F4F2ED",
+                    border: "1px solid #E8E4DB",
                   }}
                 >
                   <div
                     style={{
                       height: "100%",
                       width: `${Math.min(100, Math.max(0, completion))}%`,
-                      backgroundColor: completion >= 100 ? "#4ade80" : "#ff3b1d",
+                      backgroundColor: completion >= 100 ? "#1F7A4D" : "#C2331B",
                       transition: "width 0.4s ease-out",
                     }}
                   />
@@ -131,18 +128,18 @@ export function SubjectsGridClient({ subjects }: SubjectsGridClientProps) {
               style={{
                 marginTop: "1.5rem",
                 paddingTop: "1rem",
-                borderTop: "1px solid rgba(243,241,234,0.1)",
+                borderTop: "1px solid #E8E4DB",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
                 gap: "0.75rem",
               }}
             >
-              <span style={{ fontSize: "0.75rem", color: "#807f78" }}>
-                {sub.module_count ?? 5} Modules • Notes &amp; Solved PYQs
+              <span style={{ fontSize: "0.75rem", color: "#6F6B62" }}>
+                {sub.module_count ?? 5} modules • LaTeX notes &amp; quizzes
               </span>
               <Link href={`/prepmeup/subjects/${sub.slug}`} className="pmu-btn-sm">
-                Open Subject →
+                Open subject →
               </Link>
             </div>
           </div>

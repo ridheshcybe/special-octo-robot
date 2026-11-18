@@ -2,6 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPmuSubjectDetail } from "../../../_lib/queries";
 import { SubjectTabsClient } from "./SubjectTabsClient";
+import { OwnerReviewBanner } from "../../../_components/OwnerReviewBanner";
+
+// TODO(owner): Release Blocker 4 — "Solved University Past Exam Papers" and "6 Past Paper Archives" claims vs the FAQ saying paper sources are unavailable.
 
 export const revalidate = 60;
 
@@ -22,48 +25,52 @@ export default async function SubjectDetailPage({ params }: SubjectDetailPagePro
   const { subject, modules, sampleNote, pastPapers } = detail;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+      <OwnerReviewBanner
+        id="blocker-4"
+        blockerNumber={4}
+        summary="Past Papers Material Status"
+        detail="The subject tabs include a 'Past Papers' view; ensure students are clearly informed when official university paper archives are pending source verification."
+      />
+
       {/* Header */}
-      <div className="pmu-card" style={{ padding: "28px" }}>
+      <div className="pmu-card" style={{ padding: "24px", backgroundColor: "#FFFFFF", border: "1px solid #E8E4DB" }}>
         <Link
           href="/prepmeup/subjects"
-          className="font-mono"
-          style={{ fontSize: "12px", fontWeight: 600, color: "#a19f95", textDecoration: "none" }}
+          style={{ fontSize: "13px", fontWeight: 500, color: "#6F6B62", textDecoration: "none" }}
         >
-          ← Back to All Semester 1 Subjects
+          ← Back to Semester 1 subjects
         </Link>
-        <div style={{ marginTop: "14px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "10px" }}>
+        <div style={{ marginTop: "12px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px" }}>
           <span className="pmu-badge">{subject.code}</span>
           <span
-            className="font-mono"
             style={{
-              fontSize: "11px",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              color: "#4ade80",
-              backgroundColor: "rgba(34,197,94,0.12)",
-              border: "1px solid rgba(34,197,94,0.3)",
-              padding: "3px 10px",
+              fontSize: "12px",
+              fontWeight: 600,
+              letterSpacing: "0.04em",
+              color: "#C2331B",
+              backgroundColor: "#F6E7E3",
+              border: "1px solid #E8E4DB",
+              padding: "2px 8px",
               borderRadius: "4px",
             }}
           >
-            {subject.credit_units} Credits • Syllabus &amp; Available Notes
+            {subject.credit_units} credits • Syllabus &amp; notes
           </span>
         </div>
         <h1
-          className="font-display"
           style={{
-            marginTop: "12px",
-            fontSize: "clamp(28px, 4vw, 42px)",
-            lineHeight: 0.98,
-            textTransform: "uppercase",
-            color: "#f3f1ea",
+            marginTop: "10px",
+            fontSize: "clamp(24px, 3.5vw, 36px)",
+            fontWeight: 700,
+            lineHeight: 1.15,
+            color: "#1C1A17",
+            letterSpacing: "-0.015em",
           }}
         >
           {subject.title}
         </h1>
-        <p style={{ marginTop: "10px", maxWidth: "740px", fontSize: "14px", lineHeight: 1.65, color: "#a19f95" }}>
+        <p style={{ marginTop: "8px", maxWidth: "700px", fontSize: "14px", lineHeight: 1.6, color: "#6F6B62" }}>
           {subject.description}
         </p>
       </div>

@@ -13,8 +13,10 @@ interface ContentProtectionProps {
  * 1. Blocks Right-Click / Context Menu.
  * 2. Blocks Copy, Cut, Paste, Print (Ctrl+P), Save (Ctrl+S), View-Source (Ctrl+U), Inspect (F12).
  * 3. Blurs content when screen capture / PrintScreen is triggered or window loses focus.
- * 4. Injects dynamic forensic watermark with student mobile number to deter phone camera / OBS recordings.
+ * 4. Injects dynamic forensic watermark with student mobile number to deter external recording.
  * 5. Blank prints: zero content leaks via "Print to PDF".
+ *
+ * Light academic restyle (recolored calm tones, logic intact).
  */
 export function ContentProtection({ studentName, studentPhone, children }: ContentProtectionProps) {
   const [blurred, setBlurred] = useState(false);
@@ -34,7 +36,7 @@ export function ContentProtection({ studentName, studentPhone, children }: Conte
     // 1. Intercept Right-Click Context Menu
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault();
-      showWarning("🔒 Content Protected — Right-click & copying are disabled.");
+      showWarning("Content protected — Right-click & copying are disabled.");
       return false;
     };
 
@@ -47,7 +49,7 @@ export function ContentProtection({ studentName, studentPhone, children }: Conte
           "Protected Academic Material — PrepMeUp AI. Copying is prohibited."
         );
       }
-      showWarning("🔒 Clipboard Copy Disabled — Academic materials are copyright protected.");
+      showWarning("Clipboard copy disabled — Academic materials are copyright protected.");
       return false;
     };
 
@@ -58,7 +60,7 @@ export function ContentProtection({ studentName, studentPhone, children }: Conte
       // PrintScreen / Screenshot attempt
       if (e.key === "PrintScreen" || e.code === "PrintScreen") {
         setBlurred(true);
-        showWarning("⚠️ Screen Capture Detected — Screen blurred for protection.");
+        showWarning("Screen capture detected — Screen blurred for protection.");
         setTimeout(() => setBlurred(false), 2500);
       }
 
@@ -69,7 +71,7 @@ export function ContentProtection({ studentName, studentPhone, children }: Conte
         if (key === "c" || key === "x" || key === "p" || key === "s" || key === "u") {
           e.preventDefault();
           e.stopPropagation();
-          showWarning(`🔒 Action Disabled (Ctrl+${key.toUpperCase()}) — Exporting is prohibited.`);
+          showWarning(`Action disabled (Ctrl+${key.toUpperCase()}) — Exporting is prohibited.`);
           return false;
         }
 
@@ -77,7 +79,7 @@ export function ContentProtection({ studentName, studentPhone, children }: Conte
         if (e.shiftKey && (key === "i" || key === "c" || key === "j")) {
           e.preventDefault();
           e.stopPropagation();
-          showWarning("🔒 Developer tools disabled on academic notes.");
+          showWarning("Developer tools disabled on academic notes.");
           return false;
         }
       }
@@ -86,12 +88,12 @@ export function ContentProtection({ studentName, studentPhone, children }: Conte
       if (e.key === "F12") {
         e.preventDefault();
         e.stopPropagation();
-        showWarning("🔒 Developer tools disabled on academic notes.");
+        showWarning("Developer tools disabled on academic notes.");
         return false;
       }
     };
 
-    // 4. Blur content when window loses focus (e.g. Snipping tool / external screen recorder active)
+    // 4. Blur content when window loses focus
     const handleVisibilityChange = () => {
       if (document.hidden) {
         setBlurred(true);
@@ -139,7 +141,7 @@ export function ContentProtection({ studentName, studentPhone, children }: Conte
           gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
           gap: "80px",
           overflow: "hidden",
-          opacity: 0.045,
+          opacity: 0.03,
           userSelect: "none",
         }}
       >
@@ -148,16 +150,16 @@ export function ContentProtection({ studentName, studentPhone, children }: Conte
             key={idx}
             style={{
               transform: "rotate(-25deg)",
-              fontSize: "13px",
+              fontSize: "12px",
               fontFamily: "monospace",
-              fontWeight: 800,
-              color: "#ff3b1d",
+              fontWeight: 600,
+              color: "#C2331B",
               whiteSpace: "nowrap",
               textTransform: "uppercase",
-              letterSpacing: "0.15em",
+              letterSpacing: "0.12em",
             }}
           >
-            {identifier} • PREPMEUP DRM
+            {identifier} • PrepMeUp DRM
           </div>
         ))}
       </div>
@@ -167,18 +169,17 @@ export function ContentProtection({ studentName, studentPhone, children }: Conte
         <div
           style={{
             position: "fixed",
-            bottom: "28px",
-            right: "28px",
+            bottom: "24px",
+            right: "24px",
             zIndex: 100000,
-            padding: "12px 18px",
+            padding: "10px 16px",
             borderRadius: "8px",
-            backgroundColor: "#17171b",
-            border: "1px solid #ff3b1d",
-            color: "#f3f1ea",
+            backgroundColor: "#FFFFFF",
+            border: "1px solid #E8E4DB",
+            color: "#1C1A17",
             fontSize: "12px",
-            fontWeight: 700,
-            boxShadow: "0 12px 36px rgba(0,0,0,0.85)",
-            animation: "fadeIn 0.2s ease-out",
+            fontWeight: 600,
+            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
           }}
         >
           {warningMessage}
