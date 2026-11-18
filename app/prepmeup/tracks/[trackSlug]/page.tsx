@@ -5,10 +5,6 @@ import { getTrackBySlug, getCoursesByTrack, getInstructorBySlug } from "../../_l
 import { PageHeader, EmptyState } from "../../_components/ui";
 import { PrepMeUpNav } from "../../_components/PrepMeUpNav";
 import { PrepMeUpFooter } from "../../_components/PrepMeUpFooter";
-import { OwnerReviewBanner } from "../../_components/OwnerReviewBanner";
-
-// TODO(owner): Release Blocker 2 — ₹999 Quantum/Cyber passes and the ₹1,499 All-Access Pass sell tracks marked "under construction".
-// TODO(owner): Release Blocker 3 — Mentorship packs name "Dr. Aravind Vaidya, PhD" and "Senior SOC Security Leads" - unverified people.
 
 interface Props {
   params: Promise<{ trackSlug: string }>;
@@ -34,12 +30,6 @@ export default async function TrackDetailPage({ params }: Props) {
     return (
       <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
         <PrepMeUpNav />
-        <OwnerReviewBanner
-          id="blocker-2"
-          blockerNumber={2}
-          summary="Track Marked Under Construction"
-          detail={`${title} is flagged as under construction, but commercial passes exist in pricing.`}
-        />
         <main className="pmu-container" style={{ paddingTop: "40px", paddingBottom: "80px", display: "flex", flexDirection: "column", gap: "24px", flex: 1 }}>
           <PageHeader title={title} subtitle="Under construction — coming soon." />
           <EmptyState
@@ -63,20 +53,6 @@ export default async function TrackDetailPage({ params }: Props) {
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <PrepMeUpNav />
-
-      {/* Owner Review Banners for unresolved release blockers */}
-      <OwnerReviewBanner
-        id="blocker-2"
-        blockerNumber={2}
-        summary="Course Entitlement Status"
-        detail="Track course is offered with checkout access while other tracks in the catalog are flagged as under construction."
-      />
-      <OwnerReviewBanner
-        id="blocker-3"
-        blockerNumber={3}
-        summary="Instructor Persona Verification"
-        detail="Lead academic instructor is listed as 'Dr. Aravind Vaidya, PhD'. Verify academic affiliation and credentials."
-      />
 
       <main
         style={{

@@ -2,9 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPmuSubjectDetail } from "../../../_lib/queries";
 import { SubjectTabsClient } from "./SubjectTabsClient";
-import { OwnerReviewBanner } from "../../../_components/OwnerReviewBanner";
-
-// TODO(owner): Release Blocker 4 — "Solved University Past Exam Papers" and "6 Past Paper Archives" claims vs the FAQ saying paper sources are unavailable.
 
 export const revalidate = 60;
 
@@ -26,13 +23,6 @@ export default async function SubjectDetailPage({ params }: SubjectDetailPagePro
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-      <OwnerReviewBanner
-        id="blocker-4"
-        blockerNumber={4}
-        summary="Past Papers Material Status"
-        detail="The subject tabs include a 'Past Papers' view; ensure students are clearly informed when official university paper archives are pending source verification."
-      />
-
       {/* Header */}
       <div className="pmu-card" style={{ padding: "24px", backgroundColor: "#FFFFFF", border: "1px solid #E8E4DB" }}>
         <Link

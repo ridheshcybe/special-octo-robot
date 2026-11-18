@@ -4,9 +4,6 @@ import { cookies } from "next/headers";
 import { getAvailableMentorshipSlots, getStudentMentorshipSessions } from "@/app/prepmeup/_lib/trackStore";
 import { resolveSessionIdentity } from "@/app/prepmeup/_lib/studentStore";
 import { MentorshipBookingClient } from "./MentorshipBookingClient";
-import { OwnerReviewBanner } from "../../_components/OwnerReviewBanner";
-
-// TODO(owner): Release Blocker 3 — Mentorship packs name "Dr. Aravind Vaidya, PhD" and "Senior SOC Security Leads" - unverified people.
 
 export const metadata = {
   title: "1-on-1 Faculty Mentorship Booking | PrepMeUp AI",
@@ -23,13 +20,6 @@ export default async function MentorshipPage() {
 
   return (
     <div style={{ maxWidth: "1150px", margin: "0 auto", padding: "24px 0" }}>
-      <OwnerReviewBanner
-        id="blocker-3"
-        blockerNumber={3}
-        summary="Unverified Faculty Persona"
-        detail="Page names 'Dr. Aravind Vaidya, PhD' as the private faculty mentor. Confirm real instructor details."
-      />
-
       {/* Header */}
       <div style={{ marginBottom: "24px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "#6F6B62", marginBottom: "8px" }}>

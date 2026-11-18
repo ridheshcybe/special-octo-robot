@@ -4,12 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { PrepMeUpNav } from "../_components/PrepMeUpNav";
 import { PrepMeUpFooter } from "../_components/PrepMeUpFooter";
-import { OwnerReviewBanner } from "../_components/OwnerReviewBanner";
-
-// TODO(owner): Release Blocker 1 — Hero "Semester 1 free for everyone" contradicts the ₹99 B.Tech pass on pricing and the ₹199 / ₹499 tiers in the landing stat strip.
-// TODO(owner): Release Blocker 2 — ₹999 Quantum/Cyber passes and the ₹1,499 All-Access Pass sell tracks marked "under construction".
-// TODO(owner): Release Blocker 3 — Mentorship packs name "Dr. Aravind Vaidya, PhD" and "Senior SOC Security Leads" - unverified people.
-// TODO(owner): Release Blocker 4 — "Solved University Past Exam Papers" and "6 Past Paper Archives" claims vs the FAQ saying paper sources are unavailable.
 
 interface EarlyAdopterInfo {
   totalLimit: number;
@@ -37,32 +31,6 @@ export default function UnifiedPricingPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <PrepMeUpNav />
-
-      {/* Owner Review Banners for unresolved release blockers */}
-      <OwnerReviewBanner
-        id="blocker-1"
-        blockerNumber={1}
-        summary="Access & Pricing Conflict"
-        detail="The marketing hero advertises Semester 1 as free, while this page lists the B.Tech Semester Pass at ₹99. Confirm whether Semester 1 is complimentary or requires the ₹99 pass."
-      />
-      <OwnerReviewBanner
-        id="blocker-2"
-        blockerNumber={2}
-        summary="Selling Tracks Marked Under Construction"
-        detail="The ₹999 Quantum and Cyber passes and the ₹1,499 All-Access Pass offer checkout for tracks that are flagged as 'Under Construction • Coming Soon'."
-      />
-      <OwnerReviewBanner
-        id="blocker-3"
-        blockerNumber={3}
-        summary="Unverified Mentor Personas"
-        detail="Mentorship packs reference 'Dr. Aravind Vaidya, PhD' and 'Senior SOC Security Leads'. Replace or verify these identities before commercial launch."
-      />
-      <OwnerReviewBanner
-        id="blocker-4"
-        blockerNumber={4}
-        summary="Unverified Past Exam Papers Claim"
-        detail="Plan features include 'Solved University Past Exam Papers', while FAQ states paper resources are currently unavailable."
-      />
 
       <main
         style={{

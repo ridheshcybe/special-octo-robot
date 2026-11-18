@@ -3,11 +3,6 @@ import Link from "next/link";
 import { getAllTracks } from "../_lib/trackStore";
 import { PrepMeUpNav } from "../_components/PrepMeUpNav";
 import { PrepMeUpFooter } from "../_components/PrepMeUpFooter";
-import { OwnerReviewBanner } from "../_components/OwnerReviewBanner";
-
-// TODO(owner): Release Blocker 2 — ₹999 Quantum/Cyber passes and the ₹1,499 All-Access Pass sell tracks marked "under construction".
-// TODO(owner): Release Blocker 3 — Mentorship packs name "Dr. Aravind Vaidya, PhD" and "Senior SOC Security Leads" - unverified people.
-// TODO(owner): Release Blocker 4 — "Solved University Past Exam Papers" and "6 Past Paper Archives" claims vs the FAQ saying paper sources are unavailable.
 
 export const metadata = {
   title: "Learning Tracks | PrepMeUp AI",
@@ -20,26 +15,6 @@ export default function TracksDirectoryPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <PrepMeUpNav />
-
-      {/* Owner Review Banners for unresolved release blockers */}
-      <OwnerReviewBanner
-        id="blocker-2"
-        blockerNumber={2}
-        summary="Tracks Status vs Commercial Passes"
-        detail="Track directory displays courses with coming soon or under-construction statuses while commercial passes are currently listed for purchase."
-      />
-      <OwnerReviewBanner
-        id="blocker-3"
-        blockerNumber={3}
-        summary="Faculty Persona Verification"
-        detail="Featured quantum course references 'Dr. Aravind Vaidya, PhD' as lead instructor. Confirm identity credentials."
-      />
-      <OwnerReviewBanner
-        id="blocker-4"
-        blockerNumber={4}
-        summary="Past Paper Archives Claim"
-        detail="Active curriculum card states '6 Past Paper Archives', while FAQ and curriculum status confirm source-backed archives are pending."
-      />
 
       <main
         style={{

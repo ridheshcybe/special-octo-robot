@@ -3,10 +3,6 @@ import { PrepMeUpNav } from "../_components/PrepMeUpNav";
 import { PrepMeUpFooter } from "../_components/PrepMeUpFooter";
 import { CalendarBookingScheduler } from "../_components/CalendarBookingScheduler";
 import { PrepMeUpHero3D } from "../_components/PrepMeUpHero3D";
-import { OwnerReviewBanner } from "../_components/OwnerReviewBanner";
-
-// TODO(owner): Release Blocker 1 — Hero "Semester 1 free for everyone" contradicts the ₹99 B.Tech pass on pricing and the ₹199 / ₹499 tiers in the landing stat strip.
-// TODO(owner): Release Blocker 4 — "Solved University Past Exam Papers" and "6 Past Paper Archives" claims vs the FAQ saying paper sources are unavailable.
 
 function SectionEyebrow({ children, centered = false }: { children: string; centered?: boolean }) {
   return (
@@ -160,20 +156,6 @@ export default function PrepMeUpLandingPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <PrepMeUpNav />
-
-      {/* Owner Review Banners for unresolved release blockers */}
-      <OwnerReviewBanner
-        id="blocker-1"
-        blockerNumber={1}
-        summary="Pricing & Access Model Contradiction"
-        detail="The hero claims 'Semester 1 is 100% free for everyone', but pricing lists ₹99 B.Tech Pass and the metrics strip advertises ₹199 / ₹499 tiers. Clarify whether Tier 1 is permanently free or paid."
-      />
-      <OwnerReviewBanner
-        id="blocker-4"
-        blockerNumber={4}
-        summary="Exam Paper Availability Claims"
-        detail="Landing mentions 'Past Exam Papers' / 'PYQ Explorer' while the FAQ and catalog explicitly state that source-backed paper archives are not available yet."
-      />
 
       {/* 1. HERO SECTION */}
       <section className="pmu-section" style={{ overflow: "hidden", position: "relative" }}>
