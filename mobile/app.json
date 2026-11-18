@@ -1,0 +1,48 @@
+{
+  "expo": {
+    "name": "PrepMeUp AI",
+    "slug": "prepmeup-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "prepmeup",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "backgroundColor": "#FAF9F6",
+    "primaryColor": "#C2331B",
+    "splash": {
+      "backgroundColor": "#FAF9F6",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "in.prepmeupai.app",
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "in.prepmeupai.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#C2331B"
+      },
+      "permissions": [
+        "INTERNET"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "apiUrl": "https://www.prepmeupai.in",
+      "router": {
+        "origin": false
+      }
+    }
+  }
+}
